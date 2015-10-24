@@ -10,7 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-public class LoginScreen extends JFrame implements WindowListener {
+public class Login extends JFrame implements WindowListener {
 
 	/**
 	 * 
@@ -22,7 +22,7 @@ public class LoginScreen extends JFrame implements WindowListener {
 	/**
 	 * Create the frame.
 	 */
-	public LoginScreen() {
+	public Login() {
 		setTitle("Login");
 		setVisible(true);
 		setResizable(false);

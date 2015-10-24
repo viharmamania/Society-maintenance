@@ -5,7 +5,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 import com.vhi.hsm.db.SQLiteManager;
-import com.vhi.hsm.ui.LoginScreen;
+import com.vhi.hsm.ui.Login;
 
 public class Main {
 
@@ -23,7 +23,7 @@ public class Main {
 
 			// runs UI on other than Main thread
 			SwingUtilities.invokeLater(() -> {
-				new LoginScreen();
+				new Login();
 			});			
 
 		} else {
