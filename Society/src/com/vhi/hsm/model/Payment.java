@@ -10,9 +10,9 @@ public class Payment {
 
 	private String modeOfPayment;
 
-	private String transaction_number;
+	private String transactionNumber;
 
-	private String payment_date;
+	private Date paymentDate;
 
 	private boolean isCancelled;
 
@@ -48,20 +48,20 @@ public class Payment {
 		this.modeOfPayment = modeOfPayment;
 	}
 
-	public String getTransaction_number() {
-		return transaction_number;
+	public String getTransactionNumber() {
+		return transactionNumber;
 	}
 
-	public void setTransaction_number(String transaction_number) {
-		this.transaction_number = transaction_number;
+	public void setTransactionNumber(String transaction_number) {
+		this.transactionNumber = transaction_number;
 	}
 
-	public String getPayment_date() {
-		return payment_date;
+	public Date getPaymentDate() {
+		return paymentDate;
 	}
 
-	public void setPayment_date(String payment_date) {
-		this.payment_date = payment_date;
+	public void setPaymentDate(Date payment_date) {
+		this.paymentDate = payment_date;
 	}
 
 	public boolean isCancelled() {
