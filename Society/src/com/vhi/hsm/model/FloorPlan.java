@@ -3,17 +3,17 @@ package com.vhi.hsm.model;
 import java.util.HashMap;
 
 public class FloorPlan {
-	
+
 	private int societyId;
-	
+
 	private int floorPlanId;
-	
+
 	private String desription;
-	
+
 	private int noOfProperty;
-	
+
 	private HashMap<Integer, FloorPlanDesign> floorPlanDesigns;
-	
+
 	public HashMap<Integer, FloorPlanDesign> getFloorPlanDesigns() {
 		return floorPlanDesigns;
 	}

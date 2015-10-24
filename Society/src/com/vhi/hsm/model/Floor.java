@@ -3,15 +3,15 @@ package com.vhi.hsm.model;
 public class Floor {
 
 	private int societyId;
-	
+
 	private int wingId;
-	
+
 	private int floor_number;
-	
+
 	private int floorPlanId;
-	
+
 	public Floor() {
-		
+
 	}
 
 	public int getSocietyId() {
@@ -45,5 +45,5 @@ public class Floor {
 	public void setFloorPlanId(int floorPlanId) {
 		this.floorPlanId = floorPlanId;
 	}
-	
+
 }

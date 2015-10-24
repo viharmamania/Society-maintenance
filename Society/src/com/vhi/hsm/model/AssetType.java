@@ -1,17 +1,17 @@
 package com.vhi.hsm.model;
 
 public class AssetType {
-	
+
 	private int societyId;
-	
+
 	private String assetType;
-	
+
 	private String description;
-	
-	private int charges;
-	
+
+	private double charges;
+
 	public AssetType() {
-		
+
 	}
 
 	public int getSocietyId() {
@@ -38,12 +38,12 @@ public class AssetType {
 		this.description = description;
 	}
 
-	public int getCharges() {
+	public double getCharges() {
 		return charges;
 	}
 
-	public void setCharges(int charges) {
+	public void setCharges(double charges) {
 		this.charges = charges;
 	}
-	
+
 }
