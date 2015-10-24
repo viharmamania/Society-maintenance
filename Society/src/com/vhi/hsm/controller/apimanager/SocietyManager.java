@@ -6,21 +6,26 @@ import com.vhi.hsm.model.Society;
 public class SocietyManager implements SocietyApi {
 
 	@Override
-	public boolean createSociety(Society society) {
+	public Society createSociety() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean saveSociety(Society society) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean editSociety(Society society) {
+	public Society readSociety(int societyId) {
 		// TODO Auto-generated method stub
-		return false;
+		return null;
 	}
 
 	@Override
-	public boolean deleteSociety() {
+	public boolean deleteSociety(int societyId) {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
 }

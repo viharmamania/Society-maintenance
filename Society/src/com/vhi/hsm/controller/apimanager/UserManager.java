@@ -6,21 +6,25 @@ import com.vhi.hsm.model.User;
 public class UserManager implements UserApi {
 
 	@Override
-	public boolean addUser(User user) {
+	public User addUser() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean saveUser(User user) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean changeUser(User user) {
+	public User readUser(int userId) {
 		// TODO Auto-generated method stub
-		return false;
+		return null;
 	}
 
 	@Override
-	public boolean deleteUser() {
+	public boolean deleteUser(int userId) {
 		// TODO Auto-generated method stub
 		return false;
-	}
-
-}
+	}}

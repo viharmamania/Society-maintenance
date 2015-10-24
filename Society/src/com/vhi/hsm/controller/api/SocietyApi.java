@@ -3,10 +3,11 @@ package com.vhi.hsm.controller.api;
 import com.vhi.hsm.model.Society;
 
 public interface SocietyApi {
-	public boolean createSociety(Society society);
+	Society createSociety();
 
-	public boolean editSociety(Society society);
+	boolean saveSociety(Society society);
 
-	public boolean deleteSociety(); // parameter will either be id or whole
-									// object
+	Society readSociety(int societyId);
+
+	boolean deleteSociety(int societyId);
 }
