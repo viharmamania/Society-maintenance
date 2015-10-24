@@ -1,5 +1,7 @@
 package com.vhi.hsm.model;
 
+import java.util.HashMap;
+
 public class Property {
 
 	private int id;
@@ -23,6 +25,16 @@ public class Property {
 	private double balance;
 
 	private double notUsed;
+	
+	private HashMap<Integer, PropertyAsset> assets;
+
+	public HashMap<Integer, PropertyAsset> getAssets() {
+		return assets;
+	}
+
+	public void setAssets(HashMap<Integer, PropertyAsset> assets) {
+		this.assets = assets;
+	}
 
 	public int getId() {
 		return id;

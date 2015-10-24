@@ -2,18 +2,18 @@ package com.vhi.hsm.model;
 
 public class PropertyGroup {
 
-	private String propertygroup;
+	private String propertyGroup;
 
 	private String description;
 	
 	private int societyId;
 
 	public String getPropertygroup() {
-		return propertygroup;
+		return propertyGroup;
 	}
 
-	public void setPropertygroup(String propertygroup) {
-		this.propertygroup = propertygroup;
+	public void setPropertygroup(String propertyGroup) {
+		this.propertyGroup = propertyGroup;
 	}
 
 	public String getDescription() {

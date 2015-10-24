@@ -1,6 +1,6 @@
 package com.vhi.hsm.model;
 
-import java.util.Map;
+import java.util.HashMap;
 
 public class Society {
 
@@ -14,9 +14,15 @@ public class Society {
 
 	private String registrationDate;
 
-	private Map<Integer, PropertyGroup> propertyGroupMap;
+	private HashMap<Integer, PropertyGroup> propertyGroups;
 
-	private Map<Integer, PropertyType> propertyTypeMap;
+	private HashMap<Integer, PropertyType> propertyTypes;
+	
+	private HashMap<Integer, Wing> wings;
+	
+	private HashMap<Integer, FloorPlan> floorPlans;
+	
+	private HashMap<Integer, AssetType> assetTypes;
 
 	public Society() {
 		super();
@@ -79,20 +85,44 @@ public class Society {
 		this.registrationDate = registrationDate;
 	}
 
-	public Map<Integer, PropertyGroup> getPropertyGroupMap() {
-		return propertyGroupMap;
+	public HashMap<Integer, PropertyGroup> getPropertyGroups() {
+		return propertyGroups;
 	}
 
-	public void setPropertyGroupMap(Map<Integer, PropertyGroup> propertyGroupMap) {
-		this.propertyGroupMap = propertyGroupMap;
+	public void setPropertyGroups(HashMap<Integer, PropertyGroup> propertyGroups) {
+		this.propertyGroups = propertyGroups;
 	}
 
-	public Map<Integer, PropertyType> getPropertyTypeMap() {
-		return propertyTypeMap;
+	public HashMap<Integer, PropertyType> getPropertyTypes() {
+		return propertyTypes;
 	}
 
-	public void setPropertyTypeMap(Map<Integer, PropertyType> propertyTypeMap) {
-		this.propertyTypeMap = propertyTypeMap;
+	public void setPropertyTypes(HashMap<Integer, PropertyType> propertyTypes) {
+		this.propertyTypes = propertyTypes;
 	}
 
+	public HashMap<Integer, Wing> getWings() {
+		return wings;
+	}
+
+	public void setWings(HashMap<Integer, Wing> wings) {
+		this.wings = wings;
+	}
+
+	public HashMap<Integer, FloorPlan> getFloorPlans() {
+		return floorPlans;
+	}
+
+	public void setFloorPlans(HashMap<Integer, FloorPlan> floorPlans) {
+		this.floorPlans = floorPlans;
+	}
+
+	public HashMap<Integer, AssetType> getAssetTypes() {
+		return assetTypes;
+	}
+
+	public void setAssetTypes(HashMap<Integer, AssetType> assetTypes) {
+		this.assetTypes = assetTypes;
+	}
+	
 }
