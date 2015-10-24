@@ -1,4 +1,4 @@
-package com.vhi.server.model;
+package com.vhi.hsm.model;
 
 public class Society {
 

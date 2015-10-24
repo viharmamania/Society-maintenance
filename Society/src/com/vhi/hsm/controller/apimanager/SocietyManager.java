@@ -1,7 +1,7 @@
-package com.vhi.server.apimanager;
+package com.vhi.hsm.controller.apimanager;
 
-import com.vhi.server.api.SocietyApi;
-import com.vhi.server.model.Society;
+import com.vhi.hsm.controller.api.SocietyApi;
+import com.vhi.hsm.model.Society;
 
 public class SocietyManager implements SocietyApi {
 

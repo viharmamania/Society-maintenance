@@ -1,4 +1,4 @@
-package com.vhi.server.model;
+package com.vhi.hsm.model;
 
 public class User {
 
@@ -7,6 +7,8 @@ public class User {
 	private String email;
 
 	private int societyId;
+	
+	private String name;
 
 	public User() {
 		super();
@@ -48,6 +50,14 @@ public class User {
 
 	public void setSocietyId(int societyId) {
 		this.societyId = societyId;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 }

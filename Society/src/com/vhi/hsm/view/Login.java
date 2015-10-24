@@ -1,4 +1,4 @@
-package com.vhi.hsm.ui;
+package com.vhi.hsm.view;
 
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;

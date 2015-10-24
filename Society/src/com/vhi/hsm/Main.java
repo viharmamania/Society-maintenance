@@ -5,7 +5,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 import com.vhi.hsm.db.SQLiteManager;
-import com.vhi.hsm.ui.Login;
+import com.vhi.hsm.view.Login;
 
 public class Main {
 
@@ -17,17 +17,17 @@ public class Main {
 		} catch (Exception e) {
 
 		}
-		
+
 		// set up database connection
 		if (SQLiteManager.setUpDB()) {
 
 			// runs UI on other than Main thread
 			SwingUtilities.invokeLater(() -> {
 				new Login();
-			});			
+			});
 
 		} else {
-			//Show error message
+			// Show error message
 			JOptionPane.showMessageDialog(null, "Can not connect to database", "Error", JOptionPane.ERROR_MESSAGE);
 		}
 

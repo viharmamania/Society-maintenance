@@ -1,7 +1,7 @@
-package com.vhi.server.apimanager;
+package com.vhi.hsm.controller.apimanager;
 
-import com.vhi.server.api.UserApi;
-import com.vhi.server.model.User;
+import com.vhi.hsm.controller.api.UserApi;
+import com.vhi.hsm.model.User;
 
 public class UserManager implements UserApi {
 

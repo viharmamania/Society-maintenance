@@ -12,7 +12,7 @@ public class SQLiteManager {
 
 	final static Logger LOG = Logger.getLogger(SQLiteManager.class);
 	private static Connection connection = null;
-	
+
 	public static boolean setUpDB() {
 		try {
 			LOG.debug("Set up new connection");
@@ -29,7 +29,7 @@ public class SQLiteManager {
 		LOG.debug("getting a connction");
 		return connection;
 	}
-	
+
 	public static void closeConnection() {
 		if (connection != null) {
 			try {
@@ -39,5 +39,5 @@ public class SQLiteManager {
 			}
 		}
 	}
-	
+
 }
