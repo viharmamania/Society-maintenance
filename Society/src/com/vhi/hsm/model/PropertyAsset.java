@@ -1,7 +1,5 @@
 package com.vhi.hsm.model;
 
-import java.util.HashMap;
-
 public class PropertyAsset {
 	
 	private int societyId;

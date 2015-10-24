@@ -1,19 +1,19 @@
 package com.vhi.hsm.model;
 
 public class FloorPlanDesign {
-	
+
 	private int societyId;
-	
+
 	private int floorPlanId;
-	
+
 	private int propertyNumber;
-	
+
 	private String propertyGroup;
-	
+
 	private String propertyType;
-	
+
 	public FloorPlanDesign() {
-		
+
 	}
 
 	public int getSocietyId() {
