@@ -33,6 +33,6 @@ public interface Constants {
 		
 	}
 
-	String DB_NAME = Path.RESOURCE + "hsm_mgmt.sqllite";
+	String DB_NAME = Path.RESOURCE + "hsm_mgmt.sqlite";
 	
 }

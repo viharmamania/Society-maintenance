@@ -2,6 +2,7 @@ package com.vhi.hsm.db;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.apache.log4j.Logger;
@@ -38,6 +39,19 @@ public class SQLiteManager {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	public static ResultSet executeQuery(String query) {
+
+		ResultSet result = null;
+
+		try {
+			result = getInstance().createStatement().executeQuery(query);
+		} catch (SQLException e) {
+			e.printStackTrace();
+
+		}
+		return result;
 	}
 
 }

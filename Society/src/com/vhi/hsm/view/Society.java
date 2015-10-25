@@ -4,14 +4,20 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
 import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
-import javax.swing.JFrame;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.GroupLayout.Alignment;
 
-public class Society extends JFrame implements WindowListener {
+/**
+ * Swing Dialogue to register a new Society in HMS system.
+ * 
+ * @author Hardik
+ *
+ */
+public class Society extends JDialog implements WindowListener {
 
 	/**
 	 * 
