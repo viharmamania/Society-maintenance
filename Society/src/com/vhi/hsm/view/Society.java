@@ -7,6 +7,7 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -28,14 +29,14 @@ public class Society extends JDialog implements WindowListener {
 	private JTextArea txtAreaSocietyAddr;
 	private JButton btnRegister, btnCancel;
 	
-	public Society() {
-		setTitle("Create Society");
-		setVisible(true);
+	public Society(JFrame owner) {
+		super(owner, "Create Society", true);
 		setResizable(false);
-		setModal(true);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		addWindowListener(this);
 		initializeLayout();
+		setLocationRelativeTo(owner);
+		setVisible(true);
 	}
 
 	private void initializeLayout() {

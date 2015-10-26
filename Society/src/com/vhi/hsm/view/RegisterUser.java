@@ -7,6 +7,7 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -29,14 +30,14 @@ public class RegisterUser extends JDialog implements WindowListener {
 	private JLabel username, email, password, fullName;
 	private JButton register, cancel;
 
-	public RegisterUser() {
-		setTitle("Register User");
-		setVisible(true);
-		setModal(true);
+	public RegisterUser(JFrame owner) {
+		super(owner, "Register User", true);
 		setResizable(false);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		addWindowListener(this);
 		intializeLayout();
+		setLocationRelativeTo(owner);
+		setVisible(true);
 	}
 
 	private void intializeLayout() {

@@ -38,12 +38,12 @@ public class Login extends JFrame implements WindowListener {
 	 */
 	public Login() {
 		setTitle("Login");
-		setVisible(true);
 		setResizable(false);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		addWindowListener(this);
 		initializeLayout();
 		setLocationRelativeTo(null);
+		setVisible(true);
 	}
 
 	private void initializeLayout() {
@@ -140,15 +140,14 @@ public class Login extends JFrame implements WindowListener {
 			result.next();
 			if (result.getInt(1) != 0) {
 				// register user page
-				dialog = new RegisterUser();
+				dialog = new RegisterUser(this);
 				System.out.println("registering user");
 
 			} else {
 				// register society page
-				dialog = new Society();
+				dialog = new Society(this);
 				System.out.println("registering society");
 			}
-			dialog.setLocationRelativeTo(null);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
