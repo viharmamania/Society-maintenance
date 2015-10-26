@@ -4,11 +4,11 @@ import com.vhi.hsm.model.User;
 
 public interface UserApi {
 
-	User addUser();
+	User createUser();
 
 	boolean saveUser(User user);
 
-	User readUser(int userId);
+	User readUser(String userName);
 
-	boolean deleteUser(int userId);
+	boolean deleteUser(String userName);
 }

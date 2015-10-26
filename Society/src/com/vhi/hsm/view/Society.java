@@ -32,6 +32,7 @@ public class Society extends JDialog implements WindowListener {
 		setTitle("Create Society");
 		setVisible(true);
 		setResizable(false);
+		setModal(true);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		addWindowListener(this);
 		initializeLayout();
@@ -39,7 +40,7 @@ public class Society extends JDialog implements WindowListener {
 
 	private void initializeLayout() {
 		
-		txtAreaSocietyAddr = new JTextArea();
+		txtAreaSocietyAddr = new JTextArea(3, 30);
 		
 		txtSocietyName = new JTextField(30);
 		txtRegDate = new JTextField();

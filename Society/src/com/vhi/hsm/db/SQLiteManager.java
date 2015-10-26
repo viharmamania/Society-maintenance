@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import org.apache.log4j.Logger;
 
@@ -46,10 +47,22 @@ public class SQLiteManager {
 		ResultSet result = null;
 
 		try {
-			result = getInstance().createStatement().executeQuery(query);
+			Statement statement = getInstance().createStatement();
+			result = statement.executeQuery(query);
 		} catch (SQLException e) {
 			e.printStackTrace();
-
+		}
+		return result;
+	}
+	
+	public static int executeUpdate(String query) {
+		int result = 0;
+		Statement statement;
+		try {
+			statement = getInstance().createStatement();
+			result = statement.executeUpdate(query);
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 		return result;
 	}

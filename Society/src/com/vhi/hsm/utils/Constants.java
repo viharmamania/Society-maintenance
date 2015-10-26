@@ -13,7 +13,7 @@ public interface Constants {
 			
 			public interface FieldName {
 				String USER_NAME = "user_name";
-				String EMIAL = "email";
+				String EMAIL = "email";
 				String PASSWORD = "password";
 				String FULL_NAME = "full_name";
 			}			

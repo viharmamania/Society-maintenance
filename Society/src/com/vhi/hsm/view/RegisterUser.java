@@ -4,12 +4,12 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
 import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import javax.swing.GroupLayout.Alignment;
 
 /**
  * Swing Dialogue to Register a new User in HMS system
@@ -32,6 +32,7 @@ public class RegisterUser extends JDialog implements WindowListener {
 	public RegisterUser() {
 		setTitle("Register User");
 		setVisible(true);
+		setModal(true);
 		setResizable(false);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		addWindowListener(this);
@@ -40,7 +41,7 @@ public class RegisterUser extends JDialog implements WindowListener {
 
 	private void intializeLayout() {
 		fullName = new JLabel("Full Name");
-		textFullName = new JTextField();
+		textFullName = new JTextField(30);
 
 		email = new JLabel("Email");
 		textEmail = new JTextField();

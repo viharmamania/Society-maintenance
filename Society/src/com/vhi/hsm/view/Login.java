@@ -10,10 +10,13 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import com.vhi.hsm.controller.apimanager.UserManager;
 import com.vhi.hsm.db.SQLiteManager;
+import com.vhi.hsm.model.User;
 
 /**
  * First Frame that user will see in HMS system
@@ -46,18 +49,19 @@ public class Login extends JFrame implements WindowListener {
 	private void initializeLayout() {
 
 		txtUserName = new JTextField(30);
+		txtUserName.setColumns(10);
 		txtPassword = new JPasswordField(30);
 
 		btnLogin = new JButton("Log in");
 		btnLogin.addActionListener(e -> {
 			login();
 		});
-		
+
 		btnCancel = new JButton("Cancel");
 		btnCancel.addActionListener(e -> {
 			cancel();
 		});
-		
+
 		btnRegister = new JButton("Register");
 		btnRegister.addActionListener(e -> {
 			register();
@@ -93,7 +97,7 @@ public class Login extends JFrame implements WindowListener {
 
 	@Override
 	public void windowActivated(WindowEvent arg0) {
-		
+
 	}
 
 	@Override
@@ -103,41 +107,40 @@ public class Login extends JFrame implements WindowListener {
 
 	@Override
 	public void windowClosing(WindowEvent arg0) {
-		
+
 	}
 
 	@Override
 	public void windowDeactivated(WindowEvent arg0) {
-		
+
 	}
 
 	@Override
 	public void windowDeiconified(WindowEvent arg0) {
-		
+
 	}
 
 	@Override
 	public void windowIconified(WindowEvent arg0) {
-		
+
 	}
 
 	@Override
 	public void windowOpened(WindowEvent arg0) {
-		
+
 	}
-	
+
 	private void register() {
 
 		JDialog dialog = null;
 		try {
 
-			String query = "select count(*) from society";
+			String query = "SELECT COUNT(*) FROM society";
 			ResultSet result = SQLiteManager.executeQuery(query);
 			result.next();
 			if (result.getInt(1) != 0) {
 				// register user page
 				dialog = new RegisterUser();
-				dialog.setTitle("register user");
 				System.out.println("registering user");
 
 			} else {
@@ -145,21 +148,51 @@ public class Login extends JFrame implements WindowListener {
 				dialog = new Society();
 				System.out.println("registering society");
 			}
-			dialog.pack();
 			dialog.setLocationRelativeTo(null);
-			dialog.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 	}
-	
+
 	private void cancel() {
 		dispose();
 	}
-	
+
 	private void login() {
-		
+		if (validateInput(true)) {
+			User user = UserManager.getUser(txtUserName.getText(), txtPassword.getText());
+			if (user != null) {
+
+			} else {
+
+			}
+		}
+	}
+
+	private boolean validateInput(boolean showErrorMessage) {
+
+		if (txtUserName.getText().trim().length() == 0) {
+			if (showErrorMessage) {
+				JOptionPane.showMessageDialog(this, "Enter username", "Error", JOptionPane.ERROR_MESSAGE);
+			}
+			return false;
+		} else if (txtUserName.getText().trim().length() > 10) {
+			if (showErrorMessage) {
+				JOptionPane.showMessageDialog(this, "Username should not be more than 10 characters", "Error",
+						JOptionPane.ERROR_MESSAGE);
+			}
+			return false;
+		}
+
+		if (txtPassword.getText().trim().length() == 0) {
+			if (showErrorMessage) {
+				JOptionPane.showMessageDialog(this, "Enter password", "Error", JOptionPane.ERROR_MESSAGE);
+			}
+			return false;
+		}
+
+		return true;
 	}
 
 }
