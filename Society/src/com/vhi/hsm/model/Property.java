@@ -123,4 +123,10 @@ public class Property {
 	public void setNotUsed(double notUsed) {
 		this.notUsed = notUsed;
 	}
+	
+	public static Property get(int propertyId) {
+		Property property = null;
+		return property;
+	}
+	
 }

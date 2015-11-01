@@ -1,5 +1,12 @@
 package com.vhi.hsm.model;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import com.vhi.hsm.db.SQLiteManager;
+import com.vhi.hsm.utils.Constants;
+
 public class FloorPlanDesign {
 
 	private int societyId;
@@ -54,6 +61,35 @@ public class FloorPlanDesign {
 
 	public void setPropertyType(String propertyType) {
 		this.propertyType = propertyType;
+	}
+	
+	public static FloorPlanDesign get(int societyId, int floorPlanId, int propertyNumber) {
+		FloorPlanDesign floorPlanDesign = null;
+		ResultSet resultSet = null;
+		String query = "SELECT * FROM " + Constants.Table.FloorPlanDesing.TABLE_NAME
+				+ "WHERE " + Constants.Table.Society.FieldName.SOCIETY_ID + " = ?"
+				+ " AND " + Constants.Table.FloorPlan.FieldName.FLOOR_PLAN_ID + " = ?"
+				+ " AND " + Constants.Table.FloorPlanDesing.FieldName.PROPERTY_NUMBER + " = ?";
+		PreparedStatement preparedStatement = SQLiteManager.getPreparedStatement(query);
+		if (preparedStatement != null) {
+			try {
+				preparedStatement.setInt(1, societyId);
+				preparedStatement.setInt(2, floorPlanId);
+				preparedStatement.setInt(3, propertyNumber);
+				resultSet = preparedStatement.executeQuery();
+				if (resultSet != null && resultSet.next()) {
+					floorPlanDesign = new FloorPlanDesign();
+					floorPlanDesign.setSocietyId(societyId);
+					floorPlanDesign.setFloorPlanId(floorPlanId);
+					floorPlanDesign.setPropertyNumber(propertyNumber);
+					floorPlanDesign.setPropertyGroup(resultSet.getString(Constants.Table.PropertyGroup.FieldName.PROPERTY_GROUP));
+					floorPlanDesign.setPropertyType(resultSet.getString(Constants.Table.PropertyType.FieldName.PROPERTY_TYPE));
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return floorPlanDesign;
 	}
 
 }

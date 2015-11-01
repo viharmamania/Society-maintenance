@@ -2,6 +2,7 @@ package com.vhi.hsm.db;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -65,6 +66,16 @@ public class SQLiteManager {
 			e.printStackTrace();
 		}
 		return result;
+	}
+	
+	public static PreparedStatement getPreparedStatement(String query) {
+		PreparedStatement preparedStatement = null;
+		try {
+			preparedStatement = getInstance().prepareStatement(query);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return preparedStatement;
 	}
 
 }

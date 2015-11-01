@@ -1,11 +1,14 @@
 package com.vhi.hsm.view;
 
+import java.awt.Color;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -47,6 +50,8 @@ public class Society extends JDialog implements WindowListener {
 		txtRegDate = new JTextField();
 		txtRegNumber = new JTextField();
 		
+		txtAreaSocietyAddr.setBorder(txtSocietyName.getBorder());
+		
 		btnRegister = new JButton("Register");
 		btnRegister.addActionListener(e -> {
 			register();
@@ -67,7 +72,7 @@ public class Society extends JDialog implements WindowListener {
 		JLabel labName = new JLabel("Name");
 		JLabel labAddress = new JLabel("Address");
 		JLabel labRegNum = new JLabel("Registration Number");
-		JLabel labRegDate = new JLabel("Registraction Date");
+		JLabel labRegDate = new JLabel("Registration Date");
 		
 		groupLayout.setHorizontalGroup(
 				groupLayout.createSequentialGroup()

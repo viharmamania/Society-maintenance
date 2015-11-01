@@ -1,5 +1,7 @@
 package com.vhi.hsm.model;
 
+import java.util.ArrayList;
+
 public class Charge {
 
 	private String description;
@@ -9,6 +11,16 @@ public class Charge {
 	private double tempCharges;
 
 	private boolean isCancelled;
+	
+	private ArrayList<Integer> assignedPropertyGroup;
+	private ArrayList<Integer> assignedPropertyType;
+	private ArrayList<Integer> assignedProperty;
+	
+	public Charge() {
+		assignedProperty = new ArrayList<Integer>();
+		assignedPropertyGroup = new ArrayList<Integer>();
+		assignedPropertyType = new ArrayList<Integer>();
+	}
 
 	public String getDescription() {
 		return description;
@@ -40,6 +52,30 @@ public class Charge {
 
 	public void setCancelled(boolean isCancelled) {
 		this.isCancelled = isCancelled;
+	}
+	
+	public ArrayList<Integer> getAssignedPropertyGroup() {
+		return assignedPropertyGroup;
+	}
+
+	public void setAssignedPropertyGroup(ArrayList<Integer> assignedPropertyGroup) {
+		this.assignedPropertyGroup = assignedPropertyGroup;
+	}
+
+	public ArrayList<Integer> getAssignedPropertyType() {
+		return assignedPropertyType;
+	}
+
+	public void setAssignedPropertyType(ArrayList<Integer> assignedPropertyType) {
+		this.assignedPropertyType = assignedPropertyType;
+	}
+
+	public ArrayList<Integer> getAssignedProperty() {
+		return assignedProperty;
+	}
+
+	public void setAssignedProperty(ArrayList<Integer> assignedProperty) {
+		this.assignedProperty = assignedProperty;
 	}
 
 }
