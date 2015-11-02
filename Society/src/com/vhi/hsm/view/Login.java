@@ -176,15 +176,9 @@ public class Login extends JFrame implements WindowListener {
 				JOptionPane.showMessageDialog(this, "Enter username", "Error", JOptionPane.ERROR_MESSAGE);
 			}
 			return false;
-		} else if (txtUserName.getText().trim().length() > 10) {
-			if (showErrorMessage) {
-				JOptionPane.showMessageDialog(this, "Username should not be more than 10 characters", "Error",
-						JOptionPane.ERROR_MESSAGE);
-			}
-			return false;
-		}
+		} 
 
-		if (txtPassword.getText().trim().length() == 0) {
+		else if (txtPassword.getText().trim().length() == 0) {
 			if (showErrorMessage) {
 				JOptionPane.showMessageDialog(this, "Enter password", "Error", JOptionPane.ERROR_MESSAGE);
 			}

@@ -9,6 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
@@ -120,7 +121,52 @@ public class RegisterUser extends JDialog implements WindowListener {
 
 	private Object register() {
 		// TODO Auto-generated method stub
+		if(inputValidated(true)){
+			
+		}
 		return null;
+	}
+
+	private boolean inputValidated(boolean showErrorMessages) {
+
+		String uName = textUserName.getText().trim();
+		String pass = textPassword.getText().trim();
+		String email = textEmail.getText().trim();
+		String name = textFullName.getText().trim();
+		if (uName.length() == 0) {
+			if (showErrorMessages) {
+				JOptionPane.showMessageDialog(this, "Enter Username", "Error", JOptionPane.ERROR_MESSAGE);
+			}
+			return false;
+		} else if (uName.length() > 10) {
+			if (showErrorMessages) {
+				JOptionPane.showMessageDialog(this, "Username should not be more than 10 characters", "Error",
+						JOptionPane.ERROR_MESSAGE);
+			}
+			return false;
+		} else if (pass.length() == 0) {
+			if (showErrorMessages) {
+				JOptionPane.showMessageDialog(this, "Enter password", "Error", JOptionPane.ERROR_MESSAGE);
+			}
+		} else if (pass.length() < 6) {
+			if (showErrorMessages) {
+				JOptionPane.showMessageDialog(this, "password should be bigger than 6 characters", "Error",
+						JOptionPane.ERROR_MESSAGE);
+			}
+			return false;
+		} else if (email.indexOf('@') == -1 || email.length() <= 2 || email.indexOf('.') == -1) {
+			if (showErrorMessages) {
+				JOptionPane.showMessageDialog(this, "please enter valid email Id", "Error", JOptionPane.ERROR_MESSAGE);
+			}
+			return false;
+		} else if (name.length() == 0) {
+			if (showErrorMessages) {
+				JOptionPane.showMessageDialog(this, "Enter Full Name", "Error", JOptionPane.ERROR_MESSAGE);
+			}
+			return false;
+		}
+
+		return true;
 	}
 
 	@Override

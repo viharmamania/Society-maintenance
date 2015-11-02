@@ -1,17 +1,15 @@
 package com.vhi.hsm.view;
 
-import java.awt.Color;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
-import javax.swing.BorderFactory;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
@@ -160,9 +158,22 @@ public class Society extends JDialog implements WindowListener {
 	}
 	
 	private void register() {
-		
+		if (validatedInput(true)) {
+
+		}
+
 	}
-	
+
+	private boolean validatedInput(boolean showErrorMessages) {
+		if (txtAreaSocietyAddr.getText().trim().length() == 0) {
+			if (showErrorMessages) {
+				JOptionPane.showMessageDialog(this, "Enter Society Name", "Error", JOptionPane.ERROR_MESSAGE);
+			}
+			return false;
+		} else
+			return true;
+	}
+
 	private void cancel() {
 		dispose();
 	}
