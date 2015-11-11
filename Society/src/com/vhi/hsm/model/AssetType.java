@@ -19,7 +19,7 @@ public class AssetType {
 	private double charges;
 
 	private static HashMap<Integer, HashMap<String, AssetType>> assetTypeMap;
-	private static PreparedStatement readStatement, insertStatement, updateStatement;
+	private static PreparedStatement readStatement, insertStatement, updateStatement, deleteStatement;
 
 	private AssetType() {
 
@@ -110,9 +110,42 @@ public class AssetType {
 		boolean result = false;
 		if (assetType != null && assetType.societyId != -1 && assetType.getAssetType().trim().length() != 0) {
 			if (insertEntry) {
-				
+				if (insertStatement == null) {
+					insertStatement = SQLiteManager.getPreparedStatement("INSERT INTO " + Constants.Table.AssetType.TABLE_NAME
+							+ " VALUES (?, ?, ?, ?)");
+				}
+				if (insertStatement != null) {
+					try {
+						insertStatement.setInt(1, assetType.getSocietyId());
+						insertStatement.setString(2, assetType.getAssetType());
+						insertStatement.setString(3, assetType.getDescription());
+						insertStatement.setDouble(4, assetType.getCharges());
+						result = insertStatement.execute();
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+				}
 			} else {
+				if (updateStatement == null) {
+					updateStatement = SQLiteManager.getPreparedStatement("UPDATE " + Constants.Table.AssetType.TABLE_NAME
+							+ " SET "
+							+ Constants.Table.AssetType.FieldName.DESCRIPTION + " = ? "
+							+ Constants.Table.AssetType.FieldName.CHARGE + " = ? "
+							+ " WHERE " + Constants.Table.Society.FieldName.SOCIETY_ID + " = ?"
+							+ " AND " + Constants.Table.AssetType.FieldName.ASSET_TYPE + " = ?");
+				}
 				
+				if (updateStatement != null) {
+					try {
+						updateStatement.setString(1, assetType.getDescription());
+						updateStatement.setDouble(2, assetType.getCharges());
+						updateStatement.setInt(3, assetType.getSocietyId());
+						updateStatement.setString(4, assetType.getAssetType());
+						result = updateStatement.execute();
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+				}
 			}
 		}
 		return result;
@@ -120,6 +153,23 @@ public class AssetType {
 	
 	public static boolean delete(AssetType assetType) {
 		boolean result = false;
+		
+		if (deleteStatement == null) {
+			deleteStatement = SQLiteManager.getPreparedStatement("DELETE " + Constants.Table.AssetType.TABLE_NAME
+					+ " WHERE " + Constants.Table.Society.FieldName.SOCIETY_ID + " = ?"
+					+ " AND " + Constants.Table.AssetType.FieldName.ASSET_TYPE + " = ?");
+		}
+		
+		if (deleteStatement != null) {
+			try {
+				deleteStatement.setInt(1, assetType.getSocietyId());
+				deleteStatement.setString(2, assetType.getAssetType());
+				result = deleteStatement.execute();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
 		return result;
 	}
 

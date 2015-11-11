@@ -7,7 +7,6 @@ import java.sql.ResultSet;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -132,7 +131,6 @@ public class Login extends JFrame implements WindowListener {
 
 	private void register() {
 
-		JDialog dialog = null;
 		try {
 
 			String query = "SELECT COUNT(*) FROM society";
@@ -140,12 +138,12 @@ public class Login extends JFrame implements WindowListener {
 			result.next();
 			if (result.getInt(1) != 0) {
 				// register user page
-				dialog = new RegisterUser(this);
+				new RegisterUser(this);
 				System.out.println("registering user");
 
 			} else {
 				// register society page
-				dialog = new Society(this);
+				new Society(this);
 				System.out.println("registering society");
 			}
 		} catch (Exception e) {
