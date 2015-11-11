@@ -24,7 +24,7 @@ public class Bill {
 	
 	private ArrayList<Integer> assignedCharges;
 	
-	public Bill() {
+	private Bill() {
 		assignedCharges = new ArrayList<Integer>();
 	}
 
@@ -99,5 +99,12 @@ public class Bill {
 	public void setAssignedCharges(ArrayList<Integer> assignedCharges) {
 		this.assignedCharges = assignedCharges;
 	}
+	
+	public static Bill read(int billId) {
+		Bill bill = null;
+		return bill;
+	}
+	
+		
 
 }
