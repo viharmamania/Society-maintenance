@@ -129,7 +129,7 @@ public class AssetType {
 				if (updateStatement == null) {
 					updateStatement = SQLiteManager.getPreparedStatement("UPDATE " + Constants.Table.AssetType.TABLE_NAME
 							+ " SET "
-							+ Constants.Table.AssetType.FieldName.DESCRIPTION + " = ? "
+							+ Constants.Table.AssetType.FieldName.DESCRIPTION + " = ?, "
 							+ Constants.Table.AssetType.FieldName.CHARGE + " = ? "
 							+ " WHERE " + Constants.Table.Society.FieldName.SOCIETY_ID + " = ?"
 							+ " AND " + Constants.Table.AssetType.FieldName.ASSET_TYPE + " = ?");
@@ -148,6 +148,23 @@ public class AssetType {
 				}
 			}
 		}
+		
+		//Update the HashMap if entry is created or updated
+		if (result) {
+			
+			if (assetTypeMap == null) {
+				assetTypeMap = new HashMap<Integer, HashMap<String, AssetType>>();
+			}
+			
+			HashMap<String, AssetType> societyAssetType = assetTypeMap.get(assetType.getSocietyId());
+			if (societyAssetType == null) {
+				societyAssetType = new HashMap<String, AssetType>();
+				assetTypeMap.put(assetType.getSocietyId(), societyAssetType);
+			}
+			
+			societyAssetType.put(assetType.getAssetType(), assetType);
+		}
+		
 		return result;
 	}
 	
@@ -155,7 +172,7 @@ public class AssetType {
 		boolean result = false;
 		
 		if (deleteStatement == null) {
-			deleteStatement = SQLiteManager.getPreparedStatement("DELETE " + Constants.Table.AssetType.TABLE_NAME
+			deleteStatement = SQLiteManager.getPreparedStatement("DELETE FROM " + Constants.Table.AssetType.TABLE_NAME
 					+ " WHERE " + Constants.Table.Society.FieldName.SOCIETY_ID + " = ?"
 					+ " AND " + Constants.Table.AssetType.FieldName.ASSET_TYPE + " = ?");
 		}
@@ -167,6 +184,15 @@ public class AssetType {
 				result = deleteStatement.execute();
 			} catch (SQLException e) {
 				e.printStackTrace();
+			}
+		}
+		
+		if (result) {
+			if (assetTypeMap != null) {
+				HashMap<String, AssetType> societyAssetType = assetTypeMap.get(assetType.societyId);
+				if (societyAssetType != null) {
+					societyAssetType.remove(assetType.assetType);
+				}
 			}
 		}
 		
