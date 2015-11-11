@@ -67,6 +67,16 @@ public interface Constants {
 			}
 		}
 		
+		public interface AssetType {
+			String TABLE_NAME = "asset_type";
+			
+			public interface FieldName {
+				String ASSET_TYPE = "asset_type";
+				String DESCRIPTION = "description";
+				String CHARGE = "charge";
+			}
+		}
+		
 	}
 
 	String DB_NAME = Path.RESOURCE + "hsm_mgmt.sqlite";
