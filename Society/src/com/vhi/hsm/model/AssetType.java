@@ -106,11 +106,20 @@ public class AssetType {
 		return assetTypeObj;
 	}
 
-	public static boolean save(AssetType assetType) {
+	public static boolean save(AssetType assetType, boolean insertEntry) {
 		boolean result = false;
 		if (assetType != null && assetType.societyId != -1 && assetType.getAssetType().trim().length() != 0) {
-			
+			if (insertEntry) {
+				
+			} else {
+				
+			}
 		}
+		return result;
+	}
+	
+	public static boolean delete(AssetType assetType) {
+		boolean result = false;
 		return result;
 	}
 
