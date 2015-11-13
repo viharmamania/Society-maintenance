@@ -89,6 +89,14 @@ public interface Constants {
 				String LAST_MODIFIED = "last_modified";
 			}
 		}
+		
+		public interface BillCharge {
+			String TABLE_NAME = "bill_charge";
+			
+			public interface FieldName {
+				String AMOUNT = "amount";
+			}
+		}
 
 		public interface Charge {
 			String TABLE_NAME = "charge";

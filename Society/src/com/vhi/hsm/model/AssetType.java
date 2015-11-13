@@ -76,7 +76,6 @@ public class AssetType {
 		if (societyAssetTypes != null) {
 			assetTypeObj = societyAssetTypes.get(assetType);
 			if (assetTypeObj == null) {
-				assetTypeObj = new AssetType();
 				if (readStatement == null) {
 					readStatement = SQLiteManager
 							.getPreparedStatement("SELECT * FROM " + Constants.Table.AssetType.TABLE_NAME + " WHERE "
@@ -85,6 +84,7 @@ public class AssetType {
 				}
 				try {
 					if (readStatement != null) {
+						readStatement.clearParameters();
 						readStatement.setInt(1, societyId);
 						readStatement.setString(2, assetType);
 						ResultSet resultSet = readStatement.executeQuery();
@@ -116,6 +116,7 @@ public class AssetType {
 				}
 				if (insertStatement != null) {
 					try {
+						insertStatement.clearParameters();
 						insertStatement.setInt(1, assetType.getSocietyId());
 						insertStatement.setString(2, assetType.getAssetType());
 						insertStatement.setString(3, assetType.getDescription());
@@ -129,7 +130,7 @@ public class AssetType {
 				if (updateStatement == null) {
 					updateStatement = SQLiteManager.getPreparedStatement("UPDATE " + Constants.Table.AssetType.TABLE_NAME
 							+ " SET "
-							+ Constants.Table.AssetType.FieldName.DESCRIPTION + " = ? "
+							+ Constants.Table.AssetType.FieldName.DESCRIPTION + " = ?, "
 							+ Constants.Table.AssetType.FieldName.CHARGE + " = ? "
 							+ " WHERE " + Constants.Table.Society.FieldName.SOCIETY_ID + " = ?"
 							+ " AND " + Constants.Table.AssetType.FieldName.ASSET_TYPE + " = ?");
@@ -137,6 +138,7 @@ public class AssetType {
 				
 				if (updateStatement != null) {
 					try {
+						updateStatement.clearParameters();
 						updateStatement.setString(1, assetType.getDescription());
 						updateStatement.setDouble(2, assetType.getCharges());
 						updateStatement.setInt(3, assetType.getSocietyId());
@@ -148,6 +150,23 @@ public class AssetType {
 				}
 			}
 		}
+		
+		//Update the HashMap if entry is created or updated
+		if (result) {
+			
+			if (assetTypeMap == null) {
+				assetTypeMap = new HashMap<Integer, HashMap<String, AssetType>>();
+			}
+			
+			HashMap<String, AssetType> societyAssetType = assetTypeMap.get(assetType.getSocietyId());
+			if (societyAssetType == null) {
+				societyAssetType = new HashMap<String, AssetType>();
+				assetTypeMap.put(assetType.getSocietyId(), societyAssetType);
+			}
+			
+			societyAssetType.put(assetType.getAssetType(), assetType);
+		}
+		
 		return result;
 	}
 	
@@ -155,18 +174,28 @@ public class AssetType {
 		boolean result = false;
 		
 		if (deleteStatement == null) {
-			deleteStatement = SQLiteManager.getPreparedStatement("DELETE " + Constants.Table.AssetType.TABLE_NAME
+			deleteStatement = SQLiteManager.getPreparedStatement("DELETE FROM " + Constants.Table.AssetType.TABLE_NAME
 					+ " WHERE " + Constants.Table.Society.FieldName.SOCIETY_ID + " = ?"
 					+ " AND " + Constants.Table.AssetType.FieldName.ASSET_TYPE + " = ?");
 		}
 		
 		if (deleteStatement != null) {
 			try {
+				deleteStatement.clearParameters();
 				deleteStatement.setInt(1, assetType.getSocietyId());
 				deleteStatement.setString(2, assetType.getAssetType());
 				result = deleteStatement.execute();
 			} catch (SQLException e) {
 				e.printStackTrace();
+			}
+		}
+		
+		if (result) {
+			if (assetTypeMap != null) {
+				HashMap<String, AssetType> societyAssetType = assetTypeMap.get(assetType.societyId);
+				if (societyAssetType != null) {
+					societyAssetType.remove(assetType.assetType);
+				}
 			}
 		}
 		
