@@ -1,14 +1,43 @@
 package com.vhi.hsm.model;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.HashMap;
+
+import com.vhi.hsm.db.SQLiteManager;
+import com.vhi.hsm.utils.Constants;
+
 public class PropertyGroup {
 
 	private String propertyGroup;
 
 	private String description;
-	
-	private int societyId;
 
-	public String getPropertygroup() {
+	private int societyId;
+	
+	private static HashMap<Integer, HashMap<String, PropertyGroup>> propertyGroupMap = new HashMap<>();
+
+	private static PreparedStatement readStatement = SQLiteManager
+			.getPreparedStatement("SELECT * FROM " + Constants.Table.PropertyGroup.TABLE_NAME + " WHERE "
+					+ Constants.Table.Society.FieldName.SOCIETY_ID + " = ?" + " AND "
+					+ Constants.Table.PropertyGroup.FieldName.PROPERTY_GROUP +" =? ");;
+	
+	private static PreparedStatement insertStatement =  SQLiteManager.getPreparedStatement(
+			"INSERT INTO " + Constants.Table.PropertyGroup.TABLE_NAME + " VALUES (?, ?, ?)");
+	
+	
+	private static PreparedStatement updateStatement = SQLiteManager.getPreparedStatement(
+			"UPDATE " + Constants.Table.PropertyGroup.TABLE_NAME + " SET "
+			+Constants.Table.PropertyGroup.FieldName.DESCRIPTION + " =? "
+			+ " WHERE " + Constants.Table.Society.FieldName.SOCIETY_ID + " = ?"
+			+ " AND " + Constants.Table.PropertyGroup.FieldName.PROPERTY_GROUP +" =? ");
+
+	private static PreparedStatement deleteStatement = SQLiteManager.getPreparedStatement("DELETE "
+			+ Constants.Table.PropertyGroup.TABLE_NAME + " WHERE " + Constants.Table.Society.FieldName.SOCIETY_ID
+			+ " = ?" + " AND " + Constants.Table.PropertyGroup.FieldName.PROPERTY_GROUP + " = ?");
+
+	private String getPropertygroup() {
 		return propertyGroup;
 	}
 
@@ -32,4 +61,75 @@ public class PropertyGroup {
 		this.societyId = societyId;
 	}
 
+	public static PropertyGroup create(int societyId) {
+		PropertyGroup propertyGroup = new PropertyGroup();
+		propertyGroup.setSocietyId(societyId);
+		return propertyGroup;
+	}
+
+	public static boolean delete(PropertyGroup propertyGroup) {
+
+		boolean result = false;
+		try {
+			deleteStatement.setInt(1, propertyGroup.getSocietyId());
+			deleteStatement.setString(2, propertyGroup.getPropertygroup());
+			result = deleteStatement.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	public static boolean save (PropertyGroup propertyGroup, boolean insertEntry){
+		boolean result =false;
+		
+		try {
+			if (insertEntry) {
+				insertStatement.setInt(0, propertyGroup.getSocietyId());
+				insertStatement.setString(1, propertyGroup.getPropertygroup());
+				insertStatement.setString(2, propertyGroup.getDescription());
+				result = insertStatement.execute();
+			} else {
+				updateStatement.setString(0, propertyGroup.getDescription());
+				updateStatement.setInt(1, propertyGroup.getSocietyId());
+				updateStatement.setString(2, propertyGroup.getPropertygroup());
+				result = updateStatement.execute();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	public static PropertyGroup read(int societyId, String propertyGroup) {
+		PropertyGroup group = null;
+
+		HashMap<String, PropertyGroup> societygroupTypes = propertyGroupMap.get(societyId);
+		
+		if(societygroupTypes == null){
+			societygroupTypes = new HashMap<>();
+			propertyGroupMap.put(societyId, societygroupTypes);
+		}
+		
+		if(societygroupTypes != null){
+			group = societygroupTypes.get(propertyGroup);
+			if(group == null){
+				group = new PropertyGroup();
+				try{
+					readStatement.setInt(1, societyId);
+					readStatement.setString(2, propertyGroup);
+					ResultSet resultSet = readStatement.executeQuery();
+					if (resultSet != null && resultSet.first()) {
+						group.setDescription(resultSet.getString(Constants.Table.PropertyGroup.FieldName.DESCRIPTION));
+						group.setSocietyId(societyId);
+						group.setPropertygroup(propertyGroup);
+					}
+				}catch (SQLException e) {
+					e.printStackTrace();
+				}
+				
+			}
+		}
+		return group;
+	}
 }
