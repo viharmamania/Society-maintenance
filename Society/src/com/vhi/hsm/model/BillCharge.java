@@ -56,6 +56,7 @@ public class BillCharge {
 
 		if (readStatement != null) {
 			try {
+				readStatement.clearParameters();
 				readStatement.setInt(1, billId);
 				readStatement.setInt(2, chargeId);
 				ResultSet resultSet = readStatement.executeQuery();
@@ -87,6 +88,7 @@ public class BillCharge {
 
 				if (insertStatement != null) {
 					try {
+						insertStatement.clearParameters();
 						insertStatement.setInt(1, billCharge.billId);
 						insertStatement.setInt(2, billCharge.chargeId);
 						insertStatement.setDouble(3, billCharge.amount);
@@ -106,6 +108,7 @@ public class BillCharge {
 
 				if (updateStatement != null) {
 					try {
+						updateStatement.clearParameters();
 						updateStatement.setInt(2, billCharge.billId);
 						updateStatement.setInt(3, billCharge.chargeId);
 						updateStatement.setDouble(1, billCharge.amount);
@@ -132,6 +135,7 @@ public class BillCharge {
 		
 		if (deleteStatement != null) {
 			try {
+				deleteStatement.clearParameters();
 				deleteStatement.setInt(1, billCharge.billId);
 				deleteStatement.setInt(2, billCharge.chargeId);
 				result = deleteStatement.execute();

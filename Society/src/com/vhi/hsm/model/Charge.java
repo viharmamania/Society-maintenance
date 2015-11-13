@@ -23,17 +23,18 @@ public class Charge {
 
 	private boolean isCancelled;
 	
-	private ArrayList<Integer> assignedPropertyGroup;
-	private ArrayList<Integer> assignedPropertyType;
+	private ArrayList<String> assignedPropertyGroup;
+	private ArrayList<String> assignedPropertyType;
 	private ArrayList<Integer> assignedProperty;
 	
 	private static HashMap<Integer, HashMap<Integer, Charge>> chargeMap;
-	private static PreparedStatement readStatement, insertStatement, updateStatement, deleteStatement;
+	private static PreparedStatement readStatement, insertStatement, updateStatement, deleteStatement,
+										readPropertyGroup, readPropertyType, readProperty;
 	
 	private Charge() {
 		assignedProperty = new ArrayList<Integer>();
-		assignedPropertyGroup = new ArrayList<Integer>();
-		assignedPropertyType = new ArrayList<Integer>();
+		assignedPropertyGroup = new ArrayList<String>();
+		assignedPropertyType = new ArrayList<String>();
 	}
 
 	public String getDescription() {
@@ -68,19 +69,19 @@ public class Charge {
 		this.isCancelled = isCancelled;
 	}
 	
-	public ArrayList<Integer> getAssignedPropertyGroup() {
+	public ArrayList<String> getAssignedPropertyGroup() {
 		return assignedPropertyGroup;
 	}
 
-	public void setAssignedPropertyGroup(ArrayList<Integer> assignedPropertyGroup) {
+	public void setAssignedPropertyGroup(ArrayList<String> assignedPropertyGroup) {
 		this.assignedPropertyGroup = assignedPropertyGroup;
 	}
 
-	public ArrayList<Integer> getAssignedPropertyType() {
+	public ArrayList<String> getAssignedPropertyType() {
 		return assignedPropertyType;
 	}
 
-	public void setAssignedPropertyType(ArrayList<Integer> assignedPropertyType) {
+	public void setAssignedPropertyType(ArrayList<String> assignedPropertyType) {
 		this.assignedPropertyType = assignedPropertyType;
 	}
 
@@ -116,10 +117,23 @@ public class Charge {
 				readStatement = SQLiteManager.getPreparedStatement("SELECT * FORM " + Constants.Table.Charge.TABLE_NAME
 						+ " WHERE " + Constants.Table.Society.FieldName.SOCIETY_ID + " = ?"
 						+ " AND " + Constants.Table.Charge.FieldName.CHARGE_ID + " = ?");
+				
+				readPropertyGroup = SQLiteManager.getPreparedStatement("SELECT * FROM " + Constants.Table.ChargeToPropertyGroup.TABLE_NAME
+						+ " WHERE " + Constants.Table.Society.FieldName.SOCIETY_ID + " = ?"
+						+ " AND " + Constants.Table.Charge.FieldName.CHARGE_ID + " = ?");
+				
+				readPropertyType = SQLiteManager.getPreparedStatement("SELECT * FROM " + Constants.Table.ChargeToPropertyType.TABLE_NAME
+						+ " WHERE " + Constants.Table.Society.FieldName.SOCIETY_ID + " = ?"
+						+ " AND " + Constants.Table.Charge.FieldName.CHARGE_ID + " = ?");
+				
+				readProperty = SQLiteManager.getPreparedStatement("SELECT * FROM " + Constants.Table.ChargeToProperty.TABLE_NAME
+						+ " WHERE " + Constants.Table.Society.FieldName.SOCIETY_ID + " = ?"
+						+ " AND " + Constants.Table.Charge.FieldName.CHARGE_ID + " = ?");
 			}
 			
 			if (readStatement != null) {
 				try {
+					readStatement.clearParameters();
 					readStatement.setInt(1, societyId);
 					readStatement.setInt(2, chargeId);
 					ResultSet resultSet = readStatement.executeQuery();
@@ -131,6 +145,43 @@ public class Charge {
 						charge.description = resultSet.getString(Constants.Table.Charge.FieldName.DESCRIPTION);
 						charge.isCancelled = resultSet.getBoolean(Constants.Table.Charge.FieldName.IS_CANCELLED);
 						charge.tempCharges = resultSet.getBoolean(Constants.Table.Charge.FieldName.TEMP_CHARGE); 
+						
+						if (readProperty != null) {
+							readProperty.clearParameters();
+							readProperty.setInt(1, societyId);
+							readProperty.setInt(2, chargeId);
+							resultSet = readProperty.executeQuery();
+							if (resultSet != null) {
+								while(resultSet.next()) {
+									charge.assignedProperty.add(resultSet.getInt(Constants.Table.Property.FieldName.PROPERTY_ID));
+								}
+							}
+						}
+						
+						if (readPropertyGroup != null) {
+							readPropertyGroup.clearParameters();
+							readPropertyGroup.setInt(1, societyId);
+							readPropertyGroup.setInt(2, chargeId);
+							resultSet = readPropertyGroup.executeQuery();
+							if (resultSet != null) {
+								while(resultSet.next()) {
+									charge.assignedPropertyGroup.add(resultSet.getString(Constants.Table.PropertyGroup.FieldName.PROPERTY_GROUP));
+								}
+							}
+						}
+						
+						if (readPropertyType != null) {
+							readPropertyType.clearParameters();
+							readPropertyType.setInt(1, societyId);
+							readPropertyType.setInt(2, chargeId);
+							resultSet = readPropertyType.executeQuery();
+							if (resultSet != null) {
+								while(resultSet.next()) {
+									charge.assignedPropertyType.add(resultSet.getString(Constants.Table.PropertyType.FieldName.PROPERTY_TYPE));
+								}
+							}
+						}
+						
 						societyCharges.put(chargeIdInteger, charge);
 					}
 				} catch (SQLException e) {
@@ -165,6 +216,7 @@ public class Charge {
 				
 				if (insertStatement != null) {
 					try {
+						insertStatement.clearParameters();
 						insertStatement.setInt(1, charge.societyId);
 						insertStatement.setInt(2, charge.chargeId);
 						insertStatement.setString(3, charge.description);
@@ -192,6 +244,7 @@ public class Charge {
 				
 				if (updateStatement != null) {
 					try {
+						updateStatement.clearParameters();
 						updateStatement.setString(1, charge.description);
 						updateStatement.setDouble(2,  charge.amount);
 						updateStatement.setBoolean(3, charge.tempCharges);
@@ -238,6 +291,7 @@ public class Charge {
 		
 		if (deleteStatement != null) {
 			try {
+				deleteStatement.clearParameters();
 				deleteStatement.setInt(1, charge.societyId);
 				deleteStatement.setInt(2, charge.chargeId);
 				result = deleteStatement.execute();

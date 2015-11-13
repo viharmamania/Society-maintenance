@@ -136,6 +136,7 @@ public class Bill {
 		
 		if (readStatement != null) {
 			try {
+				readStatement.clearParameters();
 				readStatement.setInt(1, billId);
 				ResultSet resultSet = readStatement.executeQuery();
 				if (resultSet != null && resultSet.first()) {
@@ -151,6 +152,7 @@ public class Bill {
 					bill.isCancelled = resultSet.getBoolean(Constants.Table.Bill.FieldName.IS_CANCELLED);
 					
 					if (chargeReadStatement != null) {
+						chargeReadStatement.clearParameters();
 						chargeReadStatement.setInt(1, billId);
 						resultSet = chargeReadStatement.executeQuery();
 						if (resultSet != null) {
@@ -191,6 +193,7 @@ public class Bill {
 				
 				if (insertStatement != null) {
 					try {
+						insertStatement.clearParameters();
 						insertStatement.setInt(1, bill.societyId);
 						insertStatement.setInt(2, bill.propertyId);
 						insertStatement.setDouble(3, bill.amount);
@@ -223,6 +226,7 @@ public class Bill {
 				
 				if (updateStatement != null) {
 					try {
+						updateStatement.clearParameters();
 						updateStatement.setInt(1, bill.societyId);
 						updateStatement.setInt(2, bill.propertyId);
 						updateStatement.setDouble(3, bill.amount);
@@ -254,6 +258,7 @@ public class Bill {
 		
 		if (deleteStatement != null) {
 			try {
+				deleteStatement.clearParameters();
 				deleteStatement.setInt(1, bill.billId);
 				result = deleteStatement.execute();
 			} catch (SQLException e) {

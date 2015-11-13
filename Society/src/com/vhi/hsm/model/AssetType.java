@@ -76,7 +76,6 @@ public class AssetType {
 		if (societyAssetTypes != null) {
 			assetTypeObj = societyAssetTypes.get(assetType);
 			if (assetTypeObj == null) {
-				assetTypeObj = new AssetType();
 				if (readStatement == null) {
 					readStatement = SQLiteManager
 							.getPreparedStatement("SELECT * FROM " + Constants.Table.AssetType.TABLE_NAME + " WHERE "
@@ -85,6 +84,7 @@ public class AssetType {
 				}
 				try {
 					if (readStatement != null) {
+						readStatement.clearParameters();
 						readStatement.setInt(1, societyId);
 						readStatement.setString(2, assetType);
 						ResultSet resultSet = readStatement.executeQuery();
@@ -116,6 +116,7 @@ public class AssetType {
 				}
 				if (insertStatement != null) {
 					try {
+						insertStatement.clearParameters();
 						insertStatement.setInt(1, assetType.getSocietyId());
 						insertStatement.setString(2, assetType.getAssetType());
 						insertStatement.setString(3, assetType.getDescription());
@@ -137,6 +138,7 @@ public class AssetType {
 				
 				if (updateStatement != null) {
 					try {
+						updateStatement.clearParameters();
 						updateStatement.setString(1, assetType.getDescription());
 						updateStatement.setDouble(2, assetType.getCharges());
 						updateStatement.setInt(3, assetType.getSocietyId());
@@ -179,6 +181,7 @@ public class AssetType {
 		
 		if (deleteStatement != null) {
 			try {
+				deleteStatement.clearParameters();
 				deleteStatement.setInt(1, assetType.getSocietyId());
 				deleteStatement.setString(2, assetType.getAssetType());
 				result = deleteStatement.execute();
