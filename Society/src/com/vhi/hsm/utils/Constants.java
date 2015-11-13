@@ -145,6 +145,7 @@ public interface Constants {
 				String ASSET_NUMBER = "asset_number";
 				String ASSET_DETAILS = "asset_details";
 				String IS_CANCELLED = "is_cancelled";
+				String ASSET_TYPE = "asset_type";
 			}
 		}
 
