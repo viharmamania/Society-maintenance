@@ -1,9 +1,11 @@
 package com.vhi.hsm.utils;
 
+import java.io.File;
+
 public interface Constants {
 
 	public interface Path {
-		String RESOURCE = "res/";
+		String RESOURCE = "res" + File.separator;
 	}
 
 	public interface Table {

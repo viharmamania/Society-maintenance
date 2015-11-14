@@ -97,20 +97,17 @@ public class Charge {
 		
 		Charge charge = null;
 		HashMap<Integer, Charge> societyCharges;
-		Integer socIdInteger, chargeIdInteger;
 		
 		if (chargeMap == null) {
 			chargeMap = new HashMap<Integer, HashMap<Integer, Charge>>();
 		}
 		
-		socIdInteger = new Integer(societyId);
-		societyCharges = chargeMap.get(socIdInteger);
+		societyCharges = chargeMap.get(societyId);
 		if (societyCharges == null) {
 			societyCharges = new HashMap<Integer, Charge>();
 		}
 		
-		chargeIdInteger = new Integer(chargeId);
-		charge = societyCharges.get(chargeIdInteger);
+		charge = societyCharges.get(chargeId);
 		if (charge == null) {
 			
 			if (readStatement == null) {
@@ -182,7 +179,7 @@ public class Charge {
 							}
 						}
 						
-						societyCharges.put(chargeIdInteger, charge);
+						societyCharges.put(chargeId, charge);
 					}
 				} catch (SQLException e) {
 					e.printStackTrace();
