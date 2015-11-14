@@ -203,6 +203,12 @@ public class Bill {
 						insertStatement.setString(7, bill.modifiedBy);
 						insertStatement.setTimestamp(8, Timestamp.valueOf(LocalDateTime.now()));
 						result = insertStatement.execute();
+						if (result) {
+							ResultSet generatedKeys = insertStatement.getGeneratedKeys();
+							if (generatedKeys != null && generatedKeys.first()) {
+								bill.billId = generatedKeys.getInt(Constants.Table.Bill.FieldName.BILL_ID);
+							}
+						}
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
