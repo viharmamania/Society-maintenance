@@ -18,7 +18,8 @@ public class PropertyGroup {
 	
 	private static HashMap<Integer, HashMap<String, PropertyGroup>> propertyGroupMap = new HashMap<>();
 
-	private static PreparedStatement readStatement = SQLiteManager
+	private static PreparedStatement readStatement, insertStatement, updateStatement, deleteStatement;
+	/*private static PreparedStatement readStatement = SQLiteManager
 			.getPreparedStatement("SELECT * FROM " + Constants.Table.PropertyGroup.TABLE_NAME + " WHERE "
 					+ Constants.Table.Society.FieldName.SOCIETY_ID + " = ?" + " AND "
 					+ Constants.Table.PropertyGroup.FieldName.PROPERTY_GROUP +" =? ");;
@@ -35,7 +36,23 @@ public class PropertyGroup {
 
 	private static PreparedStatement deleteStatement = SQLiteManager.getPreparedStatement("DELETE "
 			+ Constants.Table.PropertyGroup.TABLE_NAME + " WHERE " + Constants.Table.Society.FieldName.SOCIETY_ID
-			+ " = ?" + " AND " + Constants.Table.PropertyGroup.FieldName.PROPERTY_GROUP + " = ?");
+			+ " = ?" + " AND " + Constants.Table.PropertyGroup.FieldName.PROPERTY_GROUP + " = ?");*/
+	
+	private static String readString = "SELECT * FROM " + Constants.Table.PropertyGroup.TABLE_NAME + " WHERE "
+					+ Constants.Table.Society.FieldName.SOCIETY_ID + " = ?" + " AND "
+					+ Constants.Table.PropertyGroup.FieldName.PROPERTY_GROUP +" =? ";
+	
+	private static String insertString = "INSERT INTO " + Constants.Table.PropertyGroup.TABLE_NAME + " VALUES (?, ?, ?)";
+	
+	
+	private static String updateString = "UPDATE " + Constants.Table.PropertyGroup.TABLE_NAME + " SET "
+			+Constants.Table.PropertyGroup.FieldName.DESCRIPTION + " =? "
+			+ " WHERE " + Constants.Table.Society.FieldName.SOCIETY_ID + " = ?"
+			+ " AND " + Constants.Table.PropertyGroup.FieldName.PROPERTY_GROUP +" =? ";
+
+	private static String deleteString = "DELETE "
+			+ Constants.Table.PropertyGroup.TABLE_NAME + " WHERE " + Constants.Table.Society.FieldName.SOCIETY_ID
+			+ " = ?" + " AND " + Constants.Table.PropertyGroup.FieldName.PROPERTY_GROUP + " = ?";
 
 	private String getPropertygroup() {
 		return propertyGroup;
@@ -71,6 +88,9 @@ public class PropertyGroup {
 
 		boolean result = false;
 		try {
+			if(deleteStatement == null){
+				deleteStatement = SQLiteManager.getPreparedStatement(deleteString);
+			}
 			deleteStatement.setInt(1, propertyGroup.getSocietyId());
 			deleteStatement.setString(2, propertyGroup.getPropertygroup());
 			result = deleteStatement.execute();
@@ -85,11 +105,17 @@ public class PropertyGroup {
 		
 		try {
 			if (insertEntry) {
+				if (insertStatement == null) {
+					insertStatement = SQLiteManager.getPreparedStatement(insertString);
+				}
 				insertStatement.setInt(0, propertyGroup.getSocietyId());
 				insertStatement.setString(1, propertyGroup.getPropertygroup());
 				insertStatement.setString(2, propertyGroup.getDescription());
 				result = insertStatement.execute();
 			} else {
+				if (updateStatement == null) {
+					updateStatement = SQLiteManager.getPreparedStatement(updateString);
+				}
 				updateStatement.setString(0, propertyGroup.getDescription());
 				updateStatement.setInt(1, propertyGroup.getSocietyId());
 				updateStatement.setString(2, propertyGroup.getPropertygroup());
@@ -116,6 +142,9 @@ public class PropertyGroup {
 			if(group == null){
 				group = new PropertyGroup();
 				try{
+					if (readStatement == null) {
+						readStatement = SQLiteManager.getPreparedStatement(readString);
+					}
 					readStatement.setInt(1, societyId);
 					readStatement.setString(2, propertyGroup);
 					ResultSet resultSet = readStatement.executeQuery();

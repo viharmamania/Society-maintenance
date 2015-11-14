@@ -1,6 +1,12 @@
 package com.vhi.hsm.model;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
+
+import com.vhi.hsm.db.SQLiteManager;
+import com.vhi.hsm.utils.Constants;
 
 public class Wing {
 	
@@ -14,8 +20,48 @@ public class Wing {
 	
 	private HashMap<Integer, Floor> floors;
 	
-	public Wing() {
-		
+	private static HashMap<Integer, HashMap<String, Wing>> wingMap = new HashMap<>();
+	
+	private static PreparedStatement readStatement, insertStatement, updateStatement, deleteStatement;
+
+	/*private static PreparedStatement readStatement = SQLiteManager
+			.getPreparedStatement("SELECT * FROM " + Constants.Table.Wing.TABLE_NAME + " WHERE "
+					+ Constants.Table.Society.FieldName.SOCIETY_ID + " = ?" + " AND "
+					+ Constants.Table.Wing.FieldName.WING_ID +" =? ");;
+	
+	private static PreparedStatement insertStatement =  SQLiteManager.getPreparedStatement(
+			"INSERT INTO " + Constants.Table.User.TABLE_NAME + " VALUES (?, ?, ?)");
+	
+	
+	private static PreparedStatement updateStatement = SQLiteManager.getPreparedStatement(
+			"UPDATE " + Constants.Table.User.TABLE_NAME + " SET "
+			+ Constants.Table.Wing.FieldName.WING_NAME + " =? "
+			+ Constants.Table.Wing.FieldName.NUMBER_OF_FLOORS + " =? "
+			+ " WHERE " + Constants.Table.Wing.FieldName.WING_ID +" =? "
+			+ " AND " +Constants.Table.Society.FieldName.SOCIETY_ID + " = ?");
+
+	private static PreparedStatement deleteStatement = SQLiteManager.getPreparedStatement(
+			"DELETE " + Constants.Table.Wing.TABLE_NAME + " WHERE " + Constants.Table.Society.FieldName.SOCIETY_ID
+			+ " = ?" + " AND " + Constants.Table.Wing.FieldName.WING_ID + " = ?");*/
+	
+	private static String readString ="SELECT * FROM " + Constants.Table.Wing.TABLE_NAME + " WHERE "
+					+ Constants.Table.Society.FieldName.SOCIETY_ID + " = ?" + " AND "
+					+ Constants.Table.Wing.FieldName.WING_ID +" =? ";
+	
+	private static String insertString =  "INSERT INTO " + Constants.Table.User.TABLE_NAME + " VALUES (?, ?, ?)";
+	
+	
+	private static String updateString = "UPDATE " + Constants.Table.User.TABLE_NAME + " SET "
+			+ Constants.Table.Wing.FieldName.WING_NAME + " =? "
+			+ Constants.Table.Wing.FieldName.NUMBER_OF_FLOORS + " =? "
+			+ " WHERE " + Constants.Table.Wing.FieldName.WING_ID +" =? "
+			+ " AND " +Constants.Table.Society.FieldName.SOCIETY_ID + " = ?";
+
+	private static String deleteString = "DELETE " + Constants.Table.Wing.TABLE_NAME
+			+ " WHERE " + Constants.Table.Society.FieldName.SOCIETY_ID
+			+ " = ?" + " AND " + Constants.Table.Wing.FieldName.WING_ID + " = ?";
+	
+	private Wing() {
 	}
 
 	public int getSocietyId() {
@@ -58,4 +104,93 @@ public class Wing {
 		this.floors = floors;
 	}	
 
+	public static Wing create(int societyId){
+		Wing wing = new Wing();
+		wing.setSocietyId(societyId);
+		return wing;
+	}
+	
+	public static boolean delete(Wing wing){
+		boolean result = false;
+
+		try {
+			if(deleteStatement == null){
+				deleteStatement = SQLiteManager.getPreparedStatement(deleteString);
+			}
+			deleteStatement.setInt(0, wing.getSocietyId());
+			deleteStatement.setInt(1, wing.getWingId());
+			result = deleteStatement.execute();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	public static boolean save( Wing wing, boolean insert){
+
+		boolean result = false;
+		try {
+			if (insert) {
+				if (insertStatement == null) {
+					insertStatement = SQLiteManager.getPreparedStatement(insertString);
+				}
+				insertStatement.setInt(0, wing.getSocietyId());
+				insertStatement.setString(1, wing.getName());
+				insertStatement.setInt(2, wing.getNoOfFloors());
+				result = insertStatement.execute();
+				
+			} else {
+				
+				if (updateStatement == null) {
+					updateStatement = SQLiteManager.getPreparedStatement(updateString);
+				}
+				updateStatement.setString(0, wing.getName());
+				updateStatement.setInt(1, wing.getNoOfFloors());
+				updateStatement.setInt(2, wing.getWingId());
+				updateStatement.setInt(3, wing.getSocietyId());
+				result = updateStatement.execute();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	public static Wing read(int societyId, String wingId) {
+		Wing wing = null;
+
+		HashMap<String, Wing> societyWings = wingMap.get(societyId);
+
+		if (societyWings == null) {
+			societyWings = new HashMap<>();
+			wingMap.put(societyId, societyWings);
+		}
+
+		if (societyWings != null) {
+			wing = societyWings.get(wingId);
+			if (wing == null) {
+				wing = new Wing();
+				try {
+					if (readStatement == null) {
+						readStatement = SQLiteManager.getPreparedStatement(readString);
+					}
+					readStatement.setInt(1, societyId);
+					readStatement.setString(2, wingId);
+					ResultSet resultSet = readStatement.executeQuery();
+					if (resultSet != null && resultSet.first()) {
+
+						wing.setNoOfFloors(resultSet.getInt(Constants.Table.Wing.FieldName.NUMBER_OF_FLOORS));
+						wing.setName(resultSet.getString(Constants.Table.Wing.FieldName.WING_NAME));
+						wing.setWingId(resultSet.getInt(Constants.Table.Wing.FieldName.WING_ID));
+
+						wing.setSocietyId(societyId);
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+
+			}
+		}
+		return wing;
+	}
 }

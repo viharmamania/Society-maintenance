@@ -12,8 +12,8 @@ public class UserManager implements UserApi {
 
 	@Override
 	public User createUser() {
-		User newUser = new User();
-		return newUser;
+		//User newUser = new User();
+		return null;
 	}
 
 	@Override
@@ -46,7 +46,7 @@ public class UserManager implements UserApi {
 				+ " WHERE " + Constants.Table.User.FieldName.USER_NAME + " = '" + userName + "'"
 				+ " AND " + Constants.Table.User.FieldName.PASSWORD + " = '" + password + "'");
 		if (resultSet != null) {
-			try {
+		/*	try {
 				if (resultSet.next()) {
 					user = new User();
 					user.setUserName(resultSet.getString(Constants.Table.User.FieldName.USER_NAME));
@@ -56,7 +56,7 @@ public class UserManager implements UserApi {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-		}
+		*/}
 		return user;
 	}
 	

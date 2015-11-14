@@ -140,6 +140,7 @@ public class PropertyAsset {
 						insertStatement.setString(2, propertyAsset.getAssetDetails());
 						insertStatement.setString(3, propertyAsset.getAssetType());
 						result = insertStatement.execute();
+						
 					}
 				} catch (SQLException e) {
 					e.printStackTrace();
@@ -170,7 +171,7 @@ public class PropertyAsset {
 		return result;
 	}
 	
-	/*public static boolean delete(PropertyAsset propertyAsset) {
+	public static boolean delete(PropertyAsset propertyAsset) {
 		boolean result = false;
 		
 		if (deleteStatement == null) {
@@ -189,10 +190,8 @@ public class PropertyAsset {
 			}
 		}
 		
-		propertyAsset.get
-		
 		return result;
-	}*/
+	}
 
 	public static PropertyAsset create(int societyId) {
 		PropertyAsset propertyAsset = new PropertyAsset();

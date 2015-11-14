@@ -16,6 +16,7 @@ public interface Constants {
 				String EMAIL = "email";
 				String PASSWORD = "password";
 				String FULL_NAME = "full_name";
+				String IS_DELETED = "is_deleted";
 			}
 		}
 
