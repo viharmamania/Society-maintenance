@@ -15,7 +15,7 @@ public class PaymentManager {
 		
 		ArrayList<Bill> paidBills = new ArrayList<Bill>();
 
-		if (Payment.save(payment, true)) {
+		if (Payment.save(payment, true)) { // Save payment in DB
 
 			Property property = Property.read(payment.getPropertyId());
 
@@ -23,7 +23,8 @@ public class PaymentManager {
 
 				double remainingAmount = payment.getAmount();
 				double billAmount;
-
+				
+				//settle the previous bills
 				ResultSet resultSet = SQLiteManager.executeQuery("SELECT * FROM " + Constants.Table.Bill.TABLE_NAME
 						+ " WHERE " + Constants.Table.Payment.FieldName.PAYMENT_ID + " = 0 DESC BY "
 						+ Constants.Table.Bill.FieldName.BILL_TIMESTAMP);
@@ -43,7 +44,8 @@ public class PaymentManager {
 						}
 					}
 				}
-
+				
+				//save the remaining balance to property
 				property.setNetPayable(property.getNetPayable() - remainingAmount);
 				Property.save(property, false);
 

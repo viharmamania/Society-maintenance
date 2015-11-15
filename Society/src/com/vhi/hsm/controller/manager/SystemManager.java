@@ -3,7 +3,7 @@ package com.vhi.hsm.controller.manager;
 import com.vhi.hsm.model.Society;
 import com.vhi.hsm.model.User;
 
-public class System {
+public class SystemManager {
 	
 	public static User loggedInUser;
 	

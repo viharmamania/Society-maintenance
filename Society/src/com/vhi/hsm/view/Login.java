@@ -157,14 +157,14 @@ public class Login extends JFrame implements WindowListener {
 
 	private void login() {
 		if (validateInput(true)) {
-			com.vhi.hsm.controller.manager.System.loggedInUser = UserManager.getUser(txtUserName.getText(),
+			com.vhi.hsm.controller.manager.SystemManager.loggedInUser = UserManager.getUser(txtUserName.getText(),
 					txtPassword.getText());
-			if (com.vhi.hsm.controller.manager.System.loggedInUser == null) {
+			if (com.vhi.hsm.controller.manager.SystemManager.loggedInUser == null) {
 				// error message
 				JOptionPane.showMessageDialog(this, "Username and password combination is incorrect", "Error", JOptionPane.ERROR_MESSAGE);
 			} else {
-				com.vhi.hsm.controller.manager.System.society = com.vhi.hsm.model.Society
-						.read(com.vhi.hsm.controller.manager.System.loggedInUser.getSocietyId());
+				com.vhi.hsm.controller.manager.SystemManager.society = com.vhi.hsm.model.Society
+						.read(com.vhi.hsm.controller.manager.SystemManager.loggedInUser.getSocietyId());
 				dispose();
 			}
 		}
