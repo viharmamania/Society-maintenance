@@ -111,6 +111,7 @@ public interface Constants {
 				String AMOUNT = "amount";
 				String TEMP_CHARGE = "temp_charge";
 				String IS_CANCELLED = "is_cancelled";
+				String IS_DEFAULT = "is_default";
 			}
 		}
 
@@ -134,6 +135,7 @@ public interface Constants {
 				String IS_CANCELLED = "is_cancelled";
 				String MODIFIED_BY = "modified_by";
 				String LAST_MODIFIED = "last_modified";
+				String AMOUNT = "amount";
 			}
 		}
 

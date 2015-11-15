@@ -32,6 +32,8 @@ public class Payment {
 
 	private String last_modified;
 	
+	private double amount;
+	
 	private static PreparedStatement readStatement, insertStatement, updateStatement, deleteStatement;
 	
 	private Payment() {
@@ -139,7 +141,8 @@ public class Payment {
 						+ Constants.Table.Payment.FieldName.CANCELLATION_TIMESTAMP + " , "
 						+ Constants.Table.Payment.FieldName.IS_CANCELLED + " , "
 						+ Constants.Table.Payment.FieldName.MODIFIED_BY + " , "
-						+ Constants.Table.Payment.FieldName.LAST_MODIFIED
+						+ Constants.Table.Payment.FieldName.LAST_MODIFIED + " , "
+						+ Constants.Table.Payment.FieldName.AMOUNT
 						+ " ) "
 						+ " VALUES ( ? , ? , ? , ? , ? , ? , ? , ? )");
 			}
@@ -155,6 +158,7 @@ public class Payment {
 					insertStatement.setBoolean(6, payment.isCancelled);
 					insertStatement.setString(7, payment.modifiedBy);
 					insertStatement.setTimestamp(8, Timestamp.valueOf(LocalDateTime.now()));
+					insertStatement.setDouble(9, payment.amount);
 					result = insertStatement.execute();
 					if (result) {
 						ResultSet generatedKeys = insertStatement.getGeneratedKeys();
@@ -180,6 +184,7 @@ public class Payment {
 						+ Constants.Table.Payment.FieldName.IS_CANCELLED + " = ? , "
 						+ Constants.Table.Payment.FieldName.MODIFIED_BY + " = ? , "
 						+ Constants.Table.Payment.FieldName.LAST_MODIFIED + " = ? "
+						+ Constants.Table.Payment.FieldName.AMOUNT + " = ? "
 						+ " WHERE " + Constants.Table.Payment.FieldName.PAYMENT_ID + " = ?");
 			}
 			
@@ -194,7 +199,8 @@ public class Payment {
 					updateStatement.setBoolean(6, payment.isCancelled);
 					updateStatement.setString(7, payment.modifiedBy);
 					updateStatement.setTimestamp(8, Timestamp.valueOf(LocalDateTime.now()));
-					updateStatement.setInt(9, payment.paymentId);
+					updateStatement.setDouble(9, payment.amount);
+					updateStatement.setInt(10, payment.paymentId);
 					result = updateStatement.execute();
 				} catch (SQLException e) {
 					e.printStackTrace();
@@ -251,6 +257,7 @@ public class Payment {
 					payment.isCancelled = resultSet.getBoolean(Constants.Table.Payment.FieldName.IS_CANCELLED);
 					payment.modifiedBy = resultSet.getString(Constants.Table.Payment.FieldName.MODIFIED_BY);
 					payment.last_modified = resultSet.getString(Constants.Table.Payment.FieldName.LAST_MODIFIED);
+					payment.amount = resultSet.getDouble(Constants.Table.Payment.FieldName.AMOUNT);
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -258,6 +265,14 @@ public class Payment {
 		}
 		
 		return payment;
+	}
+
+	public double getAmount() {
+		return amount;
+	}
+
+	public void setAmount(double amount) {
+		this.amount = amount;
 	}
 
 }

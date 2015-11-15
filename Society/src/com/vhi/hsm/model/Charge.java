@@ -20,6 +20,8 @@ public class Charge {
 	private double amount;
 
 	private boolean tempCharges;
+	
+	private boolean isdefault;
 
 	private boolean isCancelled;
 	
@@ -142,6 +144,7 @@ public class Charge {
 						charge.description = resultSet.getString(Constants.Table.Charge.FieldName.DESCRIPTION);
 						charge.isCancelled = resultSet.getBoolean(Constants.Table.Charge.FieldName.IS_CANCELLED);
 						charge.tempCharges = resultSet.getBoolean(Constants.Table.Charge.FieldName.TEMP_CHARGE); 
+						charge.isdefault = resultSet.getBoolean(Constants.Table.Charge.FieldName.IS_DEFAULT);
 						
 						if (readProperty != null) {
 							readProperty.clearParameters();
@@ -206,9 +209,10 @@ public class Charge {
 							+ Constants.Table.Charge.FieldName.DESCRIPTION + ", "
 							+ Constants.Table.Charge.FieldName.AMOUNT + ", "
 							+ Constants.Table.Charge.FieldName.TEMP_CHARGE + ", "
-							+ Constants.Table.Charge.FieldName.IS_CANCELLED
+							+ Constants.Table.Charge.FieldName.IS_CANCELLED + ", " 
+							+ Constants.Table.Charge.FieldName.IS_DEFAULT
 							+ ")"
-							+ " VALUES (?, ?, ?, ?, ?, ?) ");
+							+ " VALUES (?, ?, ?, ?, ?, ?, ?) ");
 				}
 				
 				if (insertStatement != null) {
@@ -220,6 +224,7 @@ public class Charge {
 						insertStatement.setDouble(4, charge.amount);
 						insertStatement.setBoolean(5, charge.tempCharges);
 						insertStatement.setBoolean(6, charge.isCancelled);
+						insertStatement.setBoolean(7, charge.isdefault);
 						result = insertStatement.execute();
 					} catch (SQLException e) {
 						e.printStackTrace();
@@ -235,6 +240,7 @@ public class Charge {
 							+ Constants.Table.Charge.FieldName.AMOUNT + " = ?, "
 							+ Constants.Table.Charge.FieldName.TEMP_CHARGE + " = ?, "
 							+ Constants.Table.Charge.FieldName.IS_CANCELLED + " = ?"
+							+ Constants.Table.Charge.FieldName.IS_DEFAULT + " = ?"
 							+ " WHERE " + Constants.Table.Society.FieldName.SOCIETY_ID + " = ?"
 							+ " AND " + Constants.Table.Charge.FieldName.CHARGE_ID + " = ?");
 				}
@@ -246,8 +252,9 @@ public class Charge {
 						updateStatement.setDouble(2,  charge.amount);
 						updateStatement.setBoolean(3, charge.tempCharges);
 						updateStatement.setBoolean(4, charge.isCancelled);
-						updateStatement.setInt(5, charge.societyId);
-						updateStatement.setInt(6, charge.chargeId);
+						updateStatement.setBoolean(5, charge.isdefault);
+						updateStatement.setInt(6, charge.societyId);
+						updateStatement.setInt(7, charge.chargeId);
 						result = updateStatement.execute();
 					} catch (SQLException e) {
 						e.printStackTrace();

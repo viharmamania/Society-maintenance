@@ -279,5 +279,27 @@ public class Bill {
 		Bill bill = new Bill();
 		return bill;
 	}
+	
+	public static ArrayList<Bill> getBillsFromResultSet(ResultSet resultSet) {
+		ArrayList<Bill> bills = new ArrayList<Bill>();
+		try {
+			while (resultSet.next()) {
+				Bill bill = new Bill();
+				bill.billId = resultSet.getInt(Constants.Table.Bill.FieldName.BILL_ID);
+				bill.societyId = resultSet.getInt(Constants.Table.Society.FieldName.SOCIETY_ID);
+				bill.propertyId = resultSet.getInt(Constants.Table.Property.FieldName.PROPERTY_ID);
+				bill.amount = resultSet.getDouble(Constants.Table.Bill.FieldName.AMOUNT);
+				bill.billDate = resultSet.getDate(Constants.Table.Bill.FieldName.BILL_TIMESTAMP);
+				bill.paymentId = resultSet.getInt(Constants.Table.Payment.FieldName.PAYMENT_ID);
+				bill.modifiedBy = resultSet.getString(Constants.Table.Bill.FieldName.MODIFIED_BY);
+				bill.lastModified = resultSet.getTimestamp(Constants.Table.Bill.FieldName.LAST_MODIFIED);
+				bill.isCancelled = resultSet.getBoolean(Constants.Table.Bill.FieldName.IS_CANCELLED);
+				bills.add(bill);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return bills;
+	}
 
 }
