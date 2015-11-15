@@ -37,7 +37,7 @@ public class Society {
 	private static String readString = "SELECT * FROM " + Constants.Table.Society.TABLE_NAME + " WHERE "
 			+ Constants.Table.Society.FieldName.SOCIETY_ID + " = ?";	
 
-	private static String insertString = "INSERT INTO " + Constants.Table.Society.TABLE_NAME + " VALUES (?, ?, ?, ?)";
+	private static String insertString = "INSERT INTO " + Constants.Table.Society.TABLE_NAME + "('name','address','reg_number','reg_timestamp') VALUES (?, ?, ?, ?)";
 	
 	
 	private static String updateString = "UPDATE " + Constants.Table.Society.TABLE_NAME + " SET "
@@ -179,21 +179,21 @@ public class Society {
 				if (insertStatement == null) {
 					insertStatement = SQLiteManager.getPreparedStatement(insertString);
 				}
-				insertStatement.setString(0, society.getName());
-				insertStatement.setString(1, society.getAddress());
-				insertStatement.setString(2, society.getRegistrationNumber());
-				insertStatement.setString(3, society.getRegistrationDate());
-				result = insertStatement.execute();
+				insertStatement.setString(1, society.getName());
+				insertStatement.setString(2, society.getAddress());
+				insertStatement.setString(3, society.getRegistrationNumber());
+				insertStatement.setString(4, society.getRegistrationDate());
+				result = !insertStatement.execute();
 			} else {
 				if (updateStatement == null) {
 					updateStatement = SQLiteManager.getPreparedStatement(updateString);
 				}
-				updateStatement.setString(0, society.getName());
-				updateStatement.setString(1, society.getAddress());
-				updateStatement.setString(2, society.getRegistrationNumber());
-				updateStatement.setString(3, society.getRegistrationDate());
-				updateStatement.setInt(4, society.getSocietyId());
-				result = updateStatement.execute();
+				updateStatement.setString(1, society.getName());
+				updateStatement.setString(2, society.getAddress());
+				updateStatement.setString(3, society.getRegistrationNumber());
+				updateStatement.setString(4, society.getRegistrationDate());
+				updateStatement.setInt(5, society.getSocietyId());
+				result = !updateStatement.execute();
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

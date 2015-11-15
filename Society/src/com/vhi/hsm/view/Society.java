@@ -13,6 +13,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import com.vhi.hsm.controller.manager.SocietyManager;
+
 /**
  * Swing Dialogue to register a new Society in HMS system.
  * 
@@ -159,7 +161,12 @@ public class Society extends JDialog implements WindowListener {
 	
 	private void register() {
 		if (validatedInput(true)) {
+			String societyName = txtSocietyName.getText().trim();
+			String societyAddress = txtAreaSocietyAddr.getText().trim();
+			String regNumber = txtRegNumber.getText().trim();
+			String regDate = txtRegDate.getText().trim();
 			
+			SocietyManager.registerSociety(societyName, societyAddress, regNumber , regDate);
 		}
 	}
 
@@ -185,7 +192,7 @@ public class Society extends JDialog implements WindowListener {
 				JOptionPane.showMessageDialog(this, "Enter Society Registration Number", "Error", JOptionPane.ERROR_MESSAGE);
 			}
 			return false;
-		} else if (regDate.length() == 0 || regDate.indexOf('-')== -1) {
+		} else if (regDate.length() == 0 ) {
 			if (showErrorMessages) {
 				JOptionPane.showMessageDialog(this, "Enter Society Registration Date in DD-MM-YYYY format", "Error", JOptionPane.ERROR_MESSAGE);
 			}
