@@ -11,7 +11,7 @@ import com.vhi.hsm.utils.Constants;
 
 public class PaymentManager {
 
-	public static ArrayList<Bill> makePayment(Payment payment) {
+	public static synchronized ArrayList<Bill> makePayment(Payment payment) {
 		
 		ArrayList<Bill> paidBills = new ArrayList<Bill>();
 
