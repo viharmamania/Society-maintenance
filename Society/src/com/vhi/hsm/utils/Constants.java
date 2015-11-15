@@ -62,8 +62,8 @@ public interface Constants {
 			}
 		}
 
-		public interface FloorPlanDesing {
-			String TABLE_NAME = "floor_plan_desing";
+		public interface FloorPlanDesign {
+			String TABLE_NAME = "floor_plan_design";
 
 			public interface FieldName {
 				String PROPERTY_NUMBER = "property_number";
@@ -110,6 +110,7 @@ public interface Constants {
 				String AMOUNT = "amount";
 				String TEMP_CHARGE = "temp_charge";
 				String IS_CANCELLED = "is_cancelled";
+				String IS_DEFAULT = "is_default";
 			}
 		}
 
@@ -144,7 +145,7 @@ public interface Constants {
 				String OWNER_NAME = "owner_name";
 				String OWNER_NUMBER = "owner_number";
 				String OWNER_EMAIL = "owner_email";
-				String BALANCE = "balance";
+				String NET_PAYABLE = "net_payable";
 				String NOT_USED = "not_used";
 			}
 		}
