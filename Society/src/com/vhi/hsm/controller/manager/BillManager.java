@@ -1,4 +1,4 @@
-package com.vhi.hsm.controller.apimanager;
+package com.vhi.hsm.controller.manager;
 
 import com.vhi.hsm.model.Bill;
 
