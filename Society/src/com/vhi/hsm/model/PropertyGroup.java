@@ -148,7 +148,7 @@ public class PropertyGroup {
 					readStatement.setInt(1, societyId);
 					readStatement.setString(2, propertyGroup);
 					ResultSet resultSet = readStatement.executeQuery();
-					if (resultSet != null && resultSet.first()) {
+					if (resultSet != null && resultSet.next()) {
 						group.setDescription(resultSet.getString(Constants.Table.PropertyGroup.FieldName.DESCRIPTION));
 						group.setSocietyId(societyId);
 						group.setPropertygroup(propertyGroup);

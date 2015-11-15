@@ -31,6 +31,7 @@ public interface Constants {
 				String ADDRESS = "address";
 				String REG_NUMBER = "reg_number";
 				String REG_DATE = "reg_date";
+				String SOCIETY_CODE = "society_code";
 			}
 		}
 

@@ -305,7 +305,7 @@ public class Property {
 					readStatement.clearParameters();
 					readStatement.setInt(1, propertyId);
 					ResultSet resultSet = readStatement.executeQuery();
-					if (resultSet != null && resultSet.first()) {
+					if (resultSet != null && resultSet.next()) {
 						property = new Property();
 						property.propertyId = propertyId;
 						property.societyId = resultSet.getInt(Constants.Table.Society.FieldName.SOCIETY_ID);

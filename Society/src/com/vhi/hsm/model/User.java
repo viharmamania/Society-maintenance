@@ -177,7 +177,7 @@ public class User {
 				}
 				readStatement.setString(0, userName);
 				ResultSet resultset = readStatement.executeQuery();
-				if (resultset != null && resultset.first()) {
+				if (resultset != null && resultset.next()) {
 					user.setUserName(resultset.getString(Constants.Table.User.FieldName.USER_NAME));
 					user.setName(resultset.getString(Constants.Table.User.FieldName.FULL_NAME));
 					user.setSocietyId(resultset.getInt(Constants.Table.Society.FieldName.SOCIETY_ID));

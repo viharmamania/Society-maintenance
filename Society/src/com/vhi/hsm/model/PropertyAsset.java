@@ -100,7 +100,7 @@ public class PropertyAsset {
 						readStatement.setString(2, propertyAsset);
 						readStatement.setInt(3, 0);
 						ResultSet resultSet = readStatement.executeQuery();
-						if (resultSet != null && resultSet.first()) {
+						if (resultSet != null && resultSet.next()) {
 							asset = new PropertyAsset();
 							asset.societyId = resultSet.getInt(Constants.Table.Society.FieldName.SOCIETY_ID);
 							asset.assetNumber = resultSet.getInt(Constants.Table.PropertyAsset.FieldName.ASSET_NUMBER);

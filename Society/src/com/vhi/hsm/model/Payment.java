@@ -240,7 +240,7 @@ public class Payment {
 				readStatement.clearParameters();
 				readStatement.setInt(1, paymentId);
 				ResultSet resultSet = readStatement.executeQuery();
-				if (resultSet != null && resultSet.first()) {
+				if (resultSet != null && resultSet.next()) {
 					payment = new Payment();
 					payment.paymentId = paymentId;
 					payment.propertyId = resultSet.getInt(Constants.Table.Property.FieldName.PROPERTY_ID);

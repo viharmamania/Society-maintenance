@@ -154,7 +154,7 @@ public class PropertyType {
 					readStatement.setInt(1, societyId);
 					readStatement.setString(2, propType);
 					ResultSet resultSet = readStatement.executeQuery();
-					if (resultSet != null && resultSet.first()) {
+					if (resultSet != null && resultSet.next()) {
 						propertyTypeObject.setDescription(
 								resultSet.getString(Constants.Table.PropertyGroup.FieldName.DESCRIPTION));
 						propertyTypeObject.setSocietyId(societyId);

@@ -105,7 +105,7 @@ public class FloorPlanDesign {
 					readStatement.setInt(2, floorPlanId);
 					readStatement.setInt(3, propertyNumber);
 					ResultSet resultSet = readStatement.executeQuery();
-					if (resultSet != null && resultSet.first()) {
+					if (resultSet != null && resultSet.next()) {
 						floorPlanDesign = new FloorPlanDesign();
 						floorPlanDesign.setSocietyId(societyId);
 						floorPlanDesign.setFloorPlanId(floorPlanId);

@@ -60,7 +60,7 @@ public class BillCharge {
 				readStatement.setInt(1, billId);
 				readStatement.setInt(2, chargeId);
 				ResultSet resultSet = readStatement.executeQuery();
-				if (resultSet != null && resultSet.first()) {
+				if (resultSet != null && resultSet.next()) {
 					billCharge = new BillCharge();
 					billCharge.billId = resultSet.getInt(Constants.Table.Bill.FieldName.BILL_ID);
 					billCharge.chargeId = resultSet.getInt(Constants.Table.Charge.FieldName.CHARGE_ID);

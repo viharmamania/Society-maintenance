@@ -134,7 +134,7 @@ public class Charge {
 					readStatement.setInt(1, societyId);
 					readStatement.setInt(2, chargeId);
 					ResultSet resultSet = readStatement.executeQuery();
-					if (resultSet != null && resultSet.first()) {
+					if (resultSet != null && resultSet.next()) {
 						charge = new Charge();
 						charge.societyId = resultSet.getInt(Constants.Table.Society.FieldName.SOCIETY_ID);
 						charge.chargeId = resultSet.getInt(Constants.Table.Charge.FieldName.CHARGE_ID);

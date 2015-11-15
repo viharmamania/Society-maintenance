@@ -139,7 +139,7 @@ public class Bill {
 				readStatement.clearParameters();
 				readStatement.setInt(1, billId);
 				ResultSet resultSet = readStatement.executeQuery();
-				if (resultSet != null && resultSet.first()) {
+				if (resultSet != null && resultSet.next()) {
 					bill = new Bill();
 					bill.billId = resultSet.getInt(Constants.Table.Bill.FieldName.BILL_ID);
 					bill.societyId = resultSet.getInt(Constants.Table.Society.FieldName.SOCIETY_ID);

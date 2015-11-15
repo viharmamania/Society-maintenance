@@ -19,6 +19,16 @@ public class Society {
 	private String registrationNumber;
 
 	private String registrationDate;
+	
+	private String societyCode;
+
+	public String getSocietyCode() {
+		return societyCode;
+	}
+
+	public void setSocietyCode(String societyCode) {
+		this.societyCode = societyCode;
+	}
 
 	private HashMap<Integer, PropertyGroup> propertyGroups;
 
@@ -45,6 +55,7 @@ public class Society {
 		+ Constants.Table.Society.FieldName.ADDRESS + " =? "
 		+ Constants.Table.Society.FieldName.REG_NUMBER + " =? "
 		+ Constants.Table.Society.FieldName.REG_DATE + " =? "
+		+ Constants.Table.Society.FieldName.SOCIETY_CODE + " ?"
 		+ " WHERE " + Constants.Table.Society.FieldName.SOCIETY_ID + " = ?";
 	
 	private static String deleteString = "DELETE "
@@ -214,7 +225,7 @@ public class Society {
 				}
 				readStatement.setInt(0, societyId);
 				ResultSet resultset = readStatement.executeQuery();
-				if (resultset != null && resultset.first()) {
+				if (resultset != null && resultset.next()) {
 					society.setName(resultset.getString(Constants.Table.Society.FieldName.SOCIETY_NAME));
 					society.setRegistrationNumber(resultset.getString(Constants.Table.Society.FieldName.REG_NUMBER));
 					society.setAddress(resultset.getString(Constants.Table.Society.FieldName.ADDRESS));

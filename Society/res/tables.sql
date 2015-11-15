@@ -26,6 +26,7 @@ CREATE TABLE IF NOT EXISTS society
 	address			VARCHAR2(300),
 	reg_number		VARCHAR2(100),
 	reg_timestamp	timestamp,
+	society_code	varchar2(5),
 	primary key		(society_id)
 );
 
@@ -191,7 +192,7 @@ create table if not exists payment
 	payment_id			integer,
 	society_id			integer,
 	property_id			integer,
-	mode_of_payment		integer,
+	mode_of_payment		varchar2(20),
 	transaction_number	varchar2(20),
 	remarks				varchar2(100),
 	cancellation_timestamp	timestamp,

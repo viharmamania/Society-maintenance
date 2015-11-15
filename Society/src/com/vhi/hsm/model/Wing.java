@@ -177,7 +177,7 @@ public class Wing {
 					readStatement.setInt(1, societyId);
 					readStatement.setString(2, wingId);
 					ResultSet resultSet = readStatement.executeQuery();
-					if (resultSet != null && resultSet.first()) {
+					if (resultSet != null && resultSet.next()) {
 
 						wing.setNoOfFloors(resultSet.getInt(Constants.Table.Wing.FieldName.NUMBER_OF_FLOORS));
 						wing.setName(resultSet.getString(Constants.Table.Wing.FieldName.WING_NAME));
