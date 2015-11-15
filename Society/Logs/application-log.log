@@ -2,3 +2,61 @@
 2015-10-18 14:49:03 DEBUG SQlLiteManager:25 - getting a new instance
 2015-10-18 14:52:24 DEBUG SQlLiteManager:25 - getting a new instance
 2015-10-24 13:58:22 DEBUG SQLiteManager:18 - Set up new connection
+2015-10-26 23:21:21 DEBUG SQLiteManager:19 - Set up new connection
+2015-10-26 23:21:25 DEBUG SQLiteManager:30 - getting a connction
+2015-10-26 23:22:24 DEBUG SQLiteManager:19 - Set up new connection
+2015-10-26 23:22:26 DEBUG SQLiteManager:30 - getting a connction
+2015-10-26 23:23:30 DEBUG SQLiteManager:19 - Set up new connection
+2015-10-26 23:23:33 DEBUG SQLiteManager:30 - getting a connction
+2015-10-26 23:59:04 DEBUG SQLiteManager:20 - Set up new connection
+2015-10-26 23:59:06 DEBUG SQLiteManager:31 - getting a connction
+2015-10-27 00:00:49 DEBUG SQLiteManager:20 - Set up new connection
+2015-10-27 00:00:50 DEBUG SQLiteManager:31 - getting a connction
+2015-10-27 00:01:17 DEBUG SQLiteManager:20 - Set up new connection
+2015-10-27 00:01:21 DEBUG SQLiteManager:31 - getting a connction
+2015-10-27 00:03:02 DEBUG SQLiteManager:20 - Set up new connection
+2015-10-27 00:03:23 DEBUG SQLiteManager:31 - getting a connction
+2015-10-27 00:03:34 DEBUG SQLiteManager:31 - getting a connction
+2015-10-27 00:08:19 DEBUG SQLiteManager:20 - Set up new connection
+2015-10-27 00:08:22 DEBUG SQLiteManager:31 - getting a connction
+2015-10-27 00:08:49 DEBUG SQLiteManager:20 - Set up new connection
+2015-10-27 00:08:57 DEBUG SQLiteManager:31 - getting a connction
+2015-10-27 00:09:01 DEBUG SQLiteManager:31 - getting a connction
+2015-10-27 00:09:03 DEBUG SQLiteManager:31 - getting a connction
+2015-10-27 00:09:06 DEBUG SQLiteManager:31 - getting a connction
+2015-10-27 00:16:35 DEBUG SQLiteManager:20 - Set up new connection
+2015-10-27 00:16:49 DEBUG SQLiteManager:31 - getting a connction
+2015-10-27 00:18:10 DEBUG SQLiteManager:20 - Set up new connection
+2015-10-27 00:18:13 DEBUG SQLiteManager:31 - getting a connction
+2015-10-27 00:38:06 DEBUG SQLiteManager:20 - Set up new connection
+2015-10-27 00:38:09 DEBUG SQLiteManager:31 - getting a connction
+2015-10-27 00:40:43 DEBUG SQLiteManager:20 - Set up new connection
+2015-10-27 00:40:47 DEBUG SQLiteManager:31 - getting a connction
+2015-10-27 00:42:00 DEBUG SQLiteManager:20 - Set up new connection
+2015-10-27 00:42:03 DEBUG SQLiteManager:31 - getting a connction
+2015-10-27 00:42:43 DEBUG SQLiteManager:20 - Set up new connection
+2015-10-27 00:42:45 DEBUG SQLiteManager:31 - getting a connction
+2015-10-27 00:46:53 DEBUG SQLiteManager:20 - Set up new connection
+2015-10-27 00:46:55 DEBUG SQLiteManager:31 - getting a connction
+2015-11-01 14:30:09 DEBUG SQLiteManager:20 - Set up new connection
+2015-11-01 14:30:12 DEBUG SQLiteManager:31 - getting a connction
+2015-11-11 14:30:20 DEBUG SQLiteManager:21 - Set up new connection
+2015-11-11 14:30:40 DEBUG SQLiteManager:32 - getting a connction
+2015-11-11 14:31:42 DEBUG SQLiteManager:21 - Set up new connection
+2015-11-11 14:31:55 DEBUG SQLiteManager:32 - getting a connction
+2015-11-11 14:32:27 DEBUG SQLiteManager:21 - Set up new connection
+2015-11-11 14:32:29 DEBUG SQLiteManager:32 - getting a connction
+2015-11-11 14:33:42 DEBUG SQLiteManager:21 - Set up new connection
+2015-11-11 14:33:45 DEBUG SQLiteManager:32 - getting a connction
+2015-11-15 11:24:36 DEBUG SQLiteManager:21 - Set up new connection
+2015-11-15 11:24:42 DEBUG SQLiteManager:32 - getting a connction
+2015-11-15 11:24:49 DEBUG SQLiteManager:32 - getting a connction
+2015-11-15 12:09:54 DEBUG SQLiteManager:21 - Set up new connection
+2015-11-15 12:10:15 DEBUG SQLiteManager:32 - getting a connction
+2015-11-15 12:11:17 DEBUG SQLiteManager:32 - getting a connction
+2015-11-15 12:14:58 DEBUG SQLiteManager:21 - Set up new connection
+2015-11-15 12:15:04 DEBUG SQLiteManager:32 - getting a connction
+2015-11-15 12:15:33 DEBUG SQLiteManager:21 - Set up new connection
+2015-11-15 12:15:35 DEBUG SQLiteManager:32 - getting a connction
+2015-11-15 12:16:51 DEBUG SQLiteManager:21 - Set up new connection
+2015-11-15 12:19:36 DEBUG SQLiteManager:32 - getting a connction

@@ -47,7 +47,8 @@ public class Society {
 	private static String readString = "SELECT * FROM " + Constants.Table.Society.TABLE_NAME + " WHERE "
 			+ Constants.Table.Society.FieldName.SOCIETY_ID + " = ?";	
 
-	private static String insertString = "INSERT INTO " + Constants.Table.Society.TABLE_NAME + "('name','address','reg_number','reg_timestamp') VALUES (?, ?, ?, ?)";
+	private static String insertString = "INSERT INTO " + Constants.Table.Society.TABLE_NAME 
+			+ "('name','address','reg_number','reg_timestamp', 'society_code') VALUES (?, ?, ?, ?, ?)";
 	
 	
 	private static String updateString = "UPDATE " + Constants.Table.Society.TABLE_NAME + " SET "
@@ -194,6 +195,7 @@ public class Society {
 				insertStatement.setString(2, society.getAddress());
 				insertStatement.setString(3, society.getRegistrationNumber());
 				insertStatement.setString(4, society.getRegistrationDate());
+				insertStatement.setString(5, society.getSocietyCode());
 				result = !insertStatement.execute();
 			} else {
 				if (updateStatement == null) {
@@ -203,6 +205,7 @@ public class Society {
 				updateStatement.setString(2, society.getAddress());
 				updateStatement.setString(3, society.getRegistrationNumber());
 				updateStatement.setString(4, society.getRegistrationDate());
+				updateStatement.setString(5, society.getSocietyCode());
 				updateStatement.setInt(5, society.getSocietyId());
 				result = !updateStatement.execute();
 			}
@@ -231,6 +234,7 @@ public class Society {
 					society.setAddress(resultset.getString(Constants.Table.Society.FieldName.ADDRESS));
 					society.setSocietyId(resultset.getInt(Constants.Table.Society.FieldName.SOCIETY_ID));
 					society.setRegistrationDate(resultset.getString(Constants.Table.Society.FieldName.REG_DATE));
+					society.setSocietyCode(resultset.getString(Constants.Table.Society.FieldName.SOCIETY_CODE));
 				}
 				societyMap.put(societyId, society);
 			} catch (SQLException e) {
