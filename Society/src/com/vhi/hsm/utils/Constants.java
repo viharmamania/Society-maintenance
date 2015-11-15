@@ -147,7 +147,7 @@ public interface Constants {
 				String OWNER_NAME = "owner_name";
 				String OWNER_NUMBER = "owner_number";
 				String OWNER_EMAIL = "owner_email";
-				String BALANCE = "balance";
+				String NET_PAYBALE = "net_payable";
 				String NOT_USED = "not_used";
 			}
 		}

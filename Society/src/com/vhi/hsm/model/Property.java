@@ -172,7 +172,7 @@ public class Property {
 							+ Constants.Table.Property.FieldName.OWNER_NAME + " , "
 							+ Constants.Table.Property.FieldName.OWNER_NUMBER + " , "
 							+ Constants.Table.Property.FieldName.OWNER_EMAIL + " , "
-							+ Constants.Table.Property.FieldName.BALANCE + " , "
+							+ Constants.Table.Property.FieldName.NET_PAYBALE + " , "
 							+ Constants.Table.Property.FieldName.NOT_USED
 							+ " ) "
 							+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
@@ -216,7 +216,7 @@ public class Property {
 							+ Constants.Table.Property.FieldName.OWNER_NAME + " = ? , "
 							+ Constants.Table.Property.FieldName.OWNER_NUMBER + " = ? , "
 							+ Constants.Table.Property.FieldName.OWNER_EMAIL + " = ? , "
-							+ Constants.Table.Property.FieldName.BALANCE + " = ? , "
+							+ Constants.Table.Property.FieldName.NET_PAYBALE + " = ? , "
 							+ Constants.Table.Property.FieldName.NOT_USED + " = ?"
 							+ " WHERE "
 							+ Constants.Table.Property.FieldName.PROPERTY_ID + " = ? ");
@@ -316,7 +316,7 @@ public class Property {
 						property.ownerName = resultSet.getString(Constants.Table.Property.FieldName.OWNER_NAME);
 						property.ownerNumber = resultSet.getString(Constants.Table.Property.FieldName.OWNER_NUMBER);
 						property.ownerEmail = resultSet.getString(Constants.Table.Property.FieldName.OWNER_EMAIL);
-						property.netPayable = resultSet.getDouble(Constants.Table.Property.FieldName.BALANCE);
+						property.netPayable = resultSet.getDouble(Constants.Table.Property.FieldName.NET_PAYBALE);
 						property.notUsed = resultSet.getBoolean(Constants.Table.Property.FieldName.NOT_USED);
 						propertyMap.put(propertyId, property);
 					}
