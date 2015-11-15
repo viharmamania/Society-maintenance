@@ -92,10 +92,10 @@ public class FloorPlanDesign {
 
 			if (readStatement == null) {
 				readStatement = SQLiteManager
-						.getPreparedStatement("SELECT * FROM " + Constants.Table.FloorPlanDesing.TABLE_NAME + "WHERE "
+						.getPreparedStatement("SELECT * FROM " + Constants.Table.FloorPlanDesign.TABLE_NAME + "WHERE "
 								+ Constants.Table.Society.FieldName.SOCIETY_ID + " = ?" + " AND "
 								+ Constants.Table.FloorPlan.FieldName.FLOOR_PLAN_ID + " = ?" + " AND "
-								+ Constants.Table.FloorPlanDesing.FieldName.PROPERTY_NUMBER + " = ?");
+								+ Constants.Table.FloorPlanDesign.FieldName.PROPERTY_NUMBER + " = ?");
 			}
 
 			if (readStatement != null) {
@@ -135,10 +135,10 @@ public class FloorPlanDesign {
 
 				if (insertStatement == null) {
 					insertStatement = SQLiteManager.getPreparedStatement("INSERT INTO "
-							+ Constants.Table.FloorPlanDesing.TABLE_NAME + " ( "
+							+ Constants.Table.FloorPlanDesign.TABLE_NAME + " ( "
 							+ Constants.Table.Society.FieldName.SOCIETY_ID + " , "
 							+ Constants.Table.FloorPlan.FieldName.FLOOR_PLAN_ID + " , "
-							+ Constants.Table.FloorPlanDesing.FieldName.PROPERTY_NUMBER + " , "
+							+ Constants.Table.FloorPlanDesign.FieldName.PROPERTY_NUMBER + " , "
 							+ Constants.Table.PropertyGroup.FieldName.PROPERTY_GROUP + " , "
 							+ Constants.Table.PropertyType.FieldName.PROPERTY_TYPE + " ) " + " VALUES (?, ?, ?, ?, ?)");
 				}
@@ -161,12 +161,12 @@ public class FloorPlanDesign {
 
 				if (updateStatement == null) {
 					updateStatement = SQLiteManager
-							.getPreparedStatement("UPDATE " + Constants.Table.FloorPlanDesing.TABLE_NAME + " SET "
+							.getPreparedStatement("UPDATE " + Constants.Table.FloorPlanDesign.TABLE_NAME + " SET "
 									+ Constants.Table.PropertyGroup.FieldName.PROPERTY_GROUP + " = ? "
 									+ Constants.Table.PropertyType.FieldName.PROPERTY_TYPE + " = ? " + " WHERE "
 									+ Constants.Table.Society.FieldName.SOCIETY_ID + " = ?" + " AND "
 									+ Constants.Table.FloorPlan.FieldName.FLOOR_PLAN_ID + " = ?" + " AND "
-									+ Constants.Table.FloorPlanDesing.FieldName.PROPERTY_NUMBER + " = ? ");
+									+ Constants.Table.FloorPlanDesign.FieldName.PROPERTY_NUMBER + " = ? ");
 				}
 
 				if (updateStatement != null) {
@@ -218,10 +218,10 @@ public class FloorPlanDesign {
 
 			if (deleteStatement == null) {
 				deleteStatement = SQLiteManager
-						.getPreparedStatement("DELETE FROM " + Constants.Table.FloorPlanDesing.TABLE_NAME + " WHERE "
+						.getPreparedStatement("DELETE FROM " + Constants.Table.FloorPlanDesign.TABLE_NAME + " WHERE "
 								+ Constants.Table.Society.FieldName.SOCIETY_ID + " = ? " + " AND "
 								+ Constants.Table.FloorPlan.FieldName.FLOOR_PLAN_ID + " = ?" + " AND "
-								+ Constants.Table.FloorPlanDesing.FieldName.PROPERTY_NUMBER + " = ?");
+								+ Constants.Table.FloorPlanDesign.FieldName.PROPERTY_NUMBER + " = ?");
 			}
 
 			if (deleteStatement != null) {
