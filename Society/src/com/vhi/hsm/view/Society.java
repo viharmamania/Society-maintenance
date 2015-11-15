@@ -159,18 +159,38 @@ public class Society extends JDialog implements WindowListener {
 	
 	private void register() {
 		if (validatedInput(true)) {
-
+			
 		}
-
 	}
 
 	private boolean validatedInput(boolean showErrorMessages) {
-		if (txtAreaSocietyAddr.getText().trim().length() == 0) {
+		String societyName = txtSocietyName.getText().trim();
+		String societyAddress = txtAreaSocietyAddr.getText().trim();
+		String regNumber = txtRegNumber.getText().trim();
+		String regDate = txtRegDate.getText().trim();
+		
+		
+		if (societyName.length() == 0) {
 			if (showErrorMessages) {
 				JOptionPane.showMessageDialog(this, "Enter Society Name", "Error", JOptionPane.ERROR_MESSAGE);
 			}
 			return false;
-		} else
+		} else if (societyAddress.length() == 0) {
+			if (showErrorMessages) {
+				JOptionPane.showMessageDialog(this, "Enter Society Address", "Error", JOptionPane.ERROR_MESSAGE);
+			}
+			return false;
+		} else if (regNumber.length() == 0) {
+			if (showErrorMessages) {
+				JOptionPane.showMessageDialog(this, "Enter Society Registration Number", "Error", JOptionPane.ERROR_MESSAGE);
+			}
+			return false;
+		} else if (regDate.length() == 0 || regDate.indexOf('-')== -1) {
+			if (showErrorMessages) {
+				JOptionPane.showMessageDialog(this, "Enter Society Registration Date in DD-MM-YYYY format", "Error", JOptionPane.ERROR_MESSAGE);
+			}
+			return false;
+		}
 			return true;
 	}
 
