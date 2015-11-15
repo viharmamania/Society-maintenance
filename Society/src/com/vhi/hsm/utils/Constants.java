@@ -182,6 +182,17 @@ public interface Constants {
 		public interface ChargeToPropertyType {
 			String TABLE_NAME = "charge_to_property_type";
 		}
+		
+		public interface Fine {
+			String TABLE_NAME = "fine";
+			
+			public interface FieldName {
+				String FINE_LOW = "fine_low";
+				String FINE_HIGH = "fine_high";
+				String PERCENTAGE_CHARGE = "perc_charge";
+			}
+			
+		}
 
 	}
 
