@@ -13,9 +13,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import com.vhi.hsm.controller.apimanager.UserManager;
 import com.vhi.hsm.db.SQLiteManager;
-import com.vhi.hsm.model.User;
 
 /**
  * First Frame that user will see in HMS system
@@ -158,13 +156,13 @@ public class Login extends JFrame implements WindowListener {
 
 	private void login() {
 		if (validateInput(true)) {
-			User user = UserManager.getUser(txtUserName.getText(), txtPassword.getText());
+			/*User user = UserManager.getUser(txtUserName.getText(), txtPassword.getText());
 			if (user != null) {
 
 			} else {
 
 			}
-		}
+*/		}
 	}
 
 	private boolean validateInput(boolean showErrorMessage) {
