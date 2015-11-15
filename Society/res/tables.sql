@@ -15,6 +15,7 @@ drop table if exists property_type;
 drop table if exists property_group;
 drop table if exists wing;
 drop table if exists users;
+drop table if exists fine;
 drop table if exists society;
 
 /*----------*/
@@ -26,7 +27,18 @@ CREATE TABLE IF NOT EXISTS society
 	address			VARCHAR2(300),
 	reg_number		VARCHAR2(100),
 	reg_timestamp	timestamp,
+	society_code	varchar2(5),
 	primary key		(society_id)
+);
+
+create table if not exists fine
+(
+	society_id		integer,
+	fine_low		double,
+	fine_high		double,
+	perc_charge		double,
+	primary key		(society_id, fine_low, fine_high),
+	foreign key		(society_id) references society(society_id)
 );
 
 create table if not exists users
@@ -122,7 +134,7 @@ create table if not exists property
 	owner_name		varchar2(100),
 	owner_number	varchar2(20),
 	owner_email		varchar2(50),
-	balance			double,
+	net_payable		double,
 	not_used		boolean,
 	primary key		(property_id),
 	foreign key		(society_id, wing_id, floor_number) 	
@@ -150,13 +162,14 @@ create table if not exists charge
 	charge_id		integer,
 	description		varchar2(30),
 	amount			double,
+	is_default		boolean,
 	temp_charge		boolean,
 	is_cancelled	boolean,
 	primary key		(society_id, charge_id),
 	foreign key 	(society_id) references society(society_id)
 );
 
-create table if not exists cahrge_to_property_group
+create table if not exists charge_to_property_group
 (
 	society_id		integer,
 	charge_id		integer,
@@ -166,7 +179,7 @@ create table if not exists cahrge_to_property_group
 	foreign key		(society_id, property_group) references property_group(society_id, property_group)
 );
 
-create table if not exists cahrge_to_property_type
+create table if not exists charge_to_property_type
 (
 	society_id		integer,
 	charge_id		integer,
@@ -176,7 +189,7 @@ create table if not exists cahrge_to_property_type
 	foreign key		(society_id, property_type) references property_type(society_id, property_type)
 );
 
-create table if not exists cahrge_to_property
+create table if not exists charge_to_property
 (
 	society_id		integer,
 	charge_id		integer,
@@ -191,7 +204,7 @@ create table if not exists payment
 	payment_id			integer,
 	society_id			integer,
 	property_id			integer,
-	mode_of_payment		integer,
+	mode_of_payment		varchar2(20),
 	transaction_number	varchar2(20),
 	remarks				varchar2(100),
 	cancellation_timestamp	timestamp,

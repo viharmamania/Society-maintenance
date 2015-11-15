@@ -29,7 +29,7 @@ public class Property {
 
 	private String ownerEmail;
 
-	private double balance;
+	private double netPayable;
 
 	private boolean notUsed;
 	
@@ -123,12 +123,12 @@ public class Property {
 		this.ownerEmail = ownerEmail;
 	}
 
-	public double getBalance() {
-		return balance;
+	public double getNetPayable() {
+		return netPayable;
 	}
 
-	public void setBalance(double balance) {
-		this.balance = balance;
+	public void setNetPayable(double netPayable) {
+		this.netPayable = netPayable;
 	}
 
 	public boolean isNotUsed() {
@@ -189,7 +189,7 @@ public class Property {
 						insertStatement.setString(6, property.ownerName);
 						insertStatement.setString(7, property.ownerNumber);
 						insertStatement.setString(8, property.ownerEmail);
-						insertStatement.setDouble(9, property.balance);
+						insertStatement.setDouble(9, property.netPayable);
 						insertStatement.setBoolean(10, property.notUsed);
 						result = insertStatement.execute();
 						if (result) {
@@ -233,7 +233,7 @@ public class Property {
 						updateStatement.setString(6, property.ownerName);
 						updateStatement.setString(7, property.ownerNumber);
 						updateStatement.setString(8, property.ownerEmail);
-						updateStatement.setDouble(9, property.balance);
+						updateStatement.setDouble(9, property.netPayable);
 						updateStatement.setBoolean(10, property.notUsed);
 						updateStatement.setInt(11, property.propertyId);
 						result = updateStatement.execute();
@@ -305,7 +305,7 @@ public class Property {
 					readStatement.clearParameters();
 					readStatement.setInt(1, propertyId);
 					ResultSet resultSet = readStatement.executeQuery();
-					if (resultSet != null && resultSet.first()) {
+					if (resultSet != null && resultSet.next()) {
 						property = new Property();
 						property.propertyId = propertyId;
 						property.societyId = resultSet.getInt(Constants.Table.Society.FieldName.SOCIETY_ID);
@@ -316,7 +316,7 @@ public class Property {
 						property.ownerName = resultSet.getString(Constants.Table.Property.FieldName.OWNER_NAME);
 						property.ownerNumber = resultSet.getString(Constants.Table.Property.FieldName.OWNER_NUMBER);
 						property.ownerEmail = resultSet.getString(Constants.Table.Property.FieldName.OWNER_EMAIL);
-						property.balance = resultSet.getDouble(Constants.Table.Property.FieldName.NET_PAYABLE);
+						property.netPayable = resultSet.getDouble(Constants.Table.Property.FieldName.NET_PAYABLE);
 						property.notUsed = resultSet.getBoolean(Constants.Table.Property.FieldName.NOT_USED);
 						propertyMap.put(propertyId, property);
 					}
@@ -343,7 +343,7 @@ public class Property {
 			property.ownerName = resultSet.getString(Constants.Table.Property.FieldName.OWNER_NAME);
 			property.ownerNumber = resultSet.getString(Constants.Table.Property.FieldName.OWNER_NUMBER);
 			property.ownerEmail = resultSet.getString(Constants.Table.Property.FieldName.OWNER_EMAIL);
-			property.balance = resultSet.getDouble(Constants.Table.Property.FieldName.NET_PAYABLE);
+			property.netPayable = resultSet.getDouble(Constants.Table.Property.FieldName.NET_PAYABLE);
 			property.notUsed = resultSet.getBoolean(Constants.Table.Property.FieldName.NOT_USED);
 			propertyMap.put(property.propertyId, property);
 		}

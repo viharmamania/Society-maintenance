@@ -82,7 +82,7 @@ public class FloorPlan {
 				try {
 					readStatement.clearParameters();
 					ResultSet resultSet = readStatement.executeQuery();
-					if (resultSet != null && resultSet.first()) {
+					if (resultSet != null && resultSet.next()) {
 						floorPlan = new FloorPlan();
 						floorPlan.societyId = resultSet.getInt(Constants.Table.Society.FieldName.SOCIETY_ID);
 						floorPlan.floorPlanId = resultSet.getInt(Constants.Table.FloorPlan.FieldName.FLOOR_PLAN_ID);

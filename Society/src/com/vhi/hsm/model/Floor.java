@@ -95,7 +95,7 @@ public class Floor {
 					readStatement.setInt(2, wingId);
 					readStatement.setInt(3, floorNumber);
 					ResultSet resultSet = readStatement.executeQuery();
-					if (resultSet != null && resultSet.first()) {
+					if (resultSet != null && resultSet.next()) {
 						floor = new Floor();
 						floor.societyId = societyId;
 						floor.wingId = wingId;

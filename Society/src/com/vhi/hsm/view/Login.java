@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import com.vhi.hsm.controller.manager.UserManager;
 import com.vhi.hsm.db.SQLiteManager;
 
 /**
@@ -156,13 +157,17 @@ public class Login extends JFrame implements WindowListener {
 
 	private void login() {
 		if (validateInput(true)) {
-			/*User user = UserManager.getUser(txtUserName.getText(), txtPassword.getText());
-			if (user != null) {
-
+			com.vhi.hsm.controller.manager.SystemManager.loggedInUser = UserManager.getUser(txtUserName.getText(),
+					txtPassword.getText());
+			if (com.vhi.hsm.controller.manager.SystemManager.loggedInUser == null) {
+				// error message
+				JOptionPane.showMessageDialog(this, "Username and password combination is incorrect", "Error", JOptionPane.ERROR_MESSAGE);
 			} else {
-
+				com.vhi.hsm.controller.manager.SystemManager.society = com.vhi.hsm.model.Society
+						.read(com.vhi.hsm.controller.manager.SystemManager.loggedInUser.getSocietyId());
+				dispose();
 			}
-*/		}
+		}
 	}
 
 	private boolean validateInput(boolean showErrorMessage) {
@@ -172,7 +177,7 @@ public class Login extends JFrame implements WindowListener {
 				JOptionPane.showMessageDialog(this, "Enter username", "Error", JOptionPane.ERROR_MESSAGE);
 			}
 			return false;
-		} 
+		}
 
 		else if (txtPassword.getText().trim().length() == 0) {
 			if (showErrorMessage) {

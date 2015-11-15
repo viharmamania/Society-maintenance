@@ -88,7 +88,7 @@ public class AssetType {
 						readStatement.setInt(1, societyId);
 						readStatement.setString(2, assetType);
 						ResultSet resultSet = readStatement.executeQuery();
-						if (resultSet != null && resultSet.first()) {
+						if (resultSet != null && resultSet.next()) {
 							assetTypeObj = new AssetType();
 							assetTypeObj.societyId = resultSet.getInt(Constants.Table.Society.FieldName.SOCIETY_ID);
 							assetTypeObj.assetType = resultSet.getString(Constants.Table.AssetType.FieldName.ASSET_TYPE);

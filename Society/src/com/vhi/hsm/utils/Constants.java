@@ -31,6 +31,7 @@ public interface Constants {
 				String ADDRESS = "address";
 				String REG_NUMBER = "reg_number";
 				String REG_DATE = "reg_date";
+				String SOCIETY_CODE = "society_code";
 			}
 		}
 
@@ -134,6 +135,7 @@ public interface Constants {
 				String IS_CANCELLED = "is_cancelled";
 				String MODIFIED_BY = "modified_by";
 				String LAST_MODIFIED = "last_modified";
+				String AMOUNT = "amount";
 			}
 		}
 
@@ -181,6 +183,17 @@ public interface Constants {
 
 		public interface ChargeToPropertyType {
 			String TABLE_NAME = "charge_to_property_type";
+		}
+		
+		public interface Fine {
+			String TABLE_NAME = "fine";
+			
+			public interface FieldName {
+				String FINE_LOW = "fine_low";
+				String FINE_HIGH = "fine_high";
+				String PERCENTAGE_CHARGE = "perc_charge";
+			}
+			
 		}
 
 	}
