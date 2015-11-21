@@ -43,7 +43,11 @@ public class PropertyType {
 			+ Constants.Table.Society.FieldName.SOCIETY_ID + " = ?" + " AND "
 			+ Constants.Table.PropertyType.FieldName.PROPERTY_TYPE +" =? ";
 	
-	private static String insertString = "INSERT INTO " + Constants.Table.PropertyType.TABLE_NAME + " VALUES (?, ?, ?)";
+	private static String insertString = "INSERT INTO " + Constants.Table.PropertyType.TABLE_NAME + " , "
+			+ Constants.Table.Society.FieldName.SOCIETY_ID + " , "
+			+ Constants.Table.PropertyType.FieldName.PROPERTY_TYPE +" , "
+			+ Constants.Table.PropertyType.FieldName.DESCRIPTION + " , )"
+			+ " VALUES (?, ?, ?)";
 	
 	private static String updateString = "UPDATE " + Constants.Table.PropertyType.TABLE_NAME + " SET "
 			+Constants.Table.PropertyType.FieldName.DESCRIPTION + " =? "

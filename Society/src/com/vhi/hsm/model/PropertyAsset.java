@@ -131,7 +131,12 @@ public class PropertyAsset {
 			if (insertEntry) {
 				if (insertStatement != null) {
 					insertStatement = SQLiteManager.getPreparedStatement(
-							"INSERT INTO " + Constants.Table.PropertyAsset.TABLE_NAME + " VALUES (?, ?, ?, ?)");
+							"INSERT INTO " + Constants.Table.PropertyAsset.TABLE_NAME + " ( "
+									+ Constants.Table.Society.FieldName.SOCIETY_ID + " , "
+									+ Constants.Table.PropertyAsset.FieldName.ASSET_NUMBER + " , "
+									+ Constants.Table.PropertyAsset.FieldName.ASSET_DETAILS + " , "
+									+ Constants.Table.PropertyAsset.FieldName.ASSET_TYPE + " , "
+									+" VALUES (?, ?, ?, ?)");
 				}
 				try {
 					if (insertStatement != null) {

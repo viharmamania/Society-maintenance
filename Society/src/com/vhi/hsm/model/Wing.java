@@ -48,7 +48,12 @@ public class Wing {
 					+ Constants.Table.Society.FieldName.SOCIETY_ID + " = ?" + " AND "
 					+ Constants.Table.Wing.FieldName.WING_ID +" =? ";
 	
-	private static String insertString =  "INSERT INTO " + Constants.Table.User.TABLE_NAME + " VALUES (?, ?, ?)";
+	private static String insertString =  "INSERT INTO " + Constants.Table.User.TABLE_NAME + "("
+					+Constants.Table.Wing.FieldName.WING_NAME + " , "
+					+Constants.Table.Wing.FieldName.NUMBER_OF_FLOORS + " , "
+					+Constants.Table.Society.FieldName.SOCIETY_ID
+					+ ") VALUES (?, ?, ?)";
+					
 	
 	
 	private static String updateString = "UPDATE " + Constants.Table.User.TABLE_NAME + " SET "

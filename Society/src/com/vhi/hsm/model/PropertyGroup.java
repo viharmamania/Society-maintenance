@@ -42,7 +42,11 @@ public class PropertyGroup {
 					+ Constants.Table.Society.FieldName.SOCIETY_ID + " = ?" + " AND "
 					+ Constants.Table.PropertyGroup.FieldName.PROPERTY_GROUP +" =? ";
 	
-	private static String insertString = "INSERT INTO " + Constants.Table.PropertyGroup.TABLE_NAME + " VALUES (?, ?, ?)";
+	private static String insertString = "INSERT INTO " + Constants.Table.PropertyGroup.TABLE_NAME + " ( "
+			+ Constants.Table.Society.FieldName.SOCIETY_ID + " , "
+			+ Constants.Table.PropertyGroup.FieldName.PROPERTY_GROUP +" , "
+			+ Constants.Table.PropertyGroup.FieldName.DESCRIPTION + " ,) "
+			+ " VALUES (?, ?, ?)";
 	
 	
 	private static String updateString = "UPDATE " + Constants.Table.PropertyGroup.TABLE_NAME + " SET "

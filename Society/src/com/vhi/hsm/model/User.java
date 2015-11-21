@@ -46,7 +46,13 @@ public class User {
 	private static String readString = "SELECT * FROM " + Constants.Table.User.TABLE_NAME + " WHERE "
 					+ Constants.Table.User.FieldName.USER_NAME + " = ?";
 	
-	private static String insertString = "INSERT INTO " + Constants.Table.User.TABLE_NAME + " VALUES (?, ?, ?, ?, ?)";
+	private static String insertString = "INSERT INTO " + Constants.Table.User.TABLE_NAME + "("
+			+ Constants.Table.User.FieldName.USER_NAME + " , " 
+			+ Constants.Table.Society.FieldName.SOCIETY_ID + " , "
+			+ Constants.Table.User.FieldName.PASSWORD + " , " 
+			+ Constants.Table.User.FieldName.EMAIL + " , "
+			+ Constants.Table.User.FieldName.FULL_NAME + " , )" 
+			+ " VALUES (?, ?, ?, ?, ?)";
 	
 	
 	private static String updateString = "UPDATE " + Constants.Table.User.TABLE_NAME + " SET "

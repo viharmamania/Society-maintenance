@@ -47,8 +47,13 @@ public class Society {
 	private static String readString = "SELECT * FROM " + Constants.Table.Society.TABLE_NAME + " WHERE "
 			+ Constants.Table.Society.FieldName.SOCIETY_ID + " = ?";	
 
-	private static String insertString = "INSERT INTO " + Constants.Table.Society.TABLE_NAME 
-			+ "('name','address','reg_number','reg_timestamp', 'society_code') VALUES (?, ?, ?, ?, ?)";
+	private static String insertString = "INSERT INTO " + Constants.Table.Society.TABLE_NAME + "("
+			+ Constants.Table.Society.FieldName.SOCIETY_NAME + " , "
+			+ Constants.Table.Society.FieldName.ADDRESS + " , "
+			+ Constants.Table.Society.FieldName.REG_NUMBER + " , "
+			+ Constants.Table.Society.FieldName.REG_DATE + " , "
+			+ Constants.Table.Society.FieldName.SOCIETY_CODE + " )"
+			+ " VALUES (?, ?, ?, ?, ?)";
 	
 	
 	private static String updateString = "UPDATE " + Constants.Table.Society.TABLE_NAME + " SET "
