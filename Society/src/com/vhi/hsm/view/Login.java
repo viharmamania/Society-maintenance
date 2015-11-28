@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import com.vhi.hsm.controller.manager.SystemManager;
 import com.vhi.hsm.controller.manager.UserManager;
 import com.vhi.hsm.db.SQLiteManager;
 
@@ -157,14 +158,13 @@ public class Login extends JFrame implements WindowListener {
 
 	private void login() {
 		if (validateInput(true)) {
-			com.vhi.hsm.controller.manager.SystemManager.loggedInUser = UserManager.getUser(txtUserName.getText(),
-					txtPassword.getText());
-			if (com.vhi.hsm.controller.manager.SystemManager.loggedInUser == null) {
+			SystemManager.loggedInUser = UserManager.getUser(txtUserName.getText(), txtPassword.getText());
+			if (SystemManager.loggedInUser == null) {
 				// error message
-				JOptionPane.showMessageDialog(this, "Username and password combination is incorrect", "Error", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(this, "Username and password combination is incorrect", "Error",
+						JOptionPane.ERROR_MESSAGE);
 			} else {
-				com.vhi.hsm.controller.manager.SystemManager.society = com.vhi.hsm.model.Society
-						.read(com.vhi.hsm.controller.manager.SystemManager.loggedInUser.getSocietyId());
+				SystemManager.society = com.vhi.hsm.model.Society.read(SystemManager.loggedInUser.getSocietyId());
 				dispose();
 			}
 		}

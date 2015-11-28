@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import com.vhi.hsm.db.SQLiteManager;
 import com.vhi.hsm.utils.Constants;
@@ -348,6 +349,42 @@ public class Property {
 			propertyMap.put(property.propertyId, property);
 		}
 
+	}
+
+	public static Map<Integer, Integer> getAllProperties(int societyId2) {
+		Map<Integer, Integer> propertyNameToIdMap = new HashMap<>();
+		String searchQuery = "select " + Constants.Table.Property.FieldName.PROPERTY_ID + ","
+				+ Constants.Table.Property.FieldName.PROPERTY_NAME + " "
+						+ "from " + Constants.Table.Property.TABLE_NAME
+				+ " where " + Constants.Table.Society.FieldName.SOCIETY_ID + " = " + societyId2;
+
+		ResultSet result = SQLiteManager.executeQuery(searchQuery);
+		try {
+			if (result != null && result.next()) {
+				int propertyName = result.getInt(Constants.Table.Property.FieldName.PROPERTY_NAME);
+				int property_id = result.getInt(Constants.Table.Property.FieldName.PROPERTY_ID);
+				propertyNameToIdMap.put(propertyName, property_id);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return propertyNameToIdMap;
+	}
+
+	public static int getPropertyCount(int societyId2) {
+		String countQuery = "select count(*)" + "from " + Constants.Table.Property.TABLE_NAME + " where "
+				+ Constants.Table.Society.FieldName.SOCIETY_ID + " = " + societyId2;
+
+		ResultSet result = SQLiteManager.executeQuery(countQuery);
+		try {
+			if (result != null && result.next()) {
+				return result.getInt(0);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return 0;
 	}
 	
 }
