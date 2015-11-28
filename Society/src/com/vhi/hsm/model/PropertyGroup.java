@@ -125,6 +125,22 @@ public class PropertyGroup {
 				updateStatement.setString(2, propertyGroup.getPropertygroup());
 				result = updateStatement.execute();
 			}
+			
+			//updating hashmap
+			if(result){
+				
+				if(propertyGroupMap == null){
+					propertyGroupMap = new HashMap<Integer, HashMap<String, PropertyGroup>>();
+				}
+				
+				HashMap<String, PropertyGroup> propertyGroupType = propertyGroupMap.get(propertyGroup.getSocietyId());
+				if(propertyGroupType == null){
+					propertyGroupType = new HashMap<>();
+					propertyGroupMap.put(propertyGroup.getSocietyId(), propertyGroupType);
+				}
+				propertyGroupType.put(propertyGroup.getDescription(), propertyGroup);
+				
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

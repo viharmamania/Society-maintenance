@@ -131,6 +131,22 @@ public class PropertyType {
 				updateStatement.setString(2, propertyType.getPropertyType());
 				result = updateStatement.execute();
 			}
+			
+			//updating hashmap
+			if(result){
+				
+				if(propertyTypeMap == null){
+					propertyTypeMap = new HashMap<Integer, HashMap<String, PropertyType>>();
+				}
+				
+				HashMap<String, PropertyType> propertyGroupType = propertyTypeMap.get(propertyType.getSocietyId());
+				if(propertyGroupType == null){
+					propertyGroupType = new HashMap<>();
+					propertyTypeMap.put(propertyType.getSocietyId(), propertyGroupType);
+				}
+				propertyGroupType.put(propertyType.getDescription(), propertyType);
+				
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

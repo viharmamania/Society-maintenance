@@ -188,9 +188,9 @@ public class Society {
 		return result;
 	}
 	
-	public static boolean save (Society society, boolean insertEntry){
-		boolean result =false;
-		
+	public static boolean save(Society society, boolean insertEntry) {
+		boolean result = false;
+
 		try {
 			if (insertEntry) {
 				if (insertStatement == null) {
@@ -213,6 +213,17 @@ public class Society {
 				updateStatement.setString(5, society.getSocietyCode());
 				updateStatement.setInt(5, society.getSocietyId());
 				result = !updateStatement.execute();
+			}
+			
+			if (result) {
+
+				if (societyMap == null) {
+					societyMap = new HashMap<>();
+				}
+
+				if (societyMap.get(society.getSocietyId()) == null) {
+					societyMap.put(society.getSocietyId(), society);
+				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

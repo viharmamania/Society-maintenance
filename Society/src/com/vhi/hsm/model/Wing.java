@@ -20,7 +20,7 @@ public class Wing {
 	
 	private HashMap<Integer, Floor> floors;
 	
-	private static HashMap<Integer, HashMap<String, Wing>> wingMap = new HashMap<>();
+	private static HashMap<Integer, HashMap<Integer, Wing>> wingMap = new HashMap<>();
 	
 	private static PreparedStatement readStatement, insertStatement, updateStatement, deleteStatement;
 
@@ -155,6 +155,22 @@ public class Wing {
 				updateStatement.setInt(3, wing.getSocietyId());
 				result = updateStatement.execute();
 			}
+			
+			//updating hashmap
+			if(result){
+				
+				if(wingMap == null){
+					wingMap = new HashMap<Integer, HashMap<Integer, Wing>>();
+				}
+				
+				HashMap<Integer, Wing> propertyGroupType = wingMap.get(wing.getSocietyId());
+				if(propertyGroupType == null){
+					propertyGroupType = new HashMap<>();
+					wingMap.put(wing.getSocietyId(), propertyGroupType);
+				}
+				propertyGroupType.put(wing.getWingId(), wing);
+				
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -164,7 +180,7 @@ public class Wing {
 	public static Wing read(int societyId, String wingId) {
 		Wing wing = null;
 
-		HashMap<String, Wing> societyWings = wingMap.get(societyId);
+		HashMap<Integer, Wing> societyWings = wingMap.get(societyId);
 
 		if (societyWings == null) {
 			societyWings = new HashMap<>();
@@ -189,6 +205,8 @@ public class Wing {
 						wing.setWingId(resultSet.getInt(Constants.Table.Wing.FieldName.WING_ID));
 
 						wing.setSocietyId(societyId);
+						
+						
 					}
 				} catch (SQLException e) {
 					e.printStackTrace();

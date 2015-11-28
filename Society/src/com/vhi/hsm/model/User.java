@@ -164,6 +164,17 @@ public class User {
 				updateStatement.setString(4, user.getUserName());
 				result = updateStatement.execute();
 			}
+			
+			if (result) {
+
+				if (userMap == null) {
+					userMap = new HashMap<>();
+				}
+
+				if (userMap.get(user.getUserName()) == null) {
+					userMap.put(user.getUserName(), user);
+				}
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

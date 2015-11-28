@@ -172,6 +172,22 @@ public class PropertyAsset {
 					}
 				}
 			}
+			
+			//updating hashmap
+			if(result){
+				
+				if(propertyAssetMap == null){
+					propertyAssetMap = new HashMap<Integer, HashMap<String, PropertyAsset>>();
+				}
+				
+				HashMap<String, PropertyAsset> assetMap = propertyAssetMap.get(propertyAsset.getSocietyId());
+				if(assetMap == null){
+					assetMap = new HashMap<>();
+					propertyAssetMap.put(propertyAsset.getSocietyId(), assetMap);
+				}
+				assetMap.put(propertyAsset.getAssetDetails(), propertyAsset);
+				
+			}
 		}
 		return result;
 	}
