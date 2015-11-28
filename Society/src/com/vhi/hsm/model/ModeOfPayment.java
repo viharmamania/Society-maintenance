@@ -3,7 +3,7 @@ package com.vhi.hsm.model;
 import java.util.Arrays;
 
 public enum ModeOfPayment {
-	SELECT("select"),CASH("cash"), CHEQUE("cheque");
+	SELECT("select"), CASH("cash"), CHEQUE("cheque"), NEFT("NEFT");
 
 	private final String mode;
 
@@ -14,7 +14,7 @@ public enum ModeOfPayment {
 	String getMode() {
 		return this.mode;
 	}
-	
+
 	public static String[] getNames() {
 		return Arrays.stream(ModeOfPayment.class.getEnumConstants()).map(Enum::name).toArray(String[]::new);
 	}

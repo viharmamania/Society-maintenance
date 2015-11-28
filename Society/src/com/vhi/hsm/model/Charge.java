@@ -38,6 +38,16 @@ public class Charge {
 		assignedPropertyGroup = new ArrayList<String>();
 		assignedPropertyType = new ArrayList<String>();
 	}
+	
+	
+
+	public int getChargeId() {
+		return chargeId;
+	}
+
+	public void setChargeId(int chargeId) {
+		this.chargeId = chargeId;
+	}
 
 	public String getDescription() {
 		return description;

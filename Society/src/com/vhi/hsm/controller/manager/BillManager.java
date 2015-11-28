@@ -14,6 +14,7 @@ import java.util.Set;
 import com.vhi.hsm.db.SQLiteManager;
 import com.vhi.hsm.model.Bill;
 import com.vhi.hsm.model.Charge;
+import com.vhi.hsm.model.Fine;
 import com.vhi.hsm.model.Property;
 import com.vhi.hsm.utils.Constants;
 
@@ -58,13 +59,11 @@ public class BillManager {
 				societyBills.add(generatePropertySpecificBill(property));
 			}
 
-			// updating properties net_payable amount
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
-		return null;
+		return societyBills;
 	}
 
 	/**
@@ -81,6 +80,19 @@ public class BillManager {
 
 		// get All charges for this particular property
 		chargeIds.addAll(getChargeIds(property));
+
+		// adding fine charge (if any)
+		double fineAmount = Fine.getFinePercentage(property.getSocietyId(), property.getNetPayable());
+		if (fineAmount > 0.0) {
+
+			Charge fineCharge = Charge.create(property.getSocietyId());
+			fineCharge.setAmount(fineAmount);
+			fineCharge.setTempCharges(true);
+			fineCharge.setDescription("Fine");
+			Charge.save(fineCharge, true);
+
+			chargeIds.add(fineCharge.getChargeId());
+		}
 
 		// calculate actual amount by adding charges for all chargeIds
 		for (Integer chargeId : chargeIds) {
