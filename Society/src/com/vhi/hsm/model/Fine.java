@@ -197,7 +197,7 @@ public class Fine {
 		
 	}
 	
-	public static double getFinePercentage(int societyId, double amount) {
+	public static double getFineAmount(int societyId, double amount) {
 		double percentage = 0;
 		getFineList(societyId, false);
 		for (Fine fine : fineList) {

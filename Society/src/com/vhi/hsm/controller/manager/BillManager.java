@@ -82,16 +82,22 @@ public class BillManager {
 		chargeIds.addAll(getChargeIds(property));
 
 		// adding fine charge (if any)
-		double fineAmount = Fine.getFinePercentage(property.getSocietyId(), property.getNetPayable());
-		if (fineAmount > 0.0) {
+		if (property.getNetPayable() > 0) {
+			
+			double fineAmount = Fine.getFineAmount(property.getSocietyId(), property.getNetPayable());
+			if (fineAmount > 0.0) {
 
-			Charge fineCharge = Charge.create(property.getSocietyId());
-			fineCharge.setAmount(fineAmount);
-			fineCharge.setTempCharges(true);
-			fineCharge.setDescription("Fine");
-			Charge.save(fineCharge, true);
+				/*Charge fineCharge = Charge.create(property.getSocietyId());
+				fineCharge.setAmount(fineAmount);
+				fineCharge.setTempCharges(true);
+				fineCharge.setDescription("Fine");
+				Charge.save(fineCharge, true);*/
+				Charge fineCharge = Charge.getFineCharge();
+				fineCharge.setAmount(fineAmount);
+//				fineCharge
 
-			chargeIds.add(fineCharge.getChargeId());
+				chargeIds.add(fineCharge.getChargeId());
+			} 
 		}
 
 		// calculate actual amount by adding charges for all chargeIds
@@ -138,6 +144,7 @@ public class BillManager {
 				+ Constants.Table.FloorPlanDesign.TABLE_NAME + " where " + Constants.Table.Society.FieldName.SOCIETY_ID
 				+ " =? " + " and " + Constants.Table.FloorPlanDesign.FieldName.PROPERTY_NUMBER + " =? )");
 
+		
 		query.append(" union ");
 
 		// fetching charges for this property type
@@ -164,8 +171,8 @@ public class BillManager {
 		PreparedStatement fetchChargesStmt = SQLiteManager.getPreparedStatement(query.toString());
 
 		try {
-			fetchChargesStmt.setInt(1, property.getPropertyNumber());
-			fetchChargesStmt.setInt(2, property.getPropertyNumber());
+			fetchChargesStmt.setString(1, property.getPropertyName());
+			fetchChargesStmt.setString(2, property.getPropertyName());
 			fetchChargesStmt.setInt(3, property.getPropertyId());
 			ResultSet result = fetchChargesStmt.executeQuery();
 			if (result != null) {
