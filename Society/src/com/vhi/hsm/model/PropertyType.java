@@ -87,10 +87,10 @@ public class PropertyType {
 		this.societyId = societyId;
 	}
 	
-	public static PropertyGroup create(int societyId) {
-		PropertyGroup propertyGroup = new PropertyGroup();
-		propertyGroup.setSocietyId(societyId);
-		return propertyGroup;
+	public static PropertyType create(int societyId) {
+		PropertyType propertyType = new PropertyType();
+		propertyType.setSocietyId(societyId);
+		return propertyType;
 	}
 
 	public static boolean delete(PropertyType propertyType) {
