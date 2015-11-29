@@ -22,7 +22,7 @@ public class Property {
 
 	private int floorPlanId;
 
-	private int propertyNumber;
+	private String propertyName;
 
 	private String ownerName;
 
@@ -92,12 +92,12 @@ public class Property {
 		this.floorPlanId = floorPlanId;
 	}
 
-	public int getPropertyNumber() {
-		return propertyNumber;
+	public String getPropertyName() {
+		return propertyName;
 	}
 
-	public void setPropertyNumber(int propertyNumber) {
-		this.propertyNumber = propertyNumber;
+	public void setPropertyName(String propertyNumber) {
+		this.propertyName = propertyNumber;
 	}
 
 	public String getOwnerName() {
@@ -145,13 +145,13 @@ public class Property {
 		return property;
 	}
 	
-	public static Property create(int societyId, int wingId, int floorNumber, int floorPlanId, int propertyNumber) {
+	public static Property create(int societyId, int wingId, int floorNumber, int floorPlanId, String propertyNumber) {
 		Property property = new Property();
 		property.societyId = societyId;
 		property.wingId = wingId;
 		property.floorNumber = floorNumber;
 		property.floorPlanId = floorPlanId;
-		property.propertyNumber = propertyNumber;
+		property.propertyName = propertyNumber;
 		return property;
 	}
 	
@@ -186,7 +186,7 @@ public class Property {
 						insertStatement.setInt(2, property.wingId);
 						insertStatement.setInt(3, property.floorNumber);
 						insertStatement.setInt(4, property.floorPlanId);
-						insertStatement.setInt(5, property.propertyNumber);
+						insertStatement.setString(5, property.propertyName);
 						insertStatement.setString(6, property.ownerName);
 						insertStatement.setString(7, property.ownerNumber);
 						insertStatement.setString(8, property.ownerEmail);
@@ -230,7 +230,7 @@ public class Property {
 						updateStatement.setInt(2, property.wingId);
 						updateStatement.setInt(3, property.floorNumber);
 						updateStatement.setInt(4, property.floorPlanId);
-						updateStatement.setInt(5, property.propertyNumber);
+						updateStatement.setString(5, property.propertyName);
 						updateStatement.setString(6, property.ownerName);
 						updateStatement.setString(7, property.ownerNumber);
 						updateStatement.setString(8, property.ownerEmail);
@@ -313,7 +313,7 @@ public class Property {
 						property.wingId = resultSet.getInt(Constants.Table.Wing.FieldName.WING_ID);
 						property.floorNumber = resultSet.getInt(Constants.Table.Floor.FieldName.FLOOR_NUMBER);
 						property.floorPlanId = resultSet.getInt(Constants.Table.FloorPlan.FieldName.FLOOR_PLAN_ID);
-						property.propertyNumber = resultSet.getInt(Constants.Table.FloorPlanDesign.FieldName.PROPERTY_NUMBER);
+						property.propertyName = resultSet.getString(Constants.Table.FloorPlanDesign.FieldName.PROPERTY_NUMBER);
 						property.ownerName = resultSet.getString(Constants.Table.Property.FieldName.OWNER_NAME);
 						property.ownerNumber = resultSet.getString(Constants.Table.Property.FieldName.OWNER_NUMBER);
 						property.ownerEmail = resultSet.getString(Constants.Table.Property.FieldName.OWNER_EMAIL);
@@ -340,7 +340,7 @@ public class Property {
 			property.wingId = resultSet.getInt(Constants.Table.Wing.FieldName.WING_ID);
 			property.floorNumber = resultSet.getInt(Constants.Table.Floor.FieldName.FLOOR_NUMBER);
 			property.floorPlanId = resultSet.getInt(Constants.Table.FloorPlan.FieldName.FLOOR_PLAN_ID);
-			property.propertyNumber = resultSet.getInt(Constants.Table.FloorPlanDesign.FieldName.PROPERTY_NUMBER);
+			property.propertyName = resultSet.getString(Constants.Table.FloorPlanDesign.FieldName.PROPERTY_NUMBER);
 			property.ownerName = resultSet.getString(Constants.Table.Property.FieldName.OWNER_NAME);
 			property.ownerNumber = resultSet.getString(Constants.Table.Property.FieldName.OWNER_NUMBER);
 			property.ownerEmail = resultSet.getString(Constants.Table.Property.FieldName.OWNER_EMAIL);
@@ -361,9 +361,12 @@ public class Property {
 		ResultSet result = SQLiteManager.executeQuery(searchQuery);
 		try {
 			if (result != null && result.next()) {
-				int propertyName = result.getInt(Constants.Table.Property.FieldName.PROPERTY_NAME);
-				int property_id = result.getInt(Constants.Table.Property.FieldName.PROPERTY_ID);
-				propertyNameToIdMap.put(propertyName, property_id);
+				do {
+					int propertyName = result.getInt(Constants.Table.Property.FieldName.PROPERTY_NAME);
+					int property_id = result.getInt(Constants.Table.Property.FieldName.PROPERTY_ID);
+					propertyNameToIdMap.put(propertyName, property_id);
+					result.next();
+				} while (!result.isAfterLast());
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

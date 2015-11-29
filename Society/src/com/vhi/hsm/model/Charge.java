@@ -332,4 +332,11 @@ public class Charge {
 		return charge;
 	}
 
+
+
+	public static Charge getFineCharge() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

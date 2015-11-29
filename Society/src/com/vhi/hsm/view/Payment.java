@@ -63,8 +63,8 @@ public class Payment extends JDialog implements WindowListener {
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		addWindowListener(this);
 		setVisible(true);
-		/*societyId = SystemManager.society.getSocietyId();
-		fetchPropertyNames();*/
+		societyId = SystemManager.society.getSocietyId();
+		fetchPropertyNames();
 		intializeLayout();
 	}
 	

@@ -13,6 +13,7 @@ import java.util.Set;
 
 import com.vhi.hsm.db.SQLiteManager;
 import com.vhi.hsm.model.Bill;
+import com.vhi.hsm.model.BillCharge;
 import com.vhi.hsm.model.Charge;
 import com.vhi.hsm.model.Fine;
 import com.vhi.hsm.model.Property;
@@ -82,16 +83,22 @@ public class BillManager {
 		chargeIds.addAll(getChargeIds(property));
 
 		// adding fine charge (if any)
-		double fineAmount = Fine.getFinePercentage(property.getSocietyId(), property.getNetPayable());
-		if (fineAmount > 0.0) {
+		if (property.getNetPayable() > 0) {
+			
+			double fineAmount = Fine.getFineAmount(property.getSocietyId(), property.getNetPayable());
+			if (fineAmount > 0.0) {
 
-			Charge fineCharge = Charge.create(property.getSocietyId());
-			fineCharge.setAmount(fineAmount);
-			fineCharge.setTempCharges(true);
-			fineCharge.setDescription("Fine");
-			Charge.save(fineCharge, true);
+				/*Charge fineCharge = Charge.create(property.getSocietyId());
+				fineCharge.setAmount(fineAmount);
+				fineCharge.setTempCharges(true);
+				fineCharge.setDescription("Fine");
+				Charge.save(fineCharge, true);*/
+				Charge fineCharge = Charge.getFineCharge();
+				fineCharge.setAmount(fineAmount);
+//				fineCharge
 
-			chargeIds.add(fineCharge.getChargeId());
+				chargeIds.add(fineCharge.getChargeId());
+			} 
 		}
 
 		// calculate actual amount by adding charges for all chargeIds
@@ -111,6 +118,14 @@ public class BillManager {
 
 		// saving bill in DB
 		Bill.save(bill, false);
+		
+		//saving individual bill charges in DB
+		for (int i = 0; i < chargeIds.size(); i++) {
+			BillCharge billCharge = BillCharge.create(bill.getBillId(), chargeIds.get(i));
+			Charge charge = Charge.read(property.getSocietyId(), chargeIds.get(i));
+			billCharge.setAmount(charge.getAmount());
+			BillCharge.save(billCharge, true);
+		}
 
 		// updating this properties net payable
 		property.setNetPayable(property.getNetPayable() + billAmount);
@@ -138,6 +153,7 @@ public class BillManager {
 				+ Constants.Table.FloorPlanDesign.TABLE_NAME + " where " + Constants.Table.Society.FieldName.SOCIETY_ID
 				+ " =? " + " and " + Constants.Table.FloorPlanDesign.FieldName.PROPERTY_NUMBER + " =? )");
 
+		
 		query.append(" union ");
 
 		// fetching charges for this property type
@@ -160,12 +176,21 @@ public class BillManager {
 		// fetching charges which are applicable by-default to every property
 		query.append("select " + Constants.Table.Charge.FieldName.CHARGE_ID + " from "
 				+ Constants.Table.Charge.TABLE_NAME + " where " + Constants.Table.Charge.FieldName.IS_DEFAULT + "=1");
+		
+		query.append(" union ");
 
+		// fetching property asset charges
+		query.append("select " + Constants.Table.Charge.FieldName.CHARGE_ID + " from "
+				+ Constants.Table.AssetType.TABLE_NAME + " where "
+				+ Constants.Table.AssetType.FieldName.ASSET_TYPE + " = ( select "
+				+ Constants.Table.PropertyAsset.FieldName.ASSET_TYPE + " from "
+				+ Constants.Table.PropertyAsset.TABLE_NAME + " where " + Constants.Table.Property.FieldName.PROPERTY_ID + " =?)");
+		
 		PreparedStatement fetchChargesStmt = SQLiteManager.getPreparedStatement(query.toString());
 
 		try {
-			fetchChargesStmt.setInt(1, property.getPropertyNumber());
-			fetchChargesStmt.setInt(2, property.getPropertyNumber());
+			fetchChargesStmt.setString(1, property.getPropertyName());
+			fetchChargesStmt.setString(2, property.getPropertyName());
 			fetchChargesStmt.setInt(3, property.getPropertyId());
 			ResultSet result = fetchChargesStmt.executeQuery();
 			if (result != null) {
