@@ -134,6 +134,7 @@ create table if not exists property
 	owner_name		varchar2(100),
 	owner_number	varchar2(20),
 	owner_email		varchar2(50),
+	property_name	varchar2(50),
 	net_payable		double,
 	not_used		boolean,
 	primary key		(property_id),
