@@ -85,6 +85,7 @@ create table if not exists asset_type
 	society_id		integer,
 	asset_type		varchar2(10),
 	description		varchar2(20),
+	charge			double,
 	primary key		(society_id, asset_type),
 	foreign key		(society_id) 		references society(society_id)
 );
