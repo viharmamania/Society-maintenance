@@ -13,6 +13,7 @@ import java.util.Set;
 
 import com.vhi.hsm.db.SQLiteManager;
 import com.vhi.hsm.model.Bill;
+import com.vhi.hsm.model.BillCharge;
 import com.vhi.hsm.model.Charge;
 import com.vhi.hsm.model.Fine;
 import com.vhi.hsm.model.Property;
@@ -117,6 +118,14 @@ public class BillManager {
 
 		// saving bill in DB
 		Bill.save(bill, false);
+		
+		//saving individual bill charges in DB
+		for (int i = 0; i < chargeIds.size(); i++) {
+			BillCharge billCharge = BillCharge.create(bill.getBillId(), chargeIds.get(i));
+			Charge charge = Charge.read(property.getSocietyId(), chargeIds.get(i));
+			billCharge.setAmount(charge.getAmount());
+			BillCharge.save(billCharge, true);
+		}
 
 		// updating this properties net payable
 		property.setNetPayable(property.getNetPayable() + billAmount);
@@ -167,7 +176,16 @@ public class BillManager {
 		// fetching charges which are applicable by-default to every property
 		query.append("select " + Constants.Table.Charge.FieldName.CHARGE_ID + " from "
 				+ Constants.Table.Charge.TABLE_NAME + " where " + Constants.Table.Charge.FieldName.IS_DEFAULT + "=1");
+		
+		query.append(" union ");
 
+		// fetching property asset charges
+		query.append("select " + Constants.Table.Charge.FieldName.CHARGE_ID + " from "
+				+ Constants.Table.AssetType.TABLE_NAME + " where "
+				+ Constants.Table.AssetType.FieldName.ASSET_TYPE + " = ( select "
+				+ Constants.Table.PropertyAsset.FieldName.ASSET_TYPE + " from "
+				+ Constants.Table.PropertyAsset.TABLE_NAME + " where " + Constants.Table.Property.FieldName.PROPERTY_ID + " =?)");
+		
 		PreparedStatement fetchChargesStmt = SQLiteManager.getPreparedStatement(query.toString());
 
 		try {
