@@ -125,15 +125,17 @@ public class Payment extends JDialog implements WindowListener {
 				.addGroup(groupLayout.createParallelGroup().addComponent(confirmButton).addComponent(backButton)
 						.addComponent(uploadButton)));
 		pack();
+		
+		selectionListener();
 	}
 
 	private void selectionListener() {
 		
 		String selection = (String) modeOfPaymentComboBox.getSelectedItem();
-		if(selection.equals(ModeOfPayment.CASH.name())){
-			chequeNoTextField.setEditable(false);
-		}else{
+		if(selection.equals(ModeOfPayment.CHEQUE.name())){
 			chequeNoTextField.setEditable(true);
+		}else{
+			chequeNoTextField.setEditable(false);
 		}
 		
 	}
