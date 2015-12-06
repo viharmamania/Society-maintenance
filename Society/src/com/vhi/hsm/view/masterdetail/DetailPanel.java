@@ -1,5 +1,6 @@
 package com.vhi.hsm.view.masterdetail;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
@@ -10,33 +11,42 @@ import com.vhi.hsm.view.masterdetail.MasterDetailPanel.MasterDetailCallback;
  *
  */
 public class DetailPanel extends JPanel {
-	
+
+	private static final long serialVersionUID = 2463570292668528713L;
+
 	private MasterDetailPanel parentPanel;
-	
+
 	private JPanel contentPanel;
-	private JButton deleteButton;
-	
+	private JButton saveButton;
+
 	public DetailPanel(MasterDetailPanel parentPanel) {
 		this.parentPanel = parentPanel;
-		
-		deleteButton = new JButton("Delete");
-		deleteButton.addActionListener(e -> {
+		setSize(1800, 600);
+
+		saveButton = new JButton("Save");
+		saveButton.addActionListener(e -> {
 			MasterDetailCallback callback = this.parentPanel.getCallback();
 			if (callback != null) {
-				callback.deleteItem(this.parentPanel.getMasterListPanel().getSelectedItemId());
+				callback.saveItem(this.parentPanel.getMasterListPanel().getSelectedItemId());
 			}
 		});
-		
+
+		contentPanel = new JPanel();
 		intializeLayout();
 	}
-	
+
 	private void intializeLayout() {
-		
+		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		add(contentPanel);
+		add(saveButton);
+
+		contentPanel.setSize(1800, 600);
+		contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
 	}
 
 	public void setDetailPanel(JPanel panel) {
 		contentPanel.removeAll();
 		contentPanel.add(panel);
 	}
-	
+
 }

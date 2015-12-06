@@ -3,6 +3,7 @@ package com.vhi.hsm.model;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.vhi.hsm.db.SQLiteManager;
@@ -55,6 +56,27 @@ public class AssetType {
 
 	public void setCharges(double charges) {
 		this.charges = charges;
+	}
+	
+	public static ArrayList<AssetType> getAllAssetType(int societyId) {
+		ArrayList<AssetType> list = new ArrayList<AssetType>();
+		ResultSet resultSet = SQLiteManager.executeQuery("SELECT * FROM " + Constants.Table.AssetType.TABLE_NAME
+				+ " WHERE " + Constants.Table.Society.FieldName.SOCIETY_ID + " = " + societyId);
+		if (resultSet != null) {
+			AssetType assetType;
+			try {
+				while(resultSet.next()) {
+					assetType = null;
+					assetType = read(societyId, resultSet.getString(Constants.Table.AssetType.FieldName.ASSET_TYPE));
+					if (assetType != null) {
+						list.add(assetType);
+					}
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return list;
 	}
 
 	public static AssetType read(int societyId, String assetType) {

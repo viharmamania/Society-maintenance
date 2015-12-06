@@ -26,7 +26,7 @@ public interface Constants {
 			String TABLE_NAME = "society";
 
 			public interface FieldName {
-				String SOCIETY_ID = "soceity_id";
+				String SOCIETY_ID = "society_id";
 				String SOCIETY_NAME = "name";
 				String ADDRESS = "address";
 				String REG_NUMBER = "reg_number";

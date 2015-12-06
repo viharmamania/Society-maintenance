@@ -242,14 +242,14 @@ public class Society {
 				if (readStatement == null) {
 					readStatement = SQLiteManager.getPreparedStatement(readString);
 				}
-				readStatement.setInt(0, societyId);
+				readStatement.setInt(1, societyId);
 				ResultSet resultset = readStatement.executeQuery();
 				if (resultset != null && resultset.next()) {
 					society.setName(resultset.getString(Constants.Table.Society.FieldName.SOCIETY_NAME));
 					society.setRegistrationNumber(resultset.getString(Constants.Table.Society.FieldName.REG_NUMBER));
 					society.setAddress(resultset.getString(Constants.Table.Society.FieldName.ADDRESS));
 					society.setSocietyId(resultset.getInt(Constants.Table.Society.FieldName.SOCIETY_ID));
-					society.setRegistrationDate(resultset.getString(Constants.Table.Society.FieldName.REG_DATE));
+//					society.setRegistrationDate(resultset.getString(Constants.Table.Society.FieldName.REG_DATE));
 					society.setSocietyCode(resultset.getString(Constants.Table.Society.FieldName.SOCIETY_CODE));
 				}
 				societyMap.put(societyId, society);
