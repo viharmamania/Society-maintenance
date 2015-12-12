@@ -3,8 +3,6 @@
  */
 package com.vhi.hsm.view;
 
-import java.awt.Font;
-import java.awt.FontFormatException;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.ArrayList;
