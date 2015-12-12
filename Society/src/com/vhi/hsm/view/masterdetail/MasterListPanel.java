@@ -200,7 +200,7 @@ public class MasterListPanel extends JPanel {
 		
 		@Override
 		public void mouseEntered(MouseEvent e) {
-			setBackground(Color.GRAY);
+			setBackground(Color.LIGHT_GRAY);
 		}
 		
 		@Override

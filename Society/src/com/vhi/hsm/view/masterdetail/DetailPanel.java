@@ -45,8 +45,12 @@ public class DetailPanel extends JPanel {
 	}
 
 	public void setDetailPanel(JPanel panel) {
-		contentPanel.removeAll();
+		removePanel();
 		contentPanel.add(panel);
+	}
+	
+	public void removePanel() {
+		contentPanel.removeAll();
 	}
 
 }

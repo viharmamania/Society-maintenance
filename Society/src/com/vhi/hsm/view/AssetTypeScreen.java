@@ -55,7 +55,7 @@ public class AssetTypeScreen extends JDialog implements WindowListener {
 		public void itemSelected(int id) {
 			AssetTypeMasterListItem item = listItems.get(id);
 			if (item != null) {
-				detailsPanel.setAssetType(item.assetType);
+				detailsPanel.setAssetType(item.assetType, !item.isNewAssetType);
 			}
 		}
 
@@ -65,6 +65,7 @@ public class AssetTypeScreen extends JDialog implements WindowListener {
 			if (item != null) {
 				item.delete();
 				prepareList();
+				assetTypeMasterDetailPanel.getMasterDetailPanel().removePanel();
 			}
 		}
 
@@ -86,6 +87,7 @@ public class AssetTypeScreen extends JDialog implements WindowListener {
 			if (item != null) {
 				detailsPanel.getFieldValues(item.assetType);
 				item.save();
+				detailsPanel.setAssetType(item.assetType, !item.isNewAssetType);
 			}
 		}
 
@@ -106,7 +108,7 @@ public class AssetTypeScreen extends JDialog implements WindowListener {
 		prepareList();
 		initializeLayout();
 	}
-	
+
 	private void initializeLayout() {
 		GroupLayout layout = new GroupLayout(getContentPane());
 		layout.setHorizontalGroup(layout.createSequentialGroup().addComponent(assetTypeMasterDetailPanel));
@@ -160,11 +162,11 @@ public class AssetTypeScreen extends JDialog implements WindowListener {
 
 			assetTypeLable = new JLabel(this.assetType.getAssetType());
 			descriptionLable = new JLabel(this.assetType.getDescription());
-			
+
 			GroupLayout layout = new GroupLayout(this);
 			setLayout(layout);
-			layout.setHorizontalGroup(
-					layout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(assetTypeLable).addComponent(descriptionLable));
+			layout.setHorizontalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+					.addComponent(assetTypeLable).addComponent(descriptionLable));
 			layout.setVerticalGroup(
 					layout.createSequentialGroup().addComponent(assetTypeLable).addComponent(descriptionLable));
 			layout.setAutoCreateGaps(true);
@@ -172,9 +174,12 @@ public class AssetTypeScreen extends JDialog implements WindowListener {
 		}
 
 		public void save() {
-			AssetType.save(assetType, isNewAssetType);
-			assetTypeLable.setText(this.assetType.getAssetType());
-			descriptionLable.setText(this.assetType.getDescription());
+			if (validateInput()) {
+				AssetType.save(assetType, isNewAssetType);
+				isNewAssetType = false;
+				assetTypeLable.setText(this.assetType.getAssetType());
+				descriptionLable.setText(this.assetType.getDescription());
+			}
 		}
 
 		public void delete() {
@@ -186,77 +191,93 @@ public class AssetTypeScreen extends JDialog implements WindowListener {
 			return itemId;
 		}
 
+		private boolean validateInput() {
+
+			if (assetType.getAssetType().trim().length() == 0) {
+				
+				JOptionPane.showMessageDialog(this,
+						"Enter asset type", "Error",
+						JOptionPane.ERROR_MESSAGE);
+				return false;
+				
+			} else {
+
+				if (isNewAssetType) {
+					AssetType type = AssetType.read(assetType.getSocietyId(), assetType.getAssetType());
+					if (type != null) {
+						// duplicate entry
+						JOptionPane.showMessageDialog(this,
+								"Asset Type " + assetType.getAssetType() + " is already exist", "Error",
+								JOptionPane.ERROR_MESSAGE);
+						return false;
+					} else {
+						if (assetType.getAssetType().contains(" ")) {
+							JOptionPane.showMessageDialog(this,
+									"Space is not allowed in asset type", "Error",
+									JOptionPane.ERROR_MESSAGE);
+							return false;
+						}
+					}
+				}
+
+			}
+			
+			
+
+			return true;
+		}
+
 	}
-	
+
 	private static class AssetTypeDetails extends JPanel {
 
 		private static final long serialVersionUID = 6035574266262639889L;
-		
+
 		JLabel assetTypeLable, descriptionLabel, chargeLabel;
 		JTextField assetTypeField, descriptionField, chargeField;
-		
+
 		public AssetTypeDetails() {
 			assetTypeLable = new JLabel("Asset Type");
 			descriptionLabel = new JLabel("Description");
 			chargeLabel = new JLabel("Charge");
-			
+
 			assetTypeField = new JTextField(30);
 			descriptionField = new JTextField();
 			chargeField = new JTextField();
-			
+
 			GroupLayout layout = new GroupLayout(this);
 			setLayout(layout);
 			layout.setAutoCreateContainerGaps(true);
 			layout.setAutoCreateGaps(true);
-			
-			layout.setHorizontalGroup(
-					layout.createSequentialGroup()
-						.addGroup(
-								layout.createParallelGroup(Alignment.LEADING)
-									.addComponent(assetTypeLable)
-									.addComponent(descriptionLabel)
-									.addComponent(chargeLabel)
-						)
-						.addGroup(
-								layout.createParallelGroup(Alignment.LEADING)
-								.addComponent(assetTypeField)
-								.addComponent(descriptionField)
-								.addComponent(chargeField)
-						)
-			);
-			
-			layout.setVerticalGroup(
-					layout.createSequentialGroup()
-						.addGroup(
-								layout.createParallelGroup(Alignment.BASELINE)
-									.addComponent(assetTypeLable)
-									.addComponent(assetTypeField)
-						)
-						.addGroup(
-								layout.createParallelGroup(Alignment.BASELINE)
-									.addComponent(descriptionLabel)
-									.addComponent(descriptionField)
-						)
-						.addGroup(
-								layout.createParallelGroup(Alignment.BASELINE)
-									.addComponent(chargeLabel)
-									.addComponent(chargeField)
-						)
-			);
+
+			layout.setHorizontalGroup(layout.createSequentialGroup()
+					.addGroup(layout.createParallelGroup(Alignment.LEADING).addComponent(assetTypeLable)
+							.addComponent(descriptionLabel).addComponent(chargeLabel))
+					.addGroup(layout.createParallelGroup(Alignment.LEADING).addComponent(assetTypeField)
+							.addComponent(descriptionField).addComponent(chargeField)));
+
+			layout.setVerticalGroup(layout.createSequentialGroup()
+					.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(assetTypeLable)
+							.addComponent(assetTypeField))
+					.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(descriptionLabel)
+							.addComponent(descriptionField))
+					.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(chargeLabel)
+							.addComponent(chargeField)));
 		}
-		
-		public void setAssetType(AssetType assetType) {
+
+		public void setAssetType(AssetType assetType, boolean disableAssetType) {
 			assetTypeField.setText(assetType.getAssetType());
+			assetTypeField.setEditable(!disableAssetType);
 			descriptionField.setText(assetType.getDescription());
 			chargeField.setText(Double.toString(assetType.getCharges()));
 		}
-		
+
 		public void getFieldValues(AssetType assetType) {
 			assetType.setAssetType(assetTypeField.getText());
 			assetType.setDescription(descriptionField.getText());
 			assetType.setCharges(Double.parseDouble(chargeField.getText()));
 		}
-		
+
 	}
 
 	public static void main(String[] args) {
@@ -310,7 +331,7 @@ public class AssetTypeScreen extends JDialog implements WindowListener {
 	@Override
 	public void windowOpened(WindowEvent arg0) {
 	}
-	
+
 	public void cancel() {
 		dispose();
 	}
