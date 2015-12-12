@@ -3,6 +3,8 @@
  */
 package com.vhi.hsm.view;
 
+import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.ArrayList;
@@ -10,6 +12,7 @@ import java.util.HashMap;
 import java.util.Set;
 
 import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -163,7 +166,7 @@ public class AssetTypeScreen extends JDialog implements WindowListener {
 			GroupLayout layout = new GroupLayout(this);
 			setLayout(layout);
 			layout.setHorizontalGroup(
-					layout.createParallelGroup().addComponent(assetTypeLable).addComponent(descriptionLable));
+					layout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(assetTypeLable).addComponent(descriptionLable));
 			layout.setVerticalGroup(
 					layout.createSequentialGroup().addComponent(assetTypeLable).addComponent(descriptionLable));
 			layout.setAutoCreateGaps(true);
@@ -211,13 +214,13 @@ public class AssetTypeScreen extends JDialog implements WindowListener {
 			layout.setHorizontalGroup(
 					layout.createSequentialGroup()
 						.addGroup(
-								layout.createParallelGroup()
+								layout.createParallelGroup(Alignment.LEADING)
 									.addComponent(assetTypeLable)
 									.addComponent(descriptionLabel)
 									.addComponent(chargeLabel)
 						)
 						.addGroup(
-								layout.createParallelGroup()
+								layout.createParallelGroup(Alignment.LEADING)
 								.addComponent(assetTypeField)
 								.addComponent(descriptionField)
 								.addComponent(chargeField)
@@ -225,18 +228,21 @@ public class AssetTypeScreen extends JDialog implements WindowListener {
 			);
 			
 			layout.setVerticalGroup(
-					layout.createParallelGroup()
+					layout.createSequentialGroup()
 						.addGroup(
-								layout.createSequentialGroup()
+								layout.createParallelGroup(Alignment.BASELINE)
 									.addComponent(assetTypeLable)
-									.addComponent(descriptionLabel)
-									.addComponent(chargeLabel)
+									.addComponent(assetTypeField)
 						)
 						.addGroup(
-								layout.createSequentialGroup()
-								.addComponent(assetTypeField)
-								.addComponent(descriptionField)
-								.addComponent(chargeField)
+								layout.createParallelGroup(Alignment.BASELINE)
+									.addComponent(descriptionLabel)
+									.addComponent(descriptionField)
+						)
+						.addGroup(
+								layout.createParallelGroup(Alignment.BASELINE)
+									.addComponent(chargeLabel)
+									.addComponent(chargeField)
 						)
 			);
 		}
