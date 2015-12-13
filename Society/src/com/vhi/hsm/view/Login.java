@@ -16,6 +16,7 @@ import javax.swing.JTextField;
 import com.vhi.hsm.controller.manager.SystemManager;
 import com.vhi.hsm.controller.manager.UserManager;
 import com.vhi.hsm.db.SQLiteManager;
+import com.vhi.hsm.utils.Constants;
 
 /**
  * First Frame that user will see in HMS system
@@ -140,14 +141,13 @@ public class Login extends JFrame implements WindowListener {
 
 		try {
 
-			String query = "SELECT COUNT(*) FROM society";
+			String query = "SELECT " + Constants.Table.Society.FieldName.SOCIETY_ID + " FROM " + Constants.Table.Society.TABLE_NAME;
 			ResultSet result = SQLiteManager.executeQuery(query);
-			result.next();
-			if (result.getInt(1) != 0) {
+			if (result.next()) {
+				SystemManager.society = com.vhi.hsm.model.Society.read(result.getInt(Constants.Table.Society.FieldName.SOCIETY_ID));
 				// register user page
 				new RegisterUser(this);
 				System.out.println("registering user");
-
 			} else {
 				// register society page
 				new Society(this);

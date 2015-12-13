@@ -13,6 +13,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import com.vhi.hsm.controller.manager.SystemManager;
+import com.vhi.hsm.model.User;
+
 /**
  * Swing Dialogue to Register a new User in HMS system
  * 
@@ -130,9 +133,16 @@ public class RegisterUser extends JDialog implements WindowListener {
 	}
 
 	private Object register() {
-		// TODO Auto-generated method stub
 		if(inputValidated(true)){
-			
+			if (SystemManager.society != null) {
+				User user = User.create(SystemManager.society.getSocietyId());
+				user.setName(textFullName.getText());
+				user.setEmail(textEmail.getText());
+				user.setUserName(textUserName.getText());
+				if (!User.save(user, textPassword.getText(), true)) {
+					JOptionPane.showMessageDialog(this, "Error while creating user", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+			}
 		}
 		return null;
 	}

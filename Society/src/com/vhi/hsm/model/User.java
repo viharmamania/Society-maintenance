@@ -51,7 +51,7 @@ public class User {
 			+ Constants.Table.Society.FieldName.SOCIETY_ID + " , "
 			+ Constants.Table.User.FieldName.PASSWORD + " , " 
 			+ Constants.Table.User.FieldName.EMAIL + " , "
-			+ Constants.Table.User.FieldName.FULL_NAME + " , )" 
+			+ Constants.Table.User.FieldName.FULL_NAME + " )" 
 			+ " VALUES (?, ?, ?, ?, ?)";
 	
 	
@@ -130,8 +130,8 @@ public class User {
 			if(deleteStatement == null){
 				deleteStatement = SQLiteManager.getPreparedStatement(deleteString);
 			}
-			deleteStatement.setInt(0, 1);
-			deleteStatement.setString(1, user.getUserName());
+			deleteStatement.setInt(1, user.getSocietyId());
+			deleteStatement.setString(2, user.getUserName());
 			result = deleteStatement.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -147,21 +147,22 @@ public class User {
 				if (insertStatement == null) {
 					insertStatement = SQLiteManager.getPreparedStatement(insertString);
 				}
-				insertStatement.setString(0, user.getUserName());
-				insertStatement.setInt(1, user.getSocietyId());
-				insertStatement.setString(2, password);
-				insertStatement.setString(3, user.getEmail());
-				insertStatement.setString(4, user.getName());
+				insertStatement.setString(1, user.getUserName());
+				insertStatement.setInt(2, user.getSocietyId());
+				insertStatement.setString(3, password);
+				insertStatement.setString(4, user.getEmail());
+				insertStatement.setString(5, user.getName());
 				result = insertStatement.execute();
+				
 			} else {
 				if (updateStatement == null) {
 					updateStatement = SQLiteManager.getPreparedStatement(updateString);
 				}
-				updateStatement.setString(0, user.getName());
-				updateStatement.setString(1, user.getEmail());
-				updateStatement.setString(2, password);
-				updateStatement.setInt(3, user.getSocietyId());
-				updateStatement.setString(4, user.getUserName());
+				updateStatement.setString(1, user.getName());
+				updateStatement.setString(2, user.getEmail());
+				updateStatement.setString(3, password);
+				updateStatement.setInt(4, user.getSocietyId());
+				updateStatement.setString(5, user.getUserName());
 				result = updateStatement.execute();
 			}
 			
@@ -178,7 +179,7 @@ public class User {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return result;
+		return !result;
 	}
 
 	public static User read(String userName){
@@ -192,7 +193,7 @@ public class User {
 				if (readStatement == null) {
 					readStatement = SQLiteManager.getPreparedStatement(readString);
 				}
-				readStatement.setString(0, userName);
+				readStatement.setString(1, userName);
 				ResultSet resultset = readStatement.executeQuery();
 				if (resultset != null && resultset.next()) {
 					user.setUserName(resultset.getString(Constants.Table.User.FieldName.USER_NAME));
