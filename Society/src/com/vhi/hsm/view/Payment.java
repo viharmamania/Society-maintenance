@@ -126,7 +126,7 @@ public class Payment extends JDialog implements WindowListener {
 						.addComponent(uploadButton)));
 		pack();
 		
-		selectionListener();
+//		selectionListener();
 	}
 
 	private void selectionListener() {

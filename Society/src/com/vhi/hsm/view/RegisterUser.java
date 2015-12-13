@@ -30,6 +30,8 @@ public class RegisterUser extends JDialog implements WindowListener {
 	private JTextField textUserName, textEmail, textPassword, textFullName;
 	private JLabel username, email, password, fullName;
 	private JButton register, cancel;
+	private JLabel societyCodeLabel;
+	private JTextField societyCodeTextField;
 
 	public RegisterUser(JFrame owner) {
 		super(owner, "Register User", true);
@@ -53,6 +55,9 @@ public class RegisterUser extends JDialog implements WindowListener {
 
 		password = new JLabel("Password");
 		textPassword = new JPasswordField();
+		
+		societyCodeLabel = new JLabel("Society Code");
+		societyCodeTextField = new JTextField();
 
 		register = new JButton("Submit");
 		register.addActionListener(e -> register());
@@ -73,6 +78,7 @@ public class RegisterUser extends JDialog implements WindowListener {
 						.addComponent(email)
 						.addComponent(username)
 						.addComponent(password)
+						.addComponent(societyCodeLabel)
 						)
 				
 				.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
@@ -80,6 +86,7 @@ public class RegisterUser extends JDialog implements WindowListener {
 						.addComponent(textEmail)
 						.addComponent(textUserName)
 						.addComponent(textPassword)
+						.addComponent(societyCodeTextField)
 						.addGroup(
 								groupLayout.createSequentialGroup()
 									.addComponent(register)
@@ -106,6 +113,9 @@ public class RegisterUser extends JDialog implements WindowListener {
 								groupLayout.createParallelGroup(Alignment.BASELINE)
 									.addComponent(password)
 									.addComponent(textPassword))
+						.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+								.addComponent(societyCodeLabel)
+								.addComponent(societyCodeTextField))
 						.addGroup(
 								groupLayout.createParallelGroup()
 									.addComponent(register)

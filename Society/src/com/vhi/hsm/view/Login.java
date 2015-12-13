@@ -31,7 +31,8 @@ public class Login extends JFrame implements WindowListener {
 	private static final long serialVersionUID = 7776929895937333850L;
 	private JTextField txtUserName, txtPassword;
 	private JButton btnLogin, btnCancel, btnRegister;
-
+	private JLabel societyCodeLabel;
+	private JTextField societyCodeTextField;
 	/**
 	 * Create the frame.
 	 */
@@ -50,6 +51,10 @@ public class Login extends JFrame implements WindowListener {
 		txtUserName = new JTextField(30);
 		txtUserName.setColumns(10);
 		txtPassword = new JPasswordField(30);
+		
+		societyCodeLabel = new JLabel("Society Code");
+		societyCodeTextField = new JTextField();
+		
 
 		btnLogin = new JButton("Log in");
 		btnLogin.addActionListener(e -> {
@@ -78,9 +83,9 @@ public class Login extends JFrame implements WindowListener {
 
 		groupLayout.setHorizontalGroup(groupLayout.createSequentialGroup()
 				.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING).addComponent(labUsername)
-						.addComponent(labPassword).addComponent(btnRegister))
+						.addComponent(labPassword).addComponent(societyCodeLabel).addComponent(btnRegister))
 				.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING).addComponent(txtUserName)
-						.addComponent(txtPassword)
+						.addComponent(txtPassword).addComponent(societyCodeTextField)
 						.addGroup(groupLayout.createSequentialGroup().addComponent(btnLogin).addComponent(btnCancel))));
 
 		groupLayout.setVerticalGroup(groupLayout.createSequentialGroup()
@@ -88,6 +93,8 @@ public class Login extends JFrame implements WindowListener {
 						.addComponent(txtUserName))
 				.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(labPassword)
 						.addComponent(txtPassword))
+				.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(societyCodeLabel)
+						.addComponent(societyCodeTextField))
 				.addGroup(groupLayout.createParallelGroup().addComponent(btnRegister).addComponent(btnLogin)
 						.addComponent(btnCancel)));
 
