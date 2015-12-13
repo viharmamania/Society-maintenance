@@ -86,7 +86,7 @@ public class Fine {
 						insertStatement.setDouble(2, fine.fineLow);
 						insertStatement.setDouble(3, fine.fineHigh);
 						insertStatement.setDouble(4, fine.percentageCharge);
-						result = insertStatement.executeUpdate() > 0;
+						result = SQLiteManager.executePrepStatementAndGetResult(insertStatement);
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -110,7 +110,7 @@ public class Fine {
 						updateStatement.setInt(2, fine.societyId);
 						updateStatement.setDouble(3, fine.fineLow);
 						updateStatement.setDouble(4, fine.fineHigh);
-						result = updateStatement.executeUpdate() > 0;
+						result = SQLiteManager.executePrepStatementAndGetResult(updateStatement);
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -144,7 +144,7 @@ public class Fine {
 					deleteStatement.setInt(1, fine.societyId);
 					deleteStatement.setDouble(2, fine.fineLow);
 					deleteStatement.setDouble(3, fine.fineHigh);
-					result = deleteStatement.executeUpdate() > 0;
+					result = SQLiteManager.executePrepStatementAndGetResult(deleteStatement);
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}

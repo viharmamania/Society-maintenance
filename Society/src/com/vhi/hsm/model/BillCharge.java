@@ -92,7 +92,7 @@ public class BillCharge {
 						insertStatement.setInt(1, billCharge.billId);
 						insertStatement.setInt(2, billCharge.chargeId);
 						insertStatement.setDouble(3, billCharge.amount);
-						result = insertStatement.execute();
+						result = SQLiteManager.executePrepStatementAndGetResult(insertStatement);
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -113,7 +113,7 @@ public class BillCharge {
 						updateStatement.setInt(2, billCharge.billId);
 						updateStatement.setInt(3, billCharge.chargeId);
 						updateStatement.setDouble(1, billCharge.amount);
-						result = updateStatement.execute();
+						result = SQLiteManager.executePrepStatementAndGetResult(updateStatement);
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -140,7 +140,7 @@ public class BillCharge {
 				deleteStatement.clearParameters();
 				deleteStatement.setInt(1, billCharge.billId);
 				deleteStatement.setInt(2, billCharge.chargeId);
-				result = deleteStatement.execute();
+				result = SQLiteManager.executePrepStatementAndGetResult(deleteStatement);
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}

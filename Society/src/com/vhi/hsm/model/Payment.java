@@ -159,7 +159,7 @@ public class Payment {
 					insertStatement.setString(7, payment.modifiedBy);
 					insertStatement.setTimestamp(8, Timestamp.valueOf(LocalDateTime.now()));
 					insertStatement.setDouble(9, payment.amount);
-					result = insertStatement.execute();
+					result = SQLiteManager.executePrepStatementAndGetResult(insertStatement);
 					if (result) {
 						ResultSet generatedKeys = insertStatement.getGeneratedKeys();
 						if (generatedKeys != null && generatedKeys.first()) {
@@ -201,7 +201,7 @@ public class Payment {
 					updateStatement.setTimestamp(8, Timestamp.valueOf(LocalDateTime.now()));
 					updateStatement.setDouble(9, payment.amount);
 					updateStatement.setInt(10, payment.paymentId);
-					result = updateStatement.execute();
+					result = SQLiteManager.executePrepStatementAndGetResult(updateStatement);
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
@@ -224,7 +224,7 @@ public class Payment {
 			try {
 				deleteStatement.clearParameters();
 				deleteStatement.setInt(1, payment.paymentId);
-				result = deleteStatement.execute();
+				result = SQLiteManager.executePrepStatementAndGetResult(deleteStatement);
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}

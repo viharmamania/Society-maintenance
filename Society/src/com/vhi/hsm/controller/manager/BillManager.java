@@ -39,32 +39,45 @@ public class BillManager {
 	public static synchronized List<Bill> generateBill(int societyId) {
 		List<Bill> societyBills = new ArrayList<>();
 		Set<Property> properties = new HashSet<>();
+		boolean commit = true;
 
-		try {
-			PreparedStatement readStatement = SQLiteManager.getPreparedStatement(readProperties);
-			readStatement.setInt(1, societyId);
+		if (SQLiteManager.startTransaction()) {
+			try {
 
-			ResultSet result = readStatement.getResultSet();
+				PreparedStatement readStatement = SQLiteManager.getPreparedStatement(readProperties);
+				readStatement.setInt(1, societyId);
 
-			// adding the properties result in Property Hashmap
-			Property.addProperties(result);
+				ResultSet result = readStatement.getResultSet();
 
-			// fetching the List of properties for this societyId
-			do {
-				result.next();
-				properties.add(Property.read(result.getInt(Constants.Table.Property.FieldName.PROPERTY_ID)));
-			} while (!result.isAfterLast());
+				// adding the properties result in Property Hashmap
+				Property.addProperties(result);
 
-			// generating individual bills and adding to list of bills
-			for (Property property : properties) {
-				societyBills.add(generatePropertySpecificBill(property));
+				// fetching the List of properties for this societyId
+				do {
+					result.next();
+					properties.add(Property.read(result.getInt(Constants.Table.Property.FieldName.PROPERTY_ID)));
+				} while (!result.isAfterLast());
+
+				// generating individual bills and adding to list of bills
+				for (Property property : properties) {
+					societyBills.add(generatePropertySpecificBill(property));
+				}
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+				commit = false;
 			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
+			
+			if (!commit) {
+				societyBills.clear();
+			}
+			
+			SQLiteManager.endTransaction(commit, !commit);
+			
 		}
 
 		return societyBills;
+
 	}
 
 	/**
@@ -84,21 +97,23 @@ public class BillManager {
 
 		// adding fine charge (if any)
 		if (property.getNetPayable() > 0) {
-			
+
 			double fineAmount = Fine.getFineAmount(property.getSocietyId(), property.getNetPayable());
 			if (fineAmount > 0.0) {
 
-				/*Charge fineCharge = Charge.create(property.getSocietyId());
-				fineCharge.setAmount(fineAmount);
-				fineCharge.setTempCharges(true);
-				fineCharge.setDescription("Fine");
-				Charge.save(fineCharge, true);*/
+				/*
+				 * Charge fineCharge = Charge.create(property.getSocietyId());
+				 * fineCharge.setAmount(fineAmount);
+				 * fineCharge.setTempCharges(true);
+				 * fineCharge.setDescription("Fine"); Charge.save(fineCharge,
+				 * true);
+				 */
 				Charge fineCharge = Charge.getFineCharge();
 				fineCharge.setAmount(fineAmount);
-//				fineCharge
+				// fineCharge
 
 				chargeIds.add(fineCharge.getChargeId());
-			} 
+			}
 		}
 
 		// calculate actual amount by adding charges for all chargeIds
@@ -118,8 +133,8 @@ public class BillManager {
 
 		// saving bill in DB
 		Bill.save(bill, false);
-		
-		//saving individual bill charges in DB
+
+		// saving individual bill charges in DB
 		for (int i = 0; i < chargeIds.size(); i++) {
 			BillCharge billCharge = BillCharge.create(bill.getBillId(), chargeIds.get(i));
 			Charge charge = Charge.read(property.getSocietyId(), chargeIds.get(i));
@@ -153,7 +168,6 @@ public class BillManager {
 				+ Constants.Table.FloorPlanDesign.TABLE_NAME + " where " + Constants.Table.Society.FieldName.SOCIETY_ID
 				+ " =? " + " and " + Constants.Table.FloorPlanDesign.FieldName.PROPERTY_NUMBER + " =? )");
 
-		
 		query.append(" union ");
 
 		// fetching charges for this property type
@@ -176,16 +190,16 @@ public class BillManager {
 		// fetching charges which are applicable by-default to every property
 		query.append("select " + Constants.Table.Charge.FieldName.CHARGE_ID + " from "
 				+ Constants.Table.Charge.TABLE_NAME + " where " + Constants.Table.Charge.FieldName.IS_DEFAULT + "=1");
-		
+
 		query.append(" union ");
 
 		// fetching property asset charges
 		query.append("select " + Constants.Table.Charge.FieldName.CHARGE_ID + " from "
-				+ Constants.Table.AssetType.TABLE_NAME + " where "
-				+ Constants.Table.AssetType.FieldName.ASSET_TYPE + " = ( select "
-				+ Constants.Table.PropertyAsset.FieldName.ASSET_TYPE + " from "
-				+ Constants.Table.PropertyAsset.TABLE_NAME + " where " + Constants.Table.Property.FieldName.PROPERTY_ID + " =?)");
-		
+				+ Constants.Table.AssetType.TABLE_NAME + " where " + Constants.Table.AssetType.FieldName.ASSET_TYPE
+				+ " = ( select " + Constants.Table.PropertyAsset.FieldName.ASSET_TYPE + " from "
+				+ Constants.Table.PropertyAsset.TABLE_NAME + " where " + Constants.Table.Property.FieldName.PROPERTY_ID
+				+ " =?)");
+
 		PreparedStatement fetchChargesStmt = SQLiteManager.getPreparedStatement(query.toString());
 
 		try {

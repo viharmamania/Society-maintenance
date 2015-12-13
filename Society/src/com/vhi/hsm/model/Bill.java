@@ -202,7 +202,7 @@ public class Bill {
 						insertStatement.setBoolean(6, bill.isCancelled);
 						insertStatement.setString(7, bill.modifiedBy);
 						insertStatement.setTimestamp(8, Timestamp.valueOf(LocalDateTime.now()));
-						result = insertStatement.execute();
+						result = SQLiteManager.executePrepStatementAndGetResult(insertStatement);
 						if (result) {
 							ResultSet generatedKeys = insertStatement.getGeneratedKeys();
 							if (generatedKeys != null && generatedKeys.first()) {
@@ -242,7 +242,7 @@ public class Bill {
 						updateStatement.setString(7, bill.modifiedBy);
 						updateStatement.setTimestamp(8, Timestamp.valueOf(LocalDateTime.now()));
 						updateStatement.setInt(9, bill.billId);
-						result = insertStatement.execute();
+						result = SQLiteManager.executePrepStatementAndGetResult(updateStatement);
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -266,7 +266,7 @@ public class Bill {
 			try {
 				deleteStatement.clearParameters();
 				deleteStatement.setInt(1, bill.billId);
-				result = deleteStatement.execute();
+				result = SQLiteManager.executePrepStatementAndGetResult(deleteStatement);
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}

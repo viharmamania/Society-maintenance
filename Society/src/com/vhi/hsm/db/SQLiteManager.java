@@ -55,7 +55,7 @@ public class SQLiteManager {
 		}
 		return result;
 	}
-	
+
 	public static int executeUpdate(String query) {
 		int result = 0;
 		Statement statement;
@@ -68,6 +68,23 @@ public class SQLiteManager {
 		return result;
 	}
 	
+	public static boolean executePrepStatementAndGetResult(PreparedStatement statement) {
+		boolean result;
+		int count;
+		if (statement != null) {
+			try {
+				count = statement.executeUpdate();
+				result = count != 0;
+			} catch (SQLException e) {
+				e.printStackTrace();
+				result = false;
+			}
+		} else {
+			result = false;
+		}
+		return result;
+	}
+
 	public static PreparedStatement getPreparedStatement(String query) {
 		PreparedStatement preparedStatement = null;
 		try {
@@ -76,6 +93,44 @@ public class SQLiteManager {
 			e.printStackTrace();
 		}
 		return preparedStatement;
+	}
+
+	public synchronized static boolean startTransaction() {
+		boolean result = false;
+		try {
+			getInstance().setAutoCommit(false);
+			result = true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	public synchronized static boolean endTransaction(boolean commit, boolean rollback) {
+		boolean result = false;
+		
+		if (commit && rollback) {
+			return result;
+		}
+		
+		try {
+			if (commit) {
+				getInstance().commit();
+				result = true;
+			} else if (rollback) {
+				getInstance().rollback();
+				result = true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				getInstance().setAutoCommit(true);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
 	}
 
 }

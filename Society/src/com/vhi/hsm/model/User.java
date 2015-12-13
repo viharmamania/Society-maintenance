@@ -15,57 +15,56 @@ public class User {
 	private String email;
 
 	private int societyId;
-	
+
 	private String name;
-	
-	private static HashMap<String,User> userMap = new HashMap<>();
-	
+
+	private static HashMap<String, User> userMap = new HashMap<>();
+
 	private static PreparedStatement readStatement, insertStatement, updateStatement, deleteStatement;
 
-	/*private static PreparedStatement readStatement = SQLiteManager
-			.getPreparedStatement("SELECT * FROM " + Constants.Table.User.TABLE_NAME + " WHERE "
-					+ Constants.Table.User.FieldName.USER_NAME + " = ?");
-	
-	private static PreparedStatement insertStatement =  SQLiteManager.getPreparedStatement(
-			"INSERT INTO " + Constants.Table.User.TABLE_NAME + " VALUES (?, ?, ?, ?, ?)");
-	
-	
-	private static PreparedStatement updateStatement = SQLiteManager.getPreparedStatement(
-			"UPDATE " + Constants.Table.User.TABLE_NAME + " SET "
-			+ Constants.Table.User.FieldName.FULL_NAME + " =? "
-			+ Constants.Table.User.FieldName.EMAIL + " =? "
-			+ Constants.Table.User.FieldName.PASSWORD + " =? "
-			+ Constants.Table.Society.FieldName.SOCIETY_ID + " = ?"
-			+ " WHERE " + Constants.Table.User.FieldName.USER_NAME +" =? ");
-
-	private static PreparedStatement deleteStatement = SQLiteManager.getPreparedStatement(""
-			+ "UPDATE " + Constants.Table.User.TABLE_NAME + " SET "
-			+ Constants.Table.User.FieldName.IS_DELETED + " =? "
-			+ " WHERE " + Constants.Table.User.FieldName.USER_NAME +" =? ");*/
+	/*
+	 * private static PreparedStatement readStatement = SQLiteManager
+	 * .getPreparedStatement("SELECT * FROM " + Constants.Table.User.TABLE_NAME
+	 * + " WHERE " + Constants.Table.User.FieldName.USER_NAME + " = ?");
+	 * 
+	 * private static PreparedStatement insertStatement =
+	 * SQLiteManager.getPreparedStatement( "INSERT INTO " +
+	 * Constants.Table.User.TABLE_NAME + " VALUES (?, ?, ?, ?, ?)");
+	 * 
+	 * 
+	 * private static PreparedStatement updateStatement =
+	 * SQLiteManager.getPreparedStatement( "UPDATE " +
+	 * Constants.Table.User.TABLE_NAME + " SET " +
+	 * Constants.Table.User.FieldName.FULL_NAME + " =? " +
+	 * Constants.Table.User.FieldName.EMAIL + " =? " +
+	 * Constants.Table.User.FieldName.PASSWORD + " =? " +
+	 * Constants.Table.Society.FieldName.SOCIETY_ID + " = ?" + " WHERE " +
+	 * Constants.Table.User.FieldName.USER_NAME +" =? ");
+	 * 
+	 * private static PreparedStatement deleteStatement =
+	 * SQLiteManager.getPreparedStatement("" + "UPDATE " +
+	 * Constants.Table.User.TABLE_NAME + " SET " +
+	 * Constants.Table.User.FieldName.IS_DELETED + " =? " + " WHERE " +
+	 * Constants.Table.User.FieldName.USER_NAME +" =? ");
+	 */
 
 	private static String readString = "SELECT * FROM " + Constants.Table.User.TABLE_NAME + " WHERE "
-					+ Constants.Table.User.FieldName.USER_NAME + " = ?";
-	
-	private static String insertString = "INSERT INTO " + Constants.Table.User.TABLE_NAME + "("
-			+ Constants.Table.User.FieldName.USER_NAME + " , " 
-			+ Constants.Table.Society.FieldName.SOCIETY_ID + " , "
-			+ Constants.Table.User.FieldName.PASSWORD + " , " 
-			+ Constants.Table.User.FieldName.EMAIL + " , "
-			+ Constants.Table.User.FieldName.FULL_NAME + " )" 
-			+ " VALUES (?, ?, ?, ?, ?)";
-	
-	
-	private static String updateString = "UPDATE " + Constants.Table.User.TABLE_NAME + " SET "
-			+ Constants.Table.User.FieldName.FULL_NAME + " =? "
-			+ Constants.Table.User.FieldName.EMAIL + " =? "
-			+ Constants.Table.User.FieldName.PASSWORD + " =? "
-			+ Constants.Table.Society.FieldName.SOCIETY_ID + " = ?"
-			+ " WHERE " + Constants.Table.User.FieldName.USER_NAME +" =? ";
+			+ Constants.Table.User.FieldName.USER_NAME + " = ?";
 
-	private static String deleteString =  "UPDATE " + Constants.Table.User.TABLE_NAME + " SET "
-			+ Constants.Table.User.FieldName.IS_DELETED + " =? "
-			+ " WHERE " + Constants.Table.User.FieldName.USER_NAME +" =? ";
-	
+	private static String insertString = "INSERT INTO " + Constants.Table.User.TABLE_NAME + "("
+			+ Constants.Table.User.FieldName.USER_NAME + " , " + Constants.Table.Society.FieldName.SOCIETY_ID + " , "
+			+ Constants.Table.User.FieldName.PASSWORD + " , " + Constants.Table.User.FieldName.EMAIL + " , "
+			+ Constants.Table.User.FieldName.FULL_NAME + " )" + " VALUES (?, ?, ?, ?, ?)";
+
+	private static String updateString = "UPDATE " + Constants.Table.User.TABLE_NAME + " SET "
+			+ Constants.Table.User.FieldName.FULL_NAME + " =? " + Constants.Table.User.FieldName.EMAIL + " =? "
+			+ Constants.Table.User.FieldName.PASSWORD + " =? " + Constants.Table.Society.FieldName.SOCIETY_ID + " = ?"
+			+ " WHERE " + Constants.Table.User.FieldName.USER_NAME + " =? ";
+
+	private static String deleteString = "UPDATE " + Constants.Table.User.TABLE_NAME + " SET "
+			+ Constants.Table.User.FieldName.IS_DELETED + " =? " + " WHERE " + Constants.Table.User.FieldName.USER_NAME
+			+ " =? ";
+
 	private User() {
 		super();
 	}
@@ -82,7 +81,6 @@ public class User {
 		this.userName = userName;
 		this.email = email;
 	}
-
 
 	public String getUserName() {
 		return userName;
@@ -115,30 +113,30 @@ public class User {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	public static User create(int societyId){
+
+	public static User create(int societyId) {
 		User user = new User();
 		user.setSocietyId(societyId);
 		return user;
 	}
 
-	public static boolean delete(User user){
-		
+	public static boolean delete(User user) {
+
 		boolean result = false;
 
 		try {
-			if(deleteStatement == null){
+			if (deleteStatement == null) {
 				deleteStatement = SQLiteManager.getPreparedStatement(deleteString);
 			}
 			deleteStatement.setInt(1, user.getSocietyId());
 			deleteStatement.setString(2, user.getUserName());
-			result = deleteStatement.execute();
+			result = SQLiteManager.executePrepStatementAndGetResult(deleteStatement);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return result;
 	}
-	
+
 	public static boolean save(User user, String password, boolean insertEntry) {
 
 		boolean result = false;
@@ -152,8 +150,8 @@ public class User {
 				insertStatement.setString(3, password);
 				insertStatement.setString(4, user.getEmail());
 				insertStatement.setString(5, user.getName());
-				result = insertStatement.execute();
-				
+				result = SQLiteManager.executePrepStatementAndGetResult(insertStatement);
+
 			} else {
 				if (updateStatement == null) {
 					updateStatement = SQLiteManager.getPreparedStatement(updateString);
@@ -163,9 +161,9 @@ public class User {
 				updateStatement.setString(3, password);
 				updateStatement.setInt(4, user.getSocietyId());
 				updateStatement.setString(5, user.getUserName());
-				result = updateStatement.execute();
+				result = SQLiteManager.executePrepStatementAndGetResult(updateStatement);
 			}
-			
+
 			if (result) {
 
 				if (userMap == null) {
@@ -182,11 +180,11 @@ public class User {
 		return !result;
 	}
 
-	public static User read(String userName){
-		
+	public static User read(String userName) {
+
 		User user = null;
 		user = userMap.get(userName);
-		
+
 		if (user == null) {
 			try {
 				user = new User();
@@ -206,8 +204,7 @@ public class User {
 				e.printStackTrace();
 			}
 		}
-		
-		
+
 		return user;
 	}
 }

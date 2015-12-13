@@ -15,54 +15,59 @@ public class PropertyType {
 	private String description;
 
 	private int societyId;
-	
+
 	private static HashMap<Integer, HashMap<String, PropertyType>> propertyTypeMap = new HashMap<>();
-	
+
 	private static PreparedStatement readStatement, insertStatement, updateStatement, deleteStatement;
 
-	/*private static PreparedStatement readStatement = SQLiteManager
-			.getPreparedStatement("SELECT * FROM " + Constants.Table.PropertyType.TABLE_NAME + " WHERE "
-					+ Constants.Table.Society.FieldName.SOCIETY_ID + " = ?" + " AND "
-					+ Constants.Table.PropertyType.FieldName.PROPERTY_TYPE +" =? ");;
-	
-	private static PreparedStatement insertStatement =  SQLiteManager.getPreparedStatement(
-			"INSERT INTO " + Constants.Table.PropertyType.TABLE_NAME + " VALUES (?, ?, ?)");
-	
-	
-	private static PreparedStatement updateStatement = SQLiteManager.getPreparedStatement(
-			"UPDATE " + Constants.Table.PropertyType.TABLE_NAME + " SET "
-			+Constants.Table.PropertyType.FieldName.DESCRIPTION + " =? "
-			+ " WHERE " + Constants.Table.Society.FieldName.SOCIETY_ID + " = ?"
-			+ " AND " + Constants.Table.PropertyType.FieldName.PROPERTY_TYPE +" =? ");
-
-	private static PreparedStatement deleteStatement = SQLiteManager.getPreparedStatement("DELETE "
-			+ Constants.Table.PropertyType.TABLE_NAME + " WHERE " + Constants.Table.Society.FieldName.SOCIETY_ID
-			+ " = ?" + " AND " + Constants.Table.PropertyType.FieldName.PROPERTY_TYPE + " = ?");*/
+	/*
+	 * private static PreparedStatement readStatement = SQLiteManager
+	 * .getPreparedStatement("SELECT * FROM " +
+	 * Constants.Table.PropertyType.TABLE_NAME + " WHERE " +
+	 * Constants.Table.Society.FieldName.SOCIETY_ID + " = ?" + " AND " +
+	 * Constants.Table.PropertyType.FieldName.PROPERTY_TYPE +" =? ");;
+	 * 
+	 * private static PreparedStatement insertStatement =
+	 * SQLiteManager.getPreparedStatement( "INSERT INTO " +
+	 * Constants.Table.PropertyType.TABLE_NAME + " VALUES (?, ?, ?)");
+	 * 
+	 * 
+	 * private static PreparedStatement updateStatement =
+	 * SQLiteManager.getPreparedStatement( "UPDATE " +
+	 * Constants.Table.PropertyType.TABLE_NAME + " SET "
+	 * +Constants.Table.PropertyType.FieldName.DESCRIPTION + " =? " + " WHERE "
+	 * + Constants.Table.Society.FieldName.SOCIETY_ID + " = ?" + " AND " +
+	 * Constants.Table.PropertyType.FieldName.PROPERTY_TYPE +" =? ");
+	 * 
+	 * private static PreparedStatement deleteStatement =
+	 * SQLiteManager.getPreparedStatement("DELETE " +
+	 * Constants.Table.PropertyType.TABLE_NAME + " WHERE " +
+	 * Constants.Table.Society.FieldName.SOCIETY_ID + " = ?" + " AND " +
+	 * Constants.Table.PropertyType.FieldName.PROPERTY_TYPE + " = ?");
+	 */
 
 	private static String readString = "SELECT * FROM " + Constants.Table.PropertyType.TABLE_NAME + " WHERE "
 			+ Constants.Table.Society.FieldName.SOCIETY_ID + " = ?" + " AND "
-			+ Constants.Table.PropertyType.FieldName.PROPERTY_TYPE +" =? ";
-	
+			+ Constants.Table.PropertyType.FieldName.PROPERTY_TYPE + " =? ";
+
 	private static String insertString = "INSERT INTO " + Constants.Table.PropertyType.TABLE_NAME + " , "
 			+ Constants.Table.Society.FieldName.SOCIETY_ID + " , "
-			+ Constants.Table.PropertyType.FieldName.PROPERTY_TYPE +" , "
-			+ Constants.Table.PropertyType.FieldName.DESCRIPTION + " , )"
-			+ " VALUES (?, ?, ?)";
-	
+			+ Constants.Table.PropertyType.FieldName.PROPERTY_TYPE + " , "
+			+ Constants.Table.PropertyType.FieldName.DESCRIPTION + " , )" + " VALUES (?, ?, ?)";
+
 	private static String updateString = "UPDATE " + Constants.Table.PropertyType.TABLE_NAME + " SET "
-			+Constants.Table.PropertyType.FieldName.DESCRIPTION + " =? "
-			+ " WHERE " + Constants.Table.Society.FieldName.SOCIETY_ID + " = ?"
-			+ " AND " + Constants.Table.PropertyType.FieldName.PROPERTY_TYPE +" =? ";
-	
-	private static String deleteString = "DELETE "
-			+ Constants.Table.PropertyType.TABLE_NAME + " WHERE " + Constants.Table.Society.FieldName.SOCIETY_ID
-			+ " = ?" + " AND " + Constants.Table.PropertyType.FieldName.PROPERTY_TYPE + " = ?" ;
-	
+			+ Constants.Table.PropertyType.FieldName.DESCRIPTION + " =? " + " WHERE "
+			+ Constants.Table.Society.FieldName.SOCIETY_ID + " = ?" + " AND "
+			+ Constants.Table.PropertyType.FieldName.PROPERTY_TYPE + " =? ";
+
+	private static String deleteString = "DELETE " + Constants.Table.PropertyType.TABLE_NAME + " WHERE "
+			+ Constants.Table.Society.FieldName.SOCIETY_ID + " = ?" + " AND "
+			+ Constants.Table.PropertyType.FieldName.PROPERTY_TYPE + " = ?";
 
 	private PropertyType() {
-	
+
 	}
-	
+
 	public String getDescription() {
 		return description;
 	}
@@ -86,7 +91,7 @@ public class PropertyType {
 	public void setSocietyId(int societyId) {
 		this.societyId = societyId;
 	}
-	
+
 	public static PropertyType create(int societyId) {
 		PropertyType propertyType = new PropertyType();
 		propertyType.setSocietyId(societyId);
@@ -102,16 +107,16 @@ public class PropertyType {
 		try {
 			deleteStatement.setInt(1, propertyType.getSocietyId());
 			deleteStatement.setString(2, propertyType.getPropertyType());
-			result = deleteStatement.execute();
+			result = SQLiteManager.executePrepStatementAndGetResult(deleteStatement);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return result;
 	}
-	
-	public static boolean save (PropertyType propertyType, boolean insertEntry){
-		
-		boolean result =false;
+
+	public static boolean save(PropertyType propertyType, boolean insertEntry) {
+
+		boolean result = false;
 		try {
 			if (insertEntry) {
 				if (insertStatement == null) {
@@ -120,7 +125,7 @@ public class PropertyType {
 				insertStatement.setInt(0, propertyType.getSocietyId());
 				insertStatement.setString(1, propertyType.getPropertyType());
 				insertStatement.setString(2, propertyType.getDescription());
-				result = insertStatement.execute();
+				result = SQLiteManager.executePrepStatementAndGetResult(insertStatement);
 			} else {
 
 				if (updateStatement == null) {
@@ -129,30 +134,30 @@ public class PropertyType {
 				updateStatement.setString(0, propertyType.getDescription());
 				updateStatement.setInt(1, propertyType.getSocietyId());
 				updateStatement.setString(2, propertyType.getPropertyType());
-				result = updateStatement.execute();
+				result = SQLiteManager.executePrepStatementAndGetResult(updateStatement);
 			}
-			
-			//updating hashmap
-			if(result){
-				
-				if(propertyTypeMap == null){
+
+			// updating hashmap
+			if (result) {
+
+				if (propertyTypeMap == null) {
 					propertyTypeMap = new HashMap<Integer, HashMap<String, PropertyType>>();
 				}
-				
+
 				HashMap<String, PropertyType> propertyGroupType = propertyTypeMap.get(propertyType.getSocietyId());
-				if(propertyGroupType == null){
+				if (propertyGroupType == null) {
 					propertyGroupType = new HashMap<>();
 					propertyTypeMap.put(propertyType.getSocietyId(), propertyGroupType);
 				}
 				propertyGroupType.put(propertyType.getDescription(), propertyType);
-				
+
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return result;
 	}
-	
+
 	public static PropertyType read(int societyId, String propType) {
 		PropertyType propertyTypeObject = null;
 
@@ -188,6 +193,5 @@ public class PropertyType {
 		}
 		return propertyTypeObject;
 	}
-
 
 }

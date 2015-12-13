@@ -143,7 +143,7 @@ public class AssetType {
 						insertStatement.setString(2, assetType.getAssetType());
 						insertStatement.setString(3, assetType.getDescription());
 						insertStatement.setDouble(4, assetType.getCharges());
-						result = insertStatement.execute();
+						result = SQLiteManager.executePrepStatementAndGetResult(insertStatement);
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -165,7 +165,7 @@ public class AssetType {
 						updateStatement.setDouble(2, assetType.getCharges());
 						updateStatement.setInt(3, assetType.getSocietyId());
 						updateStatement.setString(4, assetType.getAssetType());
-						result = updateStatement.execute();
+						result = SQLiteManager.executePrepStatementAndGetResult(updateStatement);
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -206,7 +206,7 @@ public class AssetType {
 				deleteStatement.clearParameters();
 				deleteStatement.setInt(1, assetType.getSocietyId());
 				deleteStatement.setString(2, assetType.getAssetType());
-				result = deleteStatement.execute();
+				result = SQLiteManager.executePrepStatementAndGetResult(deleteStatement);
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}

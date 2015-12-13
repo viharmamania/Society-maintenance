@@ -235,7 +235,7 @@ public class Charge {
 						insertStatement.setBoolean(5, charge.tempCharges);
 						insertStatement.setBoolean(6, charge.isCancelled);
 						insertStatement.setBoolean(7, charge.isdefault);
-						result = insertStatement.execute();
+						result = SQLiteManager.executePrepStatementAndGetResult(insertStatement);
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -265,7 +265,7 @@ public class Charge {
 						updateStatement.setBoolean(5, charge.isdefault);
 						updateStatement.setInt(6, charge.societyId);
 						updateStatement.setInt(7, charge.chargeId);
-						result = updateStatement.execute();
+						result = SQLiteManager.executePrepStatementAndGetResult(updateStatement);
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -308,7 +308,7 @@ public class Charge {
 				deleteStatement.clearParameters();
 				deleteStatement.setInt(1, charge.societyId);
 				deleteStatement.setInt(2, charge.chargeId);
-				result = deleteStatement.execute();
+				result = SQLiteManager.executePrepStatementAndGetResult(deleteStatement);
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}

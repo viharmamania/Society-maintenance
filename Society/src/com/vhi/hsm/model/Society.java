@@ -19,7 +19,7 @@ public class Society {
 	private String registrationNumber;
 
 	private String registrationDate;
-	
+
 	private String societyCode;
 
 	public String getSocietyCode() {
@@ -39,34 +39,27 @@ public class Society {
 	private HashMap<Integer, FloorPlan> floorPlans;
 
 	private HashMap<Integer, AssetType> assetTypes;
-	
+
 	private static HashMap<Integer, Society> societyMap = new HashMap<>();
-	
+
 	private static PreparedStatement readStatement, insertStatement, updateStatement, deleteStatement;
-	
+
 	private static String readString = "SELECT * FROM " + Constants.Table.Society.TABLE_NAME + " WHERE "
-			+ Constants.Table.Society.FieldName.SOCIETY_ID + " = ?";	
+			+ Constants.Table.Society.FieldName.SOCIETY_ID + " = ?";
 
 	private static String insertString = "INSERT INTO " + Constants.Table.Society.TABLE_NAME + "("
-			+ Constants.Table.Society.FieldName.SOCIETY_NAME + " , "
-			+ Constants.Table.Society.FieldName.ADDRESS + " , "
-			+ Constants.Table.Society.FieldName.REG_NUMBER + " , "
-			+ Constants.Table.Society.FieldName.REG_DATE + " , "
-			+ Constants.Table.Society.FieldName.SOCIETY_CODE + " )"
-			+ " VALUES (?, ?, ?, ?, ?)";
-	
-	
+			+ Constants.Table.Society.FieldName.SOCIETY_NAME + " , " + Constants.Table.Society.FieldName.ADDRESS + " , "
+			+ Constants.Table.Society.FieldName.REG_NUMBER + " , " + Constants.Table.Society.FieldName.REG_DATE + " , "
+			+ Constants.Table.Society.FieldName.SOCIETY_CODE + " )" + " VALUES (?, ?, ?, ?, ?)";
+
 	private static String updateString = "UPDATE " + Constants.Table.Society.TABLE_NAME + " SET "
-		+ Constants.Table.Society.FieldName.SOCIETY_NAME + " =? "
-		+ Constants.Table.Society.FieldName.ADDRESS + " =? "
-		+ Constants.Table.Society.FieldName.REG_NUMBER + " =? "
-		+ Constants.Table.Society.FieldName.REG_DATE + " =? "
-		+ Constants.Table.Society.FieldName.SOCIETY_CODE + " ?"
-		+ " WHERE " + Constants.Table.Society.FieldName.SOCIETY_ID + " = ?";
-	
-	private static String deleteString = "DELETE "
-		+ Constants.Table.Society.TABLE_NAME + " WHERE " + Constants.Table.Society.FieldName.SOCIETY_ID
-		+ " = ?";
+			+ Constants.Table.Society.FieldName.SOCIETY_NAME + " =? " + Constants.Table.Society.FieldName.ADDRESS
+			+ " =? " + Constants.Table.Society.FieldName.REG_NUMBER + " =? "
+			+ Constants.Table.Society.FieldName.REG_DATE + " =? " + Constants.Table.Society.FieldName.SOCIETY_CODE
+			+ " ?" + " WHERE " + Constants.Table.Society.FieldName.SOCIETY_ID + " = ?";
+
+	private static String deleteString = "DELETE " + Constants.Table.Society.TABLE_NAME + " WHERE "
+			+ Constants.Table.Society.FieldName.SOCIETY_ID + " = ?";
 
 	private Society() {
 		super();
@@ -172,22 +165,22 @@ public class Society {
 	public static Society create() {
 		return new Society();
 	}
-	
-	public static boolean delete(Society society){
+
+	public static boolean delete(Society society) {
 
 		boolean result = false;
 		try {
-			if(deleteStatement == null){
+			if (deleteStatement == null) {
 				deleteStatement = SQLiteManager.getPreparedStatement(deleteString);
 			}
 			deleteStatement.setInt(1, society.getSocietyId());
-			result = deleteStatement.execute();
+			result = SQLiteManager.executePrepStatementAndGetResult(deleteStatement);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return result;
 	}
-	
+
 	public static boolean save(Society society, boolean insertEntry) {
 		boolean result = false;
 
@@ -201,7 +194,7 @@ public class Society {
 				insertStatement.setString(3, society.getRegistrationNumber());
 				insertStatement.setString(4, society.getRegistrationDate());
 				insertStatement.setString(5, society.getSocietyCode());
-				result = !insertStatement.execute();
+				result = SQLiteManager.executePrepStatementAndGetResult(insertStatement);
 			} else {
 				if (updateStatement == null) {
 					updateStatement = SQLiteManager.getPreparedStatement(updateString);
@@ -212,9 +205,9 @@ public class Society {
 				updateStatement.setString(4, society.getRegistrationDate());
 				updateStatement.setString(5, society.getSocietyCode());
 				updateStatement.setInt(5, society.getSocietyId());
-				result = !updateStatement.execute();
+				result = SQLiteManager.executePrepStatementAndGetResult(updateStatement);
 			}
-			
+
 			if (result) {
 
 				if (societyMap == null) {
@@ -230,7 +223,7 @@ public class Society {
 		}
 		return result;
 	}
-	
+
 	public static Society read(int societyId) {
 
 		Society society = null;
@@ -249,7 +242,7 @@ public class Society {
 					society.setRegistrationNumber(resultset.getString(Constants.Table.Society.FieldName.REG_NUMBER));
 					society.setAddress(resultset.getString(Constants.Table.Society.FieldName.ADDRESS));
 					society.setSocietyId(resultset.getInt(Constants.Table.Society.FieldName.SOCIETY_ID));
-//					society.setRegistrationDate(resultset.getString(Constants.Table.Society.FieldName.REG_DATE));
+					// society.setRegistrationDate(resultset.getString(Constants.Table.Society.FieldName.REG_DATE));
 					society.setSocietyCode(resultset.getString(Constants.Table.Society.FieldName.SOCIETY_CODE));
 				}
 				societyMap.put(societyId, society);
@@ -260,6 +253,5 @@ public class Society {
 
 		return society;
 	}
-	
-	
+
 }

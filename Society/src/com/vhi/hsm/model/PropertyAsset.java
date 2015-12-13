@@ -144,8 +144,7 @@ public class PropertyAsset {
 						insertStatement.setInt(1, propertyAsset.getAssetNumber());
 						insertStatement.setString(2, propertyAsset.getAssetDetails());
 						insertStatement.setString(3, propertyAsset.getAssetType());
-						result = insertStatement.execute();
-						
+						result = SQLiteManager.executePrepStatementAndGetResult(insertStatement);
 					}
 				} catch (SQLException e) {
 					e.printStackTrace();
@@ -166,7 +165,7 @@ public class PropertyAsset {
 						updateStatement.setInt(2, propertyAsset.getAssetNumber());
 						updateStatement.setString(3, propertyAsset.getAssetType());
 						updateStatement.setInt(4, propertyAsset.getSocietyId());
-						result = updateStatement.execute();
+						result = SQLiteManager.executePrepStatementAndGetResult(updateStatement);
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -205,7 +204,7 @@ public class PropertyAsset {
 			try {
 				deleteStatement.setInt(1, propertyAsset.getSocietyId());
 				deleteStatement.setString(2, propertyAsset.getAssetType());
-				result = deleteStatement.execute();
+				result = SQLiteManager.executePrepStatementAndGetResult(deleteStatement);
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}

@@ -151,7 +151,7 @@ public class FloorPlanDesign {
 						insertStatement.setInt(3, floorPlanDesign.propertyNumber);
 						insertStatement.setString(4, floorPlanDesign.propertyGroup);
 						insertStatement.setString(5, floorPlanDesign.propertyType);
-						result = insertStatement.execute();
+						result = SQLiteManager.executePrepStatementAndGetResult(insertStatement);
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -177,7 +177,7 @@ public class FloorPlanDesign {
 						updateStatement.setInt(3, floorPlanDesign.societyId);
 						updateStatement.setInt(4, floorPlanDesign.floorPlanId);
 						updateStatement.setInt(5, floorPlanDesign.propertyNumber);
-						result = updateStatement.execute();
+						result = SQLiteManager.executePrepStatementAndGetResult(updateStatement);
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -230,7 +230,7 @@ public class FloorPlanDesign {
 					deleteStatement.setInt(1, floorPlanDesign.societyId);
 					deleteStatement.setInt(2, floorPlanDesign.floorPlanId);
 					deleteStatement.setInt(3, floorPlanDesign.propertyNumber);
-					result = deleteStatement.execute();
+					result = SQLiteManager.executePrepStatementAndGetResult(deleteStatement);
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}

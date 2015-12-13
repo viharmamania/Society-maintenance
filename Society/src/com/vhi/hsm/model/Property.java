@@ -192,7 +192,7 @@ public class Property {
 						insertStatement.setString(8, property.ownerEmail);
 						insertStatement.setDouble(9, property.netPayable);
 						insertStatement.setBoolean(10, property.notUsed);
-						result = insertStatement.execute();
+						result = SQLiteManager.executePrepStatementAndGetResult(insertStatement);
 						if (result) {
 							ResultSet generatedKeys = insertStatement.getGeneratedKeys();
 							if (generatedKeys != null && generatedKeys.first()) {
@@ -237,7 +237,7 @@ public class Property {
 						updateStatement.setDouble(9, property.netPayable);
 						updateStatement.setBoolean(10, property.notUsed);
 						updateStatement.setInt(11, property.propertyId);
-						result = updateStatement.execute();
+						result = SQLiteManager.executePrepStatementAndGetResult(updateStatement);
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -271,7 +271,7 @@ public class Property {
 				try {
 					deleteStatement.clearParameters();
 					deleteStatement.setInt(1, property.propertyId);
-					result = deleteStatement.execute();
+					result = SQLiteManager.executePrepStatementAndGetResult(deleteStatement);
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}

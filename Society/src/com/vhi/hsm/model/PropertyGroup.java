@@ -15,48 +15,53 @@ public class PropertyGroup {
 	private String description;
 
 	private int societyId;
-	
+
 	private static HashMap<Integer, HashMap<String, PropertyGroup>> propertyGroupMap = new HashMap<>();
 
 	private static PreparedStatement readStatement, insertStatement, updateStatement, deleteStatement;
-	/*private static PreparedStatement readStatement = SQLiteManager
-			.getPreparedStatement("SELECT * FROM " + Constants.Table.PropertyGroup.TABLE_NAME + " WHERE "
-					+ Constants.Table.Society.FieldName.SOCIETY_ID + " = ?" + " AND "
-					+ Constants.Table.PropertyGroup.FieldName.PROPERTY_GROUP +" =? ");;
-	
-	private static PreparedStatement insertStatement =  SQLiteManager.getPreparedStatement(
-			"INSERT INTO " + Constants.Table.PropertyGroup.TABLE_NAME + " VALUES (?, ?, ?)");
-	
-	
-	private static PreparedStatement updateStatement = SQLiteManager.getPreparedStatement(
-			"UPDATE " + Constants.Table.PropertyGroup.TABLE_NAME + " SET "
-			+Constants.Table.PropertyGroup.FieldName.DESCRIPTION + " =? "
-			+ " WHERE " + Constants.Table.Society.FieldName.SOCIETY_ID + " = ?"
-			+ " AND " + Constants.Table.PropertyGroup.FieldName.PROPERTY_GROUP +" =? ");
+	/*
+	 * private static PreparedStatement readStatement = SQLiteManager
+	 * .getPreparedStatement("SELECT * FROM " +
+	 * Constants.Table.PropertyGroup.TABLE_NAME + " WHERE " +
+	 * Constants.Table.Society.FieldName.SOCIETY_ID + " = ?" + " AND " +
+	 * Constants.Table.PropertyGroup.FieldName.PROPERTY_GROUP +" =? ");;
+	 * 
+	 * private static PreparedStatement insertStatement =
+	 * SQLiteManager.getPreparedStatement( "INSERT INTO " +
+	 * Constants.Table.PropertyGroup.TABLE_NAME + " VALUES (?, ?, ?)");
+	 * 
+	 * 
+	 * private static PreparedStatement updateStatement =
+	 * SQLiteManager.getPreparedStatement( "UPDATE " +
+	 * Constants.Table.PropertyGroup.TABLE_NAME + " SET "
+	 * +Constants.Table.PropertyGroup.FieldName.DESCRIPTION + " =? " + " WHERE "
+	 * + Constants.Table.Society.FieldName.SOCIETY_ID + " = ?" + " AND " +
+	 * Constants.Table.PropertyGroup.FieldName.PROPERTY_GROUP +" =? ");
+	 * 
+	 * private static PreparedStatement deleteStatement =
+	 * SQLiteManager.getPreparedStatement("DELETE " +
+	 * Constants.Table.PropertyGroup.TABLE_NAME + " WHERE " +
+	 * Constants.Table.Society.FieldName.SOCIETY_ID + " = ?" + " AND " +
+	 * Constants.Table.PropertyGroup.FieldName.PROPERTY_GROUP + " = ?");
+	 */
 
-	private static PreparedStatement deleteStatement = SQLiteManager.getPreparedStatement("DELETE "
-			+ Constants.Table.PropertyGroup.TABLE_NAME + " WHERE " + Constants.Table.Society.FieldName.SOCIETY_ID
-			+ " = ?" + " AND " + Constants.Table.PropertyGroup.FieldName.PROPERTY_GROUP + " = ?");*/
-	
 	private static String readString = "SELECT * FROM " + Constants.Table.PropertyGroup.TABLE_NAME + " WHERE "
-					+ Constants.Table.Society.FieldName.SOCIETY_ID + " = ?" + " AND "
-					+ Constants.Table.PropertyGroup.FieldName.PROPERTY_GROUP +" =? ";
-	
+			+ Constants.Table.Society.FieldName.SOCIETY_ID + " = ?" + " AND "
+			+ Constants.Table.PropertyGroup.FieldName.PROPERTY_GROUP + " =? ";
+
 	private static String insertString = "INSERT INTO " + Constants.Table.PropertyGroup.TABLE_NAME + " ( "
 			+ Constants.Table.Society.FieldName.SOCIETY_ID + " , "
-			+ Constants.Table.PropertyGroup.FieldName.PROPERTY_GROUP +" , "
-			+ Constants.Table.PropertyGroup.FieldName.DESCRIPTION + " ,) "
-			+ " VALUES (?, ?, ?)";
-	
-	
-	private static String updateString = "UPDATE " + Constants.Table.PropertyGroup.TABLE_NAME + " SET "
-			+Constants.Table.PropertyGroup.FieldName.DESCRIPTION + " =? "
-			+ " WHERE " + Constants.Table.Society.FieldName.SOCIETY_ID + " = ?"
-			+ " AND " + Constants.Table.PropertyGroup.FieldName.PROPERTY_GROUP +" =? ";
+			+ Constants.Table.PropertyGroup.FieldName.PROPERTY_GROUP + " , "
+			+ Constants.Table.PropertyGroup.FieldName.DESCRIPTION + " ,) " + " VALUES (?, ?, ?)";
 
-	private static String deleteString = "DELETE "
-			+ Constants.Table.PropertyGroup.TABLE_NAME + " WHERE " + Constants.Table.Society.FieldName.SOCIETY_ID
-			+ " = ?" + " AND " + Constants.Table.PropertyGroup.FieldName.PROPERTY_GROUP + " = ?";
+	private static String updateString = "UPDATE " + Constants.Table.PropertyGroup.TABLE_NAME + " SET "
+			+ Constants.Table.PropertyGroup.FieldName.DESCRIPTION + " =? " + " WHERE "
+			+ Constants.Table.Society.FieldName.SOCIETY_ID + " = ?" + " AND "
+			+ Constants.Table.PropertyGroup.FieldName.PROPERTY_GROUP + " =? ";
+
+	private static String deleteString = "DELETE " + Constants.Table.PropertyGroup.TABLE_NAME + " WHERE "
+			+ Constants.Table.Society.FieldName.SOCIETY_ID + " = ?" + " AND "
+			+ Constants.Table.PropertyGroup.FieldName.PROPERTY_GROUP + " = ?";
 
 	private String getPropertygroup() {
 		return propertyGroup;
@@ -92,21 +97,21 @@ public class PropertyGroup {
 
 		boolean result = false;
 		try {
-			if(deleteStatement == null){
+			if (deleteStatement == null) {
 				deleteStatement = SQLiteManager.getPreparedStatement(deleteString);
 			}
 			deleteStatement.setInt(1, propertyGroup.getSocietyId());
 			deleteStatement.setString(2, propertyGroup.getPropertygroup());
-			result = deleteStatement.execute();
+			result = SQLiteManager.executePrepStatementAndGetResult(deleteStatement);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return result;
 	}
-	
-	public static boolean save (PropertyGroup propertyGroup, boolean insertEntry){
-		boolean result =false;
-		
+
+	public static boolean save(PropertyGroup propertyGroup, boolean insertEntry) {
+		boolean result = false;
+
 		try {
 			if (insertEntry) {
 				if (insertStatement == null) {
@@ -115,7 +120,7 @@ public class PropertyGroup {
 				insertStatement.setInt(0, propertyGroup.getSocietyId());
 				insertStatement.setString(1, propertyGroup.getPropertygroup());
 				insertStatement.setString(2, propertyGroup.getDescription());
-				result = insertStatement.execute();
+				result = SQLiteManager.executePrepStatementAndGetResult(insertStatement);
 			} else {
 				if (updateStatement == null) {
 					updateStatement = SQLiteManager.getPreparedStatement(updateString);
@@ -123,45 +128,45 @@ public class PropertyGroup {
 				updateStatement.setString(0, propertyGroup.getDescription());
 				updateStatement.setInt(1, propertyGroup.getSocietyId());
 				updateStatement.setString(2, propertyGroup.getPropertygroup());
-				result = updateStatement.execute();
+				result = SQLiteManager.executePrepStatementAndGetResult(updateStatement);
 			}
-			
-			//updating hashmap
-			if(result){
-				
-				if(propertyGroupMap == null){
+
+			// updating hashmap
+			if (result) {
+
+				if (propertyGroupMap == null) {
 					propertyGroupMap = new HashMap<Integer, HashMap<String, PropertyGroup>>();
 				}
-				
+
 				HashMap<String, PropertyGroup> propertyGroupType = propertyGroupMap.get(propertyGroup.getSocietyId());
-				if(propertyGroupType == null){
+				if (propertyGroupType == null) {
 					propertyGroupType = new HashMap<>();
 					propertyGroupMap.put(propertyGroup.getSocietyId(), propertyGroupType);
 				}
 				propertyGroupType.put(propertyGroup.getDescription(), propertyGroup);
-				
+
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return result;
 	}
-	
+
 	public static PropertyGroup read(int societyId, String propertyGroup) {
 		PropertyGroup group = null;
 
 		HashMap<String, PropertyGroup> societygroupTypes = propertyGroupMap.get(societyId);
-		
-		if(societygroupTypes == null){
+
+		if (societygroupTypes == null) {
 			societygroupTypes = new HashMap<>();
 			propertyGroupMap.put(societyId, societygroupTypes);
 		}
-		
-		if(societygroupTypes != null){
+
+		if (societygroupTypes != null) {
 			group = societygroupTypes.get(propertyGroup);
-			if(group == null){
+			if (group == null) {
 				group = new PropertyGroup();
-				try{
+				try {
 					if (readStatement == null) {
 						readStatement = SQLiteManager.getPreparedStatement(readString);
 					}
@@ -173,10 +178,10 @@ public class PropertyGroup {
 						group.setSocietyId(societyId);
 						group.setPropertygroup(propertyGroup);
 					}
-				}catch (SQLException e) {
+				} catch (SQLException e) {
 					e.printStackTrace();
 				}
-				
+
 			}
 		}
 		return group;
