@@ -29,7 +29,7 @@ public class SQLiteManager {
 	}
 
 	public static Connection getInstance() {
-		LOG.debug("getting a connction");
+		LOG.debug("getting a connection");
 		return connection;
 	}
 

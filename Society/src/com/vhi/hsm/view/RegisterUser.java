@@ -13,8 +13,12 @@ import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
+import org.jasypt.util.password.BasicPasswordEncryptor;
+
 import com.vhi.hsm.controller.manager.SystemManager;
 import com.vhi.hsm.model.User;
+import com.vhi.hsm.utils.Constants;
 
 /**
  * Swing Dialogue to Register a new User in HMS system
@@ -35,6 +39,16 @@ public class RegisterUser extends JDialog implements WindowListener {
 	private JButton register, cancel;
 	private JLabel societyCodeLabel;
 	private JTextField societyCodeTextField;
+
+	public RegisterUser(JDialog owner) {
+		super(owner, "Register User", true);
+		setResizable(false);
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		addWindowListener(this);
+		intializeLayout();
+		setLocationRelativeTo(owner);
+		setVisible(true);
+	}
 
 	public RegisterUser(JFrame owner) {
 		super(owner, "Register User", true);
@@ -58,7 +72,7 @@ public class RegisterUser extends JDialog implements WindowListener {
 
 		password = new JLabel("Password");
 		textPassword = new JPasswordField();
-		
+
 		societyCodeLabel = new JLabel("Society Code");
 		societyCodeTextField = new JTextField();
 
@@ -70,61 +84,32 @@ public class RegisterUser extends JDialog implements WindowListener {
 
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		getContentPane().setLayout(groupLayout);
-		
+
 		groupLayout.setAutoCreateContainerGaps(true);
 		groupLayout.setAutoCreateGaps(true);
 
-		groupLayout.setHorizontalGroup(
-				groupLayout.createSequentialGroup()
-				.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addComponent(fullName)
-						.addComponent(email)
-						.addComponent(username)
-						.addComponent(password)
-						.addComponent(societyCodeLabel)
-						)
-				
-				.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addComponent(textFullName)
-						.addComponent(textEmail)
-						.addComponent(textUserName)
-						.addComponent(textPassword)
-						.addComponent(societyCodeTextField)
-						.addGroup(
-								groupLayout.createSequentialGroup()
-									.addComponent(register)
-									.addComponent(cancel)
-						)
-				)
-		);
-		
-		groupLayout.setVerticalGroup(
-				groupLayout.createSequentialGroup()
-						.addGroup(
-								groupLayout.createParallelGroup(Alignment.BASELINE)
-									.addComponent(fullName)
-									.addComponent(textFullName))
-						.addGroup(
-								groupLayout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(email)
-								.addComponent(textEmail))
-						.addGroup(
-								groupLayout.createParallelGroup(Alignment.BASELINE)
-									.addComponent(username)
-									.addComponent(textUserName))
-						.addGroup(
-								groupLayout.createParallelGroup(Alignment.BASELINE)
-									.addComponent(password)
-									.addComponent(textPassword))
-						.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(societyCodeLabel)
-								.addComponent(societyCodeTextField))
-						.addGroup(
-								groupLayout.createParallelGroup()
-									.addComponent(register)
-									.addComponent(cancel)
-						)
-		);
+		groupLayout
+				.setHorizontalGroup(groupLayout.createSequentialGroup()
+						.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING).addComponent(fullName)
+								.addComponent(email).addComponent(username).addComponent(password)
+								.addComponent(societyCodeLabel))
+
+		.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING).addComponent(textFullName).addComponent(textEmail)
+				.addComponent(textUserName).addComponent(textPassword).addComponent(societyCodeTextField)
+				.addGroup(groupLayout.createSequentialGroup().addComponent(register).addComponent(cancel))));
+
+		groupLayout.setVerticalGroup(groupLayout.createSequentialGroup()
+				.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(fullName)
+						.addComponent(textFullName))
+				.addGroup(
+						groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(email).addComponent(textEmail))
+				.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(username)
+						.addComponent(textUserName))
+				.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(password)
+						.addComponent(textPassword))
+				.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(societyCodeLabel)
+						.addComponent(societyCodeTextField))
+				.addGroup(groupLayout.createParallelGroup().addComponent(register).addComponent(cancel)));
 		pack();
 	}
 
@@ -133,14 +118,22 @@ public class RegisterUser extends JDialog implements WindowListener {
 	}
 
 	private Object register() {
-		if(inputValidated(true)){
+		if (inputValidated(true)) {
 			if (SystemManager.society != null) {
 				User user = User.create(SystemManager.society.getSocietyId());
 				user.setName(textFullName.getText());
 				user.setEmail(textEmail.getText());
 				user.setUserName(textUserName.getText());
-				if (!User.save(user, textPassword.getText(), true)) {
-					JOptionPane.showMessageDialog(this, "Error while creating user", "Error", JOptionPane.ERROR_MESSAGE);
+
+				StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();
+				encryptor.setPassword(Constants.SALT);
+				String encryptedPassword = encryptor.encrypt(textPassword.getText());
+
+				if (!User.save(user, encryptedPassword, true)) {
+					JOptionPane.showMessageDialog(this, "Error while creating user", "Error",
+							JOptionPane.ERROR_MESSAGE);
+				} else {
+					new Login();
 				}
 			}
 		}

@@ -30,7 +30,7 @@ public interface Constants {
 				String SOCIETY_NAME = "name";
 				String ADDRESS = "address";
 				String REG_NUMBER = "reg_number";
-				String REG_DATE = "reg_date";
+				String REG_DATE = "reg_timestamp";
 				String SOCIETY_CODE = "society_code";
 			}
 		}
@@ -93,10 +93,10 @@ public interface Constants {
 				String LAST_MODIFIED = "last_modified";
 			}
 		}
-		
+
 		public interface BillCharge {
 			String TABLE_NAME = "bill_charge";
-			
+
 			public interface FieldName {
 				String AMOUNT = "amount";
 			}
@@ -185,20 +185,21 @@ public interface Constants {
 		public interface ChargeToPropertyType {
 			String TABLE_NAME = "charge_to_property_type";
 		}
-		
+
 		public interface Fine {
 			String TABLE_NAME = "fine";
-			
+
 			public interface FieldName {
 				String FINE_LOW = "fine_low";
 				String FINE_HIGH = "fine_high";
 				String PERCENTAGE_CHARGE = "perc_charge";
 			}
-			
+
 		}
 
 	}
 
 	String DB_NAME = Path.RESOURCE + "hsm_mgmt.sqlite";
+	String SALT = "hms";
 
 }

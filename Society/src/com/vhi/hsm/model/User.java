@@ -17,6 +17,8 @@ public class User {
 	private int societyId;
 
 	private String name;
+	
+	private String password;
 
 	private static HashMap<String, User> userMap = new HashMap<>();
 
@@ -177,7 +179,7 @@ public class User {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return !result;
+		return result;
 	}
 
 	public static User read(String userName) {
@@ -198,6 +200,7 @@ public class User {
 					user.setName(resultset.getString(Constants.Table.User.FieldName.FULL_NAME));
 					user.setSocietyId(resultset.getInt(Constants.Table.Society.FieldName.SOCIETY_ID));
 					user.setEmail(resultset.getString(Constants.Table.User.FieldName.EMAIL));
+					user.setPassword(resultset.getString(Constants.Table.User.FieldName.PASSWORD));
 				}
 				userMap.put(userName, user);
 			} catch (SQLException e) {
@@ -206,5 +209,13 @@ public class User {
 		}
 
 		return user;
+	}
+
+	private void setPassword(String password) {
+		this.password = password;
+	}
+	
+	public String getPassword(){
+		return password;
 	}
 }
