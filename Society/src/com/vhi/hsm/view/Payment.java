@@ -3,7 +3,12 @@ package com.vhi.hsm.view;
 import java.awt.Dialog;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -12,11 +17,18 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.vhi.hsm.controller.manager.SystemManager;
 import com.vhi.hsm.db.SQLiteManager;
@@ -24,7 +36,7 @@ import com.vhi.hsm.model.ModeOfPayment;
 import com.vhi.hsm.model.Property;
 
 /**
- * Payment View for making bill payment 
+ * Payment View for making bill payment
  * 
  * @author Vihar
  *
@@ -74,7 +86,7 @@ public class Payment extends JDialog implements WindowListener {
 
 		modeOfPaymentLabel = new JLabel("Mode of payment");
 		modeOfPaymentComboBox = new JComboBox<>(ModeOfPayment.getNames());
-		modeOfPaymentComboBox.addActionListener(e ->{
+		modeOfPaymentComboBox.addActionListener(e -> {
 			selectionListener();
 		});
 
@@ -105,14 +117,16 @@ public class Payment extends JDialog implements WindowListener {
 
 		groupLayout.setAutoCreateContainerGaps(true);
 		groupLayout.setAutoCreateGaps(true);
-		
+
 		groupLayout.setHorizontalGroup(groupLayout.createSequentialGroup()
 				.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING).addComponent(propertyNameLabel)
-						.addComponent(modeOfPaymentLabel).addComponent(chequeNoLabel).addComponent(remarksLabel).addComponent(confirmButton))
+						.addComponent(modeOfPaymentLabel).addComponent(chequeNoLabel).addComponent(remarksLabel)
+						.addComponent(confirmButton))
 				.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING).addComponent(propertyNamesComboBox)
-						.addComponent(modeOfPaymentComboBox).addComponent(chequeNoTextField).addComponent(remarksTextField)
-						.addGroup(groupLayout.createSequentialGroup().addComponent(backButton).addComponent(uploadButton))));
-		
+						.addComponent(modeOfPaymentComboBox).addComponent(chequeNoTextField)
+						.addComponent(remarksTextField).addGroup(groupLayout.createSequentialGroup()
+								.addComponent(backButton).addComponent(uploadButton))));
+
 		groupLayout.setVerticalGroup(groupLayout.createSequentialGroup()
 				.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(propertyNameLabel)
 						.addComponent(propertyNamesComboBox))
@@ -125,22 +139,20 @@ public class Payment extends JDialog implements WindowListener {
 				.addGroup(groupLayout.createParallelGroup().addComponent(confirmButton).addComponent(backButton)
 						.addComponent(uploadButton)));
 		pack();
-		
-//		selectionListener();
+
+		// selectionListener();
 	}
 
 	private void selectionListener() {
-		
+
 		String selection = (String) modeOfPaymentComboBox.getSelectedItem();
-		if(selection.equals(ModeOfPayment.CHEQUE.name())){
+		if (selection.equals(ModeOfPayment.CHEQUE.name())) {
 			chequeNoTextField.setEditable(true);
-		}else{
+		} else {
 			chequeNoTextField.setEditable(false);
 		}
-		
-	}
 
-	
+	}
 
 	private void fetchPropertyNames() {
 
@@ -170,7 +182,6 @@ public class Payment extends JDialog implements WindowListener {
 
 	@Override
 	public void windowDeactivated(WindowEvent e) {
-		this.dispose();
 	}
 
 	@Override
@@ -213,8 +224,58 @@ public class Payment extends JDialog implements WindowListener {
 	}
 
 	private void uploadExcel() {
-		// TODO Auto-generated method stub
 
+		JFileChooser fileChooser = new JFileChooser();
+		int result = fileChooser.showDialog(this, "save");
+		fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+		if (result == JFileChooser.APPROVE_OPTION) {
+			File selectedFile = fileChooser.getSelectedFile();
+			FileInputStream fileInputStream = null;
+			try {
+				fileInputStream = new FileInputStream(selectedFile);
+
+				// Using XSSF for xlsx format, for xls use HSSF
+				Workbook workbook = new XSSFWorkbook(fileInputStream);
+
+				int numberOfSheets = workbook.getNumberOfSheets();
+
+				// looping over each workbook sheet
+				for (int i = 0; i < numberOfSheets; i++) {
+					Sheet sheet = workbook.getSheetAt(i);
+					Iterator rowIterator = sheet.iterator();
+
+					// iterating over each row
+					while (rowIterator.hasNext()) {
+
+						Row row = (Row) rowIterator.next();
+						Iterator cellIterator = row.cellIterator();
+
+						// Iterating over each cell (column wise) in a
+						// particular row.
+
+						while (cellIterator.hasNext()) {
+
+							Cell cell = (Cell) cellIterator.next();
+
+							if (Cell.CELL_TYPE_STRING == cell.getCellType()) {
+								System.out.println(cell.getStringCellValue());
+							} else if (Cell.CELL_TYPE_NUMERIC == cell.getCellType()) {
+
+								System.out.println(cell.getNumericCellValue());
+							}
+						}
+					}
+				}
+
+				fileInputStream.close();
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 	private void cancelPayment() {
@@ -223,8 +284,8 @@ public class Payment extends JDialog implements WindowListener {
 	}
 
 	private void makePayment() {
-		if(validateInput(true)){
-			
+		if (validateInput(true)) {
+
 		}
 	}
 
