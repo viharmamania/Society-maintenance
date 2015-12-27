@@ -14,7 +14,6 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
-import org.jasypt.util.password.BasicPasswordEncryptor;
 
 import com.vhi.hsm.controller.manager.SystemManager;
 import com.vhi.hsm.model.User;

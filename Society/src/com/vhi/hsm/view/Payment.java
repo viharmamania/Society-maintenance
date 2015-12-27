@@ -242,13 +242,13 @@ public class Payment extends JDialog implements WindowListener {
 				// looping over each workbook sheet
 				for (int i = 0; i < numberOfSheets; i++) {
 					Sheet sheet = workbook.getSheetAt(i);
-					Iterator rowIterator = sheet.iterator();
+					Iterator<Row> rowIterator = sheet.iterator();
 
 					// iterating over each row
 					while (rowIterator.hasNext()) {
 
 						Row row = (Row) rowIterator.next();
-						Iterator cellIterator = row.cellIterator();
+						Iterator<Cell> cellIterator = row.cellIterator();
 
 						// Iterating over each cell (column wise) in a
 						// particular row.

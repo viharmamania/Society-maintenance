@@ -138,6 +138,7 @@ create table if not exists property
 	property_name	varchar2(50),
 	net_payable		double,
 	not_used		boolean,
+	last_payment_id	integer,
 	primary key		(property_id),
 	foreign key		(society_id, wing_id, floor_number) 	
 									references floor(society_id, wing_id, floor_number),

@@ -51,6 +51,8 @@ public class Society extends JDialog implements WindowListener {
 		txtRegNumber = new JTextField();
 
 		txtAreaSocietyAddr.setBorder(txtSocietyName.getBorder());
+		txtAreaSocietyAddr.setLineWrap(true);
+		txtAreaSocietyAddr.setWrapStyleWord(true);
 
 		btnRegister = new JButton("Register");
 		btnRegister.addActionListener(e -> {
