@@ -33,15 +33,17 @@ public class Property {
 	private double netPayable;
 
 	private boolean notUsed;
-	
+
+	private int latestPaymentId;
+
 	private ArrayList<Integer> assets;
-	
+
 	private static HashMap<Integer, Property> propertyMap;
-	
+
 	private static PreparedStatement readStatement, insertStatement, updateStatement, deleteStatement;
-	
+
 	private Property() {
-		
+
 	}
 
 	public ArrayList<Integer> getAssets() {
@@ -139,12 +141,20 @@ public class Property {
 	public void setNotUsed(boolean notUsed) {
 		this.notUsed = notUsed;
 	}
-	
+
 	public static Property get(int propertyId) {
 		Property property = null;
 		return property;
 	}
-	
+
+	public int getLatestPaymentId() {
+		return latestPaymentId;
+	}
+
+	public void setLatestPaymentId(int lastestPaymentId) {
+		this.latestPaymentId = lastestPaymentId;
+	}
+
 	public static Property create(int societyId, int wingId, int floorNumber, int floorPlanId, String propertyNumber) {
 		Property property = new Property();
 		property.societyId = societyId;
@@ -154,19 +164,18 @@ public class Property {
 		property.propertyName = propertyNumber;
 		return property;
 	}
-	
+
 	public static boolean save(Property property, boolean insertEntry) {
 		boolean result = false;
-		
+
 		if (property != null) {
-			
+
 			if (insertEntry) {
-				
+
 				if (insertStatement == null) {
-					insertStatement = SQLiteManager.getPreparedStatement("INSERT INTO " + Constants.Table.Property.TABLE_NAME
-							+ " ( "
-							+ Constants.Table.Society.FieldName.SOCIETY_ID + " , "
-							+ Constants.Table.Wing.FieldName.WING_ID + " , "
+					insertStatement = SQLiteManager.getPreparedStatement("INSERT INTO "
+							+ Constants.Table.Property.TABLE_NAME + " ( " + Constants.Table.Society.FieldName.SOCIETY_ID
+							+ " , " + Constants.Table.Wing.FieldName.WING_ID + " , "
 							+ Constants.Table.Floor.FieldName.FLOOR_NUMBER + " , "
 							+ Constants.Table.FloorPlan.FieldName.FLOOR_PLAN_ID + " , "
 							+ Constants.Table.FloorPlanDesign.FieldName.PROPERTY_NUMBER + " , "
@@ -174,11 +183,10 @@ public class Property {
 							+ Constants.Table.Property.FieldName.OWNER_NUMBER + " , "
 							+ Constants.Table.Property.FieldName.OWNER_EMAIL + " , "
 							+ Constants.Table.Property.FieldName.NET_PAYABLE + " , "
-							+ Constants.Table.Property.FieldName.NOT_USED
-							+ " ) "
+							+ Constants.Table.Property.FieldName.NOT_USED + " ) "
 							+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 				}
-				
+
 				if (insertStatement != null) {
 					try {
 						insertStatement.clearParameters();
@@ -196,20 +204,20 @@ public class Property {
 						if (result) {
 							ResultSet generatedKeys = insertStatement.getGeneratedKeys();
 							if (generatedKeys != null && generatedKeys.first()) {
-								property.propertyId = generatedKeys.getInt(Constants.Table.Property.FieldName.PROPERTY_ID);
+								property.propertyId = generatedKeys
+										.getInt(Constants.Table.Property.FieldName.PROPERTY_ID);
 							}
 						}
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
 				}
-				
+
 			} else {
-				
+
 				if (updateStatement == null) {
 					updateStatement = SQLiteManager.getPreparedStatement("UPDATE " + Constants.Table.Property.TABLE_NAME
-							+ " SET "
-							+ Constants.Table.Society.FieldName.SOCIETY_ID + " = ? , "
+							+ " SET " + Constants.Table.Society.FieldName.SOCIETY_ID + " = ? , "
 							+ Constants.Table.Wing.FieldName.WING_ID + " = ? , "
 							+ Constants.Table.Floor.FieldName.FLOOR_NUMBER + " = ? , "
 							+ Constants.Table.FloorPlan.FieldName.FLOOR_PLAN_ID + " = ? , "
@@ -218,11 +226,11 @@ public class Property {
 							+ Constants.Table.Property.FieldName.OWNER_NUMBER + " = ? , "
 							+ Constants.Table.Property.FieldName.OWNER_EMAIL + " = ? , "
 							+ Constants.Table.Property.FieldName.NET_PAYABLE + " = ? , "
-							+ Constants.Table.Property.FieldName.NOT_USED + " = ?"
-							+ " WHERE "
+							+ Constants.Table.Property.FieldName.NOT_USED + " = ?,"
+							+ Constants.Table.Property.FieldName.LATEST_PAYMENT_ID + " = ?" + " WHERE "
 							+ Constants.Table.Property.FieldName.PROPERTY_ID + " = ? ");
 				}
-				
+
 				if (updateStatement != null) {
 					try {
 						updateStatement.clearParameters();
@@ -236,37 +244,39 @@ public class Property {
 						updateStatement.setString(8, property.ownerEmail);
 						updateStatement.setDouble(9, property.netPayable);
 						updateStatement.setBoolean(10, property.notUsed);
-						updateStatement.setInt(11, property.propertyId);
+						updateStatement.setInt(11, property.latestPaymentId);
+						updateStatement.setInt(12, property.propertyId);
 						result = SQLiteManager.executePrepStatementAndGetResult(updateStatement);
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
 				}
-				
+
 			}
-			
+
 		}
-		
+
 		if (result) {
 			if (propertyMap == null) {
 				propertyMap = new HashMap<Integer, Property>();
 			}
 			propertyMap.put(property.propertyId, property);
 		}
-		
+
 		return result;
 	}
-	
+
 	public static boolean delete(Property property) {
 		boolean result = false;
-		
+
 		if (property != null) {
-			
+
 			if (deleteStatement == null) {
-				deleteStatement = SQLiteManager.getPreparedStatement("DELETE FROM " + Constants.Table.Property.TABLE_NAME
-						+ " WHERE " + Constants.Table.Property.FieldName.PROPERTY_ID + " = ? ");
+				deleteStatement = SQLiteManager
+						.getPreparedStatement("DELETE FROM " + Constants.Table.Property.TABLE_NAME + " WHERE "
+								+ Constants.Table.Property.FieldName.PROPERTY_ID + " = ? ");
 			}
-			
+
 			if (deleteStatement != null) {
 				try {
 					deleteStatement.clearParameters();
@@ -276,31 +286,32 @@ public class Property {
 					e.printStackTrace();
 				}
 			}
-			
+
 		}
-		
+
 		if (result && propertyMap != null) {
 			propertyMap.remove(property.propertyId);
 		}
-		
+
 		return result;
 	}
-	
+
 	public static Property read(int propertyId) {
 		Property property = null;
-		
+
 		if (propertyMap == null) {
 			propertyMap = new HashMap<Integer, Property>();
 		}
-		
+
 		property = propertyMap.get(propertyId);
 		if (property == null) {
-			
+
 			if (readStatement == null) {
-				readStatement = SQLiteManager.getPreparedStatement("SELECT * FROM " + Constants.Table.Property.TABLE_NAME
-						+ " WHERE " + Constants.Table.Property.FieldName.PROPERTY_ID + " = ?");
+				readStatement = SQLiteManager
+						.getPreparedStatement("SELECT * FROM " + Constants.Table.Property.TABLE_NAME + " WHERE "
+								+ Constants.Table.Property.FieldName.PROPERTY_ID + " = ?");
 			}
-			
+
 			if (readStatement != null) {
 				try {
 					readStatement.clearParameters();
@@ -313,7 +324,8 @@ public class Property {
 						property.wingId = resultSet.getInt(Constants.Table.Wing.FieldName.WING_ID);
 						property.floorNumber = resultSet.getInt(Constants.Table.Floor.FieldName.FLOOR_NUMBER);
 						property.floorPlanId = resultSet.getInt(Constants.Table.FloorPlan.FieldName.FLOOR_PLAN_ID);
-						property.propertyName = resultSet.getString(Constants.Table.FloorPlanDesign.FieldName.PROPERTY_NUMBER);
+						property.propertyName = resultSet
+								.getString(Constants.Table.FloorPlanDesign.FieldName.PROPERTY_NUMBER);
 						property.ownerName = resultSet.getString(Constants.Table.Property.FieldName.OWNER_NAME);
 						property.ownerNumber = resultSet.getString(Constants.Table.Property.FieldName.OWNER_NUMBER);
 						property.ownerEmail = resultSet.getString(Constants.Table.Property.FieldName.OWNER_EMAIL);
@@ -325,9 +337,9 @@ public class Property {
 					e.printStackTrace();
 				}
 			}
-			
+
 		}
-		
+
 		return property;
 	}
 
@@ -354,8 +366,7 @@ public class Property {
 	public static Map<Integer, Integer> getAllProperties(int societyId2) {
 		Map<Integer, Integer> propertyNameToIdMap = new HashMap<>();
 		String searchQuery = "select " + Constants.Table.Property.FieldName.PROPERTY_ID + ","
-				+ Constants.Table.Property.FieldName.PROPERTY_NAME + " "
-						+ "from " + Constants.Table.Property.TABLE_NAME
+				+ Constants.Table.Property.FieldName.PROPERTY_NAME + " " + "from " + Constants.Table.Property.TABLE_NAME
 				+ " where " + Constants.Table.Society.FieldName.SOCIETY_ID + " = " + societyId2;
 
 		ResultSet result = SQLiteManager.executeQuery(searchQuery);
@@ -389,5 +400,5 @@ public class Property {
 		}
 		return 0;
 	}
-	
+
 }

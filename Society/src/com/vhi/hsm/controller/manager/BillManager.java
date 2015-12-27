@@ -131,6 +131,11 @@ public class BillManager {
 		bill.setAssignedCharges(chargeIds);
 		bill.setAmount(billAmount);
 
+		//if property has available balance to settle this bill then mark it appropriately
+		if (property.getNetPayable() < 0 && Math.abs(property.getNetPayable()) >= billAmount) {
+			bill.setPaymentId(property.getLatestPaymentId());
+		}
+
 		// saving bill in DB
 		Bill.save(bill, false);
 

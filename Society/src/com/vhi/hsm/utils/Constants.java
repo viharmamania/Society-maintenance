@@ -150,6 +150,7 @@ public interface Constants {
 				String NET_PAYABLE = "net_payable";
 				String NOT_USED = "not_used";
 				String PROPERTY_NAME = "property_name";
+				String LATEST_PAYMENT_ID = "last_payment_id";
 			}
 		}
 

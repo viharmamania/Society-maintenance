@@ -57,19 +57,22 @@ public class PaymentManager {
 					if (!Property.save(property, false)) {
 						commit = false;
 					}
+					
+					property.setLatestPaymentId(payment.getPaymentId());
+					Property.save(property, false);
 
 				}
 
 			} else {
 				commit = false;
 			}
-			
+
 			if (!commit) {
 				paidBills.clear();
 			}
-			
+
 			SQLiteManager.endTransaction(commit, !commit);
-			
+
 		}
 
 		return paidBills;
