@@ -20,6 +20,7 @@ import com.vhi.hsm.controller.manager.UserManager;
 import com.vhi.hsm.db.SQLiteManager;
 import com.vhi.hsm.model.User;
 import com.vhi.hsm.utils.Constants;
+import com.vhi.hsm.view.panel.DashBoard;
 
 /**
  * First Frame that user will see in HMS system
@@ -179,15 +180,17 @@ public class Login extends JFrame implements WindowListener {
 
 			user = UserManager.getUser(txtUserName.getText());
 
-			if (SystemManager.loggedInUser == null) {
+			if (user == null) {
 				// error message
 				JOptionPane.showMessageDialog(this, "Username and password combination is incorrect", "Error",
 						JOptionPane.ERROR_MESSAGE);
 			} else {
 				String password = encryptor.decrypt(user.getPassword());
 				if (txtPassword.getText().equals(password)) {
-					SystemManager.society = com.vhi.hsm.model.Society.read(SystemManager.loggedInUser.getSocietyId());
+					SystemManager.society = com.vhi.hsm.model.Society.read(user.getSocietyId());
 					SystemManager.loggedInUser = user;
+					dispose();
+					new DashBoard();
 				} else {
 					// error message
 					JOptionPane.showMessageDialog(this, "Username and password combination is incorrect", "Error",
