@@ -18,6 +18,7 @@ import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 import com.vhi.hsm.controller.manager.SystemManager;
 import com.vhi.hsm.controller.manager.UserManager;
 import com.vhi.hsm.db.SQLiteManager;
+import com.vhi.hsm.model.User;
 import com.vhi.hsm.utils.Constants;
 
 /**
@@ -168,21 +169,25 @@ public class Login extends JFrame implements WindowListener {
 	}
 
 	private void login() {
+		
+		User user;
+		
 		if (validateInput(true)) {
 
 			StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();
 			encryptor.setPassword(Constants.SALT);
 
-			SystemManager.loggedInUser = UserManager.getUser(txtUserName.getText());
+			user = UserManager.getUser(txtUserName.getText());
 
 			if (SystemManager.loggedInUser == null) {
 				// error message
 				JOptionPane.showMessageDialog(this, "Username and password combination is incorrect", "Error",
 						JOptionPane.ERROR_MESSAGE);
 			} else {
-				String password = encryptor.decrypt(SystemManager.loggedInUser.getPassword());
+				String password = encryptor.decrypt(user.getPassword());
 				if (txtPassword.getText().equals(password)) {
 					SystemManager.society = com.vhi.hsm.model.Society.read(SystemManager.loggedInUser.getSocietyId());
+					SystemManager.loggedInUser = user;
 				} else {
 					// error message
 					JOptionPane.showMessageDialog(this, "Username and password combination is incorrect", "Error",
