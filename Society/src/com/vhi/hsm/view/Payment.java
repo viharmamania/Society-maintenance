@@ -47,12 +47,13 @@ public class Payment extends JDialog implements WindowListener {
 	 * 
 	 */
 	private static final long serialVersionUID = 8038931709318079644L;
-	private JTextField chequeNoTextField, remarksTextField = null;
-	private JLabel chequeNoLabel, propertyNameLabel, modeOfPaymentLabel, remarksLabel = null;
+	private JTextField chequeNoTextField, remarksTextField,amountTextField = null;
+	private JLabel chequeNoLabel, propertyNameLabel, modeOfPaymentLabel,amountLabel, remarksLabel = null;
 	private JComboBox<String> propertyNamesComboBox, modeOfPaymentComboBox = null;
 	private JButton confirmButton, backButton, uploadButton;
 	private int societyId;
-	private Set<Integer> propertyNames = new HashSet<>();
+	private Set<String> propertyNames = new HashSet<>();
+	Map<String, Integer> propertyNameToIdmap = null;
 
 	public Payment(Dialog parentDialog) {
 
@@ -93,6 +94,9 @@ public class Payment extends JDialog implements WindowListener {
 		chequeNoLabel = new JLabel("Cheque No");
 		chequeNoTextField = new JTextField();
 
+		amountLabel = new JLabel("Amount");
+		amountTextField = new JTextField();
+		
 		remarksLabel = new JLabel("Remarks");
 		remarksTextField = new JTextField();
 
@@ -120,10 +124,10 @@ public class Payment extends JDialog implements WindowListener {
 
 		groupLayout.setHorizontalGroup(groupLayout.createSequentialGroup()
 				.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING).addComponent(propertyNameLabel)
-						.addComponent(modeOfPaymentLabel).addComponent(chequeNoLabel).addComponent(remarksLabel)
+						.addComponent(modeOfPaymentLabel).addComponent(chequeNoLabel).addComponent(amountLabel).addComponent(remarksLabel)
 						.addComponent(confirmButton))
 				.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING).addComponent(propertyNamesComboBox)
-						.addComponent(modeOfPaymentComboBox).addComponent(chequeNoTextField)
+						.addComponent(modeOfPaymentComboBox).addComponent(chequeNoTextField).addComponent(amountTextField)
 						.addComponent(remarksTextField).addGroup(groupLayout.createSequentialGroup()
 								.addComponent(backButton).addComponent(uploadButton))));
 
@@ -134,6 +138,8 @@ public class Payment extends JDialog implements WindowListener {
 						.addComponent(modeOfPaymentComboBox))
 				.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(chequeNoLabel)
 						.addComponent(chequeNoTextField))
+				.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(amountLabel)
+						.addComponent(amountTextField))
 				.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(remarksLabel)
 						.addComponent(remarksTextField))
 				.addGroup(groupLayout.createParallelGroup().addComponent(confirmButton).addComponent(backButton)
@@ -160,7 +166,7 @@ public class Payment extends JDialog implements WindowListener {
 			if (propertyNames.size() == Property.getPropertyCount(societyId))
 				return;
 
-		Map<Integer, Integer> propertyNameToIdmap = Property.getAllProperties(societyId);
+		propertyNameToIdmap = Property.getAllProperties(societyId);
 		propertyNames = propertyNameToIdmap.keySet();
 
 	}
@@ -285,7 +291,15 @@ public class Payment extends JDialog implements WindowListener {
 
 	private void makePayment() {
 		if (validateInput(true)) {
+			// TODO call actual payment save service
+			com.vhi.hsm.model.Payment payment = com.vhi.hsm.model.Payment
+					.create(propertyNameToIdmap.get(propertyNamesComboBox.getSelectedItem()));
+			
+			payment.setRemarks(remarksTextField.getText());
+			payment.setAmount(Double.valueOf(amountTextField.getText()));
+			payment.setModeOfPayment((int) modeOfPaymentComboBox.getSelectedItem());
 
+			com.vhi.hsm.model.Payment.save(payment, true);
 		}
 	}
 
@@ -298,13 +312,13 @@ public class Payment extends JDialog implements WindowListener {
 			return false;
 		}
 
-		if (modeOfPaymentComboBox.getSelectedItem().equals(ModeOfPayment.SELECT.name())) {
+		/*if (modeOfPaymentComboBox.getSelectedItem().equals(ModeOfPayment.SELECT.name())) {
 			if (showErrorMessage) {
 				JOptionPane.showMessageDialog(this, "Select Appropriate Payment Mode", "Error",
 						JOptionPane.ERROR_MESSAGE);
 			}
 			return false;
-		}
+		}*/
 
 		return true;
 	}

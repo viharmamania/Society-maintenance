@@ -363,8 +363,8 @@ public class Property {
 
 	}
 
-	public static Map<Integer, Integer> getAllProperties(int societyId2) {
-		Map<Integer, Integer> propertyNameToIdMap = new HashMap<>();
+	public static Map<String, Integer> getAllProperties(int societyId2) {
+		Map<String, Integer> propertyNameToIdMap = new HashMap<>();
 		String searchQuery = "select " + Constants.Table.Property.FieldName.PROPERTY_ID + ","
 				+ Constants.Table.Property.FieldName.PROPERTY_NAME + " " + "from " + Constants.Table.Property.TABLE_NAME
 				+ " where " + Constants.Table.Society.FieldName.SOCIETY_ID + " = " + societyId2;
@@ -373,7 +373,7 @@ public class Property {
 		try {
 			if (result != null && result.next()) {
 				do {
-					int propertyName = result.getInt(Constants.Table.Property.FieldName.PROPERTY_NAME);
+					String propertyName = result.getString(Constants.Table.Property.FieldName.PROPERTY_NAME);
 					int property_id = result.getInt(Constants.Table.Property.FieldName.PROPERTY_ID);
 					propertyNameToIdMap.put(propertyName, property_id);
 					result.next();

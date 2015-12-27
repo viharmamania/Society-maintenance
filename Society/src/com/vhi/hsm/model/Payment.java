@@ -7,6 +7,7 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Date;
 
+import com.vhi.hsm.controller.manager.SystemManager;
 import com.vhi.hsm.db.SQLiteManager;
 import com.vhi.hsm.utils.Constants;
 
@@ -155,8 +156,8 @@ public class Payment {
 					insertStatement.setString(3, payment.transactionNumber);
 					insertStatement.setString(4, payment.remarks);
 					insertStatement.setTimestamp(5, new Timestamp(payment.cancellationDate.getTime()));
-					insertStatement.setBoolean(6, payment.isCancelled);
-					insertStatement.setString(7, payment.modifiedBy);
+					insertStatement.setBoolean( 6, false);
+					insertStatement.setString(7, SystemManager.loggedInUser.getName());
 					insertStatement.setTimestamp(8, Timestamp.valueOf(LocalDateTime.now()));
 					insertStatement.setDouble(9, payment.amount);
 					result = SQLiteManager.executePrepStatementAndGetResult(insertStatement);
