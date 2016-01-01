@@ -1,8 +1,8 @@
 package com.vhi.hsm.view.panel;
 
-import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
@@ -13,11 +13,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
-import javax.swing.SwingUtilities;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeSelectionModel;
 
 import com.vhi.hsm.controller.manager.SystemManager;
+import com.vhi.hsm.view.AssetTypeScreen;
+import com.vhi.hsm.view.ChargeScreen;
 
 public class DashBoard extends JFrame implements WindowListener {
 
@@ -51,10 +52,16 @@ public class DashBoard extends JFrame implements WindowListener {
 
 		propertyPayButton = new JButton("Pay Bills");
 		propertyAssetButton = new JButton("View & Edit Assets");
+		propertyAssetButton.addActionListener(e -> {
+			new AssetTypeScreen(this);
+		});
 		propertyViewButton = new JButton("View & Edit Properties");
 		billGenerateButton = new JButton("Generate Monthly Bill");
 		billViewButton = new JButton("View Bills");
 		chargeViewButton = new JButton("View & Edit Charges");
+		chargeViewButton.addActionListener(e -> {
+			new ChargeScreen(this);
+		});
 		paymentViewButton = new JButton("View & Edit Payments");
 		paymentMakeButton = new JButton("Make Payment");
 
@@ -99,38 +106,27 @@ public class DashBoard extends JFrame implements WindowListener {
 		c.gridwidth = 1;
 		getContentPane().add(infoPanel, c);
 
-		paymentPanel.setLayout(new FlowLayout());
+		paymentPanel.setLayout(new GridLayout(0, 1));
 		paymentPanel.add(paymentViewButton);
 		paymentPanel.add(paymentMakeButton);
 
-		billPanel.setLayout(new FlowLayout());
+		billPanel.setLayout(new GridLayout(0, 1));
 		billPanel.add(billViewButton);
 		billPanel.add(billGenerateButton);
 
-		propertyPanel.setLayout(new FlowLayout());
+		propertyPanel.setLayout(new GridLayout(0, 1));
 		propertyPanel.add(propertyViewButton);
 		propertyPanel.add(propertyAssetButton);
 		propertyPanel.add(propertyPayButton);
 
-		chargePanel.setLayout(new FlowLayout());
+		chargePanel.setLayout(new GridLayout(0, 1));
 		chargePanel.add(chargeViewButton);
 
-		c= new GridBagConstraints();
-		c.fill = GridBagConstraints.HORIZONTAL;
-		infoPanel.setLayout(new GridBagLayout());
-		c.gridx = 1;
-		c.gridy = 1;
-		
-		infoPanel.add(billPanel, c);
-		c.gridx = 1;
-		c.gridy = 2;
-		infoPanel.add(paymentPanel, c);
-		c.gridx = 1;
-		c.gridy = 3;
-		infoPanel.add(propertyPanel, c);
-		c.gridx = 1;
-		c.gridy = 4;
-		infoPanel.add(chargePanel, c);
+		infoPanel.setLayout(new GridLayout(0, 2));		
+		infoPanel.add(billPanel);
+		infoPanel.add(paymentPanel);
+		infoPanel.add(propertyPanel);
+		infoPanel.add(chargePanel);
 		
 		societyInfoPanel.setLayout(new GridBagLayout());
 		JLabel label;

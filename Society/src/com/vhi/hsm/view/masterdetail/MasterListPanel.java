@@ -159,7 +159,11 @@ public class MasterListPanel extends JPanel {
 	}
 
 	public int getSelectedItemId() {
-		return listItems.get(selectedItemIndex).getItemId();
+		if(listItems.size() > selectedItemIndex) {
+			return listItems.get(selectedItemIndex).getItemId();
+		} else {
+			return -1;
+		}
 	}
 	
 	public void setSelectedItem(int itemId) {

@@ -23,6 +23,16 @@ public class Charge {
 	
 	private boolean isdefault;
 
+	public boolean isdefault() {
+		return isdefault;
+	}
+
+
+	public void setdefault(boolean isdefault) {
+		this.isdefault = isdefault;
+	}
+
+
 	private boolean isCancelled;
 	
 	private ArrayList<String> assignedPropertyGroup;
@@ -123,7 +133,7 @@ public class Charge {
 		if (charge == null) {
 			
 			if (readStatement == null) {
-				readStatement = SQLiteManager.getPreparedStatement("SELECT * FORM " + Constants.Table.Charge.TABLE_NAME
+				readStatement = SQLiteManager.getPreparedStatement("SELECT * FROM " + Constants.Table.Charge.TABLE_NAME
 						+ " WHERE " + Constants.Table.Society.FieldName.SOCIETY_ID + " = ?"
 						+ " AND " + Constants.Table.Charge.FieldName.CHARGE_ID + " = ?");
 				
@@ -227,6 +237,11 @@ public class Charge {
 				
 				if (insertStatement != null) {
 					try {
+						
+						if (charge.chargeId == -1) {
+							charge.chargeId = getNewChargeId(charge.societyId);
+						}
+						
 						insertStatement.clearParameters();
 						insertStatement.setInt(1, charge.societyId);
 						insertStatement.setInt(2, charge.chargeId);
@@ -329,6 +344,7 @@ public class Charge {
 	public static Charge create(int societyId) {
 		Charge charge = new Charge();
 		charge.societyId = societyId;
+		charge.chargeId = -1;
 		return charge;
 	}
 
@@ -337,6 +353,44 @@ public class Charge {
 	public static Charge getFineCharge() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	public static ArrayList<Charge> getAllCharge(int societyId) {
+		ArrayList<Charge> list = new ArrayList<Charge>();
+		ResultSet resultSet = SQLiteManager.executeQuery("SELECT * FROM " + Constants.Table.Charge.TABLE_NAME
+				+ " WHERE " + Constants.Table.Society.FieldName.SOCIETY_ID + " = " + societyId);
+		if (resultSet != null) {
+			Charge charge;
+			try {
+				while(resultSet.next()) {
+					charge = null;
+					charge = read(societyId, resultSet.getInt(Constants.Table.Charge.FieldName.CHARGE_ID));
+					if (charge != null) {
+						list.add(charge);
+					}
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return list;
+	}
+	
+	public static int getNewChargeId(int societyId) {
+		int newId = -2;
+		ResultSet idMax = SQLiteManager.executeQuery("SELECT MAX(" + Constants.Table.Charge.FieldName.CHARGE_ID 
+				+ ") max_id FROM " + Constants.Table.Charge.TABLE_NAME
+				+ " WHERE " + Constants.Table.Society.FieldName.SOCIETY_ID + " = " + societyId);
+		try {
+			if (idMax.next()) {
+			   newId = idMax.getInt("max_id");  
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		newId++;
+		System.out.println(newId);
+		return newId;
 	}
 
 }

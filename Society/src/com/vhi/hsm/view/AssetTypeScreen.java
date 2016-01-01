@@ -55,7 +55,9 @@ public class AssetTypeScreen extends JDialog implements WindowListener {
 		public void itemSelected(int id) {
 			AssetTypeMasterListItem item = listItems.get(id);
 			if (item != null) {
+				assetTypeMasterDetailPanel.getMasterDetailPanel().setDetailPanel(detailsPanel);
 				detailsPanel.setAssetType(item.assetType, !item.isNewAssetType);
+				pack();
 			}
 		}
 
@@ -104,7 +106,6 @@ public class AssetTypeScreen extends JDialog implements WindowListener {
 		listItems = new HashMap<Integer, AssetTypeMasterListItem>();
 		assetTypeMasterDetailPanel = new MasterDetailPanel(callback);
 		detailsPanel = new AssetTypeDetails();
-		assetTypeMasterDetailPanel.getMasterDetailPanel().setDetailPanel(detailsPanel);
 		prepareList();
 		initializeLayout();
 	}

@@ -20,13 +20,11 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
-import com.vhi.hsm.controller.manager.SystemManager;
 import com.vhi.hsm.db.SQLiteManager;
 import com.vhi.hsm.utils.Constants;
 
 public class TempCharge extends JDialog implements WindowListener {
 
-	private int societyId;
 	private Map<String, Integer> chargeToIdMap = new HashMap<>();
 
 	private JLabel tempChargeLabel, newTempChargeLabel, newTempChargeValueLabel;
@@ -48,7 +46,6 @@ public class TempCharge extends JDialog implements WindowListener {
 		addWindowListener(this);
 		setLocationRelativeTo(parentDialog);
 		setVisible(true);
-		societyId = SystemManager.society.getSocietyId();
 		fetchTempCharges();
 		intializeLayout();
 	}
@@ -60,7 +57,6 @@ public class TempCharge extends JDialog implements WindowListener {
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		addWindowListener(this);
 		setVisible(true);
-		societyId = SystemManager.society.getSocietyId();
 		fetchTempCharges();
 		intializeLayout();
 	}
