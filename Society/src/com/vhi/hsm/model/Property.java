@@ -5,8 +5,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import com.vhi.hsm.controller.manager.SystemManager;
 import com.vhi.hsm.db.SQLiteManager;
 import com.vhi.hsm.utils.Constants;
 
@@ -164,6 +166,12 @@ public class Property {
 		property.propertyName = propertyNumber;
 		return property;
 	}
+	
+	public static Property create() {
+		Property property = new Property();
+		property.societyId = SystemManager.society.getSocietyId();
+		return property;
+	}
 
 	public static boolean save(Property property, boolean insertEntry) {
 		boolean result = false;
@@ -203,7 +211,7 @@ public class Property {
 						result = SQLiteManager.executePrepStatementAndGetResult(insertStatement);
 						if (result) {
 							ResultSet generatedKeys = insertStatement.getGeneratedKeys();
-							if (generatedKeys != null && generatedKeys.first()) {
+							if (generatedKeys.getType()!= ResultSet.TYPE_FORWARD_ONLY && generatedKeys != null && generatedKeys.first()) {
 								property.propertyId = generatedKeys
 										.getInt(Constants.Table.Property.FieldName.PROPERTY_ID);
 							}
@@ -325,7 +333,7 @@ public class Property {
 						property.floorNumber = resultSet.getInt(Constants.Table.Floor.FieldName.FLOOR_NUMBER);
 						property.floorPlanId = resultSet.getInt(Constants.Table.FloorPlan.FieldName.FLOOR_PLAN_ID);
 						property.propertyName = resultSet
-								.getString(Constants.Table.FloorPlanDesign.FieldName.PROPERTY_NUMBER);
+								.getString(Constants.Table.Property.FieldName.PROPERTY_NAME);
 						property.ownerName = resultSet.getString(Constants.Table.Property.FieldName.OWNER_NAME);
 						property.ownerNumber = resultSet.getString(Constants.Table.Property.FieldName.OWNER_NUMBER);
 						property.ownerEmail = resultSet.getString(Constants.Table.Property.FieldName.OWNER_EMAIL);
@@ -363,7 +371,7 @@ public class Property {
 
 	}
 
-	public static Map<String, Integer> getAllProperties(int societyId2) {
+	public static Map<String, Integer> getAllPropertyNames(int societyId2) {
 		Map<String, Integer> propertyNameToIdMap = new HashMap<>();
 		String searchQuery = "select " + Constants.Table.Property.FieldName.PROPERTY_ID + ","
 				+ Constants.Table.Property.FieldName.PROPERTY_NAME + " " + "from " + Constants.Table.Property.TABLE_NAME
@@ -399,6 +407,28 @@ public class Property {
 			e.printStackTrace();
 		}
 		return 0;
+	}
+
+	public static List<Property> getAllProperties(int societyId2) {
+
+		List<Property> properties = new ArrayList<>();
+		
+		String searchQuery = "select * from " + Constants.Table.Property.TABLE_NAME + " where "
+				+ Constants.Table.Society.FieldName.SOCIETY_ID + " = " + societyId2;
+
+		ResultSet result = SQLiteManager.executeQuery(searchQuery);
+		try {
+			if (result != null && result.next()) {
+				do {
+					int property_id = result.getInt(Constants.Table.Property.FieldName.PROPERTY_ID);
+					properties.add(read(property_id));
+					result.next();
+				} while (!result.isAfterLast());
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return properties;
 	}
 
 }

@@ -132,6 +132,7 @@ public class RegisterUser extends JDialog implements WindowListener {
 					JOptionPane.showMessageDialog(this, "Error while creating user", "Error",
 							JOptionPane.ERROR_MESSAGE);
 				} else {
+					dispose();
 					new Login();
 				}
 			}

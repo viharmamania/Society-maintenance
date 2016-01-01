@@ -166,7 +166,7 @@ public class Payment extends JDialog implements WindowListener {
 			if (propertyNames.size() == Property.getPropertyCount(societyId))
 				return;
 
-		propertyNameToIdmap = Property.getAllProperties(societyId);
+		propertyNameToIdmap = Property.getAllPropertyNames(societyId);
 		propertyNames = propertyNameToIdmap.keySet();
 
 	}

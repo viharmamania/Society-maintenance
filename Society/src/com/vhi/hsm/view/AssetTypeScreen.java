@@ -67,7 +67,7 @@ public class AssetTypeScreen extends JDialog implements WindowListener {
 			if (item != null) {
 				item.delete();
 				prepareList();
-				assetTypeMasterDetailPanel.getMasterDetailPanel().removePanel();
+//				assetTypeMasterDetailPanel.getMasterDetailPanel().removePanel();
 			}
 		}
 

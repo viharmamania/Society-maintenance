@@ -136,6 +136,7 @@ public class Society extends JDialog implements WindowListener {
 			String regDate = txtRegDate.getText().trim();
 
 			if (SocietyManager.registerSociety(societyName, societyAddress, regNumber, regDate)) {
+				dispose();
 				new RegisterUser(this);
 			}
 		}
