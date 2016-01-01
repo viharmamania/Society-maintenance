@@ -8,6 +8,7 @@ import java.util.List;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -90,7 +91,7 @@ public class PropertyView extends JDialog implements WindowListener {
 
 	};
 
-	public PropertyView(JDialog parent) {
+	public PropertyView(JFrame parent) {
 
 		super(parent);
 		this.setTitle("Manage Flats");

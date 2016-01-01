@@ -19,6 +19,7 @@ import javax.swing.tree.TreeSelectionModel;
 import com.vhi.hsm.controller.manager.SystemManager;
 import com.vhi.hsm.view.AssetTypeScreen;
 import com.vhi.hsm.view.ChargeScreen;
+import com.vhi.hsm.view.PropertyView;
 
 public class DashBoard extends JFrame implements WindowListener {
 
@@ -55,13 +56,20 @@ public class DashBoard extends JFrame implements WindowListener {
 		propertyAssetButton.addActionListener(e -> {
 			new AssetTypeScreen(this);
 		});
+		
 		propertyViewButton = new JButton("View & Edit Properties");
+		propertyViewButton.addActionListener(e -> {
+			new PropertyView(this);
+		});
+		
 		billGenerateButton = new JButton("Generate Monthly Bill");
+		
 		billViewButton = new JButton("View Bills");
 		chargeViewButton = new JButton("View & Edit Charges");
 		chargeViewButton.addActionListener(e -> {
 			new ChargeScreen(this);
 		});
+		
 		paymentViewButton = new JButton("View & Edit Payments");
 		paymentMakeButton = new JButton("Make Payment");
 
