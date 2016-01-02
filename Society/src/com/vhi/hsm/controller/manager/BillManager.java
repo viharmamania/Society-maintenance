@@ -45,19 +45,25 @@ public class BillManager {
 			try {
 
 				PreparedStatement readStatement = SQLiteManager.getPreparedStatement(readProperties);
+				readStatement.clearParameters();
 				readStatement.setInt(1, societyId);
 
-				ResultSet result = readStatement.getResultSet();
+				ResultSet res = readStatement.executeQuery();
 
-				// adding the properties result in Property Hashmap
-				Property.addProperties(result);
+				// adding the properties result in Property Hash-map
+				Property.addProperties(res);
+				
+				readStatement.clearParameters();
+				readStatement.setInt(1, societyId);
+				ResultSet result = readStatement.executeQuery();
 
 				// fetching the List of properties for this societyId
-				do {
-					result.next();
-					properties.add(Property.read(result.getInt(Constants.Table.Property.FieldName.PROPERTY_ID)));
-				} while (!result.isAfterLast());
-
+				if (result != null && result.next()) {
+					do {
+						properties.add(Property.read(result.getInt(Constants.Table.Property.FieldName.PROPERTY_ID)));
+						result.next();
+					} while (!result.isAfterLast());
+				}
 				// generating individual bills and adding to list of bills
 				for (Property property : properties) {
 					societyBills.add(generatePropertySpecificBill(property));
@@ -208,9 +214,11 @@ public class BillManager {
 		PreparedStatement fetchChargesStmt = SQLiteManager.getPreparedStatement(query.toString());
 
 		try {
-			fetchChargesStmt.setString(1, property.getPropertyName());
+			fetchChargesStmt.setInt(1, SystemManager.society.getSocietyId());
 			fetchChargesStmt.setString(2, property.getPropertyName());
-			fetchChargesStmt.setInt(3, property.getPropertyId());
+			fetchChargesStmt.setInt(3, SystemManager.society.getSocietyId());
+			fetchChargesStmt.setString(4, property.getPropertyName());
+			fetchChargesStmt.setInt(5, property.getPropertyId());
 			ResultSet result = fetchChargesStmt.executeQuery();
 			if (result != null) {
 				do {

@@ -5,18 +5,25 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.FileNotFoundException;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeSelectionModel;
 
+import com.itextpdf.text.DocumentException;
+import com.vhi.hsm.controller.manager.BillManager;
+import com.vhi.hsm.controller.manager.PDFManager;
 import com.vhi.hsm.controller.manager.SystemManager;
+import com.vhi.hsm.model.Bill;
 import com.vhi.hsm.view.AssetTypeScreen;
 import com.vhi.hsm.view.ChargeScreen;
 import com.vhi.hsm.view.Payment;
@@ -64,7 +71,10 @@ public class DashBoard extends JFrame implements WindowListener {
 		});
 
 		billGenerateButton = new JButton("Generate Monthly Bill");
-
+		billGenerateButton.addActionListener(e ->{
+			generateBill();
+		});
+		
 		billViewButton = new JButton("View Bills");
 		chargeViewButton = new JButton("View & Edit Charges");
 		chargeViewButton.addActionListener(e -> {
@@ -93,6 +103,16 @@ public class DashBoard extends JFrame implements WindowListener {
 		setLocationRelativeTo(null);
 		initLayout();
 		setVisible(true);
+	}
+
+	private void generateBill() {
+		try {
+			List<Bill> bills = BillManager.generateBill(SystemManager.society.getSocietyId());
+			PDFManager.generateBillPDF(bills);
+			JOptionPane.showMessageDialog(this, "The Bills have been generated successfully ", "Success", JOptionPane.INFORMATION_MESSAGE);
+		} catch (FileNotFoundException | DocumentException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void initLayout() {

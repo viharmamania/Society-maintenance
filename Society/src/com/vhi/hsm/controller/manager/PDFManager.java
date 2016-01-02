@@ -29,7 +29,6 @@ public class PDFManager {
 		PdfWriter pdfWriter = PdfWriter.getInstance(document,
 				new FileOutputStream("Maintenance Bills " + Calendar.getInstance().get(Calendar.YEAR) + " "
 						+ Calendar.getInstance().get(Calendar.MONTH) + ".pdf"));
-
 		document.open();
 		
 		PdfPTable headerTable = new PdfPTable(1);
@@ -43,10 +42,10 @@ public class PDFManager {
 			bill = null;
 			bill = bills.get(i);
 			if (bill != null) {
-//				Society Information		
+				//Society Information		
 				document.add(headerTable);
 				
-//				Owner Information
+				//Owner Information
 				PdfPTable flatTable = new PdfPTable(2);
 				Property property = Property.read(bill.getPropertyId());
 				if (property != null) {
@@ -57,7 +56,7 @@ public class PDFManager {
 					document.add(flatTable);
 				}
 				
-//				Bill charges
+				//Bill charges
 				PdfPTable billTable = new PdfPTable(2);
 				billTable.addCell("Charge");
 				billTable.addCell("Amount");
@@ -71,7 +70,7 @@ public class PDFManager {
 					}
 				}
 				
-//				add new bill in new page
+				//add new bill in new page
 				if (i != (bills.size() - 1)) {
 					document.newPage();
 				}
