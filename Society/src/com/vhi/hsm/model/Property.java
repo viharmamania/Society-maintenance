@@ -211,9 +211,8 @@ public class Property {
 						result = SQLiteManager.executePrepStatementAndGetResult(insertStatement);
 						if (result) {
 							ResultSet generatedKeys = insertStatement.getGeneratedKeys();
-							if (generatedKeys.getType()!= ResultSet.TYPE_FORWARD_ONLY && generatedKeys != null && generatedKeys.first()) {
-								property.propertyId = generatedKeys
-										.getInt(Constants.Table.Property.FieldName.PROPERTY_ID);
+							if ( generatedKeys != null) {
+								property.propertyId = generatedKeys.getInt(1);
 							}
 						}
 					} catch (SQLException e) {
@@ -400,7 +399,7 @@ public class Property {
 		ResultSet result = SQLiteManager.executeQuery(countQuery);
 		try {
 			if (result != null && result.next()) {
-				return result.getInt(0);
+				return result.getInt(1);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

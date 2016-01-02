@@ -205,8 +205,8 @@ public class Bill {
 						result = SQLiteManager.executePrepStatementAndGetResult(insertStatement);
 						if (result) {
 							ResultSet generatedKeys = insertStatement.getGeneratedKeys();
-							if (generatedKeys != null && generatedKeys.first()) {
-								bill.billId = generatedKeys.getInt(Constants.Table.Bill.FieldName.BILL_ID);
+							if (generatedKeys != null) {
+								bill.billId = generatedKeys.getInt(1);
 							}
 						}
 					} catch (SQLException e) {
