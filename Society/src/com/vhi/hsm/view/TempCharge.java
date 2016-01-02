@@ -20,13 +20,15 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
+import org.apache.log4j.Logger;
+
 import com.vhi.hsm.db.SQLiteManager;
 import com.vhi.hsm.utils.Constants;
 
 public class TempCharge extends JDialog implements WindowListener {
 
 	private Map<String, Integer> chargeToIdMap = new HashMap<>();
-
+	private final static Logger LOG = Logger.getLogger(TempCharge.class);
 	private JLabel tempChargeLabel, newTempChargeLabel, newTempChargeValueLabel;
 	private JComboBox<String> tempChargeComboBox;
 	private JTextField newTempChargeTextField, newTempChargeValueTextField;
@@ -159,7 +161,7 @@ public class TempCharge extends JDialog implements WindowListener {
 			}
 			charges.add("Other");
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOG.error(e.getMessage());
 		}
 
 		return charges.toArray(new String[charges.size()]);

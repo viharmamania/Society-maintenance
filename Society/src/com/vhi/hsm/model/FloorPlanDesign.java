@@ -5,10 +5,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 
+import org.apache.log4j.Logger;
+
 import com.vhi.hsm.db.SQLiteManager;
 import com.vhi.hsm.utils.Constants;
 
 public class FloorPlanDesign {
+	
+	private final static Logger LOG = Logger.getLogger(FloorPlanDesign.class);
 
 	private int societyId;
 
@@ -117,7 +121,7 @@ public class FloorPlanDesign {
 						floorsPlanDesign.put(propertyNumber, floorPlanDesign);
 					}
 				} catch (SQLException e) {
-					e.printStackTrace();
+					LOG.error(e.getMessage());;
 				}
 			}
 
@@ -153,7 +157,7 @@ public class FloorPlanDesign {
 						insertStatement.setString(5, floorPlanDesign.propertyType);
 						result = SQLiteManager.executePrepStatementAndGetResult(insertStatement);
 					} catch (SQLException e) {
-						e.printStackTrace();
+						LOG.error(e.getMessage());;
 					}
 				}
 
@@ -179,7 +183,7 @@ public class FloorPlanDesign {
 						updateStatement.setInt(5, floorPlanDesign.propertyNumber);
 						result = SQLiteManager.executePrepStatementAndGetResult(updateStatement);
 					} catch (SQLException e) {
-						e.printStackTrace();
+						LOG.error(e.getMessage());;
 					}
 				}
 
@@ -232,7 +236,7 @@ public class FloorPlanDesign {
 					deleteStatement.setInt(3, floorPlanDesign.propertyNumber);
 					result = SQLiteManager.executePrepStatementAndGetResult(deleteStatement);
 				} catch (SQLException e) {
-					e.printStackTrace();
+					LOG.error(e.getMessage());;
 				}
 			}
 

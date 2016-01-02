@@ -5,11 +5,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 
+import org.apache.log4j.Logger;
+
 import com.vhi.hsm.db.SQLiteManager;
 import com.vhi.hsm.utils.Constants;
 
 public class Wing {
 
+	private final static Logger LOG = Logger.getLogger(Wing.class);
 	private int societyId;
 
 	private int wingId;
@@ -127,7 +130,7 @@ public class Wing {
 			deleteStatement.setInt(2, wing.getWingId());
 			result = SQLiteManager.executePrepStatementAndGetResult(deleteStatement);
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOG.error(e.getMessage());
 		}
 		return result;
 	}
@@ -173,7 +176,7 @@ public class Wing {
 
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOG.error(e.getMessage());
 		}
 		return result;
 	}
@@ -209,7 +212,7 @@ public class Wing {
 
 					}
 				} catch (SQLException e) {
-					e.printStackTrace();
+					LOG.error(e.getMessage());
 				}
 
 			}

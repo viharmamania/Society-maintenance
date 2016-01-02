@@ -25,6 +25,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
+import org.apache.log4j.Logger;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -49,6 +50,7 @@ public class Payment extends JDialog implements WindowListener {
 	 * 
 	 */
 	private static final long serialVersionUID = 8038931709318079644L;
+	private final static Logger LOG = Logger.getLogger(Payment.class);
 	private JTextField chequeNoTextField, remarksTextField, amountTextField = null;
 	private JLabel chequeNoLabel, propertyNameLabel, modeOfPaymentLabel, amountLabel, remarksLabel = null;
 	private JComboBox<String> propertyNamesComboBox, modeOfPaymentComboBox = null;
@@ -293,10 +295,10 @@ public class Payment extends JDialog implements WindowListener {
 				fileInputStream.close();
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				LOG.error(e.getMessage());
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				LOG.error(e.getMessage());
 			}
 		}
 	}

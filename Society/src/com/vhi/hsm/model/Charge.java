@@ -6,11 +6,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.apache.log4j.Logger;
+
 import com.vhi.hsm.db.SQLiteManager;
 import com.vhi.hsm.utils.Constants;
 
 public class Charge {
-	
+	private final static Logger LOG = Logger.getLogger(Charge.class);
 	private int societyId;
 	
 	private int chargeId;
@@ -205,7 +207,7 @@ public class Charge {
 						societyCharges.put(chargeId, charge);
 					}
 				} catch (SQLException e) {
-					e.printStackTrace();
+					LOG.error(e.getMessage());
 				}
 			}
 			
@@ -252,7 +254,7 @@ public class Charge {
 						insertStatement.setBoolean(7, charge.isdefault);
 						result = SQLiteManager.executePrepStatementAndGetResult(insertStatement);
 					} catch (SQLException e) {
-						e.printStackTrace();
+						LOG.error(e.getMessage());
 					}
 				}
 				
@@ -282,7 +284,7 @@ public class Charge {
 						updateStatement.setInt(7, charge.chargeId);
 						result = SQLiteManager.executePrepStatementAndGetResult(updateStatement);
 					} catch (SQLException e) {
-						e.printStackTrace();
+						LOG.error(e.getMessage());
 					}
 				}
 				
@@ -325,7 +327,7 @@ public class Charge {
 				deleteStatement.setInt(2, charge.chargeId);
 				result = SQLiteManager.executePrepStatementAndGetResult(deleteStatement);
 			} catch (SQLException e) {
-				e.printStackTrace();
+				LOG.error(e.getMessage());
 			}
 		}
 		
@@ -370,7 +372,7 @@ public class Charge {
 					}
 				}
 			} catch (SQLException e) {
-				e.printStackTrace();
+				LOG.error(e.getMessage());
 			}
 		}
 		return list;
@@ -386,7 +388,7 @@ public class Charge {
 			   newId = idMax.getInt("max_id");  
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOG.error(e.getMessage());
 		}
 		newId++;
 		System.out.println(newId);

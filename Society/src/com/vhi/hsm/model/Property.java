@@ -8,12 +8,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
+
 import com.vhi.hsm.controller.manager.SystemManager;
 import com.vhi.hsm.db.SQLiteManager;
 import com.vhi.hsm.utils.Constants;
 
 public class Property {
 
+	private final static Logger LOG = Logger.getLogger(SQLiteManager.class);
 	private int propertyId;
 
 	private int societyId;
@@ -216,7 +219,7 @@ public class Property {
 							}
 						}
 					} catch (SQLException e) {
-						e.printStackTrace();
+						LOG.error(e.getMessage());
 					}
 				}
 
@@ -255,7 +258,7 @@ public class Property {
 						updateStatement.setInt(12, property.propertyId);
 						result = SQLiteManager.executePrepStatementAndGetResult(updateStatement);
 					} catch (SQLException e) {
-						e.printStackTrace();
+						LOG.error(e.getMessage());
 					}
 				}
 
@@ -290,7 +293,7 @@ public class Property {
 					deleteStatement.setInt(1, property.propertyId);
 					result = SQLiteManager.executePrepStatementAndGetResult(deleteStatement);
 				} catch (SQLException e) {
-					e.printStackTrace();
+					LOG.error(e.getMessage());
 				}
 			}
 
@@ -341,7 +344,7 @@ public class Property {
 						propertyMap.put(propertyId, property);
 					}
 				} catch (SQLException e) {
-					e.printStackTrace();
+					LOG.error(e.getMessage());
 				}
 			}
 
@@ -390,7 +393,7 @@ public class Property {
 				} while (!result.isAfterLast());
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOG.error(e.getMessage());
 		}
 		return propertyNameToIdMap;
 	}
@@ -406,7 +409,7 @@ public class Property {
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOG.error(e.getMessage());
 		}
 		return 0;
 	}
@@ -428,7 +431,7 @@ public class Property {
 				} while (!result.isAfterLast());
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOG.error(e.getMessage());
 		}
 		return properties;
 	}

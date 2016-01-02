@@ -5,11 +5,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 
+import org.apache.log4j.Logger;
+
 import com.vhi.hsm.db.SQLiteManager;
 import com.vhi.hsm.utils.Constants;
 
 public class Society {
 
+	private final static Logger LOG = Logger.getLogger(SQLiteManager.class);
 	private int societyId;
 
 	private String name;
@@ -176,7 +179,7 @@ public class Society {
 			deleteStatement.setInt(1, society.getSocietyId());
 			result = SQLiteManager.executePrepStatementAndGetResult(deleteStatement);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOG.error(e.getMessage());
 		}
 		return result;
 	}
@@ -219,7 +222,7 @@ public class Society {
 				}
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOG.error(e.getMessage());
 		}
 		return result;
 	}
@@ -247,7 +250,7 @@ public class Society {
 				}
 				societyMap.put(societyId, society);
 			} catch (SQLException e) {
-				e.printStackTrace();
+				LOG.error(e.getMessage());
 			}
 		}
 

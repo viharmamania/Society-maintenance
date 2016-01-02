@@ -16,14 +16,6 @@ import com.vhi.hsm.model.Property;
 
 public class PDFManager {
 
-	public static void main(String[] args) {
-		try {
-			PDFManager.generateBillPDF(null);
-		} catch (FileNotFoundException | DocumentException e) {
-			e.printStackTrace();
-		}
-	}
-
 	public static void generateBillPDF(List<Bill> bills) throws DocumentException, FileNotFoundException {
 		Document document = new Document();
 		PdfWriter pdfWriter = PdfWriter.getInstance(document,

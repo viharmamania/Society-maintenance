@@ -4,11 +4,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.apache.log4j.Logger;
+
 import com.vhi.hsm.db.SQLiteManager;
 import com.vhi.hsm.model.User;
 import com.vhi.hsm.utils.Constants;
 
 public class UserManager {
+	
+	private final static Logger LOG = Logger.getLogger(UserManager.class);
 
 	public static User getUser(String userName) {
 
@@ -25,7 +29,7 @@ public class UserManager {
 					user = User.read(userName);
 				}
 			} catch (SQLException e) {
-				e.printStackTrace();
+				LOG.error(e.getMessage());
 			}
 		}
 		

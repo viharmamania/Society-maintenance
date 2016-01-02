@@ -6,10 +6,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.apache.log4j.Logger;
+
 import com.vhi.hsm.db.SQLiteManager;
 import com.vhi.hsm.utils.Constants;
 
 public class AssetType {
+	
+	private final static Logger LOG = Logger.getLogger(AssetType.class);
 
 	private int societyId;
 
@@ -73,7 +77,7 @@ public class AssetType {
 					}
 				}
 			} catch (SQLException e) {
-				e.printStackTrace();
+				LOG.error(e.getMessage());
 			}
 		}
 		return list;
@@ -120,7 +124,7 @@ public class AssetType {
 						}
 					}
 				} catch (SQLException e) {
-					e.printStackTrace();
+					LOG.error(e.getMessage());
 				}
 			}
 		}
@@ -145,7 +149,7 @@ public class AssetType {
 						insertStatement.setDouble(4, assetType.getCharges());
 						result = SQLiteManager.executePrepStatementAndGetResult(insertStatement);
 					} catch (SQLException e) {
-						e.printStackTrace();
+						LOG.error(e.getMessage());
 					}
 				}
 			} else {
@@ -167,7 +171,7 @@ public class AssetType {
 						updateStatement.setString(4, assetType.getAssetType());
 						result = SQLiteManager.executePrepStatementAndGetResult(updateStatement);
 					} catch (SQLException e) {
-						e.printStackTrace();
+						LOG.error(e.getMessage());
 					}
 				}
 			}
@@ -208,7 +212,7 @@ public class AssetType {
 				deleteStatement.setString(2, assetType.getAssetType());
 				result = SQLiteManager.executePrepStatementAndGetResult(deleteStatement);
 			} catch (SQLException e) {
-				e.printStackTrace();
+				LOG.error(e.getMessage());
 			}
 		}
 		

@@ -10,12 +10,14 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-import javax.swing.GroupLayout.Alignment;
+
+import org.apache.log4j.Logger;
 
 import com.vhi.hsm.controller.manager.SystemManager;
 import com.vhi.hsm.db.SQLiteManager;
@@ -28,6 +30,7 @@ public class AssetTypeView extends JDialog implements WindowListener {
 	 * 
 	 */
 	private static final long serialVersionUID = 9221087433400751884L;
+	private final static Logger LOG = Logger.getLogger(AssetTypeView.class);
 	private int societyId;
 	private JLabel availableAssets;
 	private JComboBox<String> availableAssetTypeCombobox;
@@ -90,7 +93,7 @@ public class AssetTypeView extends JDialog implements WindowListener {
 				} while (!result.isAfterLast());
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOG.error(e.getMessage());
 		}
 		return assetSet.toArray(new String[assetSet.size()]);
 	}

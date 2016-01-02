@@ -13,7 +13,7 @@ import com.vhi.hsm.utils.Constants;
 
 public class SQLiteManager {
 
-	final static Logger LOG = Logger.getLogger(SQLiteManager.class);
+	private final static Logger LOG = Logger.getLogger(SQLiteManager.class);
 	private static Connection connection = null;
 
 	public static boolean setUpDB() {
@@ -23,7 +23,7 @@ public class SQLiteManager {
 			connection = DriverManager.getConnection("jdbc:sqlite:" + Constants.DB_NAME);
 			return true;
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOG.error(e.getMessage());
 			return false;
 		}
 	}
@@ -38,7 +38,7 @@ public class SQLiteManager {
 			try {
 				connection.close();
 			} catch (SQLException e) {
-				e.printStackTrace();
+				LOG.error(e.getMessage());
 			}
 		}
 	}
@@ -51,7 +51,7 @@ public class SQLiteManager {
 			Statement statement = getInstance().createStatement();
 			result = statement.executeQuery(query);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOG.error(e.getMessage());
 		}
 		return result;
 	}
@@ -63,7 +63,7 @@ public class SQLiteManager {
 			statement = getInstance().createStatement();
 			result = statement.executeUpdate(query);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOG.error(e.getMessage());
 		}
 		return result;
 	}
@@ -76,8 +76,8 @@ public class SQLiteManager {
 				count = statement.executeUpdate();
 				result = count != 0;
 			} catch (SQLException e) {
-				e.printStackTrace();
 				result = false;
+				LOG.error(e.getMessage());
 			}
 		} else {
 			result = false;
@@ -90,7 +90,7 @@ public class SQLiteManager {
 		try {
 			preparedStatement = getInstance().prepareStatement(query);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOG.error(e.getMessage());
 		}
 		return preparedStatement;
 	}
@@ -101,7 +101,7 @@ public class SQLiteManager {
 			getInstance().setAutoCommit(false);
 			result = true;
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOG.error(e.getMessage());
 		}
 		return result;
 	}
@@ -122,12 +122,12 @@ public class SQLiteManager {
 				result = true;
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOG.error(e.getMessage());
 		} finally {
 			try {
 				getInstance().setAutoCommit(true);
 			} catch (SQLException e) {
-				e.printStackTrace();
+				LOG.error(e.getMessage());
 			}
 		}
 		return result;

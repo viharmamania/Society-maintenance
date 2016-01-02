@@ -5,10 +5,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 
+import org.apache.log4j.Logger;
+
 import com.vhi.hsm.db.SQLiteManager;
 import com.vhi.hsm.utils.Constants;
 
 public class PropertyAsset {
+	
+	private final static Logger LOG = Logger.getLogger(PropertyAsset.class);
 
 	private int societyId;
 
@@ -115,7 +119,7 @@ public class PropertyAsset {
 						}
 					}
 				} catch (SQLException e) {
-					e.printStackTrace();
+					LOG.error(e.getMessage());
 				}
 
 			}
@@ -147,7 +151,7 @@ public class PropertyAsset {
 						result = SQLiteManager.executePrepStatementAndGetResult(insertStatement);
 					}
 				} catch (SQLException e) {
-					e.printStackTrace();
+					LOG.error(e.getMessage());
 				}
 			} else {
 				if (updateStatement != null) {
@@ -167,7 +171,7 @@ public class PropertyAsset {
 						updateStatement.setInt(4, propertyAsset.getSocietyId());
 						result = SQLiteManager.executePrepStatementAndGetResult(updateStatement);
 					} catch (SQLException e) {
-						e.printStackTrace();
+						LOG.error(e.getMessage());
 					}
 				}
 			}
@@ -206,7 +210,7 @@ public class PropertyAsset {
 				deleteStatement.setString(2, propertyAsset.getAssetType());
 				result = SQLiteManager.executePrepStatementAndGetResult(deleteStatement);
 			} catch (SQLException e) {
-				e.printStackTrace();
+				LOG.error(e.getMessage());
 			}
 		}
 		

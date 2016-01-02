@@ -16,6 +16,10 @@ import com.vhi.hsm.model.AssetType;
 public class AssetTypeEdit extends JDialog implements WindowListener {
 
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2019471594533712359L;
 	private int societyId;
 	private AssetType assetType;
 	private JLabel assetTypeLabel,descriptionLabel,chargeLabel;

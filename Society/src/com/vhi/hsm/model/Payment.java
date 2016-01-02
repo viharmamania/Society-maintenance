@@ -7,11 +7,14 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Date;
 
+import org.apache.log4j.Logger;
+
 import com.vhi.hsm.controller.manager.SystemManager;
 import com.vhi.hsm.db.SQLiteManager;
 import com.vhi.hsm.utils.Constants;
 
 public class Payment {
+	private final static Logger LOG = Logger.getLogger(Payment.class);
 
 	private int paymentId;
 
@@ -170,7 +173,7 @@ public class Payment {
 						}
 					}
 				} catch (SQLException e) {
-					e.printStackTrace();
+					LOG.error(e.getMessage());
 				}
 			}
 			
@@ -208,7 +211,7 @@ public class Payment {
 					updateStatement.setInt(11, payment.paymentId);
 					result = SQLiteManager.executePrepStatementAndGetResult(updateStatement);
 				} catch (SQLException e) {
-					e.printStackTrace();
+					LOG.error(e.getMessage());
 				}
 			}
 			
@@ -231,7 +234,7 @@ public class Payment {
 				deleteStatement.setInt(1, payment.paymentId);
 				result = SQLiteManager.executePrepStatementAndGetResult(deleteStatement);
 			} catch (SQLException e) {
-				e.printStackTrace();
+				LOG.error(e.getMessage());
 			}
 		}
 		
@@ -265,7 +268,7 @@ public class Payment {
 					payment.amount = resultSet.getDouble(Constants.Table.Payment.FieldName.AMOUNT);
 				}
 			} catch (SQLException e) {
-				e.printStackTrace();
+				LOG.error(e.getMessage());
 			}
 		}
 		

@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import org.apache.log4j.Logger;
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 
 import com.vhi.hsm.controller.manager.SystemManager;
@@ -34,6 +35,7 @@ public class Login extends JFrame implements WindowListener {
 	 * 
 	 */
 	private static final long serialVersionUID = 7776929895937333850L;
+	private final static Logger LOG = Logger.getLogger(Login.class);
 	private JTextField txtUserName, txtPassword;
 	private JButton btnLogin, btnCancel, btnRegister;
 	private JLabel societyCodeLabel;
@@ -153,14 +155,14 @@ public class Login extends JFrame implements WindowListener {
 						.read(result.getInt(Constants.Table.Society.FieldName.SOCIETY_ID));
 				// register user page
 				new RegisterUser(this);
-				System.out.println("registering user");
+				LOG.info("registering user");
 			} else {
 				// register society page
 				new Society(this);
-				System.out.println("registering society");
+				LOG.info("registering society");
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOG.error("Error while registering user" + e.getMessage());
 		}
 
 	}

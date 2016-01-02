@@ -19,6 +19,8 @@ import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeSelectionModel;
 
+import org.apache.log4j.Logger;
+
 import com.itextpdf.text.DocumentException;
 import com.vhi.hsm.controller.manager.BillManager;
 import com.vhi.hsm.controller.manager.PDFManager;
@@ -35,7 +37,7 @@ public class DashBoard extends JFrame implements WindowListener {
 	 * 
 	 */
 	private static final long serialVersionUID = -8224505516276632916L;
-
+	private final static Logger LOG = Logger.getLogger(DashBoard.class);
 	private JPanel societyInfoPanel, infoPanel, treePanel, paymentPanel, billPanel, propertyPanel, chargePanel;
 
 	private JTree billTree;
@@ -111,7 +113,7 @@ public class DashBoard extends JFrame implements WindowListener {
 			PDFManager.generateBillPDF(bills);
 			JOptionPane.showMessageDialog(this, "The Bills have been generated successfully ", "Success", JOptionPane.INFORMATION_MESSAGE);
 		} catch (FileNotFoundException | DocumentException e) {
-			e.printStackTrace();
+			LOG.error(e.getMessage());
 		}
 	}
 

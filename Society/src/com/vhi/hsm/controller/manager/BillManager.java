@@ -11,6 +11,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
+
 import com.vhi.hsm.db.SQLiteManager;
 import com.vhi.hsm.model.Bill;
 import com.vhi.hsm.model.BillCharge;
@@ -25,6 +27,8 @@ import com.vhi.hsm.utils.Constants;
  *
  */
 public class BillManager {
+
+	private final static Logger LOG = Logger.getLogger(BillManager.class);
 
 	private static String readProperties = "select * from " + Constants.Table.Property.TABLE_NAME + " where "
 			+ Constants.Table.Society.FieldName.SOCIETY_ID + "=?";
@@ -52,7 +56,7 @@ public class BillManager {
 
 				// adding the properties result in Property Hash-map
 				Property.addProperties(res);
-				
+
 				readStatement.clearParameters();
 				readStatement.setInt(1, societyId);
 				ResultSet result = readStatement.executeQuery();
@@ -70,16 +74,16 @@ public class BillManager {
 				}
 
 			} catch (SQLException e) {
-				e.printStackTrace();
 				commit = false;
+				LOG.error(e.getMessage());
 			}
-			
+
 			if (!commit) {
 				societyBills.clear();
 			}
-			
+
 			SQLiteManager.endTransaction(commit, !commit);
-			
+
 		}
 
 		return societyBills;
@@ -137,7 +141,8 @@ public class BillManager {
 		bill.setAssignedCharges(chargeIds);
 		bill.setAmount(billAmount);
 
-		//if property has available balance to settle this bill then mark it appropriately
+		// if property has available balance to settle this bill then mark it
+		// appropriately
 		if (property.getNetPayable() < 0 && Math.abs(property.getNetPayable()) >= billAmount) {
 			bill.setPaymentId(property.getLatestPaymentId());
 		}
@@ -228,7 +233,7 @@ public class BillManager {
 			}
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOG.error(e.getMessage());
 		}
 		return chargeIds;
 	}

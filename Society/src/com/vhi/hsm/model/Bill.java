@@ -1,16 +1,17 @@
 package com.vhi.hsm.model;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-
-import com.vhi.hsm.db.SQLiteManager;
-import com.vhi.hsm.utils.Constants;
-
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+
+import org.apache.log4j.Logger;
+
+import com.vhi.hsm.db.SQLiteManager;
+import com.vhi.hsm.utils.Constants;
 
 public class Bill {
 	
@@ -38,6 +39,8 @@ public class Bill {
 									insertStatement,
 									updateStatement,
 									deleteStatement;
+	
+	private final static Logger LOG = Logger.getLogger(Bill.class);
 	
 	private Bill() {
 		assignedCharges = new ArrayList<Integer>();
@@ -163,7 +166,7 @@ public class Bill {
 					}
 				}
 			} catch (SQLException e) {
-				e.printStackTrace();
+				LOG.error(e.getMessage());
 			}
 		}
 		
@@ -210,7 +213,7 @@ public class Bill {
 							}
 						}
 					} catch (SQLException e) {
-						e.printStackTrace();
+						LOG.error(e.getMessage());
 					}
 				}
 				
@@ -244,7 +247,7 @@ public class Bill {
 						updateStatement.setInt(9, bill.billId);
 						result = SQLiteManager.executePrepStatementAndGetResult(updateStatement);
 					} catch (SQLException e) {
-						e.printStackTrace();
+						LOG.error(e.getMessage());
 					}
 				}
 				
@@ -268,7 +271,7 @@ public class Bill {
 				deleteStatement.setInt(1, bill.billId);
 				result = SQLiteManager.executePrepStatementAndGetResult(deleteStatement);
 			} catch (SQLException e) {
-				e.printStackTrace();
+				LOG.error(e.getMessage());
 			}
 		}
 		
@@ -297,7 +300,7 @@ public class Bill {
 				bills.add(bill);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOG.error(e.getMessage());
 		}
 		return bills;
 	}

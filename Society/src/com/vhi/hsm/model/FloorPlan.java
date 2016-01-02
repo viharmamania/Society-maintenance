@@ -5,6 +5,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 
+import org.apache.log4j.Logger;
+
 import com.vhi.hsm.db.SQLiteManager;
 import com.vhi.hsm.utils.Constants;
 
@@ -20,6 +22,7 @@ public class FloorPlan {
 
 	private static HashMap<Integer, HashMap<Integer, FloorPlan>> floorPlanMap;
 	private static PreparedStatement readStatement, insertStatement, updateStatement, deleteStatement;
+	private final static Logger LOG = Logger.getLogger(FloorPlan.class);
 
 	private FloorPlan() {
 	}
@@ -91,7 +94,7 @@ public class FloorPlan {
 						societyFloorPlan.put(floorPlanId, floorPlan);
 					}
 				} catch (SQLException e) {
-					e.printStackTrace();
+					LOG.error(e.getMessage());
 				}
 			}
 			
@@ -127,7 +130,7 @@ public class FloorPlan {
 						insertStatement.setInt(4, floorPlan.noOfProperty);
 						result = SQLiteManager.executePrepStatementAndGetResult(insertStatement);
 					} catch (SQLException e) {
-						e.printStackTrace();
+						LOG.error(e.getMessage());
 					}
 					
 				}
@@ -152,7 +155,7 @@ public class FloorPlan {
 						updateStatement.setInt(4, floorPlan.floorPlanId);
 						result = SQLiteManager.executePrepStatementAndGetResult(updateStatement);
 					} catch (SQLException e) {
-						e.printStackTrace();
+						LOG.error(e.getMessage());
 					}
 				}
 				
@@ -197,7 +200,7 @@ public class FloorPlan {
 					deleteStatement.setInt(2, floorPlan.floorPlanId);
 					result = SQLiteManager.executePrepStatementAndGetResult(deleteStatement);
 				} catch (SQLException e) {
-					e.printStackTrace();
+					LOG.error(e.getMessage());
 				}
 			}
 			

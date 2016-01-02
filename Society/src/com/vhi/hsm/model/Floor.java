@@ -5,11 +5,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 
+import org.apache.log4j.Logger;
+
 import com.vhi.hsm.db.SQLiteManager;
 import com.vhi.hsm.utils.Constants;
 
 public class Floor {
 
+	private final static Logger LOG = Logger.getLogger(Floor.class);
 	private int societyId;
 
 	private int wingId;
@@ -104,7 +107,7 @@ public class Floor {
 						wingFloor.put(floorNumber, floor);
 					}
 				} catch (SQLException e) {
-					e.printStackTrace();
+					LOG.error(e.getMessage());
 				}
 			}
 
@@ -139,7 +142,7 @@ public class Floor {
 						insertStatement.setInt(4, floor.floorPlanId);
 						result = SQLiteManager.executePrepStatementAndGetResult(insertStatement);
 					} catch (SQLException e) {
-						e.printStackTrace();
+						LOG.error(e.getMessage());
 					}
 				}
 
@@ -163,7 +166,7 @@ public class Floor {
 						updateStatement.setInt(5, floor.floorNumber);
 						result = SQLiteManager.executePrepStatementAndGetResult(updateStatement);
 					} catch (SQLException e) {
-						e.printStackTrace();
+						LOG.error(e.getMessage());
 					}
 				}
 
@@ -216,7 +219,7 @@ public class Floor {
 					deleteStatement.setInt(3, floor.floorNumber);
 					result = SQLiteManager.executePrepStatementAndGetResult(deleteStatement);
 				} catch (SQLException e) {
-					e.printStackTrace();
+					LOG.error(e.getMessage());
 				}
 			}
 

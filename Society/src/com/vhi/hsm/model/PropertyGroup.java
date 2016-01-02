@@ -5,11 +5,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 
+import org.apache.log4j.Logger;
+
 import com.vhi.hsm.db.SQLiteManager;
 import com.vhi.hsm.utils.Constants;
 
 public class PropertyGroup {
 
+	private final static Logger LOG = Logger.getLogger(PropertyGroup.class);
 	private String propertyGroup;
 
 	private String description;
@@ -104,7 +107,7 @@ public class PropertyGroup {
 			deleteStatement.setString(2, propertyGroup.getPropertygroup());
 			result = SQLiteManager.executePrepStatementAndGetResult(deleteStatement);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOG.error(e.getMessage());
 		}
 		return result;
 	}
@@ -147,7 +150,7 @@ public class PropertyGroup {
 
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOG.error(e.getMessage());
 		}
 		return result;
 	}
@@ -179,7 +182,7 @@ public class PropertyGroup {
 						group.setPropertygroup(propertyGroup);
 					}
 				} catch (SQLException e) {
-					e.printStackTrace();
+					LOG.error(e.getMessage());
 				}
 
 			}

@@ -5,6 +5,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import org.apache.log4j.Logger;
+
 import com.vhi.hsm.db.SQLiteManager;
 import com.vhi.hsm.utils.Constants;
 
@@ -21,6 +23,7 @@ public class Fine {
 	private static PreparedStatement readStatement, insertStatement, updateStatement, deleteStatement;
 	
 	private static ArrayList<Fine> fineList;
+	private final static Logger LOG = Logger.getLogger(Fine.class);
 
 	private Fine() {
 
@@ -88,7 +91,7 @@ public class Fine {
 						insertStatement.setDouble(4, fine.percentageCharge);
 						result = SQLiteManager.executePrepStatementAndGetResult(insertStatement);
 					} catch (SQLException e) {
-						e.printStackTrace();
+						LOG.error(e.getMessage());
 					}
 				}
 
@@ -112,7 +115,7 @@ public class Fine {
 						updateStatement.setDouble(4, fine.fineHigh);
 						result = SQLiteManager.executePrepStatementAndGetResult(updateStatement);
 					} catch (SQLException e) {
-						e.printStackTrace();
+						LOG.error(e.getMessage());
 					}
 				}
 
@@ -146,7 +149,7 @@ public class Fine {
 					deleteStatement.setDouble(3, fine.fineHigh);
 					result = SQLiteManager.executePrepStatementAndGetResult(deleteStatement);
 				} catch (SQLException e) {
-					e.printStackTrace();
+					LOG.error(e.getMessage());
 				}
 			}
 			
@@ -189,7 +192,7 @@ public class Fine {
 						}
 					}
 				} catch (SQLException e) {
-					e.printStackTrace();
+					LOG.error(e.getMessage());
 				}
 			}
 			

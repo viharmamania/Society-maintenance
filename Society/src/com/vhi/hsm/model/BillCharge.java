@@ -4,6 +4,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.apache.log4j.Logger;
+
 import com.vhi.hsm.db.SQLiteManager;
 import com.vhi.hsm.utils.Constants;
 
@@ -16,6 +18,7 @@ public class BillCharge {
 	private double amount;
 
 	private static PreparedStatement readStatement, insertStatement, updateStatement, deleteStatement;
+	private final static Logger LOG = Logger.getLogger(BillCharge.class);
 
 	private BillCharge() {
 
@@ -67,7 +70,7 @@ public class BillCharge {
 					billCharge.amount = resultSet.getDouble(Constants.Table.BillCharge.FieldName.AMOUNT);
 				}
 			} catch (SQLException e) {
-				e.printStackTrace();
+				LOG.error(e.getMessage());
 			}
 		}
 
@@ -94,7 +97,7 @@ public class BillCharge {
 						insertStatement.setDouble(3, billCharge.amount);
 						result = SQLiteManager.executePrepStatementAndGetResult(insertStatement);
 					} catch (SQLException e) {
-						e.printStackTrace();
+						LOG.error(e.getMessage());
 					}
 				}
 
@@ -115,7 +118,7 @@ public class BillCharge {
 						updateStatement.setDouble(1, billCharge.amount);
 						result = SQLiteManager.executePrepStatementAndGetResult(updateStatement);
 					} catch (SQLException e) {
-						e.printStackTrace();
+						LOG.error(e.getMessage());
 					}
 				}
 
@@ -142,7 +145,7 @@ public class BillCharge {
 				deleteStatement.setInt(2, billCharge.chargeId);
 				result = SQLiteManager.executePrepStatementAndGetResult(deleteStatement);
 			} catch (SQLException e) {
-				e.printStackTrace();
+				LOG.error(e.getMessage());
 			}
 		}
 		
