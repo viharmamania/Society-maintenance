@@ -30,8 +30,8 @@ public class PaymentManager {
 
 					// settle the previous bills
 					ResultSet resultSet = SQLiteManager.executeQuery("SELECT * FROM " + Constants.Table.Bill.TABLE_NAME
-							+ " WHERE " + Constants.Table.Payment.FieldName.PAYMENT_ID + " = 0 DESC BY "
-							+ Constants.Table.Bill.FieldName.BILL_TIMESTAMP);
+							+ " WHERE " + Constants.Table.Payment.FieldName.PAYMENT_ID + " = 0 ORDER BY "
+							+ Constants.Table.Bill.FieldName.BILL_TIMESTAMP +" DESC");
 					if (resultSet != null) {
 						ArrayList<Bill> bills = Bill.getBillsFromResultSet(resultSet);
 						for (Bill bill : bills) {

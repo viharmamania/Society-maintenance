@@ -18,6 +18,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -30,6 +31,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import com.vhi.hsm.controller.manager.PaymentManager;
 import com.vhi.hsm.controller.manager.SystemManager;
 import com.vhi.hsm.db.SQLiteManager;
 import com.vhi.hsm.model.ModeOfPayment;
@@ -47,8 +49,8 @@ public class Payment extends JDialog implements WindowListener {
 	 * 
 	 */
 	private static final long serialVersionUID = 8038931709318079644L;
-	private JTextField chequeNoTextField, remarksTextField,amountTextField = null;
-	private JLabel chequeNoLabel, propertyNameLabel, modeOfPaymentLabel,amountLabel, remarksLabel = null;
+	private JTextField chequeNoTextField, remarksTextField, amountTextField = null;
+	private JLabel chequeNoLabel, propertyNameLabel, modeOfPaymentLabel, amountLabel, remarksLabel = null;
 	private JComboBox<String> propertyNamesComboBox, modeOfPaymentComboBox = null;
 	private JButton confirmButton, backButton, uploadButton;
 	private int societyId;
@@ -63,6 +65,20 @@ public class Payment extends JDialog implements WindowListener {
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		addWindowListener(this);
 		setLocationRelativeTo(parentDialog);
+		setVisible(true);
+		societyId = SystemManager.society.getSocietyId();
+		fetchPropertyNames();
+		intializeLayout();
+	}
+
+	public Payment(JFrame parentFrame) {
+
+		super(parentFrame);
+		this.setTitle("Payments");
+		setResizable(false);
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		addWindowListener(this);
+		setLocationRelativeTo(parentFrame);
 		setVisible(true);
 		societyId = SystemManager.society.getSocietyId();
 		fetchPropertyNames();
@@ -93,10 +109,11 @@ public class Payment extends JDialog implements WindowListener {
 
 		chequeNoLabel = new JLabel("Cheque No");
 		chequeNoTextField = new JTextField();
+		chequeNoTextField.setEditable(false);
 
 		amountLabel = new JLabel("Amount");
 		amountTextField = new JTextField();
-		
+
 		remarksLabel = new JLabel("Remarks");
 		remarksTextField = new JTextField();
 
@@ -124,12 +141,12 @@ public class Payment extends JDialog implements WindowListener {
 
 		groupLayout.setHorizontalGroup(groupLayout.createSequentialGroup()
 				.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING).addComponent(propertyNameLabel)
-						.addComponent(modeOfPaymentLabel).addComponent(chequeNoLabel).addComponent(amountLabel).addComponent(remarksLabel)
-						.addComponent(confirmButton))
+						.addComponent(modeOfPaymentLabel).addComponent(chequeNoLabel).addComponent(amountLabel)
+						.addComponent(remarksLabel).addComponent(confirmButton))
 				.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING).addComponent(propertyNamesComboBox)
-						.addComponent(modeOfPaymentComboBox).addComponent(chequeNoTextField).addComponent(amountTextField)
-						.addComponent(remarksTextField).addGroup(groupLayout.createSequentialGroup()
-								.addComponent(backButton).addComponent(uploadButton))));
+						.addComponent(modeOfPaymentComboBox).addComponent(chequeNoTextField)
+						.addComponent(amountTextField).addComponent(remarksTextField).addGroup(groupLayout
+								.createSequentialGroup().addComponent(backButton).addComponent(uploadButton))));
 
 		groupLayout.setVerticalGroup(groupLayout.createSequentialGroup()
 				.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(propertyNameLabel)
@@ -152,7 +169,7 @@ public class Payment extends JDialog implements WindowListener {
 	private void selectionListener() {
 
 		String selection = (String) modeOfPaymentComboBox.getSelectedItem();
-		if (selection.equals(ModeOfPayment.CHEQUE.name())) {
+		if (selection.equalsIgnoreCase(ModeOfPayment.CHEQUE.name())) {
 			chequeNoTextField.setEditable(true);
 		} else {
 			chequeNoTextField.setEditable(false);
@@ -285,8 +302,7 @@ public class Payment extends JDialog implements WindowListener {
 	}
 
 	private void cancelPayment() {
-		// TODO Auto-generated method stub
-
+		dispose();
 	}
 
 	private void makePayment() {
@@ -294,31 +310,43 @@ public class Payment extends JDialog implements WindowListener {
 			// TODO call actual payment save service
 			com.vhi.hsm.model.Payment payment = com.vhi.hsm.model.Payment
 					.create(propertyNameToIdmap.get(propertyNamesComboBox.getSelectedItem()));
-			
+
 			payment.setRemarks(remarksTextField.getText());
 			payment.setAmount(Double.valueOf(amountTextField.getText()));
-			payment.setModeOfPayment((int) modeOfPaymentComboBox.getSelectedItem());
+			payment.setModeOfPayment((String) modeOfPaymentComboBox.getSelectedItem());
 
-			com.vhi.hsm.model.Payment.save(payment, true);
+			// boolean paymentSaved = com.vhi.hsm.model.Payment.save(payment, true);
+			PaymentManager.makePayment(payment);
+			JOptionPane.showMessageDialog(this, "Payment Saved successfully ", "Success",
+					JOptionPane.INFORMATION_MESSAGE);
+			dispose();
 		}
 	}
 
 	private boolean validateInput(boolean showErrorMessage) {
 
-		if (propertyNamesComboBox.getSelectedItem().equals("select")) {
-			if (showErrorMessage) {
-				JOptionPane.showMessageDialog(this, "Select Applicable Property ", "Error", JOptionPane.ERROR_MESSAGE);
+		if (chequeNoTextField.isEditable()) {
+			String chString = chequeNoTextField.getText().trim();
+			String replacedChString = chString.replaceAll("[A-za-z]", "");
+			if(chString.isEmpty()){
+				JOptionPane.showMessageDialog(this, "please Enter cheque number", "Error",
+						JOptionPane.ERROR_MESSAGE);
+				return false;
 			}
-			return false;
+			if (chString.length() != replacedChString.length()) {
+				JOptionPane.showMessageDialog(this, "Please Enter correct cheque Number", "Error",
+						JOptionPane.ERROR_MESSAGE);
+				return false;
+			}
 		}
 
-		/*if (modeOfPaymentComboBox.getSelectedItem().equals(ModeOfPayment.SELECT.name())) {
-			if (showErrorMessage) {
-				JOptionPane.showMessageDialog(this, "Select Appropriate Payment Mode", "Error",
-						JOptionPane.ERROR_MESSAGE);
-			}
+		try {
+			Double.parseDouble(amountTextField.getText());
+		} catch (NumberFormatException exception) {
+			JOptionPane.showMessageDialog(this, "Please Enter Payment amount in valid format", "Error",
+					JOptionPane.ERROR_MESSAGE);
 			return false;
-		}*/
+		}
 
 		return true;
 	}

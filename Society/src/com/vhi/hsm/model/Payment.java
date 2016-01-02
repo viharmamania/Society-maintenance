@@ -17,7 +17,7 @@ public class Payment {
 
 	private int propertyId;
 
-	private int modeOfPayment;
+	private String modeOfPayment;
 
 	private String transactionNumber;
 
@@ -57,11 +57,11 @@ public class Payment {
 		this.propertyId = propertyId;
 	}
 
-	public int getModeOfPayment() {
+	public String getModeOfPayment() {
 		return modeOfPayment;
 	}
 
-	public void setModeOfPayment(int modeOfPayment) {
+	public void setModeOfPayment(String modeOfPayment) {
 		this.modeOfPayment = modeOfPayment;
 	}
 
@@ -143,28 +143,30 @@ public class Payment {
 						+ Constants.Table.Payment.FieldName.IS_CANCELLED + " , "
 						+ Constants.Table.Payment.FieldName.MODIFIED_BY + " , "
 						+ Constants.Table.Payment.FieldName.LAST_MODIFIED + " , "
-						+ Constants.Table.Payment.FieldName.AMOUNT
+						+ Constants.Table.Payment.FieldName.AMOUNT + " , "
+						+ Constants.Table.Society.FieldName.SOCIETY_ID 
 						+ " ) "
-						+ " VALUES ( ? , ? , ? , ? , ? , ? , ? , ? )");
+						+ " VALUES ( ? , ? , ? , ? , ? , ? , ? , ?, ?, ? )");
 			}
 			
 			if (insertStatement != null) {
 				try {
 					insertStatement.clearParameters();
 					insertStatement.setInt(1, payment.propertyId);
-					insertStatement.setInt(2, payment.modeOfPayment);
+					insertStatement.setString(2, payment.modeOfPayment);
 					insertStatement.setString(3, payment.transactionNumber);
 					insertStatement.setString(4, payment.remarks);
-					insertStatement.setTimestamp(5, new Timestamp(payment.cancellationDate.getTime()));
+					insertStatement.setTimestamp(5, new Timestamp(System.currentTimeMillis()));
 					insertStatement.setBoolean( 6, false);
 					insertStatement.setString(7, SystemManager.loggedInUser.getName());
 					insertStatement.setTimestamp(8, Timestamp.valueOf(LocalDateTime.now()));
 					insertStatement.setDouble(9, payment.amount);
+					insertStatement.setDouble(10, SystemManager.society.getSocietyId());
 					result = SQLiteManager.executePrepStatementAndGetResult(insertStatement);
 					if (result) {
 						ResultSet generatedKeys = insertStatement.getGeneratedKeys();
-						if (generatedKeys != null && generatedKeys.first()) {
-							payment.paymentId = generatedKeys.getInt(Constants.Table.Payment.FieldName.PAYMENT_ID);
+						if (generatedKeys != null ) {
+							payment.paymentId = generatedKeys.getInt(1);
 						}
 					}
 				} catch (SQLException e) {
@@ -184,8 +186,9 @@ public class Payment {
 						+ Constants.Table.Payment.FieldName.CANCELLATION_TIMESTAMP + " = ? , "
 						+ Constants.Table.Payment.FieldName.IS_CANCELLED + " = ? , "
 						+ Constants.Table.Payment.FieldName.MODIFIED_BY + " = ? , "
-						+ Constants.Table.Payment.FieldName.LAST_MODIFIED + " = ? "
-						+ Constants.Table.Payment.FieldName.AMOUNT + " = ? "
+						+ Constants.Table.Payment.FieldName.LAST_MODIFIED + " = ? ,"
+						+ Constants.Table.Payment.FieldName.AMOUNT + " = ?, "
+						+ Constants.Table.Society.FieldName.SOCIETY_ID + " = ?"
 						+ " WHERE " + Constants.Table.Payment.FieldName.PAYMENT_ID + " = ?");
 			}
 			
@@ -193,7 +196,7 @@ public class Payment {
 				try {
 					updateStatement.clearParameters();
 					updateStatement.setInt(1, payment.propertyId);
-					updateStatement.setInt(2, payment.modeOfPayment);
+					updateStatement.setString(2, payment.modeOfPayment);
 					updateStatement.setString(3, payment.transactionNumber);
 					updateStatement.setString(4, payment.remarks);
 					updateStatement.setTimestamp(5, new Timestamp(payment.cancellationDate.getTime()));
@@ -201,7 +204,8 @@ public class Payment {
 					updateStatement.setString(7, payment.modifiedBy);
 					updateStatement.setTimestamp(8, Timestamp.valueOf(LocalDateTime.now()));
 					updateStatement.setDouble(9, payment.amount);
-					updateStatement.setInt(10, payment.paymentId);
+					updateStatement.setInt(10, SystemManager.society.getSocietyId());
+					updateStatement.setInt(11, payment.paymentId);
 					result = SQLiteManager.executePrepStatementAndGetResult(updateStatement);
 				} catch (SQLException e) {
 					e.printStackTrace();
@@ -251,7 +255,7 @@ public class Payment {
 					payment = new Payment();
 					payment.paymentId = paymentId;
 					payment.propertyId = resultSet.getInt(Constants.Table.Property.FieldName.PROPERTY_ID);
-					payment.modeOfPayment = resultSet.getInt(Constants.Table.Payment.FieldName.MODE_OF_PAYMENT);
+					payment.modeOfPayment = resultSet.getString(Constants.Table.Payment.FieldName.MODE_OF_PAYMENT);
 					payment.transactionNumber = resultSet.getString(Constants.Table.Payment.FieldName.TRANSACTION_NUMBER);
 					payment.remarks = resultSet.getString(Constants.Table.Payment.FieldName.REMARKS);
 					payment.cancellationDate = new Date(resultSet.getTimestamp(Constants.Table.Payment.FieldName.CANCELLATION_TIMESTAMP).getTime());

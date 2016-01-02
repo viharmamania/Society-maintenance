@@ -19,6 +19,7 @@ import javax.swing.tree.TreeSelectionModel;
 import com.vhi.hsm.controller.manager.SystemManager;
 import com.vhi.hsm.view.AssetTypeScreen;
 import com.vhi.hsm.view.ChargeScreen;
+import com.vhi.hsm.view.Payment;
 import com.vhi.hsm.view.PropertyView;
 
 public class DashBoard extends JFrame implements WindowListener {
@@ -34,7 +35,7 @@ public class DashBoard extends JFrame implements WindowListener {
 	private DefaultMutableTreeNode rootNode;
 
 	private JButton propertyPayButton, propertyAssetButton, propertyViewButton, billGenerateButton, billViewButton,
-			chargeViewButton, paymentViewButton, paymentMakeButton;
+			chargeViewButton, paymentViewButton, makePaymentButton;
 
 	public DashBoard() {
 
@@ -56,22 +57,26 @@ public class DashBoard extends JFrame implements WindowListener {
 		propertyAssetButton.addActionListener(e -> {
 			new AssetTypeScreen(this);
 		});
-		
+
 		propertyViewButton = new JButton("View & Edit Properties");
 		propertyViewButton.addActionListener(e -> {
 			new PropertyView(this);
 		});
-		
+
 		billGenerateButton = new JButton("Generate Monthly Bill");
-		
+
 		billViewButton = new JButton("View Bills");
 		chargeViewButton = new JButton("View & Edit Charges");
 		chargeViewButton.addActionListener(e -> {
 			new ChargeScreen(this);
 		});
-		
+
 		paymentViewButton = new JButton("View & Edit Payments");
-		paymentMakeButton = new JButton("Make Payment");
+
+		makePaymentButton = new JButton("Make Payment");
+		makePaymentButton.addActionListener(e -> {
+			new Payment(this);
+		});
 
 		rootNode = new DefaultMutableTreeNode("Previous Months Bill");
 		billTree = new JTree(rootNode);
@@ -91,24 +96,24 @@ public class DashBoard extends JFrame implements WindowListener {
 	}
 
 	private void initLayout() {
-	
+
 		JScrollPane treeScrollPane = new JScrollPane(billTree);
 		treePanel.add(treeScrollPane);
-		
+
 		getContentPane().setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
-		
+
 		c.gridx = 1;
 		c.gridy = 1;
 		c.gridwidth = 2;
 		getContentPane().add(societyInfoPanel, c);
-		
+
 		c.gridx = 1;
 		c.gridy = 2;
 		c.gridwidth = 1;
 		getContentPane().add(treePanel, c);
-		
+
 		c.gridx = 2;
 		c.gridy = 2;
 		c.gridwidth = 1;
@@ -116,7 +121,7 @@ public class DashBoard extends JFrame implements WindowListener {
 
 		paymentPanel.setLayout(new GridLayout(0, 1));
 		paymentPanel.add(paymentViewButton);
-		paymentPanel.add(paymentMakeButton);
+		paymentPanel.add(makePaymentButton);
 
 		billPanel.setLayout(new GridLayout(0, 1));
 		billPanel.add(billViewButton);
@@ -130,31 +135,31 @@ public class DashBoard extends JFrame implements WindowListener {
 		chargePanel.setLayout(new GridLayout(0, 1));
 		chargePanel.add(chargeViewButton);
 
-		infoPanel.setLayout(new GridLayout(0, 2));		
+		infoPanel.setLayout(new GridLayout(0, 2));
 		infoPanel.add(billPanel);
 		infoPanel.add(paymentPanel);
 		infoPanel.add(propertyPanel);
 		infoPanel.add(chargePanel);
-		
+
 		societyInfoPanel.setLayout(new GridBagLayout());
 		JLabel label;
 		label = new JLabel(SystemManager.society.getName());
-		c= new GridBagConstraints();
+		c = new GridBagConstraints();
 		c.gridx = 1;
 		c.gridy = 1;
-		societyInfoPanel.add(label,c);
-		
+		societyInfoPanel.add(label, c);
+
 		label = new JLabel(SystemManager.society.getAddress());
 		c.gridx = 1;
 		c.gridy = 2;
-		societyInfoPanel.add(label,c);		
-		
+		societyInfoPanel.add(label, c);
+
 		label = new JLabel(
 				SystemManager.society.getRegistrationNumber() + " " + SystemManager.society.getRegistrationDate());
 		c.gridx = 1;
 		c.gridy = 3;
-		societyInfoPanel.add(label,c);
-		
+		societyInfoPanel.add(label, c);
+
 		pack();
 
 	}
@@ -201,5 +206,5 @@ public class DashBoard extends JFrame implements WindowListener {
 	public void windowOpened(WindowEvent arg0) {
 
 	}
-	
+
 }
