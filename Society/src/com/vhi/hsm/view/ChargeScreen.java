@@ -128,7 +128,7 @@ public class ChargeScreen extends JDialog implements WindowListener {
 			propertyGroupList = new ArrayList<>(
 					PropertyGroup.getAllPropertyGroup(SystemManager.society.getSocietyId()));
 		}
-		
+
 		detailsPanel = new ChargeDetails();
 	}
 
@@ -227,7 +227,7 @@ public class ChargeScreen extends JDialog implements WindowListener {
 		JPanel propertyPanel, propertyGroupPanel, propertyTypePanel;
 
 		public ChargeDetails() {
-			
+
 			propertyPanel = new JPanel();
 			propertyPanel.setBorder(BorderFactory.createTitledBorder("Property"));
 			propertyPanel.setLayout(new GridLayout(0, 3));
@@ -237,25 +237,25 @@ public class ChargeScreen extends JDialog implements WindowListener {
 			propertyTypePanel = new JPanel();
 			propertyTypePanel.setBorder(BorderFactory.createTitledBorder("Property Type"));
 			propertyTypePanel.setLayout(new GridLayout(0, 3));
-			
+
 			propertyBox = new HashMap<>();
 			for (Property property : propertyList) {
 				propertyBox.put(property.getPropertyId(), new JCheckBox(property.getPropertyName()));
 				propertyPanel.add(propertyBox.get(property.getPropertyId()));
 			}
-			
+
 			propertyTypeBox = new HashMap<>();
 			for (PropertyType propertyType : propertyTypeList) {
 				propertyTypeBox.put(propertyType.getPropertyType(), new JCheckBox(propertyType.getDescription()));
 				propertyTypePanel.add(propertyTypeBox.get(propertyType.getPropertyType()));
 			}
-			
+
 			propertyGroupBox = new HashMap<>();
 			for (PropertyGroup propertyGroup : propertyGroupList) {
 				propertyGroupBox.put(propertyGroup.getPropertygroup(), new JCheckBox(propertyGroup.getDescription()));
 				propertyGroupPanel.add(propertyGroupBox.get(propertyGroup.getPropertygroup()));
 			}
-			
+
 			chargeIdLabel = new JLabel("Charge");
 			chargeIdValue = new JLabel();
 			descriptionLabel = new JLabel("Description");
@@ -306,19 +306,20 @@ public class ChargeScreen extends JDialog implements WindowListener {
 
 			c.gridx = 4;
 			add(cancelledChargeChkBox, c);
-			
+
 			c.gridx = 1;
 			c.gridy = 5;
 			c.gridwidth = GridBagConstraints.REMAINDER;
 			add(propertyTypePanel, c);
-			
+
 			c.gridwidth = GridBagConstraints.REMAINDER;
 			c.gridy = 6;
 			add(propertyGroupPanel, c);
-			
+
 			c.gridwidth = GridBagConstraints.REMAINDER;
 			c.gridy = 7;
 			add(propertyPanel, c);
+
 		}
 
 		public void setCharge(Charge charge) {
@@ -328,10 +329,10 @@ public class ChargeScreen extends JDialog implements WindowListener {
 			cancelledChargeChkBox.setSelected(charge.isCancelled());
 			tempChargeChkBox.setSelected(charge.isTempCharges());
 			defaultChargeChkBox.setSelected(charge.isdefault());
-			
+
 			Set<Integer> propertySet = propertyBox.keySet();
 			JCheckBox box = null;
-			for(Integer i : propertySet) {
+			for (Integer i : propertySet) {
 				box = null;
 				box = propertyBox.get(i);
 				if (box != null) {
@@ -339,7 +340,7 @@ public class ChargeScreen extends JDialog implements WindowListener {
 					box.setSelected(charge.getAssignedProperty().contains(i));
 				}
 			}
-			
+
 			Set<String> propertyGroupSet = propertyGroupBox.keySet();
 			for (String s : propertyGroupSet) {
 				box = null;
@@ -349,7 +350,7 @@ public class ChargeScreen extends JDialog implements WindowListener {
 					box.setSelected(charge.getAssignedPropertyGroup().contains(s));
 				}
 			}
-			
+
 			Set<String> propertyTypeSet = propertyTypeBox.keySet();
 			for (String s : propertyTypeSet) {
 				box = null;
@@ -367,10 +368,10 @@ public class ChargeScreen extends JDialog implements WindowListener {
 			charge.setCancelled(cancelledChargeChkBox.isSelected());
 			charge.setTempCharges(tempChargeChkBox.isSelected());
 			charge.setdefault(defaultChargeChkBox.isSelected());
-			
+
 			Set<Integer> propertySet = propertyBox.keySet();
 			JCheckBox box = null;
-			for(Integer i : propertySet) {
+			for (Integer i : propertySet) {
 				box = null;
 				box = propertyBox.get(i);
 				if (box != null) {
@@ -385,7 +386,7 @@ public class ChargeScreen extends JDialog implements WindowListener {
 					}
 				}
 			}
-			
+
 			Set<String> propertyGroupSet = propertyGroupBox.keySet();
 			for (String s : propertyGroupSet) {
 				box = null;
@@ -402,7 +403,7 @@ public class ChargeScreen extends JDialog implements WindowListener {
 					}
 				}
 			}
-			
+
 			Set<String> propertyTypeSet = propertyTypeBox.keySet();
 			for (String s : propertyTypeSet) {
 				box = null;

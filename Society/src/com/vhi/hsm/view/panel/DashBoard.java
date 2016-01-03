@@ -43,7 +43,8 @@ public class DashBoard extends JFrame implements WindowListener {
 	private JTree billTree;
 	private DefaultMutableTreeNode rootNode;
 
-	private JButton propertyPayButton, propertyAssetButton, propertyViewButton, billGenerateButton, billViewButton,
+	private JButton //propertyPayButton, 
+					propertyAssetButton, propertyViewButton, billGenerateButton, billViewButton,
 			chargeViewButton, paymentViewButton, makePaymentButton;
 
 	public DashBoard() {
@@ -61,7 +62,7 @@ public class DashBoard extends JFrame implements WindowListener {
 		chargePanel = new JPanel();
 		chargePanel.setBorder(BorderFactory.createTitledBorder("Charge"));
 
-		propertyPayButton = new JButton("Pay Bills");
+		//propertyPayButton = new JButton("Pay Bills");
 		propertyAssetButton = new JButton("View & Edit Assets");
 		propertyAssetButton.addActionListener(e -> {
 			new AssetTypeScreen(this);
