@@ -84,7 +84,7 @@ public class AssetTypeView extends JDialog implements WindowListener {
 					AssetType type = AssetType.create(societyId);
 					type.setAssetType(assetType);
 					type.setDescription(desc);
-					type.setCharges(charge);
+					//type.setCharges(charge);
 					
 					assetSet.add(desc);
 					descriptionToAssetObjectMap.put(desc, type);

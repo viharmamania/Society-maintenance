@@ -21,7 +21,7 @@ public class AssetType {
 
 	private String description;
 
-	private double charges;
+	private int chargeId;
 
 	private static HashMap<Integer, HashMap<String, AssetType>> assetTypeMap;
 	private static PreparedStatement readStatement, insertStatement, updateStatement, deleteStatement;
@@ -54,12 +54,12 @@ public class AssetType {
 		this.description = description;
 	}
 
-	public double getCharges() {
-		return charges;
+	public int getCharges() {
+		return chargeId;
 	}
 
-	public void setCharges(double charges) {
-		this.charges = charges;
+	public void setCharges(int charges) {
+		this.chargeId = charges;
 	}
 	
 	public static ArrayList<AssetType> getAllAssetType(int societyId) {
@@ -119,7 +119,7 @@ public class AssetType {
 							assetTypeObj.societyId = resultSet.getInt(Constants.Table.Society.FieldName.SOCIETY_ID);
 							assetTypeObj.assetType = resultSet.getString(Constants.Table.AssetType.FieldName.ASSET_TYPE);
 							assetTypeObj.description = resultSet.getString(Constants.Table.AssetType.FieldName.DESCRIPTION);
-							assetTypeObj.charges = resultSet.getDouble(Constants.Table.AssetType.FieldName.CHARGE);
+							assetTypeObj.chargeId = resultSet.getInt(Constants.Table.Charge.FieldName.CHARGE_ID);
 							societyAssetTypes.put(assetType, assetTypeObj);
 						}
 					}
