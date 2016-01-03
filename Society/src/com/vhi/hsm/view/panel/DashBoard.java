@@ -152,7 +152,7 @@ public class DashBoard extends JFrame implements WindowListener {
 		propertyPanel.setLayout(new GridLayout(0, 1));
 		propertyPanel.add(propertyViewButton);
 		propertyPanel.add(propertyAssetButton);
-		propertyPanel.add(propertyPayButton);
+//		propertyPanel.add(propertyPayButton);
 
 		chargePanel.setLayout(new GridLayout(0, 1));
 		chargePanel.add(chargeViewButton);

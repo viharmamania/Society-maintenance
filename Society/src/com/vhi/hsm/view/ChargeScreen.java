@@ -3,12 +3,14 @@ package com.vhi.hsm.view;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 
+import javax.swing.BorderFactory;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -19,6 +21,9 @@ import javax.swing.JTextField;
 
 import com.vhi.hsm.controller.manager.SystemManager;
 import com.vhi.hsm.model.Charge;
+import com.vhi.hsm.model.Property;
+import com.vhi.hsm.model.PropertyGroup;
+import com.vhi.hsm.model.PropertyType;
 import com.vhi.hsm.view.masterdetail.MasterDetailPanel;
 import com.vhi.hsm.view.masterdetail.MasterDetailPanel.MasterDetailCallback;
 import com.vhi.hsm.view.masterdetail.MasterListPanel.MasterListItem;
@@ -37,6 +42,9 @@ public class ChargeScreen extends JDialog implements WindowListener {
 	private MasterDetailPanel chargeMasterDetailPanel;
 	private HashMap<Integer, ChargeMasterListItem> listItems;
 	private ChargeDetails detailsPanel;
+	private static ArrayList<com.vhi.hsm.model.PropertyType> propertyTypeList;
+	private static ArrayList<PropertyGroup> propertyGroupList;
+	private static ArrayList<Property> propertyList;
 	private MasterDetailCallback callback = new MasterDetailCallback() {
 
 		@Override
@@ -103,10 +111,25 @@ public class ChargeScreen extends JDialog implements WindowListener {
 		setVisible(true);
 		listItems = new HashMap<Integer, ChargeMasterListItem>();
 		chargeMasterDetailPanel = new MasterDetailPanel(callback);
-		detailsPanel = new ChargeDetails();
 		prepareList();
 		getContentPane().add(chargeMasterDetailPanel);
 		pack();
+
+		if (propertyList == null) {
+			propertyList = new ArrayList<>(Property.getAllProperties(SystemManager.society.getSocietyId()));
+		}
+
+		if (propertyTypeList == null) {
+			propertyTypeList = new ArrayList<>(
+					com.vhi.hsm.model.PropertyType.getAllPropertyType(SystemManager.society.getSocietyId()));
+		}
+
+		if (propertyGroupList == null) {
+			propertyGroupList = new ArrayList<>(
+					PropertyGroup.getAllPropertyGroup(SystemManager.society.getSocietyId()));
+		}
+		
+		detailsPanel = new ChargeDetails();
 	}
 
 	private void prepareList() {
@@ -198,8 +221,41 @@ public class ChargeScreen extends JDialog implements WindowListener {
 		JLabel chargeIdLabel, chargeIdValue, descriptionLabel, amountLabel;
 		JTextField descriptionField, amountField;
 		JCheckBox defaultChargeChkBox, tempChargeChkBox, cancelledChargeChkBox;
+		HashMap<String, JCheckBox> propertyGroupBox, propertyTypeBox;
+		HashMap<Integer, JCheckBox> propertyBox;
+
+		JPanel propertyPanel, propertyGroupPanel, propertyTypePanel;
 
 		public ChargeDetails() {
+			
+			propertyPanel = new JPanel();
+			propertyPanel.setBorder(BorderFactory.createTitledBorder("Property"));
+			propertyPanel.setLayout(new GridLayout(0, 3));
+			propertyGroupPanel = new JPanel();
+			propertyGroupPanel.setBorder(BorderFactory.createTitledBorder("Property Group"));
+			propertyGroupPanel.setLayout(new GridLayout(0, 3));
+			propertyTypePanel = new JPanel();
+			propertyTypePanel.setBorder(BorderFactory.createTitledBorder("Property Type"));
+			propertyTypePanel.setLayout(new GridLayout(0, 3));
+			
+			propertyBox = new HashMap<>();
+			for (Property property : propertyList) {
+				propertyBox.put(property.getPropertyId(), new JCheckBox(property.getPropertyName()));
+				propertyPanel.add(propertyBox.get(property.getPropertyId()));
+			}
+			
+			propertyTypeBox = new HashMap<>();
+			for (PropertyType propertyType : propertyTypeList) {
+				propertyTypeBox.put(propertyType.getPropertyType(), new JCheckBox(propertyType.getDescription()));
+				propertyTypePanel.add(propertyTypeBox.get(propertyType.getPropertyType()));
+			}
+			
+			propertyGroupBox = new HashMap<>();
+			for (PropertyGroup propertyGroup : propertyGroupList) {
+				propertyGroupBox.put(propertyGroup.getPropertygroup(), new JCheckBox(propertyGroup.getDescription()));
+				propertyGroupPanel.add(propertyGroupBox.get(propertyGroup.getPropertygroup()));
+			}
+			
 			chargeIdLabel = new JLabel("Charge");
 			chargeIdValue = new JLabel();
 			descriptionLabel = new JLabel("Description");
@@ -250,6 +306,19 @@ public class ChargeScreen extends JDialog implements WindowListener {
 
 			c.gridx = 4;
 			add(cancelledChargeChkBox, c);
+			
+			c.gridx = 1;
+			c.gridy = 5;
+			c.gridwidth = GridBagConstraints.REMAINDER;
+			add(propertyTypePanel, c);
+			
+			c.gridwidth = GridBagConstraints.REMAINDER;
+			c.gridy = 6;
+			add(propertyGroupPanel, c);
+			
+			c.gridwidth = GridBagConstraints.REMAINDER;
+			c.gridy = 7;
+			add(propertyPanel, c);
 		}
 
 		public void setCharge(Charge charge) {
@@ -259,6 +328,37 @@ public class ChargeScreen extends JDialog implements WindowListener {
 			cancelledChargeChkBox.setSelected(charge.isCancelled());
 			tempChargeChkBox.setSelected(charge.isTempCharges());
 			defaultChargeChkBox.setSelected(charge.isdefault());
+			
+			Set<Integer> propertySet = propertyBox.keySet();
+			JCheckBox box = null;
+			for(Integer i : propertySet) {
+				box = null;
+				box = propertyBox.get(i);
+				if (box != null) {
+					box.setSelected(false);
+					box.setSelected(charge.getAssignedProperty().contains(i));
+				}
+			}
+			
+			Set<String> propertyGroupSet = propertyGroupBox.keySet();
+			for (String s : propertyGroupSet) {
+				box = null;
+				box = propertyGroupBox.get(s);
+				if (box != null) {
+					box.setSelected(false);
+					box.setSelected(charge.getAssignedPropertyGroup().contains(s));
+				}
+			}
+			
+			Set<String> propertyTypeSet = propertyTypeBox.keySet();
+			for (String s : propertyTypeSet) {
+				box = null;
+				box = propertyTypeBox.get(s);
+				if (box != null) {
+					box.setSelected(false);
+					box.setSelected(charge.getAssignedPropertyType().contains(s));
+				}
+			}
 		}
 
 		public void getFieldValues(Charge charge) {
@@ -267,6 +367,58 @@ public class ChargeScreen extends JDialog implements WindowListener {
 			charge.setCancelled(cancelledChargeChkBox.isSelected());
 			charge.setTempCharges(tempChargeChkBox.isSelected());
 			charge.setdefault(defaultChargeChkBox.isSelected());
+			
+			Set<Integer> propertySet = propertyBox.keySet();
+			JCheckBox box = null;
+			for(Integer i : propertySet) {
+				box = null;
+				box = propertyBox.get(i);
+				if (box != null) {
+					if (box.isSelected()) {
+						if (!charge.getAssignedProperty().contains(i)) {
+							charge.getAssignedProperty().add(i);
+						}
+					} else {
+						if (charge.getAssignedProperty().contains(i)) {
+							charge.getAssignedProperty().remove(i);
+						}
+					}
+				}
+			}
+			
+			Set<String> propertyGroupSet = propertyGroupBox.keySet();
+			for (String s : propertyGroupSet) {
+				box = null;
+				box = propertyGroupBox.get(s);
+				if (box != null) {
+					if (box.isSelected()) {
+						if (!charge.getAssignedPropertyGroup().contains(s)) {
+							charge.getAssignedPropertyGroup().add(s);
+						}
+					} else {
+						if (charge.getAssignedPropertyGroup().contains(s)) {
+							charge.getAssignedPropertyGroup().remove(s);
+						}
+					}
+				}
+			}
+			
+			Set<String> propertyTypeSet = propertyTypeBox.keySet();
+			for (String s : propertyTypeSet) {
+				box = null;
+				box = propertyTypeBox.get(s);
+				if (box != null) {
+					if (box.isSelected()) {
+						if (!charge.getAssignedPropertyType().contains(s)) {
+							charge.getAssignedPropertyType().add(s);
+						}
+					} else {
+						if (charge.getAssignedPropertyType().contains(s)) {
+							charge.getAssignedPropertyType().remove(s);
+						}
+					}
+				}
+			}
 		}
 
 	}

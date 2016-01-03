@@ -3,7 +3,9 @@ package com.vhi.hsm.model;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 
@@ -66,11 +68,11 @@ public class PropertyGroup {
 			+ Constants.Table.Society.FieldName.SOCIETY_ID + " = ?" + " AND "
 			+ Constants.Table.PropertyGroup.FieldName.PROPERTY_GROUP + " = ?";
 
-	private String getPropertygroup() {
+	public String getPropertygroup() {
 		return propertyGroup;
 	}
 
-	public void setPropertygroup(String propertyGroup) {
+	private void setPropertygroup(String propertyGroup) {
 		this.propertyGroup = propertyGroup;
 	}
 
@@ -189,4 +191,27 @@ public class PropertyGroup {
 		}
 		return group;
 	}
+	
+	public static List<PropertyGroup> getAllPropertyGroup(int societyId) {
+		List<PropertyGroup> list = new ArrayList<>();
+		
+		String searchQuery = "select * from " + Constants.Table.PropertyGroup.TABLE_NAME + " where "
+				+ Constants.Table.Society.FieldName.SOCIETY_ID + " = " + societyId;
+
+		ResultSet result = SQLiteManager.executeQuery(searchQuery);
+		try {
+			if (result != null && result.next()) {
+				do {
+					String propertyGroup = result.getString(Constants.Table.PropertyGroup.FieldName.PROPERTY_GROUP);
+					list.add(read(societyId, propertyGroup));
+					result.next();
+				} while (!result.isAfterLast());
+			}
+		} catch (SQLException e) {
+			LOG.error(e.getMessage());
+		}
+		
+		return list;
+	}
+
 }

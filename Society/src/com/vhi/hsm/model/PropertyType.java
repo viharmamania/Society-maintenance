@@ -3,7 +3,9 @@ package com.vhi.hsm.model;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 
@@ -195,6 +197,28 @@ public class PropertyType {
 			}
 		}
 		return propertyTypeObject;
+	}
+	
+	public static List<PropertyType> getAllPropertyType(int societyId) {
+		List<PropertyType> list = new ArrayList<>();
+		
+		String searchQuery = "select * from " + Constants.Table.PropertyType.TABLE_NAME + " where "
+				+ Constants.Table.Society.FieldName.SOCIETY_ID + " = " + societyId;
+
+		ResultSet result = SQLiteManager.executeQuery(searchQuery);
+		try {
+			if (result != null && result.next()) {
+				do {
+					String propertyType = result.getString(Constants.Table.PropertyType.FieldName.PROPERTY_TYPE);
+					list.add(read(societyId, propertyType));
+					result.next();
+				} while (!result.isAfterLast());
+			}
+		} catch (SQLException e) {
+			LOG.error(e.getMessage());
+		}
+		
+		return list;
 	}
 
 }
