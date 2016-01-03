@@ -162,7 +162,7 @@ public class Login extends JFrame implements WindowListener {
 				LOG.info("registering society");
 			}
 		} catch (Exception e) {
-			LOG.error("Error while registering user" + e.getMessage());
+			LOG.error("Error while registering user" + e.toString());
 		}
 
 	}

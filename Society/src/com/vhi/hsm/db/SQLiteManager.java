@@ -23,7 +23,7 @@ public class SQLiteManager {
 			connection = DriverManager.getConnection("jdbc:sqlite:" + Constants.DB_NAME);
 			return true;
 		} catch (Exception e) {
-			LOG.error(e.getMessage());
+			LOG.error(e.toString());
 			return false;
 		}
 	}
@@ -38,7 +38,7 @@ public class SQLiteManager {
 			try {
 				connection.close();
 			} catch (SQLException e) {
-				LOG.error(e.getMessage());
+				LOG.error(e.toString());
 			}
 		}
 	}
@@ -46,12 +46,11 @@ public class SQLiteManager {
 	public static ResultSet executeQuery(String query) {
 
 		ResultSet result = null;
-
 		try {
 			Statement statement = getInstance().createStatement();
 			result = statement.executeQuery(query);
 		} catch (SQLException e) {
-			LOG.error(e.getMessage());
+			LOG.error(e);
 		}
 		return result;
 	}
@@ -63,7 +62,7 @@ public class SQLiteManager {
 			statement = getInstance().createStatement();
 			result = statement.executeUpdate(query);
 		} catch (SQLException e) {
-			LOG.error(e.getMessage());
+			LOG.error(e.toString());
 		}
 		return result;
 	}
@@ -77,7 +76,7 @@ public class SQLiteManager {
 				result = count != 0;
 			} catch (SQLException e) {
 				result = false;
-				LOG.error(e.getMessage());
+				LOG.error(e.toString());
 			}
 		} else {
 			result = false;
@@ -90,7 +89,7 @@ public class SQLiteManager {
 		try {
 			preparedStatement = getInstance().prepareStatement(query);
 		} catch (SQLException e) {
-			LOG.error(e.getMessage());
+			LOG.error(e.toString());
 		}
 		return preparedStatement;
 	}
@@ -101,7 +100,7 @@ public class SQLiteManager {
 			getInstance().setAutoCommit(false);
 			result = true;
 		} catch (SQLException e) {
-			LOG.error(e.getMessage());
+			LOG.error(e.toString());
 		}
 		return result;
 	}
@@ -122,12 +121,12 @@ public class SQLiteManager {
 				result = true;
 			}
 		} catch (SQLException e) {
-			LOG.error(e.getMessage());
+			LOG.error(e.toString());
 		} finally {
 			try {
 				getInstance().setAutoCommit(true);
 			} catch (SQLException e) {
-				LOG.error(e.getMessage());
+				LOG.error(e.toString());
 			}
 		}
 		return result;

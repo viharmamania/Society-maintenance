@@ -30,6 +30,7 @@ import com.vhi.hsm.view.AssetTypeScreen;
 import com.vhi.hsm.view.ChargeScreen;
 import com.vhi.hsm.view.Payment;
 import com.vhi.hsm.view.PropertyView;
+import com.vhi.hsm.view.TempChargesConfirmationView;
 
 public class DashBoard extends JFrame implements WindowListener {
 
@@ -74,7 +75,7 @@ public class DashBoard extends JFrame implements WindowListener {
 
 		billGenerateButton = new JButton("Generate Monthly Bill");
 		billGenerateButton.addActionListener(e ->{
-			generateBill();
+			new TempChargesConfirmationView(this);
 		});
 		
 		billViewButton = new JButton("View Bills");

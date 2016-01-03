@@ -378,6 +378,27 @@ public class Charge {
 		return list;
 	}
 	
+	public static ArrayList<Charge> getAllTempCharge(int societyId) {
+		ArrayList<Charge> list = new ArrayList<Charge>();
+		ResultSet resultSet = SQLiteManager.executeQuery("SELECT * FROM " + Constants.Table.Charge.TABLE_NAME
+				+ " WHERE " + Constants.Table.Society.FieldName.SOCIETY_ID + " = " + societyId + " and temp_charge = 1");
+		if (resultSet != null) {
+			Charge charge;
+			try {
+				while(resultSet.next()) {
+					charge = null;
+					charge = read(societyId, resultSet.getInt(Constants.Table.Charge.FieldName.CHARGE_ID));
+					if (charge != null) {
+						list.add(charge);
+					}
+				}
+			} catch (SQLException e) {
+				LOG.error(e.getMessage());
+			}
+		}
+		return list;
+	}
+	
 	public static int getNewChargeId(int societyId) {
 		int newId = -2;
 		ResultSet idMax = SQLiteManager.executeQuery("SELECT MAX(" + Constants.Table.Charge.FieldName.CHARGE_ID 

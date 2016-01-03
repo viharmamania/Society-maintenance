@@ -85,6 +85,10 @@ public class BillManager {
 			SQLiteManager.endTransaction(commit, !commit);
 
 		}
+		
+		//mark all temp charges as deleted
+		String cancelTempCharges = "update charge set is_cancelled = 1 where temp_charge = 1 ";
+		SQLiteManager.executeUpdate(cancelTempCharges);
 
 		return societyBills;
 
@@ -148,7 +152,7 @@ public class BillManager {
 		}
 
 		// saving bill in DB
-		Bill.save(bill, false);
+		Bill.save(bill, true);
 
 		// saving individual bill charges in DB
 		for (int i = 0; i < chargeIds.size(); i++) {
@@ -182,7 +186,7 @@ public class BillManager {
 				+ Constants.Table.PropertyGroup.FieldName.PROPERTY_GROUP + " = ( select "
 				+ Constants.Table.PropertyGroup.FieldName.PROPERTY_GROUP + " from "
 				+ Constants.Table.FloorPlanDesign.TABLE_NAME + " where " + Constants.Table.Society.FieldName.SOCIETY_ID
-				+ " =? " + " and " + Constants.Table.FloorPlanDesign.FieldName.PROPERTY_NUMBER + " =? )");
+				+ " =? " + " and " + Constants.Table.Property.FieldName.PROPERTY_NAME + " =? )");
 
 		query.append(" union ");
 
@@ -192,7 +196,7 @@ public class BillManager {
 				+ Constants.Table.PropertyType.FieldName.PROPERTY_TYPE + " = ( select "
 				+ Constants.Table.PropertyType.FieldName.PROPERTY_TYPE + " from "
 				+ Constants.Table.FloorPlanDesign.TABLE_NAME + " where " + Constants.Table.Society.FieldName.SOCIETY_ID
-				+ " =? " + " and " + Constants.Table.FloorPlanDesign.FieldName.PROPERTY_NUMBER + " =? )");
+				+ " =? " + " and " + Constants.Table.Property.FieldName.PROPERTY_NAME + " =? )");
 
 		query.append(" union ");
 
@@ -225,15 +229,15 @@ public class BillManager {
 			fetchChargesStmt.setString(4, property.getPropertyName());
 			fetchChargesStmt.setInt(5, property.getPropertyId());
 			ResultSet result = fetchChargesStmt.executeQuery();
-			if (result != null) {
+			if (result != null & result.next()) {
 				do {
-					result.next();
 					chargeIds.add(result.getInt(Constants.Table.Charge.FieldName.CHARGE_ID));
+					result.next();
 				} while (!result.isAfterLast());
 			}
 
 		} catch (SQLException e) {
-			LOG.error(e.getMessage());
+			LOG.error(e.toString());
 		}
 		return chargeIds;
 	}
