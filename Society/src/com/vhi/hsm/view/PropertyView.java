@@ -278,7 +278,7 @@ public class PropertyView extends JDialog implements WindowListener {
 			ownerEmailLabel = new JLabel("Email");
 			ownerPhoneLabel = new JLabel("Mobile Number");
 
-			propertyNameText = new JTextField();
+			propertyNameText = new JTextField(30);
 			ownerNameText = new JTextField();
 			ownerPhoneText = new JTextField();
 			ownerEmailText = new JTextField();
@@ -289,21 +289,54 @@ public class PropertyView extends JDialog implements WindowListener {
 			layout.setAutoCreateGaps(true);
 
 			layout.setHorizontalGroup(layout.createSequentialGroup()
-					.addGroup(layout.createParallelGroup(Alignment.TRAILING).addComponent(propertyNameLabel)
-							.addComponent(ownerNameLabel).addComponent(ownerEmailLabel).addComponent(ownerPhoneLabel))
-					.addGroup(layout.createParallelGroup(Alignment.TRAILING).addComponent(propertyNameText))
-					.addComponent(ownerNameText).addComponent(ownerEmailText).addComponent(ownerPhoneText));
-
-			layout.setVerticalGroup(layout.createSequentialGroup()
-					.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(propertyNameLabel)
-							.addComponent(propertyNameText))
-					.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(ownerNameLabel)
-							.addComponent(ownerNameText))
-					.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(ownerEmailLabel)
-							.addComponent(ownerEmailText))
-					.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(ownerPhoneLabel)
-							.addComponent(ownerPhoneText)));
+					.addGroup(layout.createParallelGroup(Alignment.TRAILING)
+								.addComponent(propertyNameLabel)
+								.addComponent(ownerNameLabel)
+								.addComponent(ownerEmailLabel)
+								.addComponent(ownerPhoneLabel))
+					.addGroup(layout.createParallelGroup(Alignment.LEADING)
+								.addComponent(propertyNameText)
+								.addComponent(ownerNameText)
+								.addComponent(ownerEmailText)
+								.addComponent(ownerPhoneText)));
 			
+//			layout.setVerticalGroup(layout.createParallelGroup()
+//					.addGroup(layout.createSequentialGroup()
+//								.addComponent(propertyNameLabel)
+//								.addComponent(ownerNameLabel)
+//								.addComponent(ownerEmailLabel)
+//								.addComponent(ownerPhoneLabel))
+//					.addGroup(layout.createSequentialGroup()
+//								.addComponent(propertyNameText)
+//								.addComponent(ownerNameText)
+//								.addComponent(ownerEmailText)
+//								.addComponent(ownerPhoneText)));
+			
+			layout.setVerticalGroup(layout.createSequentialGroup()
+					.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+								.addComponent(propertyNameLabel)
+								.addComponent(propertyNameText))
+					.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+							.addComponent(ownerNameLabel)
+							.addComponent(ownerNameText))
+					.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+							.addComponent(ownerEmailLabel)
+							.addComponent(ownerEmailText))
+					.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+							.addComponent(ownerPhoneLabel)
+							.addComponent(ownerPhoneText))
+					);
+			
+//			layout.setVerticalGroup(layout.createParallelGroup()
+//					.addGroup(layout.createSequentialGroup().addComponent(propertyNameLabel)
+//							.addComponent(propertyNameText))
+//					.addGroup(layout.createSequentialGroup().addComponent(ownerNameLabel)
+//							.addComponent(ownerNameText))
+//					.addGroup(layout.createSequentialGroup().addComponent(ownerEmailLabel)
+//							.addComponent(ownerEmailText))
+//					.addGroup(layout.createSequentialGroup().addComponent(ownerPhoneLabel)
+//							.addComponent(ownerPhoneText)));
+//			
 		}
 
 		public void getFieldValues(Property property) {
