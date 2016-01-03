@@ -276,7 +276,7 @@ public class AssetTypeScreen extends JDialog implements WindowListener {
 		public void getFieldValues(AssetType assetType) {
 			assetType.setAssetType(assetTypeField.getText());
 			assetType.setDescription(descriptionField.getText());
-			assetType.setCharges(Double.parseDouble(chargeField.getText()));
+			//assetType.setCharges(Double.parseDouble(chargeField.getText()));
 		}
 
 	}

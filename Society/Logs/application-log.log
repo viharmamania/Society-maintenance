@@ -60,3 +60,777 @@
 2015-11-15 12:15:35 DEBUG SQLiteManager:32 - getting a connction
 2015-11-15 12:16:51 DEBUG SQLiteManager:21 - Set up new connection
 2015-11-15 12:19:36 DEBUG SQLiteManager:32 - getting a connction
+2015-11-29 11:38:58 DEBUG SQLiteManager:21 - Set up new connection
+2015-11-29 11:45:43 DEBUG SQLiteManager:21 - Set up new connection
+2015-11-29 12:23:04 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-06 14:26:03 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-06 14:27:55 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-06 14:30:25 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-06 14:32:18 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-06 14:32:19 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 14:32:51 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-06 14:32:52 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 14:34:13 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-06 14:34:27 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 14:35:08 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-06 14:35:51 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 14:37:31 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-06 14:37:31 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 14:37:31 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 14:38:08 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-06 14:38:09 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 14:38:09 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 14:39:43 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-06 14:39:44 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 14:39:44 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 14:39:44 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 14:40:18 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-06 14:40:53 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 14:41:40 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 14:41:52 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 14:43:45 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-06 14:43:45 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 14:43:46 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 14:43:46 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 14:45:38 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-06 14:45:39 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 14:45:39 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 14:45:39 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 14:46:00 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-06 14:46:00 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 14:46:01 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 14:46:01 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 14:46:19 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-06 14:46:19 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 14:46:19 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 14:46:19 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 14:48:07 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-06 14:48:07 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 14:48:08 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 14:48:08 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 14:49:05 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-06 14:49:06 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 14:49:06 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 14:49:06 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 14:49:46 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-06 14:49:47 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 14:49:47 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 14:49:47 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 14:50:48 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-06 14:50:49 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 14:50:49 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 14:50:49 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 14:52:15 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-06 14:52:15 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 14:52:15 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 14:52:15 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 14:53:06 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-06 14:53:12 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 14:53:15 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 14:53:15 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 14:56:57 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-06 14:56:58 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 14:56:58 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 14:56:58 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 14:57:29 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-06 14:57:35 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 14:57:43 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 14:57:43 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 15:01:26 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-06 15:01:26 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 15:01:27 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 15:01:27 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 15:02:18 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-06 15:02:18 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 15:02:19 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 15:02:19 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 15:02:45 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-06 15:02:46 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 15:02:46 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 15:02:46 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 15:03:10 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-06 15:03:11 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 15:03:11 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 15:03:11 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 15:22:16 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-06 15:22:17 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 15:24:28 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-06 15:24:28 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 15:24:29 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 15:24:29 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 15:25:15 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-06 15:25:15 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 15:25:15 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 15:25:15 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 15:25:55 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-06 15:25:56 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 15:25:56 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 15:25:56 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 15:27:05 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-06 15:27:06 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 15:27:06 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 15:27:06 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 15:27:29 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-06 15:27:29 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 15:27:30 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 15:27:30 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 15:27:44 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-06 15:27:45 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 15:27:45 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 15:27:45 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 15:28:29 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-06 15:28:30 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 15:28:30 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 15:28:30 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 15:29:24 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-06 15:29:25 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 15:29:25 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 15:29:25 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 15:29:26 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-06 15:29:26 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 15:29:27 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 15:29:27 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 15:38:22 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-06 15:38:22 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 15:38:23 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 15:38:23 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 15:38:48 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-06 15:38:48 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 15:38:49 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 15:38:49 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 15:40:48 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-06 15:40:49 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 15:40:49 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 15:40:49 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 15:40:59 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 15:43:11 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-06 15:43:11 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 15:43:12 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 15:43:12 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 15:43:22 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 15:44:20 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 15:44:54 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 15:44:54 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 15:45:54 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-06 15:45:55 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 15:45:55 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 15:45:55 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 15:46:00 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 15:46:01 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 15:48:07 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-06 15:48:07 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 15:48:08 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 15:48:08 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 15:48:29 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 15:49:38 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-06 15:49:38 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 15:49:39 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 15:49:39 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 15:49:44 DEBUG SQLiteManager:32 - getting a connction
+2015-12-06 15:49:45 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 11:26:48 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-12 11:26:49 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 11:26:51 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 11:26:51 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 11:31:23 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-12 11:31:24 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 11:31:24 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 11:31:24 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 11:38:11 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-12 11:38:12 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 11:38:13 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 11:38:13 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 11:45:01 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-12 11:45:02 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 11:45:02 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 11:45:02 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 11:46:05 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-12 11:46:06 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 11:46:06 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 11:46:06 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:02:06 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-12 12:02:07 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:02:08 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:02:08 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:06:39 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-12 12:06:40 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:06:40 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:06:40 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:16:42 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-12 12:16:43 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:16:43 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:16:43 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:17:33 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-12 12:17:34 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:17:34 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:17:34 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:20:45 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-12 12:20:46 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:20:46 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:20:46 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:21:54 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-12 12:21:55 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:21:55 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:21:55 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:24:02 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-12 12:24:03 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:24:03 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:24:03 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:24:42 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:28:46 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-12 12:28:47 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:28:47 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:28:47 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:33:41 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-12 12:33:42 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:33:42 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:33:42 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:33:55 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-12 12:33:55 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:33:56 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:33:56 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:36:26 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-12 12:36:26 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:36:27 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:36:27 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:38:47 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-12 12:38:48 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:38:48 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:38:48 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:43:35 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-12 12:43:35 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:43:36 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:43:36 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:44:00 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-12 12:44:00 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:44:00 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:44:00 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:44:52 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-12 12:44:52 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:44:53 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:44:53 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:45:27 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-12 12:45:27 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:45:28 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:45:28 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:45:45 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-12 12:45:45 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:45:46 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:45:46 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:46:56 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-12 12:46:56 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:46:56 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:46:56 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:47:42 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-12 12:47:42 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:47:42 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:47:42 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:51:02 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-12 12:51:03 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:51:03 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:51:03 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:52:36 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-12 12:52:36 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:52:37 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:52:37 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:54:09 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-12 12:54:10 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:55:24 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-12 12:55:25 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:55:25 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:55:25 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:55:54 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-12 12:55:54 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:55:54 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:55:54 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:58:06 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-12 12:58:07 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:58:07 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:58:07 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 12:58:20 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 13:48:50 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-12 13:48:51 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 13:48:52 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 13:48:52 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 14:43:56 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-12 14:43:59 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 14:44:09 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 14:44:09 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 14:54:21 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-12 14:54:22 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 14:54:22 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 14:54:22 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 14:55:07 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-12 14:55:08 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 14:55:08 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 14:55:08 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 14:56:10 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-12 14:56:10 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 14:56:11 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 14:56:11 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 14:56:37 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-12 14:56:38 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 14:56:39 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 14:56:39 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 14:57:28 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-12 14:57:28 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 14:57:29 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 14:57:29 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 14:59:14 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-12 14:59:14 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 14:59:15 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 14:59:15 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 14:59:48 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-12 14:59:48 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 14:59:49 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 14:59:49 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 15:00:45 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-12 15:00:46 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 15:00:46 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 15:00:46 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 15:01:04 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 15:04:28 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-12 15:04:29 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 15:04:29 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 15:04:29 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 15:04:51 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 15:13:05 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-12 15:13:06 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 15:13:07 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 15:13:07 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 15:13:30 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 15:13:42 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 15:13:42 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 15:17:49 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-12 15:17:49 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 15:17:50 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 15:17:50 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 15:17:53 DEBUG SQLiteManager:32 - getting a connction
+2015-12-12 15:17:53 DEBUG SQLiteManager:32 - getting a connction
+2015-12-13 12:20:05 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-13 12:20:07 DEBUG SQLiteManager:32 - getting a connction
+2015-12-13 12:20:08 DEBUG SQLiteManager:32 - getting a connction
+2015-12-13 12:20:08 DEBUG SQLiteManager:32 - getting a connction
+2015-12-13 12:21:12 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-13 12:21:16 DEBUG SQLiteManager:32 - getting a connction
+2015-12-13 12:21:40 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-13 12:21:46 DEBUG SQLiteManager:32 - getting a connction
+2015-12-13 12:21:51 DEBUG SQLiteManager:32 - getting a connction
+2015-12-13 12:21:55 DEBUG SQLiteManager:32 - getting a connction
+2015-12-13 12:22:01 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-13 12:22:03 DEBUG SQLiteManager:32 - getting a connction
+2015-12-13 12:22:56 DEBUG SQLiteManager:32 - getting a connction
+2015-12-13 12:24:03 DEBUG SQLiteManager:32 - getting a connction
+2015-12-13 12:42:39 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-13 12:42:41 DEBUG SQLiteManager:32 - getting a connction
+2015-12-13 12:43:38 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-13 12:43:40 DEBUG SQLiteManager:32 - getting a connction
+2015-12-13 12:43:40 DEBUG SQLiteManager:32 - getting a connction
+2015-12-13 12:44:03 DEBUG SQLiteManager:32 - getting a connction
+2015-12-13 12:44:53 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-13 12:44:55 DEBUG SQLiteManager:32 - getting a connction
+2015-12-13 12:44:55 DEBUG SQLiteManager:32 - getting a connction
+2015-12-13 12:46:31 DEBUG SQLiteManager:32 - getting a connction
+2015-12-13 12:47:47 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-13 12:47:49 DEBUG SQLiteManager:32 - getting a connction
+2015-12-13 12:47:49 DEBUG SQLiteManager:32 - getting a connction
+2015-12-13 12:48:01 DEBUG SQLiteManager:32 - getting a connction
+2015-12-13 12:51:01 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-13 12:51:03 DEBUG SQLiteManager:32 - getting a connction
+2015-12-13 12:51:03 DEBUG SQLiteManager:32 - getting a connction
+2015-12-13 12:51:16 DEBUG SQLiteManager:32 - getting a connction
+2015-12-13 12:51:55 DEBUG SQLiteManager:32 - getting a connction
+2015-12-13 12:51:55 DEBUG SQLiteManager:32 - getting a connction
+2015-12-26 12:38:59 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-26 12:39:06 DEBUG SQLiteManager:32 - getting a connection
+2015-12-26 12:39:06 DEBUG SQLiteManager:32 - getting a connection
+2015-12-26 12:39:34 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-26 12:40:18 DEBUG SQLiteManager:32 - getting a connection
+2015-12-26 12:40:18 DEBUG SQLiteManager:32 - getting a connection
+2015-12-26 12:40:57 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-26 12:41:01 DEBUG SQLiteManager:32 - getting a connection
+2015-12-26 12:41:01 DEBUG SQLiteManager:32 - getting a connection
+2015-12-26 12:41:28 DEBUG SQLiteManager:32 - getting a connection
+2015-12-26 12:41:58 DEBUG SQLiteManager:32 - getting a connection
+2015-12-26 12:42:39 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-26 12:43:20 DEBUG SQLiteManager:32 - getting a connection
+2015-12-26 12:43:24 DEBUG SQLiteManager:32 - getting a connection
+2015-12-26 12:47:40 DEBUG SQLiteManager:32 - getting a connection
+2015-12-26 13:04:14 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-26 13:04:15 DEBUG SQLiteManager:32 - getting a connection
+2015-12-26 13:04:15 DEBUG SQLiteManager:32 - getting a connection
+2015-12-26 13:04:15 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 11:40:42 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-27 11:41:03 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-27 11:41:04 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 11:41:04 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 11:41:04 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 11:41:35 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-27 11:41:36 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 11:41:36 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 11:41:36 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 11:41:46 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-27 11:41:49 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 11:41:49 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 11:41:58 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-27 11:42:00 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 11:42:00 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 11:42:28 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-27 11:42:30 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 11:45:17 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-27 11:45:19 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 13:54:24 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-27 13:55:46 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-27 15:54:45 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-27 15:54:48 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 15:55:33 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 15:56:52 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-27 15:56:54 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 15:56:54 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 15:57:24 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 15:57:50 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 15:58:08 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 15:58:16 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-27 15:58:32 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 15:58:32 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 16:05:12 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-27 16:06:41 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 16:06:48 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 16:08:37 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-27 16:08:46 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 16:08:46 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 16:09:29 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-27 16:09:36 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 16:09:36 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 16:09:37 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 16:12:53 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-27 16:13:05 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 16:13:05 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 16:13:05 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 16:13:41 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-27 16:13:48 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 16:13:48 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 16:13:49 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 16:14:31 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-27 16:14:38 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 16:14:38 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 16:14:39 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 16:15:17 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-27 16:15:24 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 16:15:24 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 16:15:24 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 16:16:48 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-27 16:16:58 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 16:16:58 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 16:16:58 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 16:17:44 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-27 16:17:52 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 16:17:52 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 16:17:53 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 16:19:55 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-27 16:20:04 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 16:20:04 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 16:20:04 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 16:33:00 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-27 16:33:07 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 16:33:07 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 16:33:07 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 16:36:33 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-27 16:36:41 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 16:36:41 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 16:36:42 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 16:39:02 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-27 16:39:10 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 16:39:10 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 16:39:10 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 16:42:02 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-27 16:42:10 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 16:42:10 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 16:42:10 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 16:43:10 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-27 16:43:17 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 16:43:17 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 16:43:18 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 16:44:08 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-27 16:44:16 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 16:44:16 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 16:44:16 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 16:46:27 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-27 16:46:34 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 16:46:34 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 16:46:35 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 16:47:30 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-27 16:47:41 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 16:47:41 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 16:47:42 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 16:49:53 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-27 16:50:03 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 16:50:03 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 16:50:03 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 16:55:42 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-27 16:55:49 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 16:55:49 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 16:55:50 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 16:57:34 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-27 16:57:42 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 16:57:42 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 16:57:42 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 17:02:43 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-27 17:02:51 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 17:02:51 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 17:02:52 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 17:03:44 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-27 17:03:50 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 17:03:50 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 17:03:51 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 17:04:41 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-27 17:04:47 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 17:04:47 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 17:04:47 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 17:08:43 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-27 17:08:56 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 17:08:56 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 17:08:56 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 17:10:26 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-27 17:10:32 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 17:10:32 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 17:10:33 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 17:10:57 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-27 17:11:04 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 17:11:04 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 17:11:04 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 17:12:39 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-27 17:12:43 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 17:12:43 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 17:12:44 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 17:13:36 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-27 17:13:42 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 17:13:42 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 17:13:42 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 17:14:12 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-27 17:14:16 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 17:14:16 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 17:14:17 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 17:14:38 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-27 17:14:43 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 17:14:43 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 17:14:43 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 17:16:00 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-27 17:16:07 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 17:16:07 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 17:16:08 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 17:16:17 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-27 17:16:22 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 17:16:22 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 17:16:22 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 17:18:22 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-27 17:18:30 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 17:18:44 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 17:18:44 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 17:18:51 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 17:18:51 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 17:21:37 DEBUG SQLiteManager:21 - Set up new connection
+2015-12-27 17:21:48 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 17:21:48 DEBUG SQLiteManager:32 - getting a connection
+2015-12-27 17:21:48 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 20:10:21 DEBUG SQLiteManager:21 - Set up new connection
+2016-01-01 20:10:29 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 20:10:30 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 20:10:31 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 20:13:54 DEBUG SQLiteManager:21 - Set up new connection
+2016-01-01 20:14:02 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 20:14:02 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 20:14:06 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 20:14:06 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:30:44 DEBUG SQLiteManager:21 - Set up new connection
+2016-01-01 21:30:56 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:30:56 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:31:00 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:31:04 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:32:29 DEBUG SQLiteManager:21 - Set up new connection
+2016-01-01 21:32:35 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:32:35 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:32:36 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:32:38 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:33:05 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:33:56 DEBUG SQLiteManager:21 - Set up new connection
+2016-01-01 21:34:04 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:34:04 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:34:04 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:34:09 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:34:34 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:34:34 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:35:01 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:39:34 DEBUG SQLiteManager:21 - Set up new connection
+2016-01-01 21:39:41 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:39:41 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:39:42 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:39:44 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:40:01 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:41:33 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:41:33 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:41:33 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:41:33 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:41:33 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:41:38 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:41:38 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:41:38 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:41:38 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:41:38 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:41:41 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:41:41 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:42:12 DEBUG SQLiteManager:21 - Set up new connection
+2016-01-01 21:42:19 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:42:19 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:42:19 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:42:21 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:42:21 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:53:26 DEBUG SQLiteManager:21 - Set up new connection
+2016-01-01 21:53:33 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:53:33 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:53:33 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:53:35 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:53:35 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:53:35 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:53:35 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:53:35 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:55:05 DEBUG SQLiteManager:21 - Set up new connection
+2016-01-01 21:55:10 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:55:10 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:55:10 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:55:13 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:55:13 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:55:13 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:55:13 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:55:13 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:55:29 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:56:45 DEBUG SQLiteManager:21 - Set up new connection
+2016-01-01 21:56:51 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:56:51 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:56:51 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:56:52 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:56:52 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:56:52 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:56:52 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:56:52 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:57:08 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:58:34 DEBUG SQLiteManager:21 - Set up new connection
+2016-01-01 21:58:40 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:58:40 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:58:40 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:58:43 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:58:43 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:58:43 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:58:43 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:58:43 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:58:54 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 21:58:54 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 22:00:28 DEBUG SQLiteManager:21 - Set up new connection
+2016-01-01 22:00:34 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 22:00:34 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 22:00:34 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 22:00:36 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 22:00:36 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 22:00:36 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 22:00:36 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 22:00:36 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 22:00:50 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 22:00:50 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 22:01:31 DEBUG SQLiteManager:21 - Set up new connection
+2016-01-01 22:01:38 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 22:01:38 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 22:01:38 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 22:01:40 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 22:01:40 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 22:01:40 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 22:01:40 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 22:01:40 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 22:01:57 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 22:01:57 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 22:02:10 DEBUG SQLiteManager:21 - Set up new connection
+2016-01-01 22:02:17 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 22:02:17 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 22:02:17 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 22:02:19 DEBUG SQLiteManager:32 - getting a connection
+2016-01-01 22:02:19 DEBUG SQLiteManager:32 - getting a connection
+2016-01-03 12:45:44 DEBUG SQLiteManager:21 - Set up new connection
+2016-01-03 12:45:54 DEBUG SQLiteManager:32 - getting a connection
+2016-01-03 12:45:54 DEBUG SQLiteManager:32 - getting a connection
+2016-01-03 12:45:55 DEBUG SQLiteManager:32 - getting a connection
+2016-01-03 12:46:54 DEBUG SQLiteManager:21 - Set up new connection
+2016-01-03 12:47:00 DEBUG SQLiteManager:32 - getting a connection
+2016-01-03 12:47:00 DEBUG SQLiteManager:32 - getting a connection
+2016-01-03 12:47:01 DEBUG SQLiteManager:32 - getting a connection
+2016-01-03 12:47:02 DEBUG SQLiteManager:32 - getting a connection
+2016-01-03 12:47:02 DEBUG SQLiteManager:32 - getting a connection
+2016-01-03 12:47:02 DEBUG SQLiteManager:32 - getting a connection
+2016-01-03 12:47:02 DEBUG SQLiteManager:32 - getting a connection
+2016-01-03 12:47:02 DEBUG SQLiteManager:32 - getting a connection
+2016-01-03 12:47:02 DEBUG SQLiteManager:32 - getting a connection
+2016-01-03 12:47:02 DEBUG SQLiteManager:32 - getting a connection
+2016-01-03 12:47:03 DEBUG SQLiteManager:32 - getting a connection
+2016-01-03 12:49:32 DEBUG SQLiteManager:21 - Set up new connection
+2016-01-03 12:49:38 DEBUG SQLiteManager:32 - getting a connection
+2016-01-03 12:49:38 DEBUG SQLiteManager:32 - getting a connection
+2016-01-03 12:49:39 DEBUG SQLiteManager:32 - getting a connection
+2016-01-03 12:49:40 DEBUG SQLiteManager:32 - getting a connection
+2016-01-03 12:49:40 DEBUG SQLiteManager:32 - getting a connection
+2016-01-03 12:49:40 DEBUG SQLiteManager:32 - getting a connection
+2016-01-03 12:49:40 DEBUG SQLiteManager:32 - getting a connection
+2016-01-03 12:49:40 DEBUG SQLiteManager:32 - getting a connection
+2016-01-03 12:49:40 DEBUG SQLiteManager:32 - getting a connection
+2016-01-03 12:49:40 DEBUG SQLiteManager:32 - getting a connection
+2016-01-03 12:49:40 DEBUG SQLiteManager:32 - getting a connection
+2016-01-03 12:49:40 DEBUG SQLiteManager:32 - getting a connection
+2016-01-03 12:49:40 DEBUG SQLiteManager:32 - getting a connection
+2016-01-03 12:50:56 DEBUG SQLiteManager:21 - Set up new connection
+2016-01-03 12:51:01 DEBUG SQLiteManager:32 - getting a connection
+2016-01-03 12:51:01 DEBUG SQLiteManager:32 - getting a connection
+2016-01-03 12:51:02 DEBUG SQLiteManager:32 - getting a connection
+2016-01-03 12:51:03 DEBUG SQLiteManager:32 - getting a connection
+2016-01-03 12:51:03 DEBUG SQLiteManager:32 - getting a connection
+2016-01-03 12:51:03 DEBUG SQLiteManager:32 - getting a connection
+2016-01-03 12:51:03 DEBUG SQLiteManager:32 - getting a connection
+2016-01-03 12:51:03 DEBUG SQLiteManager:32 - getting a connection
+2016-01-03 12:51:03 DEBUG SQLiteManager:32 - getting a connection
+2016-01-03 12:51:03 DEBUG SQLiteManager:32 - getting a connection
+2016-01-03 12:51:03 DEBUG SQLiteManager:32 - getting a connection
+2016-01-03 12:51:03 DEBUG SQLiteManager:32 - getting a connection
+2016-01-03 12:51:03 DEBUG SQLiteManager:32 - getting a connection
+2016-01-03 12:51:44 DEBUG SQLiteManager:32 - getting a connection
+2016-01-03 12:51:44 DEBUG SQLiteManager:32 - getting a connection
+2016-01-03 12:52:13 DEBUG SQLiteManager:32 - getting a connection
+2016-01-03 12:52:29 DEBUG SQLiteManager:32 - getting a connection
+2016-01-03 12:52:45 DEBUG SQLiteManager:32 - getting a connection
+2016-01-03 12:52:45 DEBUG SQLiteManager:32 - getting a connection
+2016-01-03 12:52:51 DEBUG SQLiteManager:32 - getting a connection
+2016-01-03 12:54:34 DEBUG SQLiteManager:21 - Set up new connection
+2016-01-03 12:54:34 DEBUG SQLiteManager:32 - getting a connection
+2016-01-03 12:54:35 DEBUG SQLiteManager:32 - getting a connection
+2016-01-03 12:56:34 DEBUG SQLiteManager:21 - Set up new connection
+2016-01-03 12:56:35 DEBUG SQLiteManager:32 - getting a connection
+2016-01-03 12:56:35 DEBUG SQLiteManager:32 - getting a connection
+2016-01-03 12:59:15 DEBUG SQLiteManager:21 - Set up new connection
+2016-01-03 12:59:15 DEBUG SQLiteManager:32 - getting a connection
+2016-01-03 12:59:16 DEBUG SQLiteManager:32 - getting a connection
+2016-01-03 12:59:57 DEBUG SQLiteManager:21 - Set up new connection
+2016-01-03 12:59:58 DEBUG SQLiteManager:32 - getting a connection
+2016-01-03 12:59:58 DEBUG SQLiteManager:32 - getting a connection
+2016-01-03 13:01:43 DEBUG SQLiteManager:21 - Set up new connection
+2016-01-03 13:01:43 DEBUG SQLiteManager:32 - getting a connection
+2016-01-03 13:01:43 DEBUG SQLiteManager:32 - getting a connection
+2016-01-03 13:02:07 DEBUG SQLiteManager:21 - Set up new connection
+2016-01-03 13:02:08 DEBUG SQLiteManager:32 - getting a connection
+2016-01-03 13:02:08 DEBUG SQLiteManager:32 - getting a connection
+2016-01-03 13:02:51 DEBUG SQLiteManager:21 - Set up new connection
+2016-01-03 13:02:52 DEBUG SQLiteManager:32 - getting a connection
+2016-01-03 13:02:52 DEBUG SQLiteManager:32 - getting a connection
+2016-01-03 13:03:30 DEBUG SQLiteManager:21 - Set up new connection
+2016-01-03 13:03:31 DEBUG SQLiteManager:32 - getting a connection
+2016-01-03 13:03:31 DEBUG SQLiteManager:32 - getting a connection
+2016-01-03 13:06:18 DEBUG SQLiteManager:21 - Set up new connection
+2016-01-03 13:06:19 DEBUG SQLiteManager:32 - getting a connection
+2016-01-03 13:06:19 DEBUG SQLiteManager:32 - getting a connection
+2016-01-03 13:07:08 DEBUG SQLiteManager:21 - Set up new connection
+2016-01-03 13:07:09 DEBUG SQLiteManager:32 - getting a connection
+2016-01-03 13:07:09 DEBUG SQLiteManager:32 - getting a connection

@@ -75,7 +75,7 @@ public class DashBoard extends JFrame implements WindowListener {
 
 		billGenerateButton = new JButton("Generate Monthly Bill");
 		billGenerateButton.addActionListener(e ->{
-			generateBill();
+			//new TempChargesConfirmationView(this);
 		});
 		
 		billViewButton = new JButton("View Bills");
