@@ -72,9 +72,9 @@ public class AssetTypeView extends JDialog implements WindowListener {
 				+ Constants.Table.Society.FieldName.SOCIETY_ID + "  = " + societyId;
 		
 		Set<String> assetSet = new HashSet<>();
-		ResultSet result = SQLiteManager.executeQuery(propertyAssetsQuery);
 		
 		try {
+			ResultSet result = SQLiteManager.executeQuery(propertyAssetsQuery);
 			if (result != null && result.next()) {
 				do {
 					String desc = result.getString(Constants.Table.AssetType.FieldName.DESCRIPTION);

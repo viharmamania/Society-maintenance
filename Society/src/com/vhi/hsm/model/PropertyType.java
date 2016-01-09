@@ -205,8 +205,8 @@ public class PropertyType {
 		String searchQuery = "select * from " + Constants.Table.PropertyType.TABLE_NAME + " where "
 				+ Constants.Table.Society.FieldName.SOCIETY_ID + " = " + societyId;
 
-		ResultSet result = SQLiteManager.executeQuery(searchQuery);
 		try {
+			ResultSet result = SQLiteManager.executeQuery(searchQuery);
 			if (result != null && result.next()) {
 				do {
 					String propertyType = result.getString(Constants.Table.PropertyType.FieldName.PROPERTY_TYPE);

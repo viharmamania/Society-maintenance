@@ -1,6 +1,7 @@
 package com.vhi.hsm.controller.manager;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.vhi.hsm.db.SQLiteManager;
@@ -29,9 +30,15 @@ public class PaymentManager {
 					double billAmount;
 
 					// settle the previous bills
-					ResultSet resultSet = SQLiteManager.executeQuery("SELECT * FROM " + Constants.Table.Bill.TABLE_NAME
-							+ " WHERE " + Constants.Table.Payment.FieldName.PAYMENT_ID + " = 0 ORDER BY "
-							+ Constants.Table.Bill.FieldName.BILL_TIMESTAMP +" DESC");
+					ResultSet resultSet = null;
+					try {
+						resultSet = SQLiteManager.executeQuery("SELECT * FROM " + Constants.Table.Bill.TABLE_NAME
+								+ " WHERE " + Constants.Table.Payment.FieldName.PAYMENT_ID + " = 0 ORDER BY "
+								+ Constants.Table.Bill.FieldName.BILL_TIMESTAMP + " DESC");
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					if (resultSet != null) {
 						ArrayList<Bill> bills = Bill.getBillsFromResultSet(resultSet);
 						for (Bill bill : bills) {

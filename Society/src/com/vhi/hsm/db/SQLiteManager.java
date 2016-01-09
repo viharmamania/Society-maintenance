@@ -43,15 +43,11 @@ public class SQLiteManager {
 		}
 	}
 
-	public static ResultSet executeQuery(String query) {
+	public static ResultSet executeQuery(String query) throws SQLException {
 
 		ResultSet result = null;
-		try {
-			Statement statement = getInstance().createStatement();
-			result = statement.executeQuery(query);
-		} catch (SQLException e) {
-			LOG.error(e);
-		}
+		Statement statement = getInstance().createStatement();
+		result = statement.executeQuery(query);
 		return result;
 	}
 
@@ -66,7 +62,7 @@ public class SQLiteManager {
 		}
 		return result;
 	}
-	
+
 	public static boolean executePrepStatementAndGetResult(PreparedStatement statement) {
 		boolean result;
 		int count;
@@ -107,11 +103,11 @@ public class SQLiteManager {
 
 	public synchronized static boolean endTransaction(boolean commit, boolean rollback) {
 		boolean result = false;
-		
+
 		if (commit && rollback) {
 			return result;
 		}
-		
+
 		try {
 			if (commit) {
 				getInstance().commit();

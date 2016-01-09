@@ -198,8 +198,8 @@ public class PropertyGroup {
 		String searchQuery = "select * from " + Constants.Table.PropertyGroup.TABLE_NAME + " where "
 				+ Constants.Table.Society.FieldName.SOCIETY_ID + " = " + societyId;
 
-		ResultSet result = SQLiteManager.executeQuery(searchQuery);
 		try {
+			ResultSet result = SQLiteManager.executeQuery(searchQuery);
 			if (result != null && result.next()) {
 				do {
 					String propertyGroup = result.getString(Constants.Table.PropertyGroup.FieldName.PROPERTY_GROUP);

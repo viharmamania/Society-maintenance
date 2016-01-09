@@ -146,11 +146,11 @@ public class TempCharge extends JDialog implements WindowListener {
 		String FetchChargeQuery = "select " + Constants.Table.Charge.FieldName.CHARGE_ID + ","
 				+ Constants.Table.Charge.FieldName.DESCRIPTION + " from " + Constants.Table.Charge.TABLE_NAME
 				+ " where  " + Constants.Table.Charge.FieldName.TEMP_CHARGE + " =1";
-		ResultSet result = SQLiteManager.executeQuery(FetchChargeQuery);
 		
 		Set<String> charges = new HashSet<>();
 		charges.add("Select..");
 		try {
+			ResultSet result = SQLiteManager.executeQuery(FetchChargeQuery);
 			if (result != null && result.next()) {
 				do {
 					charges.add(result.getString(2));

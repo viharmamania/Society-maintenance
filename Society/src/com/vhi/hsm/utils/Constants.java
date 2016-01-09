@@ -136,6 +136,8 @@ public interface Constants {
 				String MODIFIED_BY = "modified_by";
 				String LAST_MODIFIED = "last_modified";
 				String AMOUNT = "amount";
+				String PAYMENT_DATE = "payment_date";
+				String CHEQUE_NUMBER = "cheque_number";
 			}
 		}
 

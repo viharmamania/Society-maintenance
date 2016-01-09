@@ -189,7 +189,7 @@ public class Property {
 							+ " , " + Constants.Table.Wing.FieldName.WING_ID + " , "
 							+ Constants.Table.Floor.FieldName.FLOOR_NUMBER + " , "
 							+ Constants.Table.FloorPlan.FieldName.FLOOR_PLAN_ID + " , "
-							+ Constants.Table.FloorPlanDesign.FieldName.PROPERTY_NUMBER + " , "
+							+ Constants.Table.Property.FieldName.PROPERTY_NAME + " , "
 							+ Constants.Table.Property.FieldName.OWNER_NAME + " , "
 							+ Constants.Table.Property.FieldName.OWNER_NUMBER + " , "
 							+ Constants.Table.Property.FieldName.OWNER_EMAIL + " , "
@@ -231,7 +231,7 @@ public class Property {
 							+ Constants.Table.Wing.FieldName.WING_ID + " = ? , "
 							+ Constants.Table.Floor.FieldName.FLOOR_NUMBER + " = ? , "
 							+ Constants.Table.FloorPlan.FieldName.FLOOR_PLAN_ID + " = ? , "
-							+ Constants.Table.FloorPlanDesign.FieldName.PROPERTY_NUMBER + " = ? , "
+							+ Constants.Table.Property.FieldName.PROPERTY_NAME + " = ? , "
 							+ Constants.Table.Property.FieldName.OWNER_NAME + " = ? , "
 							+ Constants.Table.Property.FieldName.OWNER_NUMBER + " = ? , "
 							+ Constants.Table.Property.FieldName.OWNER_EMAIL + " = ? , "
@@ -382,8 +382,8 @@ public class Property {
 				+ Constants.Table.Property.FieldName.PROPERTY_NAME + " " + "from " + Constants.Table.Property.TABLE_NAME
 				+ " where " + Constants.Table.Society.FieldName.SOCIETY_ID + " = " + societyId2;
 
-		ResultSet result = SQLiteManager.executeQuery(searchQuery);
 		try {
+			ResultSet result = SQLiteManager.executeQuery(searchQuery);
 			if (result != null && result.next()) {
 				do {
 					String propertyName = result.getString(Constants.Table.Property.FieldName.PROPERTY_NAME);
@@ -402,8 +402,8 @@ public class Property {
 		String countQuery = "select count(*)" + "from " + Constants.Table.Property.TABLE_NAME + " where "
 				+ Constants.Table.Society.FieldName.SOCIETY_ID + " = " + societyId2;
 
-		ResultSet result = SQLiteManager.executeQuery(countQuery);
 		try {
+			ResultSet result = SQLiteManager.executeQuery(countQuery);
 			if (result != null && result.next()) {
 				return result.getInt(1);
 			}
@@ -421,8 +421,8 @@ public class Property {
 		String searchQuery = "select * from " + Constants.Table.Property.TABLE_NAME + " where "
 				+ Constants.Table.Society.FieldName.SOCIETY_ID + " = " + societyId2;
 
-		ResultSet result = SQLiteManager.executeQuery(searchQuery);
 		try {
+			ResultSet result = SQLiteManager.executeQuery(searchQuery);
 			if (result != null && result.next()) {
 				do {
 					int property_id = result.getInt(Constants.Table.Property.FieldName.PROPERTY_ID);
