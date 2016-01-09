@@ -35,13 +35,33 @@ public class Payment {
 	private String modifiedBy;
 
 	private String last_modified;
-	
+
 	private double amount;
-	
+
+	private String chequeNumber;
+
+	private Date chequeDate;
+
+	public Date getChequeDate() {
+		return chequeDate;
+	}
+
+	public void setChequeDate(Date chequeDate) {
+		this.chequeDate = chequeDate;
+	}
+
 	private static PreparedStatement readStatement, insertStatement, updateStatement, deleteStatement;
-	
+
 	private Payment() {
-		
+
+	}
+
+	public String getChequeNumber() {
+		return chequeNumber;
+	}
+
+	public void setChequeNumber(String chequeNumber) {
+		this.chequeNumber = chequeNumber;
 	}
 
 	public int getPaymentId() {
@@ -123,35 +143,34 @@ public class Payment {
 	public void setLast_modified(String last_modified) {
 		this.last_modified = last_modified;
 	}
-	
+
 	public static Payment create(int propertyId) {
 		Payment payment = new Payment();
 		payment.propertyId = propertyId;
 		return payment;
 	}
-	
+
 	public static boolean save(Payment payment, boolean insertEntry) {
 		boolean result = false;
-		
+
 		if (insertEntry) {
-			
+
 			if (insertStatement == null) {
 				insertStatement = SQLiteManager.getPreparedStatement("INSERT INTO " + Constants.Table.Payment.TABLE_NAME
-						+ " ( "
-						+ Constants.Table.Property.FieldName.PROPERTY_ID + " , "
+						+ " ( " + Constants.Table.Property.FieldName.PROPERTY_ID + " , "
 						+ Constants.Table.Payment.FieldName.MODE_OF_PAYMENT + " , "
 						+ Constants.Table.Payment.FieldName.TRANSACTION_NUMBER + " , "
 						+ Constants.Table.Payment.FieldName.REMARKS + " , "
-						+ Constants.Table.Payment.FieldName.CANCELLATION_TIMESTAMP + " , "
+						+ Constants.Table.Payment.FieldName.PAYMENT_DATE + " , "
 						+ Constants.Table.Payment.FieldName.IS_CANCELLED + " , "
 						+ Constants.Table.Payment.FieldName.MODIFIED_BY + " , "
 						+ Constants.Table.Payment.FieldName.LAST_MODIFIED + " , "
 						+ Constants.Table.Payment.FieldName.AMOUNT + " , "
-						+ Constants.Table.Society.FieldName.SOCIETY_ID 
-						+ " ) "
-						+ " VALUES ( ? , ? , ? , ? , ? , ? , ? , ?, ?, ? )");
+						+ Constants.Table.Society.FieldName.SOCIETY_ID + " , "
+						+ Constants.Table.Payment.FieldName.CHEQUE_NUMBER + " ) "
+						+ " VALUES ( ? , ? , ? , ? , ? , ? , ? , ?, ?, ?, ? )");
 			}
-			
+
 			if (insertStatement != null) {
 				try {
 					insertStatement.clearParameters();
@@ -160,15 +179,16 @@ public class Payment {
 					insertStatement.setString(3, payment.transactionNumber);
 					insertStatement.setString(4, payment.remarks);
 					insertStatement.setTimestamp(5, new Timestamp(System.currentTimeMillis()));
-					insertStatement.setBoolean( 6, false);
+					insertStatement.setBoolean(6, false);
 					insertStatement.setString(7, SystemManager.loggedInUser.getName());
 					insertStatement.setTimestamp(8, Timestamp.valueOf(LocalDateTime.now()));
 					insertStatement.setDouble(9, payment.amount);
 					insertStatement.setDouble(10, SystemManager.society.getSocietyId());
+					insertStatement.setString(11, payment.chequeNumber);
 					result = SQLiteManager.executePrepStatementAndGetResult(insertStatement);
 					if (result) {
 						ResultSet generatedKeys = insertStatement.getGeneratedKeys();
-						if (generatedKeys != null ) {
+						if (generatedKeys != null) {
 							payment.paymentId = generatedKeys.getInt(1);
 						}
 					}
@@ -176,13 +196,12 @@ public class Payment {
 					LOG.error(e.getMessage());
 				}
 			}
-			
+
 		} else {
-			
+
 			if (updateStatement == null) {
 				updateStatement = SQLiteManager.getPreparedStatement("UPDATE " + Constants.Table.Payment.TABLE_NAME
-						+ " SET "
-						+ Constants.Table.Property.FieldName.PROPERTY_ID + " = ? , "
+						+ " SET " + Constants.Table.Property.FieldName.PROPERTY_ID + " = ? , "
 						+ Constants.Table.Payment.FieldName.MODE_OF_PAYMENT + " = ? , "
 						+ Constants.Table.Payment.FieldName.TRANSACTION_NUMBER + " = ? , "
 						+ Constants.Table.Payment.FieldName.REMARKS + " = ? , "
@@ -191,10 +210,10 @@ public class Payment {
 						+ Constants.Table.Payment.FieldName.MODIFIED_BY + " = ? , "
 						+ Constants.Table.Payment.FieldName.LAST_MODIFIED + " = ? ,"
 						+ Constants.Table.Payment.FieldName.AMOUNT + " = ?, "
-						+ Constants.Table.Society.FieldName.SOCIETY_ID + " = ?"
-						+ " WHERE " + Constants.Table.Payment.FieldName.PAYMENT_ID + " = ?");
+						+ Constants.Table.Society.FieldName.SOCIETY_ID + " = ?" + " WHERE "
+						+ Constants.Table.Payment.FieldName.PAYMENT_ID + " = ?");
 			}
-			
+
 			if (updateStatement != null) {
 				try {
 					updateStatement.clearParameters();
@@ -214,20 +233,20 @@ public class Payment {
 					LOG.error(e.getMessage());
 				}
 			}
-			
+
 		}
-		
+
 		return result;
 	}
-	
+
 	public static boolean delete(Payment payment) {
 		boolean result = false;
-		
+
 		if (deleteStatement == null) {
 			deleteStatement = SQLiteManager.getPreparedStatement("DELETE FROM " + Constants.Table.Payment.TABLE_NAME
 					+ " WHERE " + Constants.Table.Payment.FieldName.PAYMENT_ID + " = ?");
 		}
-		
+
 		if (deleteStatement != null) {
 			try {
 				deleteStatement.clearParameters();
@@ -237,18 +256,18 @@ public class Payment {
 				LOG.error(e.getMessage());
 			}
 		}
-		
+
 		return result;
 	}
-	
+
 	public static Payment read(int paymentId) {
 		Payment payment = null;
-		
+
 		if (readStatement == null) {
 			readStatement = SQLiteManager.getPreparedStatement("SELECT * FROM " + Constants.Table.Payment.TABLE_NAME
 					+ " WHERE " + Constants.Table.Payment.FieldName.PAYMENT_ID + " = ?");
 		}
-		
+
 		if (readStatement != null) {
 			try {
 				readStatement.clearParameters();
@@ -259,9 +278,11 @@ public class Payment {
 					payment.paymentId = paymentId;
 					payment.propertyId = resultSet.getInt(Constants.Table.Property.FieldName.PROPERTY_ID);
 					payment.modeOfPayment = resultSet.getString(Constants.Table.Payment.FieldName.MODE_OF_PAYMENT);
-					payment.transactionNumber = resultSet.getString(Constants.Table.Payment.FieldName.TRANSACTION_NUMBER);
+					payment.transactionNumber = resultSet
+							.getString(Constants.Table.Payment.FieldName.TRANSACTION_NUMBER);
 					payment.remarks = resultSet.getString(Constants.Table.Payment.FieldName.REMARKS);
-					payment.cancellationDate = new Date(resultSet.getTimestamp(Constants.Table.Payment.FieldName.CANCELLATION_TIMESTAMP).getTime());
+					payment.cancellationDate = new Date(
+							resultSet.getTimestamp(Constants.Table.Payment.FieldName.CANCELLATION_TIMESTAMP).getTime());
 					payment.isCancelled = resultSet.getBoolean(Constants.Table.Payment.FieldName.IS_CANCELLED);
 					payment.modifiedBy = resultSet.getString(Constants.Table.Payment.FieldName.MODIFIED_BY);
 					payment.last_modified = resultSet.getString(Constants.Table.Payment.FieldName.LAST_MODIFIED);
@@ -271,7 +292,7 @@ public class Payment {
 				LOG.error(e.getMessage());
 			}
 		}
-		
+
 		return payment;
 	}
 

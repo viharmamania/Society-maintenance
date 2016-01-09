@@ -57,7 +57,11 @@ public class Payment extends JDialog implements WindowListener {
 	private JButton confirmButton, backButton, uploadButton;
 	private int societyId;
 	private Set<String> propertyNames = new HashSet<>();
-	Map<String, Integer> propertyNameToIdmap = null;
+	private static Map<String, Integer> propertyNameToIdmap = null;
+
+	static {
+		propertyNameToIdmap = Property.getAllPropertyNames(SystemManager.society.getSocietyId());
+	}
 
 	public Payment(Dialog parentDialog) {
 
@@ -98,7 +102,7 @@ public class Payment extends JDialog implements WindowListener {
 		fetchPropertyNames();
 		intializeLayout();
 	}
-	
+
 	private void intializeLayout() {
 		propertyNameLabel = new JLabel("Property :");
 		propertyNamesComboBox = new JComboBox<>(propertyNames.toArray(new String[propertyNames.size()]));
@@ -185,7 +189,6 @@ public class Payment extends JDialog implements WindowListener {
 			if (propertyNames.size() == Property.getPropertyCount(societyId))
 				return;
 
-		propertyNameToIdmap = Property.getAllPropertyNames(societyId);
 		propertyNames = propertyNameToIdmap.keySet();
 
 	}
@@ -259,40 +262,57 @@ public class Payment extends JDialog implements WindowListener {
 			try {
 				fileInputStream = new FileInputStream(selectedFile);
 
-				// Using XSSF for xlsx format, for xls use HSSF
 				Workbook workbook = new XSSFWorkbook(fileInputStream);
 
 				int numberOfSheets = workbook.getNumberOfSheets();
 
-				// looping over each workbook sheet
 				for (int i = 0; i < numberOfSheets; i++) {
 					Sheet sheet = workbook.getSheetAt(i);
 					Iterator<Row> rowIterator = sheet.iterator();
 
-					// iterating over each row
 					while (rowIterator.hasNext()) {
 
 						Row row = (Row) rowIterator.next();
-						Iterator<Cell> cellIterator = row.cellIterator();
+						if (row.getRowNum() == 0 || row.getRowNum() == 1)
+							continue;
 
-						// Iterating over each cell (column wise) in a
-						// particular row.
-
-						while (cellIterator.hasNext()) {
-
-							Cell cell = (Cell) cellIterator.next();
-
-							if (Cell.CELL_TYPE_STRING == cell.getCellType()) {
-								System.out.println(cell.getStringCellValue());
-							} else if (Cell.CELL_TYPE_NUMERIC == cell.getCellType()) {
-
-								System.out.println(cell.getNumericCellValue());
+						int cellCount = row.getLastCellNum();
+						String propertyName = null, chequeNo = null, modeOfPayment = null, remarks = null;
+						Double amount = null;
+						for (int j = 0; j < cellCount; j++) {
+							Cell cell = row.getCell(j);
+							if (j == 0 && cell.getCellType() == Cell.CELL_TYPE_STRING) {
+								propertyName = cell.getStringCellValue();
+							}
+							if (j == 1 && cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
+								amount = cell.getNumericCellValue();
+							}
+							if (j == 2 && cell.getCellType() == Cell.CELL_TYPE_STRING) {
+								modeOfPayment = cell.getStringCellValue();
+							}
+							if (j == 3 && cell.getCellType() == Cell.CELL_TYPE_STRING) {
+								chequeNo = cell.getStringCellValue();
+							}
+							if (j == 4 && cell.getCellType() == Cell.CELL_TYPE_STRING) {
+								remarks = cell.getStringCellValue();
 							}
 						}
+
+						com.vhi.hsm.model.Payment payment = com.vhi.hsm.model.Payment
+								.create(propertyNameToIdmap.get(propertyName));
+						payment.setAmount(amount);
+						payment.setChequeNumber(chequeNo);
+						payment.setModeOfPayment(modeOfPayment);
+						payment.setRemarks(remarks);
+
+						PaymentManager.makePayment(payment);
+
 					}
 				}
 
 				fileInputStream.close();
+				JOptionPane.showMessageDialog(this, "Payment Saved successfully ", "Success",
+						JOptionPane.INFORMATION_MESSAGE);
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				LOG.error(e.getMessage());
@@ -301,6 +321,7 @@ public class Payment extends JDialog implements WindowListener {
 				LOG.error(e.getMessage());
 			}
 		}
+
 	}
 
 	private void cancelPayment() {
@@ -316,8 +337,10 @@ public class Payment extends JDialog implements WindowListener {
 			payment.setRemarks(remarksTextField.getText());
 			payment.setAmount(Double.valueOf(amountTextField.getText()));
 			payment.setModeOfPayment((String) modeOfPaymentComboBox.getSelectedItem());
+			payment.setChequeNumber(chequeNoTextField.getText().trim());
 
-			// boolean paymentSaved = com.vhi.hsm.model.Payment.save(payment, true);
+			// boolean paymentSaved = com.vhi.hsm.model.Payment.save(payment,
+			// true);
 			PaymentManager.makePayment(payment);
 			JOptionPane.showMessageDialog(this, "Payment Saved successfully ", "Success",
 					JOptionPane.INFORMATION_MESSAGE);
@@ -330,9 +353,8 @@ public class Payment extends JDialog implements WindowListener {
 		if (chequeNoTextField.isEditable()) {
 			String chString = chequeNoTextField.getText().trim();
 			String replacedChString = chString.replaceAll("[A-za-z]", "");
-			if(chString.isEmpty()){
-				JOptionPane.showMessageDialog(this, "please Enter cheque number", "Error",
-						JOptionPane.ERROR_MESSAGE);
+			if (chString.isEmpty()) {
+				JOptionPane.showMessageDialog(this, "please Enter cheque number", "Error", JOptionPane.ERROR_MESSAGE);
 				return false;
 			}
 			if (chString.length() != replacedChString.length()) {
