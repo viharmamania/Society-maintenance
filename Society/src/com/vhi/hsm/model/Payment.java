@@ -281,9 +281,12 @@ public class Payment {
 					payment.transactionNumber = resultSet
 							.getString(Constants.Table.Payment.FieldName.TRANSACTION_NUMBER);
 					payment.remarks = resultSet.getString(Constants.Table.Payment.FieldName.REMARKS);
-					payment.cancellationDate = new Date(
-							resultSet.getTimestamp(Constants.Table.Payment.FieldName.CANCELLATION_TIMESTAMP).getTime());
 					payment.isCancelled = resultSet.getBoolean(Constants.Table.Payment.FieldName.IS_CANCELLED);
+					if (payment.isCancelled) {
+						payment.cancellationDate = new Date(resultSet
+								.getTimestamp(Constants.Table.Payment.FieldName.CANCELLATION_TIMESTAMP).getTime());
+
+					}
 					payment.modifiedBy = resultSet.getString(Constants.Table.Payment.FieldName.MODIFIED_BY);
 					payment.last_modified = resultSet.getString(Constants.Table.Payment.FieldName.LAST_MODIFIED);
 					payment.amount = resultSet.getDouble(Constants.Table.Payment.FieldName.AMOUNT);
