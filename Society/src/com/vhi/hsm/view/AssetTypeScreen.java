@@ -23,6 +23,7 @@ import javax.swing.UIManager;
 import com.vhi.hsm.controller.manager.SystemManager;
 import com.vhi.hsm.db.SQLiteManager;
 import com.vhi.hsm.model.AssetType;
+import com.vhi.hsm.model.Charge;
 import com.vhi.hsm.model.Society;
 import com.vhi.hsm.view.masterdetail.MasterDetailPanel;
 import com.vhi.hsm.view.masterdetail.MasterDetailPanel.MasterDetailCallback;
@@ -270,7 +271,8 @@ public class AssetTypeScreen extends JDialog implements WindowListener {
 			assetTypeField.setText(assetType.getAssetType());
 			assetTypeField.setEditable(!disableAssetType);
 			descriptionField.setText(assetType.getDescription());
-			chargeField.setText(Double.toString(assetType.getCharges()));
+			Charge read = Charge.read(SystemManager.society.getSocietyId(), assetType.getChargeId());
+			chargeField.setText(Double.toString(read.getAmount()));
 		}
 
 		public void getFieldValues(AssetType assetType) {

@@ -22,6 +22,7 @@ import org.apache.log4j.Logger;
 import com.vhi.hsm.controller.manager.SystemManager;
 import com.vhi.hsm.db.SQLiteManager;
 import com.vhi.hsm.model.AssetType;
+import com.vhi.hsm.model.Charge;
 import com.vhi.hsm.utils.Constants;
 
 public class AssetTypeView extends JDialog implements WindowListener {
@@ -186,7 +187,8 @@ public class AssetTypeView extends JDialog implements WindowListener {
 
 		chargeLabel.setVisible(true);
 		chargeField.setVisible(true);
-		chargeField.setText(String.valueOf(asset.getCharges()));
+		Charge read = Charge.read(SystemManager.society.getSocietyId(), asset.getChargeId());
+		chargeField.setText(String.valueOf(read.getAmount()));
 		chargeField.setEditable(false);
 	}
 

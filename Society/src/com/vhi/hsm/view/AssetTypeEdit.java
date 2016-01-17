@@ -10,8 +10,10 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.GroupLayout.Alignment;
 
+import com.vhi.hsm.controller.manager.SocietyManager;
 import com.vhi.hsm.controller.manager.SystemManager;
 import com.vhi.hsm.model.AssetType;
+import com.vhi.hsm.model.Charge;
 
 public class AssetTypeEdit extends JDialog implements WindowListener {
 
@@ -54,7 +56,8 @@ public class AssetTypeEdit extends JDialog implements WindowListener {
 		
 		chargeLabel = new JLabel("Charge");
 		chargeField = new JTextField();
-		chargeField.setText(String.valueOf(assetType.getCharges()));
+		Charge read = Charge.read(SystemManager.society.getSocietyId(), assetType.getChargeId());
+		chargeField.setText(String.valueOf(read.getAmount()));
 		
 		confirmButton = new JButton("Cancel Payment");
 		confirmButton.addActionListener(e -> {

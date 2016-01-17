@@ -21,7 +21,9 @@ public class AssetType {
 
 	private String description;
 
-	private double charges;
+	private int chargeId;
+
+//	private double charges;
 
 	private static HashMap<Integer, HashMap<String, AssetType>> assetTypeMap;
 	private static PreparedStatement readStatement, insertStatement, updateStatement, deleteStatement;
@@ -29,6 +31,17 @@ public class AssetType {
 	private AssetType() {
 
 	}
+	
+
+	public int getChargeId() {
+		return chargeId;
+	}
+
+
+	public void setChargeId(int chargeId) {
+		this.chargeId = chargeId;
+	}
+
 
 	public int getSocietyId() {
 		return societyId;
@@ -54,13 +67,13 @@ public class AssetType {
 		this.description = description;
 	}
 
-	public double getCharges() {
-		return charges;
-	}
-
-	public void setCharges(double charges) {
-		this.charges = charges;
-	}
+//	public double getCharges() {
+//		return charges;
+//	}
+//
+//	public void setCharges(double charges) {
+//		this.charges = charges;
+//	}
 	
 	public static ArrayList<AssetType> getAllAssetType(int societyId) {
 		ArrayList<AssetType> list = new ArrayList<AssetType>();
@@ -120,7 +133,7 @@ public class AssetType {
 							assetTypeObj.societyId = resultSet.getInt(Constants.Table.Society.FieldName.SOCIETY_ID);
 							assetTypeObj.assetType = resultSet.getString(Constants.Table.AssetType.FieldName.ASSET_TYPE);
 							assetTypeObj.description = resultSet.getString(Constants.Table.AssetType.FieldName.DESCRIPTION);
-							assetTypeObj.charges = resultSet.getDouble(Constants.Table.AssetType.FieldName.CHARGE);
+							assetTypeObj.chargeId = resultSet.getInt(Constants.Table.Charge.FieldName.CHARGE_ID);
 							societyAssetTypes.put(assetType, assetTypeObj);
 						}
 					}
@@ -147,7 +160,7 @@ public class AssetType {
 						insertStatement.setInt(1, assetType.getSocietyId());
 						insertStatement.setString(2, assetType.getAssetType());
 						insertStatement.setString(3, assetType.getDescription());
-						insertStatement.setDouble(4, assetType.getCharges());
+						insertStatement.setDouble(4, assetType.getChargeId());
 						result = SQLiteManager.executePrepStatementAndGetResult(insertStatement);
 					} catch (SQLException e) {
 						LOG.error(e.getMessage());
@@ -167,7 +180,7 @@ public class AssetType {
 					try {
 						updateStatement.clearParameters();
 						updateStatement.setString(1, assetType.getDescription());
-						updateStatement.setDouble(2, assetType.getCharges());
+						updateStatement.setDouble(2, assetType.getChargeId());
 						updateStatement.setInt(3, assetType.getSocietyId());
 						updateStatement.setString(4, assetType.getAssetType());
 						result = SQLiteManager.executePrepStatementAndGetResult(updateStatement);
