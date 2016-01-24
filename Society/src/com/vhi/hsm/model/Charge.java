@@ -8,6 +8,7 @@ import java.util.HashMap;
 
 import org.apache.log4j.Logger;
 
+import com.vhi.hsm.controller.manager.SystemManager;
 import com.vhi.hsm.db.SQLiteManager;
 import com.vhi.hsm.utils.Constants;
 
@@ -305,6 +306,36 @@ public class Charge {
 
 		}
 
+//		try {
+
+			for (Integer i : charge.assignedProperty) {
+
+				SQLiteManager.executeUpdate("INSERT OR REPLACE INTO " + Constants.Table.ChargeToProperty.TABLE_NAME
+						+ " VALUES (" + SystemManager.society.getSocietyId() + ", " + charge.chargeId + ", "
+						+ i.toString() + ")");
+
+			}
+			
+			for (String i : charge.assignedPropertyType) {
+
+				SQLiteManager.executeUpdate("INSERT OR REPLACE INTO " + Constants.Table.ChargeToPropertyType.TABLE_NAME
+						+ " VALUES (" + SystemManager.society.getSocietyId() + ", " + charge.chargeId + ", " + "'"
+						+ i + "\')");
+
+			}
+			
+			for (String i : charge.assignedPropertyGroup) {
+
+				SQLiteManager.executeUpdate("INSERT OR REPLACE INTO " + Constants.Table.ChargeToPropertyGroup.TABLE_NAME
+						+ " VALUES (" + SystemManager.society.getSocietyId() + ", " + charge.chargeId + ", " + "'"
+						+ i + "\')");
+
+			}
+
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+
 		return result;
 	}
 
@@ -336,6 +367,22 @@ public class Charge {
 					societyCharges.remove(charge.chargeId);
 				}
 			}
+		}
+
+		try {
+			SQLiteManager.executeQuery("DELETE FROM " + Constants.Table.ChargeToProperty.TABLE_NAME + " WHERE "
+					+ Constants.Table.Society.FieldName.SOCIETY_ID + " = " + charge.societyId + " AND "
+					+ Constants.Table.Charge.FieldName.CHARGE_ID + " = " + charge.chargeId);
+
+			SQLiteManager.executeQuery("DELETE FROM " + Constants.Table.ChargeToPropertyGroup.TABLE_NAME + " WHERE "
+					+ Constants.Table.Society.FieldName.SOCIETY_ID + " = " + charge.societyId + " AND "
+					+ Constants.Table.Charge.FieldName.CHARGE_ID + " = " + charge.chargeId);
+
+			SQLiteManager.executeQuery("DELETE FROM " + Constants.Table.ChargeToPropertyType.TABLE_NAME + " WHERE "
+					+ Constants.Table.Society.FieldName.SOCIETY_ID + " = " + charge.societyId + " AND "
+					+ Constants.Table.Charge.FieldName.CHARGE_ID + " = " + charge.chargeId);
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 
 		return result;

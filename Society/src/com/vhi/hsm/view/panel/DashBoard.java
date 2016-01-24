@@ -30,7 +30,7 @@ import org.apache.log4j.Logger;
 import com.itextpdf.text.DocumentException;
 import com.vhi.hsm.controller.manager.BillManager;
 import com.vhi.hsm.controller.manager.PDFManager;
-import com.vhi.hsm.controller.manager.PreviewManager;
+//import com.vhi.hsm.controller.manager.PreviewManager;
 import com.vhi.hsm.controller.manager.SystemManager;
 import com.vhi.hsm.db.SQLiteManager;
 import com.vhi.hsm.model.Bill;
@@ -39,7 +39,7 @@ import com.vhi.hsm.view.AssetTypeScreen;
 import com.vhi.hsm.view.ChargeScreen;
 import com.vhi.hsm.view.Payment;
 import com.vhi.hsm.view.PropertyView;
-import com.vhi.hsm.view.TempChargesConfirmationView;
+//import com.vhi.hsm.view.TempChargesConfirmationView;
 
 public class DashBoard extends JFrame implements WindowListener {
 
@@ -131,7 +131,7 @@ public class DashBoard extends JFrame implements WindowListener {
 	private List<Bill> generateBillPreview() {
 		List<Bill> bills = null;
 		try {
-			bills = PreviewManager.generateBill(SystemManager.society.getSocietyId());
+//			bills = PreviewManager.generateBill(SystemManager.society.getSocietyId());
 			//PDFManager.generateBillPDF(bills);
 //			JOptionPane.showMessageDialog(this, "The Bills have been generated successfully ", "Success", JOptionPane.INFORMATION_MESSAGE);
 		} catch (Exception e) {
