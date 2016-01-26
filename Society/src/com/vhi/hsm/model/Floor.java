@@ -85,7 +85,7 @@ public class Floor {
 
 			if (readStatement == null) {
 				readStatement = SQLiteManager
-						.getPreparedStatement("SELECT * FROM " + Constants.Table.Floor.TABLE_NAME + "WHERE "
+						.getPreparedStatement("SELECT * FROM " + Constants.Table.Floor.TABLE_NAME + " WHERE "
 								+ Constants.Table.Society.FieldName.SOCIETY_ID + " = ?" + " AND "
 								+ Constants.Table.Wing.FieldName.WING_ID + " = ?" + " AND "
 								+ Constants.Table.Floor.FieldName.FLOOR_NUMBER + " = ?");
