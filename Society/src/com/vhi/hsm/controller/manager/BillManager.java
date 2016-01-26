@@ -40,9 +40,10 @@ public class BillManager {
 	 * 
 	 * @param societyId
 	 *            the id of society for which bills need to be generated
+	 * @param isPreview 
 	 * @return
 	 */
-	public static synchronized List<Bill> generateBill(int societyId) {
+	public static synchronized List<Bill> generateBill(int societyId, boolean isPreview , List<Integer> tempChargeIds) {
 		List<Bill> societyBills = new ArrayList<>();
 		Set<Property> properties = new HashSet<>();
 		boolean commit = true;
@@ -72,7 +73,7 @@ public class BillManager {
 				}
 				// generating individual bills and adding to list of bills
 				for (Property property : properties) {
-					societyBills.add(generatePropertySpecificBill(property));
+					societyBills.add(generatePropertySpecificBill(property, isPreview , tempChargeIds));
 				}
 
 			} catch (SQLException e) {
@@ -96,9 +97,11 @@ public class BillManager {
 	 * Generates bill for individual property
 	 * 
 	 * @param property
+	 * @param isPreview 
+	 * @param tempChargeIds 
 	 * @return
 	 */
-	private static Bill generatePropertySpecificBill(Property property) {
+	private static Bill generatePropertySpecificBill(Property property, boolean isPreview, List<Integer> tempChargeIds) {
 
 		double billAmount = 0.0;
 		Bill bill = Bill.create();
@@ -106,6 +109,9 @@ public class BillManager {
 
 		// get All charges for this particular property
 		chargeIds.addAll(getChargeIds(property));
+		
+		//add all temporary charges for the month
+		chargeIds.addAll(tempChargeIds);
 
 		// adding fine charge (if any)
 		if (property.getNetPayable() > 0) {
@@ -113,13 +119,6 @@ public class BillManager {
 			double fineAmount = Fine.getFineAmount(property.getSocietyId(), property.getNetPayable());
 			if (fineAmount > 0.0) {
 
-				/*
-				 * Charge fineCharge = Charge.create(property.getSocietyId());
-				 * fineCharge.setAmount(fineAmount);
-				 * fineCharge.setTempCharges(true);
-				 * fineCharge.setDescription("Fine"); Charge.save(fineCharge,
-				 * true);
-				 */
 				Charge fineCharge = Charge.getFineCharge();
 				fineCharge.setAmount(fineAmount);
 				// fineCharge
@@ -149,21 +148,20 @@ public class BillManager {
 			bill.setPaymentId(property.getLatestPaymentId());
 		}
 
-		// saving bill in DB
-		Bill.save(bill, false);
-
-		// saving individual bill charges in DB
-		for (int i = 0; i < chargeIds.size(); i++) {
-			BillCharge billCharge = BillCharge.create(bill.getBillId(), chargeIds.get(i));
-			Charge charge = Charge.read(property.getSocietyId(), chargeIds.get(i));
-			billCharge.setAmount(charge.getAmount());
-			BillCharge.save(billCharge, true);
+		if (!isPreview) {
+			// saving bill in DB
+			Bill.save(bill, false);
+			// saving individual bill charges in DB
+			for (int i = 0; i < chargeIds.size(); i++) {
+				BillCharge billCharge = BillCharge.create(bill.getBillId(), chargeIds.get(i));
+				Charge charge = Charge.read(property.getSocietyId(), chargeIds.get(i));
+				billCharge.setAmount(charge.getAmount());
+				BillCharge.save(billCharge, true);
+			}
+			// updating this properties net payable
+			property.setNetPayable(property.getNetPayable() + billAmount);
+			Property.save(property, false);
 		}
-
-		// updating this properties net payable
-		property.setNetPayable(property.getNetPayable() + billAmount);
-		Property.save(property, false);
-
 		return bill;
 	}
 
