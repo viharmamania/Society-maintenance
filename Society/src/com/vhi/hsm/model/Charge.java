@@ -265,7 +265,7 @@ public class Charge {
 							+ " SET " + Constants.Table.Charge.FieldName.DESCRIPTION + " = ?, "
 							+ Constants.Table.Charge.FieldName.AMOUNT + " = ?, "
 							+ Constants.Table.Charge.FieldName.TEMP_CHARGE + " = ?, "
-							+ Constants.Table.Charge.FieldName.IS_CANCELLED + " = ?"
+							+ Constants.Table.Charge.FieldName.IS_CANCELLED + " = ?, "
 							+ Constants.Table.Charge.FieldName.IS_DEFAULT + " = ?" + " WHERE "
 							+ Constants.Table.Society.FieldName.SOCIETY_ID + " = ?" + " AND "
 							+ Constants.Table.Charge.FieldName.CHARGE_ID + " = ?");
