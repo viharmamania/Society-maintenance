@@ -6,6 +6,7 @@ package com.vhi.hsm.view;
 import java.awt.GridLayout;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -17,6 +18,9 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import com.itextpdf.text.DocumentException;
+import com.vhi.hsm.controller.manager.BillManager;
+import com.vhi.hsm.controller.manager.PDFManager;
 import com.vhi.hsm.controller.manager.SystemManager;
 import com.vhi.hsm.model.Charge;
 
@@ -75,12 +79,13 @@ public class GenerateBill extends JDialog implements WindowListener {
 		
 		generateBills = new JButton("Generate Bills");
 		generateBills.addActionListener(e -> {
-			
+			createPDF(false);
+			dispose();
 		});
 		
 		previewBills = new JButton("Preveiw Bills");
 		previewBills.addActionListener(e -> {
-			
+			createPDF(true);
 		});
 		
 		GroupLayout layout = new GroupLayout(getContentPane());
@@ -108,6 +113,25 @@ public class GenerateBill extends JDialog implements WindowListener {
 		);
 		
 		pack();
+	}
+
+	private void createPDF(boolean isPreview) {
+		ArrayList<Integer> tempChargeIds = new ArrayList<Integer>();
+
+		JCheckBox box;
+		for (Charge c : tempCharges) {
+			box = null;
+			box = tempChargeCheckBox.get(c.getChargeId());
+			if (box != null && box.isSelected()) {
+				tempChargeIds.add(c.getChargeId());
+			}
+		}
+		
+		try {
+			PDFManager.generateBillPDF(BillManager.generateBill(SystemManager.society.getSocietyId(), false, tempChargeIds));
+		} catch (FileNotFoundException | DocumentException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override

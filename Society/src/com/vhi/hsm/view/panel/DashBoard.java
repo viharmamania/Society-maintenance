@@ -5,7 +5,6 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.sql.ResultSet;
@@ -18,26 +17,23 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeSelectionModel;
 
-import org.apache.log4j.Logger;
+//import org.apache.log4j.Logger;
 
 import com.itextpdf.text.DocumentException;
-import com.vhi.hsm.controller.manager.BillManager;
 import com.vhi.hsm.controller.manager.PDFManager;
-import com.vhi.hsm.controller.manager.PreviewManager;
 //import com.vhi.hsm.controller.manager.PreviewManager;
 import com.vhi.hsm.controller.manager.SystemManager;
 import com.vhi.hsm.db.SQLiteManager;
-import com.vhi.hsm.model.Bill;
 import com.vhi.hsm.utils.Constants;
 import com.vhi.hsm.view.AssetTypeScreen;
 import com.vhi.hsm.view.ChargeScreen;
+import com.vhi.hsm.view.GenerateBill;
 import com.vhi.hsm.view.Payment;
 import com.vhi.hsm.view.PropertyView;
 //import com.vhi.hsm.view.TempChargesConfirmationView;
@@ -48,7 +44,7 @@ public class DashBoard extends JFrame implements WindowListener {
 	 * 
 	 */
 	private static final long serialVersionUID = -8224505516276632916L;
-	private final static Logger LOG = Logger.getLogger(DashBoard.class);
+//	private final static Logger LOG = Logger.getLogger(DashBoard.class);
 	private JPanel societyInfoPanel, infoPanel, treePanel, paymentPanel, billPanel, propertyPanel, chargePanel;
 
 	private JTree billTree;
@@ -97,7 +93,8 @@ public class DashBoard extends JFrame implements WindowListener {
 		billGenerateButton = new JButton("Generate Monthly Bill");
 		billGenerateButton.addActionListener(e ->{
 			//new TempChargesConfirmationView(this);
-			generateBillPreview();
+//			generateBillPreview();
+			new GenerateBill(this);
 		});
 		
 		billViewButton = new JButton("View Bills");
@@ -130,30 +127,30 @@ public class DashBoard extends JFrame implements WindowListener {
 		setVisible(true);
 	}
 
-	private List<Bill> generateBillPreview() {
-		List<Bill> bills = null;
-		try {
-			bills = PreviewManager.generateBill(SystemManager.society.getSocietyId());
-			for(Bill bill : bills){
-				System.out.println(bill);
-			}
-			JOptionPane.showMessageDialog(this, "The Bills have been generated successfully ", "Success", JOptionPane.INFORMATION_MESSAGE);
-		} catch (Exception e) {
-			LOG.error(e);
-		}
-		return bills;
-	}
-	
-	private void generateBill() {
+//	private List<Bill> generateBillPreview() {
+//		List<Bill> bills = null;
 //		try {
-//			List<Bill> bills = BillManager.generateBill(SystemManager.society.getSocietyId(), true);
-//			PDFManager.generateBillPDF(bills);
+//			bills = PreviewManager.generateBill(SystemManager.society.getSocietyId());
+//			for(Bill bill : bills){
+//				System.out.println(bill);
+//			}
 //			JOptionPane.showMessageDialog(this, "The Bills have been generated successfully ", "Success", JOptionPane.INFORMATION_MESSAGE);
-//			dispose();
-//		} catch (FileNotFoundException | DocumentException e) {
-//			LOG.error(e.getMessage());
+//		} catch (Exception e) {
+//			LOG.error(e);
 //		}
-	}
+//		return bills;
+//	}
+//	
+//	private void generateBill() {
+////		try {
+////			List<Bill> bills = BillManager.generateBill(SystemManager.society.getSocietyId(), true);
+////			PDFManager.generateBillPDF(bills);
+////			JOptionPane.showMessageDialog(this, "The Bills have been generated successfully ", "Success", JOptionPane.INFORMATION_MESSAGE);
+////			dispose();
+////		} catch (FileNotFoundException | DocumentException e) {
+////			LOG.error(e.getMessage());
+////		}
+//	}
 
 	private void initLayout() {
 
