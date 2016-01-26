@@ -30,6 +30,7 @@ import org.apache.log4j.Logger;
 import com.itextpdf.text.DocumentException;
 import com.vhi.hsm.controller.manager.BillManager;
 import com.vhi.hsm.controller.manager.PDFManager;
+import com.vhi.hsm.controller.manager.PreviewManager;
 //import com.vhi.hsm.controller.manager.PreviewManager;
 import com.vhi.hsm.controller.manager.SystemManager;
 import com.vhi.hsm.db.SQLiteManager;
@@ -96,6 +97,7 @@ public class DashBoard extends JFrame implements WindowListener {
 		billGenerateButton = new JButton("Generate Monthly Bill");
 		billGenerateButton.addActionListener(e ->{
 			//new TempChargesConfirmationView(this);
+			generateBillPreview();
 		});
 		
 		billViewButton = new JButton("View Bills");
@@ -131,9 +133,11 @@ public class DashBoard extends JFrame implements WindowListener {
 	private List<Bill> generateBillPreview() {
 		List<Bill> bills = null;
 		try {
-//			bills = PreviewManager.generateBill(SystemManager.society.getSocietyId());
-			//PDFManager.generateBillPDF(bills);
-//			JOptionPane.showMessageDialog(this, "The Bills have been generated successfully ", "Success", JOptionPane.INFORMATION_MESSAGE);
+			bills = PreviewManager.generateBill(SystemManager.society.getSocietyId());
+			for(Bill bill : bills){
+				System.out.println(bill);
+			}
+			JOptionPane.showMessageDialog(this, "The Bills have been generated successfully ", "Success", JOptionPane.INFORMATION_MESSAGE);
 		} catch (Exception e) {
 			LOG.error(e);
 		}
@@ -141,14 +145,14 @@ public class DashBoard extends JFrame implements WindowListener {
 	}
 	
 	private void generateBill() {
-		try {
-			List<Bill> bills = BillManager.generateBill(SystemManager.society.getSocietyId());
-			PDFManager.generateBillPDF(bills);
-			JOptionPane.showMessageDialog(this, "The Bills have been generated successfully ", "Success", JOptionPane.INFORMATION_MESSAGE);
-			dispose();
-		} catch (FileNotFoundException | DocumentException e) {
-			LOG.error(e.getMessage());
-		}
+//		try {
+//			List<Bill> bills = BillManager.generateBill(SystemManager.society.getSocietyId(), true);
+//			PDFManager.generateBillPDF(bills);
+//			JOptionPane.showMessageDialog(this, "The Bills have been generated successfully ", "Success", JOptionPane.INFORMATION_MESSAGE);
+//			dispose();
+//		} catch (FileNotFoundException | DocumentException e) {
+//			LOG.error(e.getMessage());
+//		}
 	}
 
 	private void initLayout() {
