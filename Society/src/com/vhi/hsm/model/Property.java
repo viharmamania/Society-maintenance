@@ -38,6 +38,8 @@ public class Property {
 	private double netPayable;
 
 	private boolean notUsed;
+	
+	private int propertyNumber;
 
 	private int latestPaymentId;
 
@@ -190,6 +192,7 @@ public class Property {
 							+ Constants.Table.Floor.FieldName.FLOOR_NUMBER + " , "
 							+ Constants.Table.FloorPlan.FieldName.FLOOR_PLAN_ID + " , "
 							+ Constants.Table.Property.FieldName.PROPERTY_NAME + " , "
+							+ Constants.Table.Property.FieldName.PROPERTY_NUMBER + " , "
 							+ Constants.Table.Property.FieldName.OWNER_NAME + " , "
 							+ Constants.Table.Property.FieldName.OWNER_NUMBER + " , "
 							+ Constants.Table.Property.FieldName.OWNER_EMAIL + " , "
@@ -206,11 +209,12 @@ public class Property {
 						insertStatement.setInt(3, property.floorNumber);
 						insertStatement.setInt(4, property.floorPlanId);
 						insertStatement.setString(5, property.propertyName);
-						insertStatement.setString(6, property.ownerName);
-						insertStatement.setString(7, property.ownerNumber);
-						insertStatement.setString(8, property.ownerEmail);
-						insertStatement.setDouble(9, property.netPayable);
-						insertStatement.setBoolean(10, property.notUsed);
+						insertStatement.setInt(6, property.propertyNumber);
+						insertStatement.setString(7, property.ownerName);
+						insertStatement.setString(8, property.ownerNumber);
+						insertStatement.setString(9, property.ownerEmail);
+						insertStatement.setDouble(10, property.netPayable);
+						insertStatement.setBoolean(11, property.notUsed);
 						result = SQLiteManager.executePrepStatementAndGetResult(insertStatement);
 						if (result) {
 							ResultSet generatedKeys = insertStatement.getGeneratedKeys();
@@ -232,6 +236,7 @@ public class Property {
 							+ Constants.Table.Floor.FieldName.FLOOR_NUMBER + " = ? , "
 							+ Constants.Table.FloorPlan.FieldName.FLOOR_PLAN_ID + " = ? , "
 							+ Constants.Table.Property.FieldName.PROPERTY_NAME + " = ? , "
+							+ Constants.Table.Property.FieldName.PROPERTY_NUMBER + " = ? , "
 							+ Constants.Table.Property.FieldName.OWNER_NAME + " = ? , "
 							+ Constants.Table.Property.FieldName.OWNER_NUMBER + " = ? , "
 							+ Constants.Table.Property.FieldName.OWNER_EMAIL + " = ? , "
@@ -249,13 +254,14 @@ public class Property {
 						updateStatement.setInt(3, property.floorNumber);
 						updateStatement.setInt(4, property.floorPlanId);
 						updateStatement.setString(5, property.propertyName);
-						updateStatement.setString(6, property.ownerName);
-						updateStatement.setString(7, property.ownerNumber);
-						updateStatement.setString(8, property.ownerEmail);
-						updateStatement.setDouble(9, property.netPayable);
-						updateStatement.setBoolean(10, property.notUsed);
-						updateStatement.setInt(11, property.latestPaymentId);
-						updateStatement.setInt(12, property.propertyId);
+						updateStatement.setInt(6, property.propertyNumber);
+						updateStatement.setString(7, property.ownerName);
+						updateStatement.setString(8, property.ownerNumber);
+						updateStatement.setString(9, property.ownerEmail);
+						updateStatement.setDouble(10, property.netPayable);
+						updateStatement.setBoolean(11, property.notUsed);
+						updateStatement.setInt(12, property.latestPaymentId);
+						updateStatement.setInt(13, property.propertyId);
 						result = SQLiteManager.executePrepStatementAndGetResult(updateStatement);
 					} catch (SQLException e) {
 						LOG.error(e.getMessage());
@@ -336,6 +342,7 @@ public class Property {
 						property.floorPlanId = resultSet.getInt(Constants.Table.FloorPlan.FieldName.FLOOR_PLAN_ID);
 						property.propertyName = resultSet
 								.getString(Constants.Table.Property.FieldName.PROPERTY_NAME);
+						property.propertyNumber = resultSet.getInt(Constants.Table.Property.FieldName.PROPERTY_NUMBER);
 						property.ownerName = resultSet.getString(Constants.Table.Property.FieldName.OWNER_NAME);
 						property.ownerNumber = resultSet.getString(Constants.Table.Property.FieldName.OWNER_NUMBER);
 						property.ownerEmail = resultSet.getString(Constants.Table.Property.FieldName.OWNER_EMAIL);
@@ -351,6 +358,14 @@ public class Property {
 		}
 
 		return property;
+	}
+
+	public int getPropertyNumber() {
+		return propertyNumber;
+	}
+
+	public void setPropertyNumber(int propertyNumber) {
+		this.propertyNumber = propertyNumber;
 	}
 
 	public static void addProperties(ResultSet resultSet) throws SQLException {

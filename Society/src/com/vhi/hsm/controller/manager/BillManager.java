@@ -18,6 +18,8 @@ import com.vhi.hsm.model.Bill;
 import com.vhi.hsm.model.BillCharge;
 import com.vhi.hsm.model.Charge;
 import com.vhi.hsm.model.Fine;
+import com.vhi.hsm.model.Floor;
+import com.vhi.hsm.model.FloorPlanDesign;
 import com.vhi.hsm.model.Property;
 import com.vhi.hsm.utils.Constants;
 
@@ -174,67 +176,143 @@ public class BillManager {
 	private static Collection<? extends Integer> getChargeIds(Property property) {
 
 		Set<Integer> chargeIds = new HashSet<>();
-		StringBuilder query = new StringBuilder();
+		// StringBuilder query = new StringBuilder();
+		String query;
 
-		// fetching charges for this properties group type
-		query.append("select " + Constants.Table.Charge.FieldName.CHARGE_ID + " from "
-				+ Constants.Table.ChargeToPropertyGroup.TABLE_NAME + " where "
-				+ Constants.Table.PropertyGroup.FieldName.PROPERTY_GROUP + " = ( select "
-				+ Constants.Table.PropertyGroup.FieldName.PROPERTY_GROUP + " from "
-				+ Constants.Table.FloorPlanDesign.TABLE_NAME + " where " + Constants.Table.Society.FieldName.SOCIETY_ID
-				+ " =? " + " and " + Constants.Table.FloorPlanDesign.FieldName.PROPERTY_NUMBER + " =? )");
-
-		query.append(" union ");
-
-		// fetching charges for this property type
-		query.append("select " + Constants.Table.Charge.FieldName.CHARGE_ID + " from "
-				+ Constants.Table.ChargeToPropertyType.TABLE_NAME + " where "
-				+ Constants.Table.PropertyType.FieldName.PROPERTY_TYPE + " = ( select "
-				+ Constants.Table.PropertyType.FieldName.PROPERTY_TYPE + " from "
-				+ Constants.Table.FloorPlanDesign.TABLE_NAME + " where " + Constants.Table.Society.FieldName.SOCIETY_ID
-				+ " =? " + " and " + Constants.Table.FloorPlanDesign.FieldName.PROPERTY_NUMBER + " =? )");
-
-		query.append(" union ");
-
-		// fetching charges for this specific property
-		query.append("select " + Constants.Table.Charge.FieldName.CHARGE_ID + " from "
-				+ Constants.Table.ChargeToProperty.TABLE_NAME + " where "
-				+ Constants.Table.Property.FieldName.PROPERTY_ID + " =? ");
-
-		query.append(" union ");
-
-		// fetching charges which are applicable by-default to every property
-		query.append("select " + Constants.Table.Charge.FieldName.CHARGE_ID + " from "
-				+ Constants.Table.Charge.TABLE_NAME + " where " + Constants.Table.Charge.FieldName.IS_DEFAULT + "=1");
-
-		query.append(" union ");
-
-		// fetching property asset charges
-		query.append("select " + Constants.Table.Charge.FieldName.CHARGE_ID + " from "
-				+ Constants.Table.AssetType.TABLE_NAME + " where " + Constants.Table.AssetType.FieldName.ASSET_TYPE
-				+ " = ( select " + Constants.Table.PropertyAsset.FieldName.ASSET_TYPE + " from "
-				+ Constants.Table.PropertyAsset.TABLE_NAME + " where " + Constants.Table.Property.FieldName.PROPERTY_ID
-				+ " =?)");
-
-		PreparedStatement fetchChargesStmt = SQLiteManager.getPreparedStatement(query.toString());
+		Floor floor = Floor.read(property.getSocietyId(), property.getWingId(), property.getFloorNumber());
+		FloorPlanDesign floorPlanDesign = FloorPlanDesign.read(floor.getSocietyId(), floor.getFloorPlanId(),
+				property.getPropertyNumber());
 
 		try {
-			fetchChargesStmt.setInt(1, SystemManager.society.getSocietyId());
-			fetchChargesStmt.setString(2, property.getPropertyName());
-			fetchChargesStmt.setInt(3, SystemManager.society.getSocietyId());
-			fetchChargesStmt.setString(4, property.getPropertyName());
-			fetchChargesStmt.setInt(5, property.getPropertyId());
-			ResultSet result = fetchChargesStmt.executeQuery();
-			if (result != null) {
-				do {
-					result.next();
-					chargeIds.add(result.getInt(Constants.Table.Charge.FieldName.CHARGE_ID));
-				} while (!result.isAfterLast());
+
+			// Get Default Charges
+			query = "SELECT " + Constants.Table.Charge.FieldName.CHARGE_ID + " FROM "
+					+ Constants.Table.Charge.TABLE_NAME + " WHERE " + Constants.Table.Society.FieldName.SOCIETY_ID
+					+ " = " + property.getSocietyId() + " AND " + Constants.Table.Charge.FieldName.IS_DEFAULT + " = 1 "
+					+ " AND " + Constants.Table.Charge.FieldName.IS_CANCELLED + " = 0 ";
+
+			ResultSet resultSet = SQLiteManager.executeQuery(query);
+			while (resultSet.next()) {
+				chargeIds.add(resultSet.getInt(Constants.Table.Charge.FieldName.CHARGE_ID));
+			}
+
+			// Get Property Specific Charges
+			query = "SELECT " + Constants.Table.Charge.FieldName.CHARGE_ID + " FROM "
+					+ Constants.Table.ChargeToProperty.TABLE_NAME + " WHERE "
+					+ Constants.Table.Society.FieldName.SOCIETY_ID + " = " + property.getSocietyId() + " AND "
+					+ Constants.Table.Property.FieldName.PROPERTY_ID + " = " + property.getPropertyId();
+			resultSet = SQLiteManager.executeQuery(query);
+			while (resultSet.next()) {
+				if (!chargeIds.contains(resultSet.getInt(Constants.Table.Charge.FieldName.CHARGE_ID))) {
+					chargeIds.add(resultSet.getInt(Constants.Table.Charge.FieldName.CHARGE_ID));
+				}
+			}
+
+			// Get Property Group Specific Charges
+			query = "SELECT " + Constants.Table.Charge.FieldName.CHARGE_ID + " FROM "
+					+ Constants.Table.ChargeToPropertyGroup.TABLE_NAME + " WHERE "
+					+ Constants.Table.Society.FieldName.SOCIETY_ID + " = " + property.getSocietyId() + " AND "
+					+ Constants.Table.PropertyGroup.FieldName.PROPERTY_GROUP + " = '" + floorPlanDesign.getPropertyGroup() + "'";
+			resultSet = SQLiteManager.executeQuery(query);
+			while (resultSet.next()) {
+				if (!chargeIds.contains(resultSet.getInt(Constants.Table.Charge.FieldName.CHARGE_ID))) {
+					chargeIds.add(resultSet.getInt(Constants.Table.Charge.FieldName.CHARGE_ID));
+				}
+			}
+
+			// Get Property Type Specific Charges
+			query = "SELECT " + Constants.Table.Charge.FieldName.CHARGE_ID + " FROM "
+					+ Constants.Table.ChargeToPropertyType.TABLE_NAME + " WHERE "
+					+ Constants.Table.Society.FieldName.SOCIETY_ID + " = " + property.getSocietyId() + " AND "
+					+ Constants.Table.PropertyType.FieldName.PROPERTY_TYPE + " = '" + floorPlanDesign.getPropertyType() + "'";
+			resultSet = SQLiteManager.executeQuery(query);
+			while (resultSet.next()) {
+				if (!chargeIds.contains(resultSet.getInt(Constants.Table.Charge.FieldName.CHARGE_ID))) {
+					chargeIds.add(resultSet.getInt(Constants.Table.Charge.FieldName.CHARGE_ID));
+				}
 			}
 
 		} catch (SQLException e) {
-			LOG.error(e.getMessage());
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+
+		// // fetching charges for this properties group type
+		// query.append("select " + Constants.Table.Charge.FieldName.CHARGE_ID +
+		// " from "
+		// + Constants.Table.ChargeToPropertyGroup.TABLE_NAME + " where "
+		// + Constants.Table.PropertyGroup.FieldName.PROPERTY_GROUP + " = (
+		// select "
+		// + Constants.Table.PropertyGroup.FieldName.PROPERTY_GROUP + " from "
+		// + Constants.Table.FloorPlanDesign.TABLE_NAME + " where " +
+		// Constants.Table.Society.FieldName.SOCIETY_ID
+		// + " =? " + " and " +
+		// Constants.Table.FloorPlanDesign.FieldName.PROPERTY_NUMBER + " =? )");
+		//
+		// query.append(" union ");
+		//
+		// // fetching charges for this property type
+		// query.append("select " + Constants.Table.Charge.FieldName.CHARGE_ID +
+		// " from "
+		// + Constants.Table.ChargeToPropertyType.TABLE_NAME + " where "
+		// + Constants.Table.PropertyType.FieldName.PROPERTY_TYPE + " = ( select
+		// "
+		// + Constants.Table.PropertyType.FieldName.PROPERTY_TYPE + " from "
+		// + Constants.Table.FloorPlanDesign.TABLE_NAME + " where " +
+		// Constants.Table.Society.FieldName.SOCIETY_ID
+		// + " =? " + " and " +
+		// Constants.Table.FloorPlanDesign.FieldName.PROPERTY_NUMBER + " =? )");
+		//
+		// query.append(" union ");
+		//
+		// // fetching charges for this specific property
+		// query.append("select " + Constants.Table.Charge.FieldName.CHARGE_ID +
+		// " from "
+		// + Constants.Table.ChargeToProperty.TABLE_NAME + " where "
+		// + Constants.Table.Property.FieldName.PROPERTY_ID + " =? ");
+		//
+		// query.append(" union ");
+		//
+		// // fetching charges which are applicable by-default to every property
+		// query.append("select " + Constants.Table.Charge.FieldName.CHARGE_ID +
+		// " from "
+		// + Constants.Table.Charge.TABLE_NAME + " where " +
+		// Constants.Table.Charge.FieldName.IS_DEFAULT + "=1");
+		//
+		// query.append(" union ");
+		//
+		// // fetching property asset charges
+		// query.append("select " + Constants.Table.Charge.FieldName.CHARGE_ID +
+		// " from "
+		// + Constants.Table.AssetType.TABLE_NAME + " where " +
+		// Constants.Table.AssetType.FieldName.ASSET_TYPE
+		// + " = ( select " + Constants.Table.PropertyAsset.FieldName.ASSET_TYPE
+		// + " from "
+		// + Constants.Table.PropertyAsset.TABLE_NAME + " where " +
+		// Constants.Table.Property.FieldName.PROPERTY_ID
+		// + " =?)");
+		//
+		// PreparedStatement fetchChargesStmt =
+		// SQLiteManager.getPreparedStatement(query.toString());
+		//
+		// try {
+		// fetchChargesStmt.setInt(1, SystemManager.society.getSocietyId());
+		// fetchChargesStmt.setString(2, property.getPropertyName());
+		// fetchChargesStmt.setInt(3, SystemManager.society.getSocietyId());
+		// fetchChargesStmt.setString(4, property.getPropertyName());
+		// fetchChargesStmt.setInt(5, property.getPropertyId());
+		// ResultSet result = fetchChargesStmt.executeQuery();
+		// if (result != null) {
+		// do {
+		// result.next();
+		// chargeIds.add(result.getInt(Constants.Table.Charge.FieldName.CHARGE_ID));
+		// } while (!result.isAfterLast());
+		// }
+		//
+		// } catch (SQLException e) {
+		// LOG.error(e.getMessage());
+		// }
+
 		return chargeIds;
 	}
 }
