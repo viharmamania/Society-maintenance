@@ -229,6 +229,23 @@ public class BillManager {
 					chargeIds.add(resultSet.getInt(Constants.Table.Charge.FieldName.CHARGE_ID));
 				}
 			}
+			
+			//Get Proper Asset Charges
+			query = "SELECT " + Constants.Table.Charge.FieldName.CHARGE_ID + " FROM "
+					+ Constants.Table.AssetType.TABLE_NAME + " WHERE "
+					+ Constants.Table.Society.FieldName.SOCIETY_ID + " = " + property.getSocietyId() + " AND "
+					+ Constants.Table.AssetType.FieldName.ASSET_TYPE + " IN "
+					+ " ( " 
+					+ " SELECT DISTINCT " + Constants.Table.AssetType.FieldName.ASSET_TYPE
+					+ " FROM " + Constants.Table.PropertyAsset.TABLE_NAME
+					+ " WHERE " + Constants.Table.Property.FieldName.PROPERTY_ID + " = " + property.getPropertyId()
+					+ " ) ";
+			resultSet = SQLiteManager.executeQuery(query);
+			while (resultSet.next()) {
+				if (!chargeIds.contains(resultSet.getInt(Constants.Table.Charge.FieldName.CHARGE_ID))) {
+					chargeIds.add(resultSet.getInt(Constants.Table.Charge.FieldName.CHARGE_ID));
+				}
+			}
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
