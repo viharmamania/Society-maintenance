@@ -128,7 +128,7 @@ public class GenerateBill extends JDialog implements WindowListener {
 		}
 		
 		try {
-			PDFManager.generateBillPDF(BillManager.generateBill(SystemManager.society.getSocietyId(), false, tempChargeIds));
+			PDFManager.generateBillPDF(BillManager.generateBill(SystemManager.society.getSocietyId(), isPreview, tempChargeIds));
 		} catch (FileNotFoundException | DocumentException e) {
 			e.printStackTrace();
 		}

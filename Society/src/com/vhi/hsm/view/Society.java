@@ -6,6 +6,7 @@ import java.awt.event.WindowListener;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -31,6 +32,9 @@ public class Society extends JDialog implements WindowListener {
 	private JTextField txtSocietyName, txtRegDate, txtRegNumber;
 	private JTextArea txtAreaSocietyAddr;
 	private JButton btnRegister, btnCancel;
+	private JComboBox<Integer> paymentDueDate = new JComboBox<>(new Integer[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
+			13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28 });
+	private int SelectedDate ;
 
 	public Society(JFrame owner) {
 		super(owner, "Create Society", true);
@@ -75,12 +79,12 @@ public class Society extends JDialog implements WindowListener {
 		JLabel labAddress = new JLabel("Address");
 		JLabel labRegNum = new JLabel("Registration Number");
 		JLabel labRegDate = new JLabel("Registration Date");
-
+		JLabel labPaymentDueDate = new JLabel("Payment Due Date");
 		groupLayout.setHorizontalGroup(groupLayout.createSequentialGroup()
 				.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING).addComponent(labName)
-						.addComponent(labAddress).addComponent(labRegNum).addComponent(labRegDate))
+						.addComponent(labAddress).addComponent(labRegNum).addComponent(labRegDate).addComponent(labPaymentDueDate))
 				.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING).addComponent(txtSocietyName)
-						.addComponent(txtAreaSocietyAddr).addComponent(txtRegNumber).addComponent(txtRegDate)
+						.addComponent(txtAreaSocietyAddr).addComponent(txtRegNumber).addComponent(txtRegDate).addComponent(paymentDueDate)
 						.addGroup(groupLayout.createSequentialGroup().addComponent(btnRegister)
 								.addComponent(btnCancel))));
 
@@ -93,6 +97,8 @@ public class Society extends JDialog implements WindowListener {
 						.addComponent(txtRegNumber))
 				.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(labRegDate)
 						.addComponent(txtRegDate))
+				.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(labPaymentDueDate)
+						.addComponent(paymentDueDate))
 				.addGroup(groupLayout.createParallelGroup().addComponent(btnRegister).addComponent(btnCancel)));
 
 		pack();
@@ -134,8 +140,9 @@ public class Society extends JDialog implements WindowListener {
 			String societyAddress = txtAreaSocietyAddr.getText().trim();
 			String regNumber = txtRegNumber.getText().trim();
 			String regDate = txtRegDate.getText().trim();
+			int dueDate = (Integer)paymentDueDate.getSelectedItem();
 
-			if (SocietyManager.registerSociety(societyName, societyAddress, regNumber, regDate)) {
+			if (SocietyManager.registerSociety(societyName, societyAddress, regNumber, regDate, dueDate)) {
 				dispose();
 				new RegisterUser(this);
 			}
@@ -167,6 +174,12 @@ public class Society extends JDialog implements WindowListener {
 		} else if (regDate.length() == 0) {
 			if (showErrorMessages) {
 				JOptionPane.showMessageDialog(this, "Enter Society Registration Date in DD-MM-YYYY format", "Error",
+						JOptionPane.ERROR_MESSAGE);
+			}
+			return false;
+		} else if ((int) paymentDueDate.getSelectedItem() == 0) {
+			if (showErrorMessages) {
+				JOptionPane.showMessageDialog(this, "Please Select Payment Due Date", "Error",
 						JOptionPane.ERROR_MESSAGE);
 			}
 			return false;

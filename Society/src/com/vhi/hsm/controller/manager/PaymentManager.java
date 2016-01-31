@@ -3,9 +3,11 @@ package com.vhi.hsm.controller.manager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import com.vhi.hsm.db.SQLiteManager;
 import com.vhi.hsm.model.Bill;
+import com.vhi.hsm.model.Charge;
 import com.vhi.hsm.model.Payment;
 import com.vhi.hsm.model.Property;
 import com.vhi.hsm.utils.Constants;
@@ -23,6 +25,20 @@ public class PaymentManager {
 			if (Payment.save(payment, true)) { // Save payment in DB
 
 				Property property = Property.read(payment.getPropertyId());
+				
+				Calendar calendar = Calendar.getInstance();
+				calendar.setTime(payment.getPaymentDate());
+				int i = calendar.get(calendar.DAY_OF_MONTH);
+				if(i> SystemManager.society.getPaymentDueDate()){
+					Charge createdCharge = Charge.create(SystemManager.society.getSocietyId());
+					ArrayList<Integer> propertyList = new ArrayList<>();
+					propertyList.add(property.getPropertyId());
+					createdCharge.setAssignedProperty(propertyList);
+					createdCharge.setTempCharges(true);
+					createdCharge.setDescription("Late Payment Fine Charge");
+					Charge.save(createdCharge, true);
+					
+				}
 
 				if (property != null) {
 

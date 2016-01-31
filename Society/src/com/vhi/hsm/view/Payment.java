@@ -7,6 +7,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
@@ -51,8 +54,9 @@ public class Payment extends JDialog implements WindowListener {
 	 */
 	private static final long serialVersionUID = 8038931709318079644L;
 	private final static Logger LOG = Logger.getLogger(Payment.class);
-	private JTextField chequeNoTextField, remarksTextField, amountTextField = null;
-	private JLabel chequeNoLabel, propertyNameLabel, modeOfPaymentLabel, amountLabel, remarksLabel = null;
+	private JTextField chequeNoTextField, remarksTextField, paymentDateField, amountTextField = null;
+	private JLabel chequeNoLabel, propertyNameLabel, modeOfPaymentLabel, amountLabel, paymentDateLabel,
+			remarksLabel = null;
 	private JComboBox<String> propertyNamesComboBox, modeOfPaymentComboBox = null;
 	private JButton confirmButton, backButton, uploadButton;
 	private int societyId;
@@ -120,6 +124,9 @@ public class Payment extends JDialog implements WindowListener {
 		amountLabel = new JLabel("Amount");
 		amountTextField = new JTextField();
 
+		paymentDateLabel = new JLabel("Payment Date");
+		paymentDateField = new JTextField();
+
 		remarksLabel = new JLabel("Remarks");
 		remarksTextField = new JTextField();
 
@@ -148,11 +155,12 @@ public class Payment extends JDialog implements WindowListener {
 		groupLayout.setHorizontalGroup(groupLayout.createSequentialGroup()
 				.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING).addComponent(propertyNameLabel)
 						.addComponent(modeOfPaymentLabel).addComponent(chequeNoLabel).addComponent(amountLabel)
-						.addComponent(remarksLabel).addComponent(confirmButton))
+						.addComponent(paymentDateLabel).addComponent(remarksLabel).addComponent(confirmButton))
 				.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING).addComponent(propertyNamesComboBox)
 						.addComponent(modeOfPaymentComboBox).addComponent(chequeNoTextField)
-						.addComponent(amountTextField).addComponent(remarksTextField).addGroup(groupLayout
-								.createSequentialGroup().addComponent(backButton).addComponent(uploadButton))));
+						.addComponent(amountTextField).addComponent(paymentDateField).addComponent(remarksTextField)
+						.addGroup(groupLayout.createSequentialGroup().addComponent(backButton)
+								.addComponent(uploadButton))));
 
 		groupLayout.setVerticalGroup(groupLayout.createSequentialGroup()
 				.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(propertyNameLabel)
@@ -163,6 +171,8 @@ public class Payment extends JDialog implements WindowListener {
 						.addComponent(chequeNoTextField))
 				.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(amountLabel)
 						.addComponent(amountTextField))
+				.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(paymentDateLabel)
+						.addComponent(paymentDateField))
 				.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(remarksLabel)
 						.addComponent(remarksTextField))
 				.addGroup(groupLayout.createParallelGroup().addComponent(confirmButton).addComponent(backButton)
@@ -278,6 +288,7 @@ public class Payment extends JDialog implements WindowListener {
 
 						int cellCount = row.getLastCellNum();
 						String propertyName = null, chequeNo = null, modeOfPayment = null, remarks = null;
+						Date paymentDate = null;
 						Double amount = null;
 						for (int j = 0; j < cellCount; j++) {
 							Cell cell = row.getCell(j);
@@ -296,6 +307,16 @@ public class Payment extends JDialog implements WindowListener {
 							if (j == 4 && cell.getCellType() == Cell.CELL_TYPE_STRING) {
 								remarks = cell.getStringCellValue();
 							}
+							if (j == 5 && cell.getCellType() == Cell.CELL_TYPE_STRING) {
+								String date = cell.getStringCellValue();
+								SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+								try {
+									paymentDate = dateFormat.parse(date);
+									
+								} catch (ParseException e) {
+									e.printStackTrace();
+								}
+							}
 						}
 
 						com.vhi.hsm.model.Payment payment = com.vhi.hsm.model.Payment
@@ -304,6 +325,8 @@ public class Payment extends JDialog implements WindowListener {
 						payment.setChequeNumber(chequeNo);
 						payment.setModeOfPayment(modeOfPayment);
 						payment.setRemarks(remarks);
+						payment.setPaymentDate(paymentDate);
+						
 
 						PaymentManager.makePayment(payment);
 
@@ -338,6 +361,15 @@ public class Payment extends JDialog implements WindowListener {
 			payment.setAmount(Double.valueOf(amountTextField.getText()));
 			payment.setModeOfPayment((String) modeOfPaymentComboBox.getSelectedItem());
 			payment.setChequeNumber(chequeNoTextField.getText().trim());
+//			payment.setPaymentDate();
+			SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+			try {
+				Date parse = dateFormat.parse(paymentDateField.getText().trim());
+				payment.setPaymentDate(parse);
+				
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
 
 			// boolean paymentSaved = com.vhi.hsm.model.Payment.save(payment,
 			// true);
@@ -368,6 +400,19 @@ public class Payment extends JDialog implements WindowListener {
 			Double.parseDouble(amountTextField.getText());
 		} catch (NumberFormatException exception) {
 			JOptionPane.showMessageDialog(this, "Please Enter Payment amount in valid format", "Error",
+					JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+
+		if(paymentDateField.getText().trim().indexOf('-') == -1){
+			JOptionPane.showMessageDialog(this, "Please Enter Payment Date in dd-mm-yyyy format", "Error",
+					JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		
+		if (!paymentDateField.getText().trim().matches(
+				"^(?:(?:31(\\/|-|\\.)(?:0?[13578]|1[02]))\\1|(?:(?:29|30)(\\/|-|\\.)(?:0?[1,3-9]|1[0-2])\\2))(?:(?:1[6-9]|[2-9]\\d)?\\d{2})$|^(?:29(\\/|-|\\.)0?2\\3(?:(?:(?:1[6-9]|[2-9]\\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\\d|2[0-8])(\\/|-|\\.)(?:(?:0?[1-9])|(?:1[0-2]))\\4(?:(?:1[6-9]|[2-9]\\d)?\\d{2})$")) {
+			JOptionPane.showMessageDialog(this, "Please Enter Correct Date", "Error",
 					JOptionPane.ERROR_MESSAGE);
 			return false;
 		}

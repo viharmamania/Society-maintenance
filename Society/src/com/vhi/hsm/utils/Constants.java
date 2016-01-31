@@ -32,6 +32,7 @@ public interface Constants {
 				String REG_NUMBER = "reg_number";
 				String REG_DATE = "reg_timestamp";
 				String SOCIETY_CODE = "society_code";
+				String PAYMENT_DUE_DATE = "payment_due_date";
 			}
 		}
 

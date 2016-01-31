@@ -25,6 +25,8 @@ public class Society {
 
 	private String societyCode;
 
+	private int paymentDueDate;
+	
 	public String getSocietyCode() {
 		return societyCode;
 	}
@@ -53,13 +55,13 @@ public class Society {
 	private static String insertString = "INSERT INTO " + Constants.Table.Society.TABLE_NAME + "("
 			+ Constants.Table.Society.FieldName.SOCIETY_NAME + " , " + Constants.Table.Society.FieldName.ADDRESS + " , "
 			+ Constants.Table.Society.FieldName.REG_NUMBER + " , " + Constants.Table.Society.FieldName.REG_DATE + " , "
-			+ Constants.Table.Society.FieldName.SOCIETY_CODE + " )" + " VALUES (?, ?, ?, ?, ?)";
+			+ Constants.Table.Society.FieldName.SOCIETY_CODE + " , " + Constants.Table.Society.FieldName.PAYMENT_DUE_DATE + " )" + " VALUES (?, ?, ?, ?, ?, ?)";
 
 	private static String updateString = "UPDATE " + Constants.Table.Society.TABLE_NAME + " SET "
 			+ Constants.Table.Society.FieldName.SOCIETY_NAME + " =? " + Constants.Table.Society.FieldName.ADDRESS
 			+ " =? " + Constants.Table.Society.FieldName.REG_NUMBER + " =? "
 			+ Constants.Table.Society.FieldName.REG_DATE + " =? " + Constants.Table.Society.FieldName.SOCIETY_CODE
-			+ " ?" + " WHERE " + Constants.Table.Society.FieldName.SOCIETY_ID + " = ?";
+			+ " =?" + Constants.Table.Society.FieldName.PAYMENT_DUE_DATE + " =? WHERE " + Constants.Table.Society.FieldName.SOCIETY_ID + " = ?";
 
 	private static String deleteString = "DELETE " + Constants.Table.Society.TABLE_NAME + " WHERE "
 			+ Constants.Table.Society.FieldName.SOCIETY_ID + " = ?";
@@ -197,6 +199,7 @@ public class Society {
 				insertStatement.setString(3, society.getRegistrationNumber());
 				insertStatement.setString(4, society.getRegistrationDate());
 				insertStatement.setString(5, society.getSocietyCode());
+				insertStatement.setInt(6, society.getPaymentDueDate());
 				result = SQLiteManager.executePrepStatementAndGetResult(insertStatement);
 			} else {
 				if (updateStatement == null) {
@@ -207,7 +210,8 @@ public class Society {
 				updateStatement.setString(3, society.getRegistrationNumber());
 				updateStatement.setString(4, society.getRegistrationDate());
 				updateStatement.setString(5, society.getSocietyCode());
-				updateStatement.setInt(5, society.getSocietyId());
+				updateStatement.setInt(6, society.getPaymentDueDate());
+				updateStatement.setInt(7, society.getSocietyId());
 				result = SQLiteManager.executePrepStatementAndGetResult(updateStatement);
 			}
 
@@ -247,6 +251,7 @@ public class Society {
 					society.setSocietyId(resultset.getInt(Constants.Table.Society.FieldName.SOCIETY_ID));
 					// society.setRegistrationDate(resultset.getString(Constants.Table.Society.FieldName.REG_DATE));
 					society.setSocietyCode(resultset.getString(Constants.Table.Society.FieldName.SOCIETY_CODE));
+					society.setPaymentDueDate(resultset.getInt(Constants.Table.Society.FieldName.PAYMENT_DUE_DATE));
 				}
 				societyMap.put(societyId, society);
 			} catch (SQLException e) {
@@ -255,6 +260,14 @@ public class Society {
 		}
 
 		return society;
+	}
+
+	public int getPaymentDueDate() {
+		return paymentDueDate;
+	}
+
+	public void setPaymentDueDate(int paymentDueDate) {
+		this.paymentDueDate = paymentDueDate;
 	}
 
 }
