@@ -17,7 +17,6 @@ import com.vhi.hsm.db.SQLiteManager;
 import com.vhi.hsm.model.Bill;
 import com.vhi.hsm.model.BillCharge;
 import com.vhi.hsm.model.Charge;
-import com.vhi.hsm.model.Fine;
 import com.vhi.hsm.model.Floor;
 import com.vhi.hsm.model.FloorPlanDesign;
 import com.vhi.hsm.model.Property;
@@ -65,14 +64,18 @@ public class BillManager {
 				ResultSet result = readStatement.executeQuery();
 
 				// fetching the List of properties for this societyId
-				if (result != null && result.next()) {
-					do {
-						properties.add(Property.read(result.getInt(Constants.Table.Property.FieldName.PROPERTY_ID)));
-						result.next();
-					} while (!result.isAfterLast());
+//				if (result != null && result.next()) {
+//					do {
+//						properties.add(Property.read(result.getInt(Constants.Table.Property.FieldName.PROPERTY_ID)));
+////						result.next();
+//					} while (!result.isAfterLast());
+//				}
+				while (result.next()) {
+					properties.add(Property.read(result.getInt(Constants.Table.Property.FieldName.PROPERTY_ID)));
 				}
 				// generating individual bills and adding to list of bills
 				for (Property property : properties) {
+					System.out.println("Bill for property:" + property.getPropertyName());
 					societyBills.add(generatePropertySpecificBill(property, isPreview , tempChargeIds));
 				}
 
@@ -114,18 +117,18 @@ public class BillManager {
 		chargeIds.addAll(tempChargeIds);
 
 		// adding fine charge (if any)
-		if (property.getNetPayable() > 0) {
-
-			double fineAmount = Fine.getFineAmount(property.getSocietyId(), property.getNetPayable());
-			if (fineAmount > 0.0) {
-
-				Charge fineCharge = Charge.getFineCharge();
-				fineCharge.setAmount(fineAmount);
-				// fineCharge
-
-				chargeIds.add(fineCharge.getChargeId());
-			}
-		}
+//		if (property.getNetPayable() > 0) {
+//
+//			double fineAmount = Fine.getFineAmount(property.getSocietyId(), property.getNetPayable());
+//			if (fineAmount > 0.0) {
+//
+//				Charge fineCharge = Charge.getFineCharge();
+//				fineCharge.setAmount(fineAmount);
+//				// fineCharge
+//
+//				chargeIds.add(fineCharge.getChargeId());
+//			}
+//		}
 
 		// calculate actual amount by adding charges for all chargeIds
 		for (Integer chargeId : chargeIds) {
@@ -141,11 +144,16 @@ public class BillManager {
 		bill.setCancelled(false);
 		bill.setAssignedCharges(chargeIds);
 		bill.setAmount(billAmount);
-
+		System.out.println("Bill Amount:" + billAmount);
+		
 		// if property has available balance to settle this bill then mark it
 		// appropriately
-		if (property.getNetPayable() < 0 && Math.abs(property.getNetPayable()) >= billAmount) {
+		if (property.getNetPayable() >= billAmount) {
 			bill.setPaymentId(property.getLatestPaymentId());
+			if (!isPreview) {
+				// updating this properties net payable
+				property.setNetPayable(property.getNetPayable() + billAmount);	
+			}
 		}
 
 		if (!isPreview) {
@@ -158,8 +166,6 @@ public class BillManager {
 				billCharge.setAmount(charge.getAmount());
 				BillCharge.save(billCharge, true);
 			}
-			// updating this properties net payable
-			property.setNetPayable(property.getNetPayable() + billAmount);
 			Property.save(property, false);
 		}
 		return bill;
@@ -328,7 +334,8 @@ public class BillManager {
 		// } catch (SQLException e) {
 		// LOG.error(e.getMessage());
 		// }
-
+		
+		System.out.println(chargeIds);
 		return chargeIds;
 	}
 	

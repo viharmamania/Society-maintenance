@@ -9,8 +9,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -236,7 +238,9 @@ public class AssetTypeScreen extends JDialog implements WindowListener {
 		private static final long serialVersionUID = 6035574266262639889L;
 
 		JLabel assetTypeLable, descriptionLabel, chargeLabel;
-		JTextField assetTypeField, descriptionField, chargeField;
+		JTextField assetTypeField, descriptionField;// chargeField;
+		JComboBox<Charge> chargeIdComboBox;
+		DefaultComboBoxModel<Charge> chargeIdComboBoxModel;
 
 		public AssetTypeDetails() {
 			assetTypeLable = new JLabel("Asset Type");
@@ -245,7 +249,17 @@ public class AssetTypeScreen extends JDialog implements WindowListener {
 
 			assetTypeField = new JTextField(30);
 			descriptionField = new JTextField();
-			chargeField = new JTextField();
+//			chargeField = new JTextField();
+			chargeIdComboBoxModel = new DefaultComboBoxModel<>();
+			
+			ArrayList<Charge> allCharges = Charge.getAllCharge(SystemManager.society.getSocietyId());
+			for (Charge charge : allCharges) {
+				if (!charge.isdefault() && !charge.isCancelled() && !charge.isTempCharges()) {
+					chargeIdComboBoxModel.addElement(charge);
+				}
+			}
+			
+			chargeIdComboBox = new JComboBox<>(chargeIdComboBoxModel);
 
 			GroupLayout layout = new GroupLayout(this);
 			setLayout(layout);
@@ -256,7 +270,7 @@ public class AssetTypeScreen extends JDialog implements WindowListener {
 					.addGroup(layout.createParallelGroup(Alignment.LEADING).addComponent(assetTypeLable)
 							.addComponent(descriptionLabel).addComponent(chargeLabel))
 					.addGroup(layout.createParallelGroup(Alignment.LEADING).addComponent(assetTypeField)
-							.addComponent(descriptionField).addComponent(chargeField)));
+							.addComponent(descriptionField).addComponent(chargeIdComboBox)));
 
 			layout.setVerticalGroup(layout.createSequentialGroup()
 					.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(assetTypeLable)
@@ -264,7 +278,7 @@ public class AssetTypeScreen extends JDialog implements WindowListener {
 					.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(descriptionLabel)
 							.addComponent(descriptionField))
 					.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(chargeLabel)
-							.addComponent(chargeField)));
+							.addComponent(chargeIdComboBox)));
 		}
 
 		public void setAssetType(AssetType assetType, boolean disableAssetType) {
@@ -272,12 +286,14 @@ public class AssetTypeScreen extends JDialog implements WindowListener {
 			assetTypeField.setEditable(!disableAssetType);
 			descriptionField.setText(assetType.getDescription());
 			Charge read = Charge.read(SystemManager.society.getSocietyId(), assetType.getChargeId());
-			chargeField.setText(Double.toString(read.getAmount()));
+//			chargeField.setText(Double.toString(read.getAmount()));
+			chargeIdComboBox.setSelectedIndex(chargeIdComboBoxModel.getIndexOf(read));
 		}
 
 		public void getFieldValues(AssetType assetType) {
 			assetType.setAssetType(assetTypeField.getText());
 			assetType.setDescription(descriptionField.getText());
+			assetType.setChargeId(chargeIdComboBoxModel.getElementAt(chargeIdComboBox.getSelectedIndex()).getChargeId());
 			//assetType.setCharges(Double.parseDouble(chargeField.getText()));
 		}
 

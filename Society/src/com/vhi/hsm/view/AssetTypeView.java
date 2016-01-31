@@ -80,7 +80,7 @@ public class AssetTypeView extends JDialog implements WindowListener {
 				do {
 					String desc = result.getString(Constants.Table.AssetType.FieldName.DESCRIPTION);
 					String assetType = result.getString(Constants.Table.AssetType.FieldName.ASSET_TYPE);
-					double charge = result.getDouble(Constants.Table.AssetType.FieldName.CHARGE);
+					double charge = result.getDouble(Constants.Table.AssetType.FieldName.CHARGE_ID);
 					
 					AssetType type = AssetType.create(societyId);
 					type.setAssetType(assetType);

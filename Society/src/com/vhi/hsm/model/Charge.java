@@ -114,6 +114,11 @@ public class Charge {
 		this.assignedProperty = assignedProperty;
 	}
 
+	@Override
+	public String toString() {
+		return this.description;
+	}
+
 	public static Charge read(int societyId, int chargeId) {
 
 		Charge charge = null;

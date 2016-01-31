@@ -171,7 +171,7 @@ public class AssetType {
 					updateStatement = SQLiteManager.getPreparedStatement("UPDATE " + Constants.Table.AssetType.TABLE_NAME
 							+ " SET "
 							+ Constants.Table.AssetType.FieldName.DESCRIPTION + " = ?, "
-							+ Constants.Table.AssetType.FieldName.CHARGE + " = ? "
+							+ Constants.Table.AssetType.FieldName.CHARGE_ID + " = ? "
 							+ " WHERE " + Constants.Table.Society.FieldName.SOCIETY_ID + " = ?"
 							+ " AND " + Constants.Table.AssetType.FieldName.ASSET_TYPE + " = ?");
 				}

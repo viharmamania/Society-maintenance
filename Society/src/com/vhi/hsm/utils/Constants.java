@@ -79,7 +79,7 @@ public interface Constants {
 			public interface FieldName {
 				String ASSET_TYPE = "asset_type";
 				String DESCRIPTION = "description";
-				String CHARGE = "charge";
+				String CHARGE_ID = "charge_id";
 			}
 		}
 
