@@ -239,6 +239,7 @@ public class BillManager {
 					+ " SELECT DISTINCT " + Constants.Table.AssetType.FieldName.ASSET_TYPE
 					+ " FROM " + Constants.Table.PropertyAsset.TABLE_NAME
 					+ " WHERE " + Constants.Table.Property.FieldName.PROPERTY_ID + " = " + property.getPropertyId()
+					+ " AND " + Constants.Table.PropertyAsset.FieldName.IS_CANCELLED + " = 0 "
 					+ " ) ";
 			resultSet = SQLiteManager.executeQuery(query);
 			while (resultSet.next()) {
@@ -330,4 +331,49 @@ public class BillManager {
 
 		return chargeIds;
 	}
+	
+	public static ArrayList<Bill> getUnpaidBills (Property property) {
+		ArrayList<Bill> unpaidBills = new ArrayList<Bill>();
+		
+		String query = "SELECT " + Constants.Table.Bill.FieldName.BILL_ID + " FROM " + Constants.Table.Bill.TABLE_NAME
+				+ " WHERE " + Constants.Table.Society.FieldName.SOCIETY_ID + " = " + property.getSocietyId()
+				+ " AND " + Constants.Table.Property.FieldName.PROPERTY_ID + " = " + property.getPropertyId()
+				+ " AND " + Constants.Table.Payment.FieldName.PAYMENT_ID + " = NULL";
+		
+		try {
+			ResultSet resultSet = SQLiteManager.executeQuery(query);
+			while(resultSet.next()) {
+				Bill bill = Bill.read(resultSet.getInt(Constants.Table.Bill.FieldName.BILL_ID));
+				unpaidBills.add(bill);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return unpaidBills;
+	}
+
+	public static double getLateFineAmount(Bill bill, java.util.Date paymentDate) {
+		
+		double fine = 0;
+		int diffInDays = ((int)((paymentDate.getTime() - bill.getBillDate().getTime()))) / (1000 * 60 * 60 * 24);
+		
+		if (diffInDays <= SystemManager.society.getPaymentDueDate()) {
+			return 0;
+		}
+		
+		diffInDays -= SystemManager.society.getPaymentDueDate();
+		
+		int diffInMonths = (int)Math.floor(1.0 * diffInDays / 30);
+		
+		fine = bill.getAmount();
+		for (int i = 1; i <= diffInMonths; i++) {
+			fine += fine * SystemManager.society.getLateFineInterest() / 100;
+		}
+		
+		fine -= bill.getAmount();
+		
+		return fine;
+	}
+	
 }

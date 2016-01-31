@@ -28,6 +28,8 @@ CREATE TABLE IF NOT EXISTS society
 	reg_number		VARCHAR2(100),
 	reg_timestamp	timestamp,
 	society_code	varchar2(5),
+	payment_due_date	integer,
+	late_fine_interest	double,
 	primary key		(society_id)
 );
 
@@ -80,14 +82,28 @@ create table if not exists property_type
 	foreign key		(society_id) 		references society(society_id)
 );
 
+create table if not exists charge
+(
+	society_id		integer,
+	charge_id		integer,
+	description		varchar2(30),
+	amount			double,
+	is_default		boolean,
+	temp_charge		boolean,
+	is_cancelled	boolean,
+	primary key		(society_id, charge_id),
+	foreign key 	(society_id) references society(society_id)
+);
+
 create table if not exists asset_type
 (
 	society_id		integer,
 	asset_type		varchar2(10),
 	description		varchar2(20),
-	charge			double,
+	charge_id		integer,
 	primary key		(society_id, asset_type),
-	foreign key		(society_id) 		references society(society_id)
+	foreign key		(society_id) 		references society(society_id),
+	foreign key 	(society_id, charge_id) references charge(society_id, charge_id)		
 );
 
 create table if not exists floor_plan
@@ -109,8 +125,8 @@ create table if not exists floor_plan_design
 	property_type	varchar2(10),
 	primary key		(society_id, floor_plan_id, property_number),
 	foreign key		(society_id, floor_plan_id) references floor_plan(society_id, floor_plan_id),
-	foreign key		(property_group) 	references property_group(property_group),
-	foreign key		(property_type) 	references property_type(property_type)
+	foreign key		(society_id, property_group) 	references property_group(society_id, property_group),
+	foreign key		(society_id, property_type) 	references property_type(society_id, property_type)
 );
 
 create table if not exists floor
@@ -121,7 +137,7 @@ create table if not exists floor
 	floor_plan_id	integer,
 	primary key		(society_id, wing_id, floor_number),
 	foreign key		(society_id, wing_id) 	references wing(society_id, wing_id),
-	foreign key		(floor_plan_id) 		references floor_plan(floor_plan_id)
+	foreign key		(society_id, floor_plan_id) 		references floor_plan(society_id, floor_plan_id)
 );
 
 create table if not exists property
@@ -157,19 +173,6 @@ create table if not exists property_asset
 	primary key		(property_id, asset_number),
 	foreign key		(property_id) 				references property(property_id),
 	foreign key		(society_id, asset_type) 	references asset_type(society_id, asset_type)
-);
-
-create table if not exists charge
-(
-	society_id		integer,
-	charge_id		integer,
-	description		varchar2(30),
-	amount			double,
-	is_default		boolean,
-	temp_charge		boolean,
-	is_cancelled	boolean,
-	primary key		(society_id, charge_id),
-	foreign key 	(society_id) references society(society_id)
 );
 
 create table if not exists charge_to_property_group
