@@ -192,7 +192,7 @@ public class Wing {
 		}
 
 		if (societyWings != null) {
-			wing = societyWings.get(wingId);
+			wing = societyWings.get(Integer.valueOf(wingId));
 			if (wing == null) {
 				wing = new Wing();
 				try {

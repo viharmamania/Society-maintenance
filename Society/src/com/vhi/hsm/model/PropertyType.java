@@ -127,18 +127,18 @@ public class PropertyType {
 				if (insertStatement == null) {
 					insertStatement = SQLiteManager.getPreparedStatement(insertString);
 				}
-				insertStatement.setInt(0, propertyType.getSocietyId());
-				insertStatement.setString(1, propertyType.getPropertyType());
-				insertStatement.setString(2, propertyType.getDescription());
+				insertStatement.setInt(1, propertyType.getSocietyId());
+				insertStatement.setString(2, propertyType.getPropertyType());
+				insertStatement.setString(3, propertyType.getDescription());
 				result = SQLiteManager.executePrepStatementAndGetResult(insertStatement);
 			} else {
 
 				if (updateStatement == null) {
 					updateStatement = SQLiteManager.getPreparedStatement(updateString);
 				}
-				updateStatement.setString(0, propertyType.getDescription());
-				updateStatement.setInt(1, propertyType.getSocietyId());
-				updateStatement.setString(2, propertyType.getPropertyType());
+				updateStatement.setString(1, propertyType.getDescription());
+				updateStatement.setInt(2, propertyType.getSocietyId());
+				updateStatement.setString(3, propertyType.getPropertyType());
 				result = SQLiteManager.executePrepStatementAndGetResult(updateStatement);
 			}
 

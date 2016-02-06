@@ -122,17 +122,17 @@ public class PropertyGroup {
 				if (insertStatement == null) {
 					insertStatement = SQLiteManager.getPreparedStatement(insertString);
 				}
-				insertStatement.setInt(0, propertyGroup.getSocietyId());
-				insertStatement.setString(1, propertyGroup.getPropertygroup());
-				insertStatement.setString(2, propertyGroup.getDescription());
+				insertStatement.setInt(1, propertyGroup.getSocietyId());
+				insertStatement.setString(2, propertyGroup.getPropertygroup());
+				insertStatement.setString(3, propertyGroup.getDescription());
 				result = SQLiteManager.executePrepStatementAndGetResult(insertStatement);
 			} else {
 				if (updateStatement == null) {
 					updateStatement = SQLiteManager.getPreparedStatement(updateString);
 				}
-				updateStatement.setString(0, propertyGroup.getDescription());
-				updateStatement.setInt(1, propertyGroup.getSocietyId());
-				updateStatement.setString(2, propertyGroup.getPropertygroup());
+				updateStatement.setString(1, propertyGroup.getDescription());
+				updateStatement.setInt(2, propertyGroup.getSocietyId());
+				updateStatement.setString(3, propertyGroup.getPropertygroup());
 				result = SQLiteManager.executePrepStatementAndGetResult(updateStatement);
 			}
 

@@ -144,10 +144,10 @@ public class PropertyAsset {
 				}
 				try {
 					if (insertStatement != null) {
-						insertStatement.setInt(0, propertyAsset.getSocietyId());
-						insertStatement.setInt(1, propertyAsset.getAssetNumber());
-						insertStatement.setString(2, propertyAsset.getAssetDetails());
-						insertStatement.setString(3, propertyAsset.getAssetType());
+						insertStatement.setInt(1, propertyAsset.getSocietyId());
+						insertStatement.setInt(2, propertyAsset.getAssetNumber());
+						insertStatement.setString(3, propertyAsset.getAssetDetails());
+						insertStatement.setString(4, propertyAsset.getAssetType());
 						result = SQLiteManager.executePrepStatementAndGetResult(insertStatement);
 					}
 				} catch (SQLException e) {
