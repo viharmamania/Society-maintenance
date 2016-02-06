@@ -333,23 +333,7 @@ public class Property {
 					readStatement.clearParameters();
 					readStatement.setInt(1, propertyId);
 					ResultSet resultSet = readStatement.executeQuery();
-					if (resultSet != null && resultSet.next()) {
-						property = new Property();
-						property.propertyId = propertyId;
-						property.societyId = resultSet.getInt(Constants.Table.Society.FieldName.SOCIETY_ID);
-						property.wingId = resultSet.getInt(Constants.Table.Wing.FieldName.WING_ID);
-						property.floorNumber = resultSet.getInt(Constants.Table.Floor.FieldName.FLOOR_NUMBER);
-						property.floorPlanId = resultSet.getInt(Constants.Table.FloorPlan.FieldName.FLOOR_PLAN_ID);
-						property.propertyName = resultSet
-								.getString(Constants.Table.Property.FieldName.PROPERTY_NAME);
-						property.propertyNumber = resultSet.getInt(Constants.Table.Property.FieldName.PROPERTY_NUMBER);
-						property.ownerName = resultSet.getString(Constants.Table.Property.FieldName.OWNER_NAME);
-						property.ownerNumber = resultSet.getString(Constants.Table.Property.FieldName.OWNER_NUMBER);
-						property.ownerEmail = resultSet.getString(Constants.Table.Property.FieldName.OWNER_EMAIL);
-						property.netPayable = resultSet.getDouble(Constants.Table.Property.FieldName.NET_PAYABLE);
-						property.notUsed = resultSet.getBoolean(Constants.Table.Property.FieldName.NOT_USED);
-						propertyMap.put(propertyId, property);
-					}
+					addProperties(resultSet);
 				} catch (SQLException e) {
 					LOG.error(e.getMessage());
 				}
@@ -369,24 +353,23 @@ public class Property {
 	}
 
 	public static void addProperties(ResultSet resultSet) throws SQLException {
-
-		if (resultSet != null && resultSet.next()) {
-			do {
-				Property property = new Property();
-				property.propertyId = resultSet.getInt(Constants.Table.Property.FieldName.PROPERTY_ID);
-				property.societyId = resultSet.getInt(Constants.Table.Society.FieldName.SOCIETY_ID);
-				property.wingId = resultSet.getInt(Constants.Table.Wing.FieldName.WING_ID);
-				property.floorNumber = resultSet.getInt(Constants.Table.Floor.FieldName.FLOOR_NUMBER);
-				property.floorPlanId = resultSet.getInt(Constants.Table.FloorPlan.FieldName.FLOOR_PLAN_ID);
-				property.propertyName = resultSet.getString(Constants.Table.FloorPlanDesign.FieldName.PROPERTY_NUMBER);
-				property.ownerName = resultSet.getString(Constants.Table.Property.FieldName.OWNER_NAME);
-				property.ownerNumber = resultSet.getString(Constants.Table.Property.FieldName.OWNER_NUMBER);
-				property.ownerEmail = resultSet.getString(Constants.Table.Property.FieldName.OWNER_EMAIL);
-				property.netPayable = resultSet.getDouble(Constants.Table.Property.FieldName.NET_PAYABLE);
-				property.notUsed = resultSet.getBoolean(Constants.Table.Property.FieldName.NOT_USED);
-				propertyMap.put(property.propertyId, property);
-				resultSet.next();
-			} while (!resultSet.isAfterLast());
+		
+		while (resultSet != null && resultSet.next()) {
+			Property property = new Property();
+			property.propertyId = resultSet.getInt(Constants.Table.Property.FieldName.PROPERTY_ID);
+			property.societyId = resultSet.getInt(Constants.Table.Society.FieldName.SOCIETY_ID);
+			property.wingId = resultSet.getInt(Constants.Table.Wing.FieldName.WING_ID);
+			property.floorNumber = resultSet.getInt(Constants.Table.Floor.FieldName.FLOOR_NUMBER);
+			property.floorPlanId = resultSet.getInt(Constants.Table.FloorPlan.FieldName.FLOOR_PLAN_ID);
+			property.propertyName = resultSet
+					.getString(Constants.Table.Property.FieldName.PROPERTY_NAME);
+			property.propertyNumber = resultSet.getInt(Constants.Table.Property.FieldName.PROPERTY_NUMBER);
+			property.ownerName = resultSet.getString(Constants.Table.Property.FieldName.OWNER_NAME);
+			property.ownerNumber = resultSet.getString(Constants.Table.Property.FieldName.OWNER_NUMBER);
+			property.ownerEmail = resultSet.getString(Constants.Table.Property.FieldName.OWNER_EMAIL);
+			property.netPayable = resultSet.getDouble(Constants.Table.Property.FieldName.NET_PAYABLE);
+			property.notUsed = resultSet.getBoolean(Constants.Table.Property.FieldName.NOT_USED);
+			propertyMap.put(property.propertyId, property);
 		}
 
 	}

@@ -96,7 +96,7 @@ public class FloorPlanDesign {
 
 			if (readStatement == null) {
 				readStatement = SQLiteManager
-						.getPreparedStatement("SELECT * FROM " + Constants.Table.FloorPlanDesign.TABLE_NAME + "WHERE "
+						.getPreparedStatement("SELECT * FROM " + Constants.Table.FloorPlanDesign.TABLE_NAME + " WHERE "
 								+ Constants.Table.Society.FieldName.SOCIETY_ID + " = ?" + " AND "
 								+ Constants.Table.FloorPlan.FieldName.FLOOR_PLAN_ID + " = ?" + " AND "
 								+ Constants.Table.FloorPlanDesign.FieldName.PROPERTY_NUMBER + " = ?");

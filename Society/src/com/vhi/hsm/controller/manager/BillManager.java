@@ -114,21 +114,11 @@ public class BillManager {
 		chargeIds.addAll(getChargeIds(property));
 		
 		//add all temporary charges for the month
-		chargeIds.addAll(tempChargeIds);
-
-		// adding fine charge (if any)
-//		if (property.getNetPayable() > 0) {
-//
-//			double fineAmount = Fine.getFineAmount(property.getSocietyId(), property.getNetPayable());
-//			if (fineAmount > 0.0) {
-//
-//				Charge fineCharge = Charge.getFineCharge();
-//				fineCharge.setAmount(fineAmount);
-//				// fineCharge
-//
-//				chargeIds.add(fineCharge.getChargeId());
-//			}
-//		}
+		for (Integer tempchargeId : tempChargeIds) {
+			if (!chargeIds.contains(tempchargeId)) {
+				chargeIds.add(tempchargeId);
+			}
+		}
 
 		// calculate actual amount by adding charges for all chargeIds
 		for (Integer chargeId : chargeIds) {
@@ -255,85 +245,8 @@ public class BillManager {
 			}
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		// // fetching charges for this properties group type
-		// query.append("select " + Constants.Table.Charge.FieldName.CHARGE_ID +
-		// " from "
-		// + Constants.Table.ChargeToPropertyGroup.TABLE_NAME + " where "
-		// + Constants.Table.PropertyGroup.FieldName.PROPERTY_GROUP + " = (
-		// select "
-		// + Constants.Table.PropertyGroup.FieldName.PROPERTY_GROUP + " from "
-		// + Constants.Table.FloorPlanDesign.TABLE_NAME + " where " +
-		// Constants.Table.Society.FieldName.SOCIETY_ID
-		// + " =? " + " and " +
-		// Constants.Table.FloorPlanDesign.FieldName.PROPERTY_NUMBER + " =? )");
-		//
-		// query.append(" union ");
-		//
-		// // fetching charges for this property type
-		// query.append("select " + Constants.Table.Charge.FieldName.CHARGE_ID +
-		// " from "
-		// + Constants.Table.ChargeToPropertyType.TABLE_NAME + " where "
-		// + Constants.Table.PropertyType.FieldName.PROPERTY_TYPE + " = ( select
-		// "
-		// + Constants.Table.PropertyType.FieldName.PROPERTY_TYPE + " from "
-		// + Constants.Table.FloorPlanDesign.TABLE_NAME + " where " +
-		// Constants.Table.Society.FieldName.SOCIETY_ID
-		// + " =? " + " and " +
-		// Constants.Table.FloorPlanDesign.FieldName.PROPERTY_NUMBER + " =? )");
-		//
-		// query.append(" union ");
-		//
-		// // fetching charges for this specific property
-		// query.append("select " + Constants.Table.Charge.FieldName.CHARGE_ID +
-		// " from "
-		// + Constants.Table.ChargeToProperty.TABLE_NAME + " where "
-		// + Constants.Table.Property.FieldName.PROPERTY_ID + " =? ");
-		//
-		// query.append(" union ");
-		//
-		// // fetching charges which are applicable by-default to every property
-		// query.append("select " + Constants.Table.Charge.FieldName.CHARGE_ID +
-		// " from "
-		// + Constants.Table.Charge.TABLE_NAME + " where " +
-		// Constants.Table.Charge.FieldName.IS_DEFAULT + "=1");
-		//
-		// query.append(" union ");
-		//
-		// // fetching property asset charges
-		// query.append("select " + Constants.Table.Charge.FieldName.CHARGE_ID +
-		// " from "
-		// + Constants.Table.AssetType.TABLE_NAME + " where " +
-		// Constants.Table.AssetType.FieldName.ASSET_TYPE
-		// + " = ( select " + Constants.Table.PropertyAsset.FieldName.ASSET_TYPE
-		// + " from "
-		// + Constants.Table.PropertyAsset.TABLE_NAME + " where " +
-		// Constants.Table.Property.FieldName.PROPERTY_ID
-		// + " =?)");
-		//
-		// PreparedStatement fetchChargesStmt =
-		// SQLiteManager.getPreparedStatement(query.toString());
-		//
-		// try {
-		// fetchChargesStmt.setInt(1, SystemManager.society.getSocietyId());
-		// fetchChargesStmt.setString(2, property.getPropertyName());
-		// fetchChargesStmt.setInt(3, SystemManager.society.getSocietyId());
-		// fetchChargesStmt.setString(4, property.getPropertyName());
-		// fetchChargesStmt.setInt(5, property.getPropertyId());
-		// ResultSet result = fetchChargesStmt.executeQuery();
-		// if (result != null) {
-		// do {
-		// result.next();
-		// chargeIds.add(result.getInt(Constants.Table.Charge.FieldName.CHARGE_ID));
-		// } while (!result.isAfterLast());
-		// }
-		//
-		// } catch (SQLException e) {
-		// LOG.error(e.getMessage());
-		// }
 		
 		System.out.println(chargeIds);
 		return chargeIds;

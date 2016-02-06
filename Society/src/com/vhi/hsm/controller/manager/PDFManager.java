@@ -39,13 +39,13 @@ public class PDFManager {
 						+ Calendar.getInstance().get(Calendar.MONTH) + ".pdf"));
 		document.open();
 
-		Image instance;
-		try {
-			instance = Image.getInstance("C:/Users/Vihar/Desktop/logo.png");
-			document.add(instance);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+//		Image instance;
+//		try {
+//			instance = Image.getInstance("C:/Users/Vihar/Desktop/logo.png");
+//			document.add(instance);
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 		PdfPTable headerTable = new PdfPTable(1);
 		headerTable.addCell(SystemManager.society.getName());
 		headerTable.addCell(SystemManager.society.getAddress());
@@ -85,6 +85,7 @@ public class PDFManager {
 						billTable.addCell(Double.toString(charge.getAmount()));
 					}
 				}
+				document.add(billTable);
 
 				// add new bill in new page
 				if (i != (bills.size() - 1)) {
