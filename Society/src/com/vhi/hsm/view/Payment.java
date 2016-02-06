@@ -27,8 +27,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
 
 import org.apache.log4j.Logger;
 import org.apache.poi.ss.usermodel.Cell;
@@ -37,9 +35,10 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import com.itextpdf.text.DocumentException;
+import com.vhi.hsm.controller.manager.PDFManager;
 import com.vhi.hsm.controller.manager.PaymentManager;
 import com.vhi.hsm.controller.manager.SystemManager;
-import com.vhi.hsm.db.SQLiteManager;
 import com.vhi.hsm.model.ModeOfPayment;
 import com.vhi.hsm.model.Property;
 
@@ -242,30 +241,6 @@ public class Payment extends JDialog implements WindowListener {
 
 	}
 
-	public static void main(String[] args) {
-
-		// Sets the System theme
-		try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (Exception e) {
-
-		}
-
-		// set up database connection
-		if (SQLiteManager.setUpDB()) {
-
-			// runs UI on other than Main thread
-			SwingUtilities.invokeLater(() -> {
-				new Payment();
-			});
-
-		} else {
-			// Show error message
-			JOptionPane.showMessageDialog(null, "Can not connect to database", "Error", JOptionPane.ERROR_MESSAGE);
-		}
-
-	}
-
 	private void uploadExcel() {
 
 		JFileChooser fileChooser = new JFileChooser();
@@ -379,6 +354,13 @@ public class Payment extends JDialog implements WindowListener {
 			// boolean paymentSaved = com.vhi.hsm.model.Payment.save(payment,
 			// true);
 			PaymentManager.makePayment(payment);
+			ArrayList<com.vhi.hsm.model.Payment> paymentForPrint = new ArrayList<com.vhi.hsm.model.Payment>();
+			paymentForPrint.add(payment);
+			try {
+				PDFManager.generateReceiptsPDF(paymentForPrint);
+			} catch (DocumentException | IOException e) {
+				e.printStackTrace();
+			}
 			JOptionPane.showMessageDialog(this, "Payment Saved successfully ", "Success",
 					JOptionPane.INFORMATION_MESSAGE);
 			dispose();

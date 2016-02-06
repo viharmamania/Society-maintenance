@@ -210,6 +210,7 @@ create table if not exists payment
 	payment_id			integer,
 	society_id			integer,
 	property_id			integer,
+	amount				double,
 	mode_of_payment		varchar2(20),
 	transaction_number	varchar2(20),
 	remarks				varchar2(100),
@@ -217,7 +218,8 @@ create table if not exists payment
 	is_cancelled		boolean,
 	modified_by			integer,
 	last_modified		timestamp,
-	payment_date 		timestamp
+	payment_date 		timestamp,
+	cheque_number		varchar(30),
 	primary key			(payment_id),
 	foreign key			(property_id) references property(property_id),
 	foreign key 		(modified_by) references users(user_name)

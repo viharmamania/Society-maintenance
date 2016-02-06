@@ -222,4 +222,5 @@ public class PropertyAsset {
 		propertyAsset.societyId = societyId;
 		return propertyAsset;
 	}
+	
 }

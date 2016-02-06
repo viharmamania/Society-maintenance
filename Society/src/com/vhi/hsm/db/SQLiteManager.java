@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Savepoint;
 import java.sql.Statement;
 
 import org.apache.log4j.Logger;
@@ -89,7 +90,37 @@ public class SQLiteManager {
 		}
 		return preparedStatement;
 	}
-
+	
+	public synchronized static Savepoint createSavepoint(String name) {
+		Savepoint savePoint = null;
+		try  {
+			savePoint = getInstance().setSavepoint(name);
+		} catch (SQLException e) {
+			LOG.error(e.toString());
+		}
+		return savePoint;
+	}
+	
+	public synchronized static boolean commitSavePoint(Savepoint savePoint) {
+		try {
+			getInstance().releaseSavepoint(savePoint);
+			return true;
+		} catch (SQLException e) {
+			LOG.error(e.toString());
+			return false;
+		}
+	}
+	
+	public synchronized static boolean rollbackSavePoint(Savepoint savePoint) {
+		try {
+			getInstance().rollback(savePoint);
+			return true;
+		} catch (SQLException e) {
+			LOG.error(e.toString());
+			return false;
+		}
+	}
+	
 	public synchronized static boolean startTransaction() {
 		boolean result = false;
 		try {
@@ -99,6 +130,16 @@ public class SQLiteManager {
 			LOG.error(e.toString());
 		}
 		return result;
+	}
+	
+	public synchronized static boolean endTransaction() {
+		try {
+			getInstance().setAutoCommit(true);
+			return true;
+		} catch (SQLException e) {
+			LOG.error(e.toString());
+			return false;
+		}
 	}
 
 	public synchronized static boolean endTransaction(boolean commit, boolean rollback) {

@@ -2,7 +2,6 @@ package com.vhi.hsm.controller.manager;
 
 import java.util.ArrayList;
 
-import com.vhi.hsm.db.SQLiteManager;
 import com.vhi.hsm.model.Bill;
 import com.vhi.hsm.model.BillCharge;
 import com.vhi.hsm.model.Payment;
@@ -15,9 +14,9 @@ public class PaymentManager {
 		double remainingAmount;
 		ArrayList<Bill> paidBills = new ArrayList<Bill>();
 
-		boolean commit = true;
-
-		if (SQLiteManager.startTransaction()) {
+//		boolean commit = true;
+//
+//		if (SQLiteManager.startTransaction()) {
 
 			if (Payment.save(payment, true)) { // Save payment in DB
 
@@ -52,7 +51,7 @@ public class PaymentManager {
 					// save the remaining balance to property
 					property.setNetPayable(remainingAmount);
 					if (!Property.save(property, false)) {
-						commit = false;
+//						commit = false;
 					}
 					
 					property.setLatestPaymentId(payment.getPaymentId());
@@ -60,16 +59,16 @@ public class PaymentManager {
 
 				}
 
-			} else {
-				commit = false;
-			}
+//			} else {
+//				commit = false;
+//			}
+//
+//			if (!commit) {
+//				paidBills.clear();
+//			}
 
-			if (!commit) {
-				paidBills.clear();
-			}
-
-			SQLiteManager.endTransaction(commit, !commit);
-
+//			SQLiteManager.endTransaction(commit, !commit);
+//
 		}
 
 		return paidBills;

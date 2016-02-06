@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+//import java.sql.Savepoint;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -17,6 +18,9 @@ import com.vhi.hsm.db.SQLiteManager;
 import com.vhi.hsm.model.Bill;
 import com.vhi.hsm.model.BillCharge;
 import com.vhi.hsm.model.Charge;
+import com.vhi.hsm.model.ChargeToProperty;
+import com.vhi.hsm.model.ChargeToPropertyGroup;
+import com.vhi.hsm.model.ChargeToPropertyType;
 import com.vhi.hsm.model.Floor;
 import com.vhi.hsm.model.FloorPlanDesign;
 import com.vhi.hsm.model.Property;
@@ -34,63 +38,134 @@ public class BillManager {
 	private static String readProperties = "select * from " + Constants.Table.Property.TABLE_NAME + " where "
 			+ Constants.Table.Society.FieldName.SOCIETY_ID + "=?";
 
+	private static ArrayList<ChargeToProperty> chargesToProperty;
+	private static ArrayList<ChargeToPropertyGroup> chargesToPropertyGroup;
+	private static ArrayList<ChargeToPropertyType> chargesToPropertyType;
+	private static ArrayList<Charge> defaultCharges;
+
+	static {
+		chargesToProperty = new ArrayList<>();
+		chargesToPropertyGroup = new ArrayList<>();
+		chargesToPropertyType = new ArrayList<>();
+		defaultCharges = new ArrayList<>();
+
+		try {
+			ResultSet resultSet = SQLiteManager.executeQuery("SELECT * FROM "
+					+ Constants.Table.ChargeToProperty.TABLE_NAME + " WHERE "
+					+ Constants.Table.Society.FieldName.SOCIETY_ID + " = " + SystemManager.society.getSocietyId());
+
+			while (resultSet.next()) {
+				ChargeToProperty property = new ChargeToProperty();
+				property.setSocietyId(SystemManager.society.getSocietyId());
+				property.setChargeId(resultSet.getInt(Constants.Table.Charge.FieldName.CHARGE_ID));
+				property.setPropertyId(resultSet.getInt(Constants.Table.Property.FieldName.PROPERTY_ID));
+				chargesToProperty.add(property);
+			}
+
+			resultSet = SQLiteManager.executeQuery("SELECT * FROM " + Constants.Table.ChargeToPropertyGroup.TABLE_NAME
+					+ " WHERE " + Constants.Table.Society.FieldName.SOCIETY_ID + " = "
+					+ SystemManager.society.getSocietyId());
+			while (resultSet.next()) {
+				ChargeToPropertyGroup propGroup = new ChargeToPropertyGroup();
+				propGroup.setSocietyId(SystemManager.society.getSocietyId());
+				propGroup.setChargeId(resultSet.getInt(Constants.Table.Charge.FieldName.CHARGE_ID));
+				propGroup.setPropertyGroup(resultSet.getString(Constants.Table.PropertyGroup.FieldName.PROPERTY_GROUP));
+				chargesToPropertyGroup.add(propGroup);
+			}
+
+			resultSet = SQLiteManager.executeQuery("SELECT * FROM " + Constants.Table.ChargeToPropertyType.TABLE_NAME
+					+ " WHERE " + Constants.Table.Society.FieldName.SOCIETY_ID + " = "
+					+ SystemManager.society.getSocietyId());
+			while (resultSet.next()) {
+				ChargeToPropertyType propType = new ChargeToPropertyType();
+				propType.setSocietyId(SystemManager.society.getSocietyId());
+				propType.setChargeId(resultSet.getInt(Constants.Table.Charge.FieldName.CHARGE_ID));
+				propType.setPropertyType(resultSet.getString(Constants.Table.PropertyType.FieldName.PROPERTY_TYPE));
+				chargesToPropertyType.add(propType);
+			}
+
+			resultSet = SQLiteManager.executeQuery("SELECT " + Constants.Table.Charge.FieldName.CHARGE_ID + " FROM "
+					+ Constants.Table.Charge.TABLE_NAME + " WHERE " + Constants.Table.Society.FieldName.SOCIETY_ID
+					+ " = " + SystemManager.society.getSocietyId() + " AND "
+					+ Constants.Table.Charge.FieldName.IS_DEFAULT + " = 1 " + " AND "
+					+ Constants.Table.Charge.FieldName.IS_CANCELLED + " = 0 ");
+			while (resultSet.next()) {
+				Charge charge = Charge.read(SystemManager.society.getSocietyId(),
+						resultSet.getInt(Constants.Table.Charge.FieldName.CHARGE_ID));
+				defaultCharges.add(charge);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+	}
+
 	/**
 	 * Generates all the bills for society
 	 * 
 	 * @param societyId
 	 *            the id of society for which bills need to be generated
-	 * @param isPreview 
+	 * @param isPreview
 	 * @return
 	 */
-	public static synchronized List<Bill> generateBill(int societyId, boolean isPreview , List<Integer> tempChargeIds) {
+	public static synchronized List<Bill> generateBill(int societyId, boolean isPreview, List<Integer> tempChargeIds) {
 		List<Bill> societyBills = new ArrayList<>();
 		Set<Property> properties = new HashSet<>();
-		boolean commit = true;
+		// Savepoint completeTransactionSavepoint = null;
 
-		if (SQLiteManager.startTransaction()) {
-			try {
+		// if (SQLiteManager.startTransaction()) {
+		try {
 
-				PreparedStatement readStatement = SQLiteManager.getPreparedStatement(readProperties);
-				readStatement.clearParameters();
-				readStatement.setInt(1, societyId);
+			// completeTransactionSavepoint =
+			// SQLiteManager.createSavepoint("TRANACTION");
+			//
+			// if (completeTransactionSavepoint != null) {
 
-				ResultSet res = readStatement.executeQuery();
+			PreparedStatement readStatement = SQLiteManager.getPreparedStatement(readProperties);
+			readStatement.clearParameters();
+			readStatement.setInt(1, societyId);
 
-				// adding the properties result in Property Hash-map
-				Property.addProperties(res);
+			ResultSet res = readStatement.executeQuery();
 
-				readStatement.clearParameters();
-				readStatement.setInt(1, societyId);
-				ResultSet result = readStatement.executeQuery();
+			// adding the properties result in Property Hash-map
+			Property.addProperties(res);
 
-				// fetching the List of properties for this societyId
-//				if (result != null && result.next()) {
-//					do {
-//						properties.add(Property.read(result.getInt(Constants.Table.Property.FieldName.PROPERTY_ID)));
-////						result.next();
-//					} while (!result.isAfterLast());
-//				}
-				while (result.next()) {
-					properties.add(Property.read(result.getInt(Constants.Table.Property.FieldName.PROPERTY_ID)));
-				}
-				// generating individual bills and adding to list of bills
-				for (Property property : properties) {
-					System.out.println("Bill for property:" + property.getPropertyName());
-					societyBills.add(generatePropertySpecificBill(property, isPreview , tempChargeIds));
-				}
+			readStatement.clearParameters();
+			readStatement.setInt(1, societyId);
+			ResultSet result = readStatement.executeQuery();
 
-			} catch (SQLException e) {
-				commit = false;
-				LOG.error(e.getMessage());
+			// fetching the List of properties for this societyId
+			while (result.next()) {
+				properties.add(Property.read(result.getInt(Constants.Table.Property.FieldName.PROPERTY_ID)));
 			}
 
-			if (!commit) {
-				societyBills.clear();
+			// generating individual bills and adding to list of bills
+			for (Property property : properties) {
+				societyBills.add(generatePropertySpecificBill(property, isPreview, tempChargeIds));
 			}
 
-			SQLiteManager.endTransaction(commit, !commit);
+			// if (!SQLiteManager.commitSavePoint(completeTransactionSavepoint))
+			// {
+			// throw new SQLException("Unable to commit savepoint -
+			// TRANSACTION");
+			// }
+			//
+			// } else {
+			// throw new SQLException("Unable to create savepoint -
+			// TRANSACTION");
+			// }
 
+		} catch (SQLException e) {
+			// if (completeTransactionSavepoint != null) {
+			// SQLiteManager.rollbackSavePoint(completeTransactionSavepoint);
+			// }
+			societyBills.clear();
+			LOG.error(e.getMessage());
 		}
+		// }
+
+		// SQLiteManager.endTransaction();
 
 		return societyBills;
 
@@ -100,20 +175,24 @@ public class BillManager {
 	 * Generates bill for individual property
 	 * 
 	 * @param property
-	 * @param isPreview 
-	 * @param tempChargeIds 
+	 * @param isPreview
+	 * @param tempChargeIds
 	 * @return
 	 */
-	private static Bill generatePropertySpecificBill(Property property, boolean isPreview, List<Integer> tempChargeIds) {
+	private static Bill generatePropertySpecificBill(Property property, boolean isPreview, List<Integer> tempChargeIds)
+			throws SQLException {
 
 		double billAmount = 0.0;
 		Bill bill = Bill.create();
 		ArrayList<Integer> chargeIds = new ArrayList<>();
+		// Savepoint billSavePoint = SQLiteManager.createSavepoint("BILL");
+		//
+		// if (billSavePoint != null) {
 
 		// get All charges for this particular property
 		chargeIds.addAll(getChargeIds(property));
-		
-		//add all temporary charges for the month
+
+		// add all temporary charges for the month
 		for (Integer tempchargeId : tempChargeIds) {
 			if (!chargeIds.contains(tempchargeId)) {
 				chargeIds.add(tempchargeId);
@@ -135,29 +214,56 @@ public class BillManager {
 		bill.setAssignedCharges(chargeIds);
 		bill.setAmount(billAmount);
 		System.out.println("Bill Amount:" + billAmount);
-		
-		// if property has available balance to settle this bill then mark it
+
+		// if property has available balance to settle this bill then mark
+		// it
 		// appropriately
 		if (property.getNetPayable() >= billAmount) {
 			bill.setPaymentId(property.getLatestPaymentId());
 			if (!isPreview) {
 				// updating this properties net payable
-				property.setNetPayable(property.getNetPayable() + billAmount);	
+				property.setNetPayable(property.getNetPayable() + billAmount);
 			}
 		}
 
 		if (!isPreview) {
-			// saving bill in DB
-			Bill.save(bill, false);
+
+			// saving bill and property in DB
+			Bill.save(bill, true);
+			Property.save(property, false);
+
+			// if (!SQLiteManager.commitSavePoint(billSavePoint)) {
+			// SQLiteManager.rollbackSavePoint(billSavePoint);
+			// throw new SQLException("Unable commit savepoint BILL");
+			// }
+
+			// Savepoint billChargeSavepoint =
+			// SQLiteManager.createSavepoint("BILL_CHARGE");
+			// if (billChargeSavepoint != null) {
+
 			// saving individual bill charges in DB
-			for (int i = 0; i < chargeIds.size(); i++) {
-				BillCharge billCharge = BillCharge.create(bill.getBillId(), chargeIds.get(i));
-				Charge charge = Charge.read(property.getSocietyId(), chargeIds.get(i));
+			for (Integer chargeId : chargeIds) {
+				BillCharge billCharge = BillCharge.create(bill.getBillId(), chargeId);
+				Charge charge = Charge.read(property.getSocietyId(), chargeId);
 				billCharge.setAmount(charge.getAmount());
 				BillCharge.save(billCharge, true);
 			}
-			Property.save(property, false);
+
+			// if (!SQLiteManager.commitSavePoint(billChargeSavepoint)) {
+			// SQLiteManager.rollbackSavePoint(billChargeSavepoint);
+			// throw new SQLException("Unable to commit savepoint BILL_CHARGE");
+			// }
+			//
+			// } else {
+			// throw new SQLException("Unable to create savepoint BILL_CHARGE");
+			// }
+
 		}
+
+		// } else {
+		// throw new SQLException("Unable to create savepoint BILL");
+		// }
+
 		return bill;
 	}
 
@@ -180,120 +286,96 @@ public class BillManager {
 		try {
 
 			// Get Default Charges
-			query = "SELECT " + Constants.Table.Charge.FieldName.CHARGE_ID + " FROM "
-					+ Constants.Table.Charge.TABLE_NAME + " WHERE " + Constants.Table.Society.FieldName.SOCIETY_ID
-					+ " = " + property.getSocietyId() + " AND " + Constants.Table.Charge.FieldName.IS_DEFAULT + " = 1 "
-					+ " AND " + Constants.Table.Charge.FieldName.IS_CANCELLED + " = 0 ";
+			for (Charge charge : defaultCharges) {
+				chargeIds.add(charge.getChargeId());
+			}
 
+			// Get Property Specific Charges
+			for (ChargeToProperty charge : chargesToProperty) {
+				if (charge.getChargeId() == property.getPropertyId() && !chargeIds.contains(charge.getChargeId())) {
+					chargeIds.add(charge.getChargeId());
+				}
+			}
+
+			// Get Property Group Specific Charges
+			for (ChargeToPropertyGroup charge : chargesToPropertyGroup) {
+				if (charge.getPropertyGroup().equals(floorPlanDesign.getPropertyGroup())
+						&& !chargeIds.contains(charge.getChargeId())) {
+					chargeIds.add(charge.getChargeId());
+				}
+			}
+
+			// Get Property Type Specific Charges
+			for (ChargeToPropertyType charge : chargesToPropertyType) {
+				if (charge.getPropertyType().equals(floorPlanDesign.getPropertyType())
+						&& !chargeIds.contains(charge.getChargeId())) {
+					chargeIds.add(charge.getChargeId());
+				}
+			}
+
+			// Get Property Asset Charges
+			query = "SELECT " + Constants.Table.Charge.FieldName.CHARGE_ID + " FROM "
+					+ Constants.Table.AssetType.TABLE_NAME + " WHERE " + Constants.Table.Society.FieldName.SOCIETY_ID
+					+ " = " + property.getSocietyId() + " AND " + Constants.Table.AssetType.FieldName.ASSET_TYPE
+					+ " IN " + " ( " + " SELECT DISTINCT " + Constants.Table.AssetType.FieldName.ASSET_TYPE + " FROM "
+					+ Constants.Table.PropertyAsset.TABLE_NAME + " WHERE "
+					+ Constants.Table.Property.FieldName.PROPERTY_ID + " = " + property.getPropertyId() + " AND "
+					+ Constants.Table.PropertyAsset.FieldName.IS_CANCELLED + " = 0 " + " ) ";
 			ResultSet resultSet = SQLiteManager.executeQuery(query);
 			while (resultSet.next()) {
 				chargeIds.add(resultSet.getInt(Constants.Table.Charge.FieldName.CHARGE_ID));
 			}
 
-			// Get Property Specific Charges
-			query = "SELECT " + Constants.Table.Charge.FieldName.CHARGE_ID + " FROM "
-					+ Constants.Table.ChargeToProperty.TABLE_NAME + " WHERE "
-					+ Constants.Table.Society.FieldName.SOCIETY_ID + " = " + property.getSocietyId() + " AND "
-					+ Constants.Table.Property.FieldName.PROPERTY_ID + " = " + property.getPropertyId();
-			resultSet = SQLiteManager.executeQuery(query);
-			while (resultSet.next()) {
-				if (!chargeIds.contains(resultSet.getInt(Constants.Table.Charge.FieldName.CHARGE_ID))) {
-					chargeIds.add(resultSet.getInt(Constants.Table.Charge.FieldName.CHARGE_ID));
-				}
-			}
-
-			// Get Property Group Specific Charges
-			query = "SELECT " + Constants.Table.Charge.FieldName.CHARGE_ID + " FROM "
-					+ Constants.Table.ChargeToPropertyGroup.TABLE_NAME + " WHERE "
-					+ Constants.Table.Society.FieldName.SOCIETY_ID + " = " + property.getSocietyId() + " AND "
-					+ Constants.Table.PropertyGroup.FieldName.PROPERTY_GROUP + " = '" + floorPlanDesign.getPropertyGroup() + "'";
-			resultSet = SQLiteManager.executeQuery(query);
-			while (resultSet.next()) {
-				if (!chargeIds.contains(resultSet.getInt(Constants.Table.Charge.FieldName.CHARGE_ID))) {
-					chargeIds.add(resultSet.getInt(Constants.Table.Charge.FieldName.CHARGE_ID));
-				}
-			}
-
-			// Get Property Type Specific Charges
-			query = "SELECT " + Constants.Table.Charge.FieldName.CHARGE_ID + " FROM "
-					+ Constants.Table.ChargeToPropertyType.TABLE_NAME + " WHERE "
-					+ Constants.Table.Society.FieldName.SOCIETY_ID + " = " + property.getSocietyId() + " AND "
-					+ Constants.Table.PropertyType.FieldName.PROPERTY_TYPE + " = '" + floorPlanDesign.getPropertyType() + "'";
-			resultSet = SQLiteManager.executeQuery(query);
-			while (resultSet.next()) {
-				if (!chargeIds.contains(resultSet.getInt(Constants.Table.Charge.FieldName.CHARGE_ID))) {
-					chargeIds.add(resultSet.getInt(Constants.Table.Charge.FieldName.CHARGE_ID));
-				}
-			}
-			
-			//Get Proper Asset Charges
-			query = "SELECT " + Constants.Table.Charge.FieldName.CHARGE_ID + " FROM "
-					+ Constants.Table.AssetType.TABLE_NAME + " WHERE "
-					+ Constants.Table.Society.FieldName.SOCIETY_ID + " = " + property.getSocietyId() + " AND "
-					+ Constants.Table.AssetType.FieldName.ASSET_TYPE + " IN "
-					+ " ( " 
-					+ " SELECT DISTINCT " + Constants.Table.AssetType.FieldName.ASSET_TYPE
-					+ " FROM " + Constants.Table.PropertyAsset.TABLE_NAME
-					+ " WHERE " + Constants.Table.Property.FieldName.PROPERTY_ID + " = " + property.getPropertyId()
-					+ " AND " + Constants.Table.PropertyAsset.FieldName.IS_CANCELLED + " = 0 "
-					+ " ) ";
-			resultSet = SQLiteManager.executeQuery(query);
-			while (resultSet.next()) {
-				if (!chargeIds.contains(resultSet.getInt(Constants.Table.Charge.FieldName.CHARGE_ID))) {
-					chargeIds.add(resultSet.getInt(Constants.Table.Charge.FieldName.CHARGE_ID));
-				}
-			}
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		System.out.println(chargeIds);
 		return chargeIds;
 	}
-	
-	public static ArrayList<Bill> getUnpaidBills (Property property) {
+
+	public static ArrayList<Bill> getUnpaidBills(Property property) {
 		ArrayList<Bill> unpaidBills = new ArrayList<Bill>();
-		
+
 		String query = "SELECT " + Constants.Table.Bill.FieldName.BILL_ID + " FROM " + Constants.Table.Bill.TABLE_NAME
-				+ " WHERE " + Constants.Table.Society.FieldName.SOCIETY_ID + " = " + property.getSocietyId()
-				+ " AND " + Constants.Table.Property.FieldName.PROPERTY_ID + " = " + property.getPropertyId()
-				+ " AND " + Constants.Table.Payment.FieldName.PAYMENT_ID + " = NULL";
-		
+				+ " WHERE " + Constants.Table.Society.FieldName.SOCIETY_ID + " = " + property.getSocietyId() + " AND "
+				+ Constants.Table.Property.FieldName.PROPERTY_ID + " = " + property.getPropertyId() + " AND "
+				+ Constants.Table.Payment.FieldName.PAYMENT_ID + " = NULL";
+
 		try {
 			ResultSet resultSet = SQLiteManager.executeQuery(query);
-			while(resultSet.next()) {
+			while (resultSet.next()) {
 				Bill bill = Bill.read(resultSet.getInt(Constants.Table.Bill.FieldName.BILL_ID));
 				unpaidBills.add(bill);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		return unpaidBills;
 	}
 
 	public static double getLateFineAmount(Bill bill, java.util.Date paymentDate) {
-		
+
 		double fine = 0;
-		int diffInDays = ((int)((paymentDate.getTime() - bill.getBillDate().getTime()))) / (1000 * 60 * 60 * 24);
-		
+		int diffInDays = ((int) ((paymentDate.getTime() - bill.getBillDate().getTime()))) / (1000 * 60 * 60 * 24);
+
 		if (diffInDays <= SystemManager.society.getPaymentDueDate()) {
 			return 0;
 		}
-		
+
 		diffInDays -= SystemManager.society.getPaymentDueDate();
-		
-		int diffInMonths = (int)Math.floor(1.0 * diffInDays / 30);
-		
+
+		int diffInMonths = (int) Math.floor(1.0 * diffInDays / 30);
+
 		fine = bill.getAmount();
 		for (int i = 1; i <= diffInMonths; i++) {
 			fine += fine * SystemManager.society.getLateFineInterest() / 100;
 		}
-		
+
 		fine -= bill.getAmount();
-		
+
 		return fine;
 	}
-	
+
 }
