@@ -217,6 +217,7 @@ create table if not exists payment
 	is_cancelled		boolean,
 	modified_by			integer,
 	last_modified		timestamp,
+	payment_date 		timestamp
 	primary key			(payment_id),
 	foreign key			(property_id) references property(property_id),
 	foreign key 		(modified_by) references users(user_name)
