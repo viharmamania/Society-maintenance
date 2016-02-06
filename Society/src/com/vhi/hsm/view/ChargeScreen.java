@@ -107,7 +107,6 @@ public class ChargeScreen extends JDialog implements WindowListener {
 		setResizable(true);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		addWindowListener(this);
-		setLocationRelativeTo(parent);
 		setVisible(true);
 		listItems = new HashMap<Integer, ChargeMasterListItem>();
 		chargeMasterDetailPanel = new MasterDetailPanel(callback);
@@ -130,6 +129,7 @@ public class ChargeScreen extends JDialog implements WindowListener {
 		}
 
 		detailsPanel = new ChargeDetails();
+		setLocationRelativeTo(parent);
 	}
 
 	private void prepareList() {

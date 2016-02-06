@@ -3,6 +3,7 @@
  */
 package com.vhi.hsm.view;
 
+import java.awt.Dimension;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.ArrayList;
@@ -101,16 +102,17 @@ public class AssetTypeScreen extends JDialog implements WindowListener {
 	public AssetTypeScreen(JFrame parent) {
 		super(parent);
 		this.setTitle("Asset Types");
-		setResizable(true);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		addWindowListener(this);
-		setLocationRelativeTo(parent);
-		setVisible(true);
 		listItems = new HashMap<Integer, AssetTypeMasterListItem>();
 		assetTypeMasterDetailPanel = new MasterDetailPanel(callback);
 		detailsPanel = new AssetTypeDetails();
 		prepareList();
 		initializeLayout();
+		setPreferredSize(new Dimension(500,300));
+		setVisible(true);
+		setResizable(true);
+		setLocationRelativeTo(parent);
 	}
 
 	private void initializeLayout() {

@@ -9,6 +9,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -109,7 +111,10 @@ public class Payment extends JDialog implements WindowListener {
 
 	private void intializeLayout() {
 		propertyNameLabel = new JLabel("Property :");
-		propertyNamesComboBox = new JComboBox<>(propertyNames.toArray(new String[propertyNames.size()]));
+		ArrayList<String> propertyNameList = new ArrayList<>();
+		propertyNameList.addAll(propertyNames);
+		Collections.sort(propertyNameList);
+		propertyNamesComboBox = new JComboBox<>(propertyNameList.toArray(new String[propertyNameList.size()]));
 
 		modeOfPaymentLabel = new JLabel("Mode of payment");
 		modeOfPaymentComboBox = new JComboBox<>(ModeOfPayment.getNames());

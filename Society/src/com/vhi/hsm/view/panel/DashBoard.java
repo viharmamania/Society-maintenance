@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -30,6 +31,7 @@ import com.vhi.hsm.controller.manager.PDFManager;
 //import com.vhi.hsm.controller.manager.PreviewManager;
 import com.vhi.hsm.controller.manager.SystemManager;
 import com.vhi.hsm.db.SQLiteManager;
+import com.vhi.hsm.model.Bill;
 import com.vhi.hsm.utils.Constants;
 import com.vhi.hsm.view.AssetTypeScreen;
 import com.vhi.hsm.view.ChargeScreen;
@@ -56,6 +58,7 @@ public class DashBoard extends JFrame implements WindowListener {
 
 	public DashBoard() {
 
+		
 		societyInfoPanel = new JPanel();
 		infoPanel = new JPanel();
 		treePanel = new JPanel();
@@ -122,9 +125,9 @@ public class DashBoard extends JFrame implements WindowListener {
 
 		setTitle("HSM");
 		setResizable(false);
-		setLocationRelativeTo(null);
 		initLayout();
 		setVisible(true);
+		setLocationRelativeTo(null);
 	}
 
 //	private List<Bill> generateBillPreview() {
@@ -223,13 +226,30 @@ public class DashBoard extends JFrame implements WindowListener {
 	}
 
 	private void prepareTreeData() {
-		rootNode.add(new DefaultMutableTreeNode("Node 1"));
-		for (int i = 0; i < 100; i++) {
-			DefaultMutableTreeNode node = new DefaultMutableTreeNode(Integer.toString(i));
-			rootNode.add(node);
-			node.add(new DefaultMutableTreeNode("Test"));
-		}
-	}
+		// fetching past 6 months generated bills
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.MONTH, -6);
+		cal.set(Calendar.HOUR, 0);
+		long time = cal.getTime().getTime();
+		try {
+			String query = "select " + Constants.Table.Bill.FieldName.BILL_ID + " , "
+					+ Constants.Table.Bill.FieldName.BILL_TIMESTAMP + " from " + Constants.Table.Bill.TABLE_NAME
+					+ " where " + Constants.Table.Bill.FieldName.BILL_TIMESTAMP + " >= " + time;
+			ResultSet resultSet = SQLiteManager.executeQuery(query);
+			if (resultSet != null) {
+				while (resultSet.next()) {
+					Calendar instance = Calendar.getInstance();
+					instance.setTime(new Date(resultSet.getLong(Constants.Table.Bill.FieldName.BILL_TIMESTAMP)));
+					DefaultMutableTreeNode node = new DefaultMutableTreeNode(instance.get(Calendar.MONTH));
+					node.setUserObject(Bill.read(resultSet.getInt(Constants.Table.Bill.FieldName.BILL_ID)));
+					rootNode.add(node);
+				}
+			}
+			rootNode.add(new DefaultMutableTreeNode("Test"));
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}}
 
 	@Override
 	public void windowActivated(WindowEvent arg0) {

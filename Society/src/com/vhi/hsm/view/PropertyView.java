@@ -1,5 +1,6 @@
 package com.vhi.hsm.view;
 
+import java.awt.Dimension;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.HashMap;
@@ -95,17 +96,18 @@ public class PropertyView extends JDialog implements WindowListener {
 
 		super(parent);
 		this.setTitle("Manage Flats");
-		setResizable(true);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		addWindowListener(this);
-		setLocationRelativeTo(parent);
-		setVisible(true);
 		propertyListItems = new HashMap<Integer, PropertyMasterListItems>();
 		propertyMasterDetailPanel = new MasterDetailPanel(callback);
 		detailsPanel = new PropertyDetails();
 		propertyMasterDetailPanel.getMasterDetailPanel().setDetailPanel(detailsPanel);
 		prepareList();
+		setPreferredSize(new Dimension(500, 500));
+		setVisible(true);
 		initializeLayout();
+		setResizable(true);
+		setLocationRelativeTo(parent);
 
 	}
 

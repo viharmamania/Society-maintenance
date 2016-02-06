@@ -85,8 +85,8 @@ public class PDFManager {
 						billTable.addCell(Double.toString(charge.getAmount()));
 					}
 				}
-				
-				//add new bill in new page
+
+				// add new bill in new page
 				if (i != (bills.size() - 1)) {
 					document.newPage();
 				}
@@ -121,10 +121,10 @@ public class PDFManager {
 
 				PdfPCell receiptNoCell = new PdfPCell(new Phrase("Receipt No:" + payment.getPaymentId()));
 				receiptNoCell.setBorder(Rectangle.NO_BORDER);
-//				receiptNoCell.setBorderColor(new Color(255, 255, 45));
+				// receiptNoCell.setBorderColor(new Color(255, 255, 45));
 				PdfPCell dateCell = new PdfPCell(new Phrase("Date:" + new Date()));
 				dateCell.setBorder(Rectangle.NO_BORDER);
-//				dateCell.setBorderColor(new Color(255, 255, 45));
+				// dateCell.setBorderColor(new Color(255, 255, 45));
 				flatTable.addCell(dateCell);
 
 				// flatTable.addCell("Receipt No:" + payment.getPaymentId());
@@ -172,9 +172,14 @@ public class PDFManager {
 				document.newPage();
 			}
 		}
-
-		document.close();
-		pdfWriter.close();
+		try {
+			document.close();
+			pdfWriter.close();
+		} catch (Exception exception) {
+//			document.add(new Paragraph("Done Adding"));
+//			document.close();
+//			pdfWriter.close();
+		}
 
 	}
 }
