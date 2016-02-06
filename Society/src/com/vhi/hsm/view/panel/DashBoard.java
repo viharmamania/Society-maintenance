@@ -38,7 +38,6 @@ import com.vhi.hsm.view.ChargeScreen;
 import com.vhi.hsm.view.GenerateBill;
 import com.vhi.hsm.view.Payment;
 import com.vhi.hsm.view.PropertyView;
-//import com.vhi.hsm.view.TempChargesConfirmationView;
 
 public class DashBoard extends JFrame implements WindowListener {
 
