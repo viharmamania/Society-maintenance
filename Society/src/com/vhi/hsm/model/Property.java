@@ -334,6 +334,7 @@ public class Property {
 					readStatement.setInt(1, propertyId);
 					ResultSet resultSet = readStatement.executeQuery();
 					addProperties(resultSet);
+					property = propertyMap.get(propertyId);
 				} catch (SQLException e) {
 					LOG.error(e.getMessage());
 				}

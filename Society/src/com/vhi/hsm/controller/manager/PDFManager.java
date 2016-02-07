@@ -13,7 +13,6 @@ import java.util.List;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Rectangle;
@@ -142,29 +141,27 @@ public class PDFManager {
 			} else if (payment.getModeOfPayment().equalsIgnoreCase(ModeOfPayment.CASH.name()))
 				paymentBillContent = paymentBillContent.replace("[5]", "");
 
-			Integer billId = null;
-			String query = "select bill_id from bill where payment_id =" + payment.getPaymentId()
-					+ " order by bill_id  ASC";
+			ArrayList<Integer> billId = new ArrayList<>();
+			String query = "SELECT " + Constants.Table.Bill.FieldName.BILL_ID + " FROM " + Constants.Table.Bill.TABLE_NAME
+					+ " WHERE " + Constants.Table.Payment.FieldName.PAYMENT_ID + " = " + payment.getPaymentId()
+					+ " ORDER BY " + Constants.Table.Bill.FieldName.BILL_ID + " ASC";
 			try {
 				ResultSet executeQuery = SQLiteManager.executeQuery(query);
-				if (executeQuery != null & executeQuery.next()) {
-					do {
-						billId = executeQuery.getInt(Constants.Table.Payment.FieldName.PAYMENT_ID);
-						executeQuery.next();
-					} while (!executeQuery.isAfterLast());
+				while (executeQuery.next()) {
+					billId.add(executeQuery.getInt(Constants.Table.Bill.FieldName.BILL_ID));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 
 			if (billId != null)
-				paymentBillContent = paymentBillContent.replace("[6]", " on account of Bill No. " + billId);
+				paymentBillContent = paymentBillContent.replace("[6]", " on account of Bill No. " + billId.toString());
 
 			document.add(new Paragraph(paymentBillContent));
 			document.add(new Paragraph("\n"));
 			document.add(new Paragraph("\n"));
-			Image instance = Image.getInstance("C:/Users/Vihar/Desktop/Y.jpg");
-			document.add(instance);
+//			Image instance = Image.getInstance("C:/Users/Vihar/Desktop/Y.jpg");
+//			document.add(instance);
 
 			document.add(new Paragraph("Rs: " + payment.getAmount()));
 

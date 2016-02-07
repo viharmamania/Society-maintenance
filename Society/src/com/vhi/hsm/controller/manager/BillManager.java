@@ -7,7 +7,9 @@ import java.sql.SQLException;
 //import java.sql.Savepoint;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -15,6 +17,7 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 
 import com.vhi.hsm.db.SQLiteManager;
+import com.vhi.hsm.model.AssetType;
 import com.vhi.hsm.model.Bill;
 import com.vhi.hsm.model.BillCharge;
 import com.vhi.hsm.model.Charge;
@@ -242,10 +245,32 @@ public class BillManager {
 			// if (billChargeSavepoint != null) {
 
 			// saving individual bill charges in DB
-			for (Integer chargeId : chargeIds) {
-				BillCharge billCharge = BillCharge.create(bill.getBillId(), chargeId);
-				Charge charge = Charge.read(property.getSocietyId(), chargeId);
-				billCharge.setAmount(charge.getAmount());
+//			for (Integer chargeId : chargeIds) {
+//				BillCharge billCharge = BillCharge.create(bill.getBillId(), chargeId);
+//				Charge charge = Charge.read(property.getSocietyId(), chargeId);
+//				billCharge.setAmount(charge.getAmount());
+//				BillCharge.save(billCharge, true);
+//			}
+			
+			Integer chargeIdArray[] = new Integer[chargeIds.size()];
+			chargeIds.toArray(chargeIdArray);
+			Arrays.sort(chargeIdArray, new Comparator<Integer>() {
+				public int compare(Integer o1, Integer o2) {
+					return o1.compareTo(o2);
+				}
+			});
+			
+			for (int i = 0; i < chargeIdArray.length; i++) {
+				BillCharge billCharge = BillCharge.create(bill.getBillId(), chargeIdArray[i]);
+				Charge charge = Charge.read(property.getSocietyId(), chargeIdArray[i]);
+				while (true) {
+					billCharge.setAmount(billCharge.getAmount() + charge.getAmount());
+					if ((i + 1) < chargeIdArray.length && chargeIdArray[i + 1] == chargeIdArray[i]) {
+						i++;
+					} else  {
+						break;
+					}
+				}
 				BillCharge.save(billCharge, true);
 			}
 
@@ -275,7 +300,7 @@ public class BillManager {
 	 */
 	private static Collection<? extends Integer> getChargeIds(Property property) {
 
-		Set<Integer> chargeIds = new HashSet<>();
+		Collection<Integer> chargeIds = new ArrayList<>();
 		// StringBuilder query = new StringBuilder();
 		String query;
 
@@ -314,16 +339,15 @@ public class BillManager {
 			}
 
 			// Get Property Asset Charges
-			query = "SELECT " + Constants.Table.Charge.FieldName.CHARGE_ID + " FROM "
-					+ Constants.Table.AssetType.TABLE_NAME + " WHERE " + Constants.Table.Society.FieldName.SOCIETY_ID
-					+ " = " + property.getSocietyId() + " AND " + Constants.Table.AssetType.FieldName.ASSET_TYPE
-					+ " IN " + " ( " + " SELECT DISTINCT " + Constants.Table.AssetType.FieldName.ASSET_TYPE + " FROM "
-					+ Constants.Table.PropertyAsset.TABLE_NAME + " WHERE "
-					+ Constants.Table.Property.FieldName.PROPERTY_ID + " = " + property.getPropertyId() + " AND "
-					+ Constants.Table.PropertyAsset.FieldName.IS_CANCELLED + " = 0 " + " ) ";
+			query = "SELECT * FROM " + Constants.Table.PropertyAsset.TABLE_NAME + " WHERE "
+					+ Constants.Table.Property.FieldName.PROPERTY_ID + " = " + property.getPropertyId();
 			ResultSet resultSet = SQLiteManager.executeQuery(query);
 			while (resultSet.next()) {
-				chargeIds.add(resultSet.getInt(Constants.Table.Charge.FieldName.CHARGE_ID));
+				AssetType assetType = AssetType.read(property.getSocietyId(),
+						resultSet.getString(Constants.Table.AssetType.FieldName.ASSET_TYPE));
+				if (assetType != null) {
+					chargeIds.add(assetType.getChargeId());
+				}
 			}
 
 		} catch (SQLException e) {
@@ -340,7 +364,7 @@ public class BillManager {
 		String query = "SELECT " + Constants.Table.Bill.FieldName.BILL_ID + " FROM " + Constants.Table.Bill.TABLE_NAME
 				+ " WHERE " + Constants.Table.Society.FieldName.SOCIETY_ID + " = " + property.getSocietyId() + " AND "
 				+ Constants.Table.Property.FieldName.PROPERTY_ID + " = " + property.getPropertyId() + " AND "
-				+ Constants.Table.Payment.FieldName.PAYMENT_ID + " = NULL";
+				+ Constants.Table.Payment.FieldName.PAYMENT_ID + " = 0";
 
 		try {
 			ResultSet resultSet = SQLiteManager.executeQuery(query);
@@ -358,7 +382,7 @@ public class BillManager {
 	public static double getLateFineAmount(Bill bill, java.util.Date paymentDate) {
 
 		double fine = 0;
-		int diffInDays = ((int) ((paymentDate.getTime() - bill.getBillDate().getTime()))) / (1000 * 60 * 60 * 24);
+		int diffInDays = ((int) ((long)(paymentDate.getTime() - bill.getBillDate().getTime()) / (1000 * 60 * 60 * 24)));
 
 		if (diffInDays <= SystemManager.society.getPaymentDueDate()) {
 			return 0;
@@ -366,7 +390,7 @@ public class BillManager {
 
 		diffInDays -= SystemManager.society.getPaymentDueDate();
 
-		int diffInMonths = (int) Math.floor(1.0 * diffInDays / 30);
+		int diffInMonths = (int) Math.ceil(1.0 * diffInDays / 30);
 
 		fine = bill.getAmount();
 		for (int i = 1; i <= diffInMonths; i++) {
