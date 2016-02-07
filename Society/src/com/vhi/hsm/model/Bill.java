@@ -126,6 +126,11 @@ public class Bill {
 		this.societyId = societyId;
 	}
 
+	@Override
+	public String toString() {
+		return billId + " " + amount +  " " + billDate;
+	}
+
 	public static Bill read(int billId) {
 		Bill bill = null;
 		

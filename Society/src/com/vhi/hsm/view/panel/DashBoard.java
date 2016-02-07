@@ -11,7 +11,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -27,11 +26,13 @@ import javax.swing.tree.TreeSelectionModel;
 //import org.apache.log4j.Logger;
 
 import com.itextpdf.text.DocumentException;
+import com.vhi.hsm.controller.manager.BillManager;
 import com.vhi.hsm.controller.manager.PDFManager;
 //import com.vhi.hsm.controller.manager.PreviewManager;
 import com.vhi.hsm.controller.manager.SystemManager;
 import com.vhi.hsm.db.SQLiteManager;
 import com.vhi.hsm.model.Bill;
+import com.vhi.hsm.model.Property;
 import com.vhi.hsm.utils.Constants;
 import com.vhi.hsm.view.AssetTypeScreen;
 import com.vhi.hsm.view.ChargeScreen;
@@ -225,30 +226,46 @@ public class DashBoard extends JFrame implements WindowListener {
 	}
 
 	private void prepareTreeData() {
-		// fetching past 6 months generated bills
-		Calendar cal = Calendar.getInstance();
-		cal.add(Calendar.MONTH, -6);
-		cal.set(Calendar.HOUR, 0);
-		long time = cal.getTime().getTime();
-		try {
-			String query = "select " + Constants.Table.Bill.FieldName.BILL_ID + " , "
-					+ Constants.Table.Bill.FieldName.BILL_TIMESTAMP + " from " + Constants.Table.Bill.TABLE_NAME
-					+ " where " + Constants.Table.Bill.FieldName.BILL_TIMESTAMP + " >= " + time;
-			ResultSet resultSet = SQLiteManager.executeQuery(query);
-			if (resultSet != null) {
-				while (resultSet.next()) {
-					Calendar instance = Calendar.getInstance();
-					instance.setTime(new Date(resultSet.getLong(Constants.Table.Bill.FieldName.BILL_TIMESTAMP)));
-					DefaultMutableTreeNode node = new DefaultMutableTreeNode(instance.get(Calendar.MONTH));
-					node.setUserObject(Bill.read(resultSet.getInt(Constants.Table.Bill.FieldName.BILL_ID)));
-					rootNode.add(node);
-				}
+		
+		//Show unpaid bills and net-payable amount for each property
+		List<Property> allProperty = Property.getAllProperties(SystemManager.society.getSocietyId());
+		for (Property property : allProperty) {
+			DefaultMutableTreeNode node = new DefaultMutableTreeNode(property.getPropertyName());
+			node.add(new DefaultMutableTreeNode("Net Paybale: " + property.getNetPayable()));
+			ArrayList<Bill> unpaidBills = BillManager.getUnpaidBills(property);
+			DefaultMutableTreeNode unpaidBillsNode = new DefaultMutableTreeNode("Unpaid Bills");
+			for (Bill bill : unpaidBills) {
+				unpaidBillsNode.add(new DefaultMutableTreeNode(bill));
 			}
-			rootNode.add(new DefaultMutableTreeNode("Test"));
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}}
+			node.add(unpaidBillsNode);
+			rootNode.add(node);
+		}
+		
+//		// fetching past 6 months generated bills
+//		Calendar cal = Calendar.getInstance();
+//		cal.add(Calendar.MONTH, -6);
+//		cal.set(Calendar.HOUR, 0);
+//		long time = cal.getTime().getTime();
+//		try {
+//			String query = "select " + Constants.Table.Bill.FieldName.BILL_ID + " , "
+//					+ Constants.Table.Bill.FieldName.BILL_TIMESTAMP + " from " + Constants.Table.Bill.TABLE_NAME
+//					+ " where " + Constants.Table.Bill.FieldName.BILL_TIMESTAMP + " >= " + time;
+//			ResultSet resultSet = SQLiteManager.executeQuery(query);
+//			if (resultSet != null) {
+//				while (resultSet.next()) {
+//					Calendar instance = Calendar.getInstance();
+//					instance.setTime(new Date(resultSet.getLong(Constants.Table.Bill.FieldName.BILL_TIMESTAMP)));
+//					DefaultMutableTreeNode node = new DefaultMutableTreeNode(instance.get(Calendar.MONTH));
+//					node.setUserObject(Bill.read(resultSet.getInt(Constants.Table.Bill.FieldName.BILL_ID)));
+//					rootNode.add(node);
+//				}
+//			}
+//			rootNode.add(new DefaultMutableTreeNode("Test"));
+//
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+	}
 
 	@Override
 	public void windowActivated(WindowEvent arg0) {
