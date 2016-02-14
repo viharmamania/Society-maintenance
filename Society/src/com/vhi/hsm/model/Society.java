@@ -264,7 +264,7 @@ public class Society {
 					society.setRegistrationNumber(resultset.getString(Constants.Table.Society.FieldName.REG_NUMBER));
 					society.setAddress(resultset.getString(Constants.Table.Society.FieldName.ADDRESS));
 					society.setSocietyId(resultset.getInt(Constants.Table.Society.FieldName.SOCIETY_ID));
-					// society.setRegistrationDate(resultset.getString(Constants.Table.Society.FieldName.REG_DATE));
+					 society.setRegistrationDate(resultset.getString(Constants.Table.Society.FieldName.REG_DATE));
 					society.setSocietyCode(resultset.getString(Constants.Table.Society.FieldName.SOCIETY_CODE));
 					society.setPaymentDueDate(resultset.getInt(Constants.Table.Society.FieldName.PAYMENT_DUE_DATE));
 					society.setLateFineInterest(resultset.getDouble(Constants.Table.Society.FieldName.LATE_FINE_INTEREST));

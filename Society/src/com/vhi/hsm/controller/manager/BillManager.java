@@ -265,7 +265,7 @@ public class BillManager {
 				Charge charge = Charge.read(property.getSocietyId(), chargeIdArray[i]);
 				while (true) {
 					billCharge.setAmount(billCharge.getAmount() + charge.getAmount());
-					if ((i + 1) < chargeIdArray.length && chargeIdArray[i + 1] == chargeIdArray[i]) {
+					if ((i + 1) < chargeIdArray.length && chargeIdArray[i + 1].equals(chargeIdArray[i])) {
 						i++;
 					} else  {
 						break;
@@ -317,7 +317,7 @@ public class BillManager {
 
 			// Get Property Specific Charges
 			for (ChargeToProperty charge : chargesToProperty) {
-				if (charge.getChargeId() == property.getPropertyId() && !chargeIds.contains(charge.getChargeId())) {
+				if (charge.getPropertyId() == property.getPropertyId() && !chargeIds.contains(charge.getChargeId())) {
 					chargeIds.add(charge.getChargeId());
 				}
 			}
