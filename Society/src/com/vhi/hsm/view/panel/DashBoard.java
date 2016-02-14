@@ -82,6 +82,7 @@ public class DashBoard extends JFrame implements WindowListener {
 		paymentReceiptsButton.addActionListener(e -> {
 			try {
 				generateMonthlyPaymentReceipts();
+				prepareTreeData();
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
@@ -98,6 +99,7 @@ public class DashBoard extends JFrame implements WindowListener {
 			//new TempChargesConfirmationView(this);
 //			generateBillPreview();
 			new GenerateBill(this);
+			prepareTreeData();
 		});
 		
 		billViewButton = new JButton("View Bills");
@@ -226,6 +228,8 @@ public class DashBoard extends JFrame implements WindowListener {
 	}
 
 	private void prepareTreeData() {
+		
+		rootNode.removeAllChildren();
 		
 		//Show unpaid bills and net-payable amount for each property
 		List<Property> allProperty = Property.getAllProperties(SystemManager.society.getSocietyId());
