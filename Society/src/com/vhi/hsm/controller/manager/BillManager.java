@@ -225,7 +225,7 @@ public class BillManager {
 			bill.setPaymentId(property.getLatestPaymentId());
 			if (!isPreview) {
 				// updating this properties net payable
-				property.setNetPayable(property.getNetPayable() + billAmount);
+				property.setNetPayable(property.getNetPayable() - billAmount);
 			}
 		}
 
