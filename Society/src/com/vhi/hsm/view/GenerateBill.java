@@ -69,17 +69,21 @@ public class GenerateBill extends JDialog implements WindowListener {
 		instance.set(Calendar.HOUR_OF_DAY, 0);
 		instance.set(Calendar.MINUTE, 0);
 		instance.set(Calendar.SECOND, 0);
-		
+
 		long time = instance.getTime().getTime();
-		
-		String billGeneratedCheck = "select bill_id from "+Constants.Table.Bill.TABLE_NAME+" where " + Constants.Table.Bill.FieldName.BILL_TIMESTAMP +">=" + time; 
-		
+
+		String billGeneratedCheck = "SELECT " + Constants.Table.Bill.FieldName.BILL_ID + " FROM "
+				+ Constants.Table.Bill.TABLE_NAME + " WHERE " + Constants.Table.Bill.FieldName.BILL_TIMESTAMP + ">="
+				+ time;
+
 		List<Integer> billIds = new ArrayList<>();
 		try {
 			ResultSet executeQuery = SQLiteManager.executeQuery(billGeneratedCheck);
-			if (executeQuery != null && executeQuery.next()) {
-				if (!executeQuery.isAfterLast()) {
+			if (executeQuery != null) {
+				while (executeQuery.next()) {
 					billIds.add(executeQuery.getInt(Constants.Table.Bill.FieldName.BILL_ID));
+				}
+				if (billIds.size() > 0) {
 					created = true;
 				}
 			}
@@ -168,7 +172,8 @@ public class GenerateBill extends JDialog implements WindowListener {
 
 		try {
 			PDFManager.generateBillPDF(
-					BillManager.generateBill(SystemManager.society.getSocietyId(), isPreview, tempChargeIds) , isPreview);
+					BillManager.generateBill(SystemManager.society.getSocietyId(), isPreview, tempChargeIds),
+					isPreview);
 		} catch (FileNotFoundException | DocumentException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
