@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.GroupLayout;
@@ -28,6 +29,7 @@ import com.vhi.hsm.controller.manager.BillManager;
 import com.vhi.hsm.controller.manager.PDFManager;
 import com.vhi.hsm.controller.manager.SystemManager;
 import com.vhi.hsm.db.SQLiteManager;
+import com.vhi.hsm.model.Bill;
 import com.vhi.hsm.model.Charge;
 import com.vhi.hsm.utils.Constants;
 
@@ -67,30 +69,37 @@ public class GenerateBill extends JDialog implements WindowListener {
 		instance.set(Calendar.HOUR_OF_DAY, 0);
 		instance.set(Calendar.MINUTE, 0);
 		instance.set(Calendar.SECOND, 0);
-
+		
 		long time = instance.getTime().getTime();
-
-		String billGeneratedCheck = "select bill_id from " + Constants.Table.Bill.TABLE_NAME + " where "
-				+ Constants.Table.Bill.FieldName.BILL_TIMESTAMP + ">=" + time;
+		
+		String billGeneratedCheck = "select bill_id from "+Constants.Table.Bill.TABLE_NAME+" where " + Constants.Table.Bill.FieldName.BILL_TIMESTAMP +">=" + time; 
+		
+		List<Integer> billIds = new ArrayList<>();
 		try {
 			ResultSet executeQuery = SQLiteManager.executeQuery(billGeneratedCheck);
 			if (executeQuery != null && executeQuery.next()) {
 				if (!executeQuery.isAfterLast()) {
+					billIds.add(executeQuery.getInt(Constants.Table.Bill.FieldName.BILL_ID));
 					created = true;
 				}
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
 
-		if (!created) {
-			prepareTempChargeList();
-			initializeLayout();
-		} else {
-			JOptionPane.showMessageDialog(this,
-					"Bills have already been created for this month, you can find them at this location: "
-							+ Constants.Path.BILL_PDF_LOCATION,
-					"Error", JOptionPane.INFORMATION_MESSAGE);
+			if (!created) {
+				prepareTempChargeList();
+				initializeLayout();
+			} else {
+				List<Bill> allBills = new ArrayList<>();
+				for (Integer integer : billIds) {
+					allBills.add(Bill.read(integer));
+				}
+				PDFManager.generateBillPDF(allBills, true);
+				JOptionPane.showMessageDialog(this,
+						"Bills have already been created for this month, you can find them at this location: "
+								+ Constants.Path.BILL_PDF_LOCATION,
+						"Error", JOptionPane.INFORMATION_MESSAGE);
+			}
+		} catch (SQLException | DocumentException | IOException e) {
+			e.printStackTrace();
 		}
 
 	}
@@ -159,8 +168,7 @@ public class GenerateBill extends JDialog implements WindowListener {
 
 		try {
 			PDFManager.generateBillPDF(
-					BillManager.generateBill(SystemManager.society.getSocietyId(), isPreview, tempChargeIds),
-					isPreview);
+					BillManager.generateBill(SystemManager.society.getSocietyId(), isPreview, tempChargeIds) , isPreview);
 		} catch (FileNotFoundException | DocumentException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
