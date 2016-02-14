@@ -101,6 +101,7 @@ public class GenerateBill extends JDialog implements WindowListener {
 						"Bills have already been created for this month, you can find them at this location: "
 								+ Constants.Path.BILL_PDF_LOCATION,
 						"Error", JOptionPane.INFORMATION_MESSAGE);
+				dispose();
 			}
 		} catch (SQLException | DocumentException | IOException e) {
 			e.printStackTrace();
