@@ -1,5 +1,6 @@
 package com.vhi.hsm.controller.manager;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -37,13 +38,21 @@ public class PDFManager {
 
 	public static void generateBillPDF(List<Bill> bills, boolean isPreview) throws DocumentException, IOException {
 		Document document = new Document();
-
+		File file;
+		
 		StringBuilder pdfLocation = new StringBuilder();
 		if (isPreview) {
 			pdfLocation.append(Constants.Path.PREVIEW_PDF_LOCATION + "Preview Bill ");
+			file = new File(Constants.Path.PREVIEW_PDF_LOCATION);
 		} else {
 			pdfLocation.append(Constants.Path.BILL_PDF_LOCATION + "Maintenance Bill ");
+			file = new File(Constants.Path.BILL_PDF_LOCATION);
 		}
+		
+		if (!file.exists()) {
+			file.mkdirs();
+		}
+		
 		Calendar calendar = Calendar.getInstance();
 		pdfLocation.append(Utility.getMonthNameFromNumber((calendar.get(Calendar.MONTH))) + " "
 				+ calendar.get(Calendar.YEAR) + ".pdf");
@@ -184,6 +193,12 @@ public class PDFManager {
 			throws DocumentException, MalformedURLException, IOException {
 
 		StringBuilder pdfLocation = new StringBuilder();
+		
+		File file = new File(Constants.Path.PAYMENT_PDF_LOCATION);
+		if (!file.exists()) {
+			file.mkdirs();
+		}
+		
 		pdfLocation.append(Constants.Path.PAYMENT_PDF_LOCATION + "Payment Receipts ");
 		pdfLocation.append(Utility.getMonthNameFromNumber((Calendar.getInstance().get(Calendar.MONTH))) + " "
 				+ Calendar.getInstance().get(Calendar.YEAR) + ".pdf");
