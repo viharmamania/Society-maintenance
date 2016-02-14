@@ -67,26 +67,30 @@ public class GenerateBill extends JDialog implements WindowListener {
 		instance.set(Calendar.HOUR_OF_DAY, 0);
 		instance.set(Calendar.MINUTE, 0);
 		instance.set(Calendar.SECOND, 0);
-		
+
 		long time = instance.getTime().getTime();
-		
-		String billGeneratedCheck = "select bill_id from "+Constants.Table.Bill.TABLE_NAME+" where " + Constants.Table.Bill.FieldName.BILL_TIMESTAMP +">=" + time; 
+
+		String billGeneratedCheck = "select bill_id from " + Constants.Table.Bill.TABLE_NAME + " where "
+				+ Constants.Table.Bill.FieldName.BILL_TIMESTAMP + ">=" + time;
 		try {
 			ResultSet executeQuery = SQLiteManager.executeQuery(billGeneratedCheck);
-			if(executeQuery != null && executeQuery.next()){
-				if(!executeQuery.isAfterLast()){
+			if (executeQuery != null && executeQuery.next()) {
+				if (!executeQuery.isAfterLast()) {
 					created = true;
 				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		if (!created) {
 			prepareTempChargeList();
 			initializeLayout();
-		}else{
-			JOptionPane.showMessageDialog(this, "Bills have already been created for this month, you can find them at this location: " + Constants.BILL_PDF_LOCATION, "Error", JOptionPane.INFORMATION_MESSAGE);
+		} else {
+			JOptionPane.showMessageDialog(this,
+					"Bills have already been created for this month, you can find them at this location: "
+							+ Constants.Path.BILL_PDF_LOCATION,
+					"Error", JOptionPane.INFORMATION_MESSAGE);
 		}
 
 	}
@@ -155,7 +159,8 @@ public class GenerateBill extends JDialog implements WindowListener {
 
 		try {
 			PDFManager.generateBillPDF(
-					BillManager.generateBill(SystemManager.society.getSocietyId(), isPreview, tempChargeIds) , isPreview);
+					BillManager.generateBill(SystemManager.society.getSocietyId(), isPreview, tempChargeIds),
+					isPreview);
 		} catch (FileNotFoundException | DocumentException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

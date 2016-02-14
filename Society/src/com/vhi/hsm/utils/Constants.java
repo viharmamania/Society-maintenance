@@ -6,6 +6,10 @@ public interface Constants {
 
 	public interface Path {
 		String RESOURCE = "res" + File.separator;
+		String GENERATED = "gen" + File.separator;
+		String PREVIEW_PDF_LOCATION = Path.GENERATED + "Preview" + File.separator;
+		String BILL_PDF_LOCATION = Path.GENERATED + "Generated Bills" + File.separator;
+		String PAYMENT_PDF_LOCATION = Path.GENERATED + "Payment Receipts" + File.separator;
 	}
 
 	public interface Table {
@@ -207,8 +211,5 @@ public interface Constants {
 
 	String DB_NAME = Path.RESOURCE + "hsm_mgmt.sqlite";
 	String SALT = "hms";
-	String PREVIEW_PDF_LOCATION = "D:/SocietyBills/Preview/";
-	String BILL_PDF_LOCATION = "D:/SocietyBills/Generated Bills/";
-	String PAYMENT_PDF_LOCATION = "D:/SocietyBills/Payment Receipts/";
 
 }

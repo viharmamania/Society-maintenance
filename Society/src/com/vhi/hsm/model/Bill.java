@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 
 import com.vhi.hsm.db.SQLiteManager;
 import com.vhi.hsm.utils.Constants;
+import com.vhi.hsm.utils.Utility;
 
 public class Bill {
 	
@@ -126,9 +127,10 @@ public class Bill {
 		this.societyId = societyId;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public String toString() {
-		return billId + " " + amount +  " " + billDate;
+		return Utility.getMonthNameFromNumber(billDate.getMonth()) + "-" + (billDate.getYear() + 1900) + ": " + amount;
 	}
 
 	public static Bill read(int billId) {

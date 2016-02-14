@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -30,6 +29,7 @@ import com.vhi.hsm.model.ModeOfPayment;
 import com.vhi.hsm.model.Payment;
 import com.vhi.hsm.model.Property;
 import com.vhi.hsm.utils.Constants;
+import com.vhi.hsm.utils.Utility;
 
 public class PDFManager {
 
@@ -40,12 +40,12 @@ public class PDFManager {
 
 		StringBuilder pdfLocation = new StringBuilder();
 		if (isPreview) {
-			pdfLocation.append(Constants.PREVIEW_PDF_LOCATION + "Preview Bill ");
+			pdfLocation.append(Constants.Path.PREVIEW_PDF_LOCATION + "Preview Bill ");
 		} else {
-			pdfLocation.append(Constants.BILL_PDF_LOCATION + "Maintenance Bill ");
+			pdfLocation.append(Constants.Path.BILL_PDF_LOCATION + "Maintenance Bill ");
 		}
 		Calendar calendar = Calendar.getInstance();
-		pdfLocation.append(getMonthForInt(calendar.get(Calendar.MONTH)) + " "
+		pdfLocation.append(Utility.getMonthNameFromNumber((calendar.get(Calendar.MONTH))) + " "
 				+ calendar.get(Calendar.YEAR) + ".pdf");
 		PdfWriter pdfWriter = PdfWriter.getInstance(document, new FileOutputStream(pdfLocation.toString()));
 		pdfWriter.setPageEvent(new EventHelper());
@@ -110,7 +110,7 @@ public class PDFManager {
 				
 				String string = " Shri./smt. " + property.getOwnerName() + " find below Detailed bill for Flat/Shop/Garage No. "
 						+ property.getPropertyName() + " for the period of "
-						+ getMonthForInt(calendar.get(Calendar.MONTH)) + " " + calendar.get(Calendar.YEAR);
+						+ Utility.getMonthNameFromNumber((calendar.get(Calendar.MONTH))) + " " + calendar.get(Calendar.YEAR);
 				Paragraph infoParagraph = new Paragraph(string);
 				infoParagraph.setAlignment(Element.ALIGN_JUSTIFIED);
 				document.add(infoParagraph);
@@ -184,8 +184,8 @@ public class PDFManager {
 			throws DocumentException, MalformedURLException, IOException {
 
 		StringBuilder pdfLocation = new StringBuilder();
-		pdfLocation.append(Constants.PAYMENT_PDF_LOCATION + "Payment Receipts ");
-		pdfLocation.append(getMonthForInt(Calendar.getInstance().get(Calendar.MONTH)) + " "
+		pdfLocation.append(Constants.Path.PAYMENT_PDF_LOCATION + "Payment Receipts ");
+		pdfLocation.append(Utility.getMonthNameFromNumber((Calendar.getInstance().get(Calendar.MONTH))) + " "
 				+ Calendar.getInstance().get(Calendar.YEAR) + ".pdf");
 
 		// new File(pdfLocation.toString()).createNewFile();
@@ -266,15 +266,15 @@ public class PDFManager {
 
 	}
 	
-	static String getMonthForInt(int num) {
-		String month = "";
-		DateFormatSymbols dfs = new DateFormatSymbols();
-		String[] months = dfs.getMonths();
-		if (num >= 0 && num <= 11) {
-			month = months[num];
-		}
-		return month;
-	}
+//	static String getMonthForInt(int num) {
+//		String month = "";
+//		DateFormatSymbols dfs = new DateFormatSymbols();
+//		String[] months = dfs.getMonths();
+//		if (num >= 0 && num <= 11) {
+//			month = months[num];
+//		}
+//		return month;
+//	}
 }
 
 class EventHelper extends PdfPageEventHelper {
