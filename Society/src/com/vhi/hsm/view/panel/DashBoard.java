@@ -237,7 +237,7 @@ public class DashBoard extends JFrame implements WindowListener {
 			DefaultMutableTreeNode node = new DefaultMutableTreeNode(property.getPropertyName());
 			node.add(new DefaultMutableTreeNode("Net Paybale: " + property.getNetPayable()));
 			ArrayList<Bill> unpaidBills = BillManager.getUnpaidBills(property);
-			DefaultMutableTreeNode unpaidBillsNode = new DefaultMutableTreeNode("Unpaid Bills");
+			DefaultMutableTreeNode unpaidBillsNode = new DefaultMutableTreeNode("Unpaid Bills", true);
 			for (Bill bill : unpaidBills) {
 				unpaidBillsNode.add(new DefaultMutableTreeNode(bill));
 			}
