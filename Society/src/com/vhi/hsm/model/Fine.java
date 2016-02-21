@@ -1,8 +1,10 @@
 package com.vhi.hsm.model;
 
+import java.math.RoundingMode;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
@@ -216,7 +218,9 @@ public class Fine {
 			}
 		}
 //		percentage *= amount;
-		return percentage / 100 * amount;
+		DecimalFormat df = new DecimalFormat("#.##");
+		df.setRoundingMode(RoundingMode.CEILING);
+		return Double.valueOf(df.format(percentage / 100 * amount));
 	}
 
 }
