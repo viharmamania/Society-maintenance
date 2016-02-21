@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -38,6 +38,7 @@ import com.vhi.hsm.utils.Constants;
 public class BillManager {
 
 	private static final int FINE_CHARGE_ID = 7;
+	private static final int PREVIOUS_CHARGE_ID = 9;
 
 	private final static Logger LOG = Logger.getLogger(BillManager.class);
 
@@ -117,7 +118,7 @@ public class BillManager {
 	 */
 	public static synchronized List<Bill> generateBill(int societyId, boolean isPreview, List<Integer> tempChargeIds) {
 		List<Bill> societyBills = new ArrayList<>();
-		Set<Property> properties = new HashSet<>();
+		Set<Property> properties = new LinkedHashSet<>();
 		// Savepoint completeTransactionSavepoint = null;
 
 		// if (SQLiteManager.startTransaction()) {
@@ -289,21 +290,28 @@ public class BillManager {
 
 		}
 		
-		// manipulate net payable accordingly
+		//Calculate Fine 
 		Charge finecharge = Charge.read(SystemManager.society.getSocietyId(), FINE_CHARGE_ID);
 		double fineAmount = Fine.getFineAmount(SystemManager.society.getSocietyId(), property.getNetPayable());
 		BillCharge billCharge = BillCharge.create(bill.getBillId(), finecharge.getChargeId());
 		billCharge.setAmount(fineAmount);
 		
+		//manipulate previous balances
+		Charge previousCharge = Charge.read(SystemManager.society.getSocietyId(), PREVIOUS_CHARGE_ID);
+		BillCharge billCharge2 = BillCharge.create(bill.getBillId(), previousCharge.getChargeId());
+		billCharge2.setAmount(property.getNetPayable());
+		
 		if (!isPreview) {
 			// updating this properties net payable
 			BillCharge.save(billCharge, true);
+			BillCharge.save(billCharge2, true);
 		}
 		ArrayList<Integer> assignedCharges = bill.getAssignedCharges();
 		assignedCharges.add(finecharge.getChargeId());
+		assignedCharges.add(previousCharge.getChargeId());
 		bill.setAssignedCharges(assignedCharges);
-		bill.setAmount(Math.round(bill.getAmount() + fineAmount));
-		property.setNetPayable(Math.round(property.getNetPayable() + bill.getAmount()));
+		bill.setAmount(Math.round(bill.getAmount() + fineAmount + property.getNetPayable()) );
+		property.setNetPayable(Math.round(bill.getAmount()));
 
 		if (!isPreview) {
 			Bill.save(bill, false);
