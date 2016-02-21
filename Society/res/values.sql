@@ -23,6 +23,9 @@ INSERT INTO "charge" VALUES (1, 3, "Car Charges", 100, 0, 0, 0);
 INSERT INTO "charge" VALUES (1, 4, "Big Flat and Shop Charges", 110, 0, 0, 0);
 INSERT INTO "charge" VALUES (1, 5, "Small Flat and Shop Charges", 90, 0, 0, 0);
 INSERT INTO "charge" VALUES (1, 6, "Shop Charges", 100, 0, 0, 0);
+INSERT INTO "charge" VALUES (1, 7, "Fine", 0, 0, 0, 0);
+INSERT INTO "charge" VALUES (1, 8, "Water Wastage penalty", 25, 0, 0, 0);
+INSERT INTO "charge" VALUES (1, 9, "Previous Balance amount",0 , 0, 0, 0);
 
 INSERT INTO "floor" VALUES(1,1,0,1);
 INSERT INTO "floor" VALUES(1,1,1,2);
