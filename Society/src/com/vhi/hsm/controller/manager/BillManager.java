@@ -24,6 +24,7 @@ import com.vhi.hsm.model.Charge;
 import com.vhi.hsm.model.ChargeToProperty;
 import com.vhi.hsm.model.ChargeToPropertyGroup;
 import com.vhi.hsm.model.ChargeToPropertyType;
+import com.vhi.hsm.model.Fine;
 import com.vhi.hsm.model.Floor;
 import com.vhi.hsm.model.FloorPlanDesign;
 import com.vhi.hsm.model.Property;
@@ -35,6 +36,8 @@ import com.vhi.hsm.utils.Constants;
  *
  */
 public class BillManager {
+
+	private static final int FINE_CHARGE_ID = 7;
 
 	private final static Logger LOG = Logger.getLogger(BillManager.class);
 
@@ -216,18 +219,18 @@ public class BillManager {
 		bill.setCancelled(false);
 		bill.setAssignedCharges(chargeIds);
 		bill.setAmount(billAmount);
-		System.out.println("Bill Amount:" + billAmount);
-
-		// if property has available balance to settle this bill then mark
-		// it
-		// appropriately
-		if (property.getNetPayable() >= billAmount) {
-			bill.setPaymentId(property.getLatestPaymentId());
-			if (!isPreview) {
-				// updating this properties net payable
-				property.setNetPayable(property.getNetPayable() - billAmount);
-			}
-		}
+//		System.out.println("Bill Amount:" + billAmount);
+//
+//		// if property has available balance to settle this bill then mark
+//		// it
+//		// appropriately
+//		if (property.getNetPayable() >= billAmount) {
+//			bill.setPaymentId(property.getLatestPaymentId());
+//			if (!isPreview) {
+//				// updating this properties net payable
+//				property.setNetPayable(property.getNetPayable() - billAmount);
+//			}
+//		}
 
 		if (!isPreview) {
 
@@ -245,13 +248,14 @@ public class BillManager {
 			// if (billChargeSavepoint != null) {
 
 			// saving individual bill charges in DB
-//			for (Integer chargeId : chargeIds) {
-//				BillCharge billCharge = BillCharge.create(bill.getBillId(), chargeId);
-//				Charge charge = Charge.read(property.getSocietyId(), chargeId);
-//				billCharge.setAmount(charge.getAmount());
-//				BillCharge.save(billCharge, true);
-//			}
-			
+			// for (Integer chargeId : chargeIds) {
+			// BillCharge billCharge = BillCharge.create(bill.getBillId(),
+			// chargeId);
+			// Charge charge = Charge.read(property.getSocietyId(), chargeId);
+			// billCharge.setAmount(charge.getAmount());
+			// BillCharge.save(billCharge, true);
+			// }
+
 			Integer chargeIdArray[] = new Integer[chargeIds.size()];
 			chargeIds.toArray(chargeIdArray);
 			Arrays.sort(chargeIdArray, new Comparator<Integer>() {
@@ -267,7 +271,7 @@ public class BillManager {
 					billCharge.setAmount(billCharge.getAmount() + charge.getAmount());
 					if ((i + 1) < chargeIdArray.length && chargeIdArray[i + 1].equals(chargeIdArray[i])) {
 						i++;
-					} else  {
+					} else {
 						break;
 					}
 				}
@@ -284,7 +288,29 @@ public class BillManager {
 			// }
 
 		}
+		
+		// manipulate net payable accordingly
+		Charge finecharge = Charge.read(SystemManager.society.getSocietyId(), FINE_CHARGE_ID);
+		double fineAmount = Fine.getFineAmount(SystemManager.society.getSocietyId(), property.getNetPayable());
+		BillCharge billCharge = BillCharge.create(bill.getBillId(), finecharge.getChargeId());
+		billCharge.setAmount(fineAmount);
+		
+		if (!isPreview) {
+			// updating this properties net payable
+			BillCharge.save(billCharge, true);
+		}
+		ArrayList<Integer> assignedCharges = bill.getAssignedCharges();
+		assignedCharges.add(finecharge.getChargeId());
+		bill.setAssignedCharges(assignedCharges);
+		bill.setAmount(Math.round(bill.getAmount() + fineAmount));
+		property.setNetPayable(Math.round(property.getNetPayable() + bill.getAmount()));
 
+		if (!isPreview) {
+			Bill.save(bill, false);
+			Property.save(property, false);
+		}
+		LOG.debug(bill.getAssignedCharges());
+		LOG.debug(bill.getAmount());
 		// } else {
 		// throw new SQLException("Unable to create savepoint BILL");
 		// }
@@ -354,7 +380,6 @@ public class BillManager {
 			e.printStackTrace();
 		}
 
-		System.out.println(chargeIds);
 		return chargeIds;
 	}
 

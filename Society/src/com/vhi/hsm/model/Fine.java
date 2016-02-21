@@ -215,8 +215,8 @@ public class Fine {
 				break;
 			}
 		}
-		percentage *= amount;
-		return percentage;
+//		percentage *= amount;
+		return percentage / 100 * amount;
 	}
 
 }

@@ -18,6 +18,7 @@ import com.itextpdf.text.Element;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.TabStop.Alignment;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
@@ -161,6 +162,10 @@ public class PDFManager {
 					}
 				}
 				document.add(billTable);
+				
+				Paragraph par = new Paragraph("Final Amount   Rs: " + bill.getAmount());
+				par.setAlignment(Element.ALIGN_CENTER);
+				document.add(par);
 
 				// add new bill in new page
 				if (i != (bills.size() - 1)) {
