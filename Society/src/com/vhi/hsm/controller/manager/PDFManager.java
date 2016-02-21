@@ -25,6 +25,7 @@ import com.itextpdf.text.pdf.PdfPageEventHelper;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.vhi.hsm.db.SQLiteManager;
 import com.vhi.hsm.model.Bill;
+import com.vhi.hsm.model.BillCharge;
 import com.vhi.hsm.model.Charge;
 import com.vhi.hsm.model.ModeOfPayment;
 import com.vhi.hsm.model.Payment;
@@ -141,7 +142,8 @@ public class PDFManager {
 				for (int k = 0; k < billAssignedCharges.size(); k++) {
 					Charge charge = Charge.read(SystemManager.society.getSocietyId(),
 							billAssignedCharges.get(k).intValue());
-					double amount = charge.getAmount();
+					BillCharge billCharge = BillCharge.read(bill.getBillId(), charge.getChargeId());
+					double amount = billCharge.getAmount();
 					while (true) {
 						if ((k + 1) < billAssignedCharges.size()
 								&& billAssignedCharges.get(k + 1).equals(billAssignedCharges.get(k))) {
