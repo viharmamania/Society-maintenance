@@ -76,6 +76,16 @@ public class BillCharge {
 
 		return billCharge;
 	}
+	
+	public static void saveAll() {
+		try {
+			if (insertStatement != null) {
+				insertStatement.executeBatch();
+			}
+		} catch (SQLException e) {
+			
+		}
+	}
 
 	public static boolean save(BillCharge billCharge, boolean insertEntry) {
 		boolean result = false;
@@ -95,7 +105,8 @@ public class BillCharge {
 						insertStatement.setInt(1, billCharge.billId);
 						insertStatement.setInt(2, billCharge.chargeId);
 						insertStatement.setDouble(3, billCharge.amount);
-						result = SQLiteManager.executePrepStatementAndGetResult(insertStatement);
+						insertStatement.addBatch();
+//						result = SQLiteManager.executePrepStatementAndGetResult(insertStatement);
 					} catch (SQLException e) {
 						LOG.error(e.getMessage());
 					}

@@ -143,6 +143,8 @@ public class BillManager {
 			for (Property property : properties) {
 				societyBills.add(generatePropertySpecificBill(property, isPreview, tempChargeIds));
 			}
+			
+			BillCharge.saveAll();
 
 		} catch (SQLException e) {
 			societyBills.clear();
