@@ -41,6 +41,7 @@ import com.vhi.hsm.controller.manager.PaymentManager;
 import com.vhi.hsm.controller.manager.SystemManager;
 import com.vhi.hsm.model.ModeOfPayment;
 import com.vhi.hsm.model.Property;
+import com.vhi.hsm.view.panel.DashBoard;
 
 /**
  * Payment View for making bill payment
@@ -137,6 +138,7 @@ public class Payment extends JDialog implements WindowListener {
 		confirmButton = new JButton("Confirm Payment");
 		confirmButton.addActionListener(e -> {
 			makePayment();
+			DashBoard.prepareTreeData();
 		});
 
 		backButton = new JButton("Cancel Payment");

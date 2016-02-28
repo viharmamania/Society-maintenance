@@ -32,6 +32,7 @@ import com.vhi.hsm.db.SQLiteManager;
 import com.vhi.hsm.model.Bill;
 import com.vhi.hsm.model.Charge;
 import com.vhi.hsm.utils.Constants;
+import com.vhi.hsm.view.panel.DashBoard;
 
 /**
  * @author Hardik Senghani
@@ -138,6 +139,7 @@ public class GenerateBill extends JDialog implements WindowListener {
 			createPDF(false);
 			JOptionPane.showMessageDialog(this, "The Bills have been generated successfully ", "Success", JOptionPane.INFORMATION_MESSAGE);
 			dispose();
+			DashBoard.prepareTreeData();
 		});
 
 		previewBills = new JButton("Preveiw Bills");

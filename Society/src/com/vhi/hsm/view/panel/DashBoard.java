@@ -21,6 +21,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeSelectionModel;
 
 //import org.apache.log4j.Logger;
@@ -49,8 +50,8 @@ public class DashBoard extends JFrame implements WindowListener {
 	// private final static Logger LOG = Logger.getLogger(DashBoard.class);
 	private JPanel societyInfoPanel, infoPanel, treePanel, paymentPanel, billPanel, propertyPanel, chargePanel;
 
-	private JTree billTree;
-	private DefaultMutableTreeNode rootNode;
+	private static JTree billTree;
+	private static DefaultMutableTreeNode rootNode;
 
 	private JButton // propertyPayButton,
 	propertyAssetButton, propertyViewButton, billGenerateButton, chargeViewButton, makePaymentButton,
@@ -98,7 +99,6 @@ public class DashBoard extends JFrame implements WindowListener {
 			// new TempChargesConfirmationView(this);
 			// generateBillPreview();
 			new GenerateBill(this);
-			prepareTreeData();
 		});
 
 //		billViewButton = new JButton("View Bills");
@@ -112,7 +112,6 @@ public class DashBoard extends JFrame implements WindowListener {
 		makePaymentButton = new JButton("Make Payment");
 		makePaymentButton.addActionListener(e -> {
 			new Payment(this);
-			prepareTreeData();
 		});
 
 		rootNode = new DefaultMutableTreeNode("Previous Months Bill");
@@ -231,7 +230,7 @@ public class DashBoard extends JFrame implements WindowListener {
 
 	}
 
-	private void prepareTreeData() {
+	public static void prepareTreeData() {
 
 		rootNode.removeAllChildren();
 
@@ -248,6 +247,10 @@ public class DashBoard extends JFrame implements WindowListener {
 			node.add(unpaidBillsNode);
 			rootNode.add(node);
 		}
+		
+		DefaultTreeModel model = (DefaultTreeModel)billTree.getModel();
+		model.reload();
+		
 
 		// // fetching past 6 months generated bills
 		// Calendar cal = Calendar.getInstance();
