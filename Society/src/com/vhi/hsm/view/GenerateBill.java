@@ -136,12 +136,15 @@ public class GenerateBill extends JDialog implements WindowListener {
 		generateBills = new JButton("Generate Bills");
 		generateBills.addActionListener(e -> {
 			createPDF(false);
+			JOptionPane.showMessageDialog(this, "The Bills have been generated successfully ", "Success", JOptionPane.INFORMATION_MESSAGE);
 			dispose();
 		});
 
 		previewBills = new JButton("Preveiw Bills");
 		previewBills.addActionListener(e -> {
 			createPDF(true);
+			JOptionPane.showMessageDialog(this, "The Preview has been generated successfully ", "Success", JOptionPane.INFORMATION_MESSAGE);
+			dispose();
 		});
 
 		GroupLayout layout = new GroupLayout(getContentPane());

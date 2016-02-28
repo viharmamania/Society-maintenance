@@ -46,19 +46,18 @@ public class DashBoard extends JFrame implements WindowListener {
 	 * 
 	 */
 	private static final long serialVersionUID = -8224505516276632916L;
-//	private final static Logger LOG = Logger.getLogger(DashBoard.class);
+	// private final static Logger LOG = Logger.getLogger(DashBoard.class);
 	private JPanel societyInfoPanel, infoPanel, treePanel, paymentPanel, billPanel, propertyPanel, chargePanel;
 
 	private JTree billTree;
 	private DefaultMutableTreeNode rootNode;
 
-	private JButton //propertyPayButton, 
-					propertyAssetButton, propertyViewButton, billGenerateButton, billViewButton,
-			chargeViewButton, paymentViewButton, makePaymentButton,paymentReceiptsButton;
+	private JButton // propertyPayButton,
+	propertyAssetButton, propertyViewButton, billGenerateButton, chargeViewButton, makePaymentButton,
+			paymentReceiptsButton;
 
 	public DashBoard() {
 
-		
 		societyInfoPanel = new JPanel();
 		infoPanel = new JPanel();
 		treePanel = new JPanel();
@@ -72,7 +71,7 @@ public class DashBoard extends JFrame implements WindowListener {
 		chargePanel = new JPanel();
 		chargePanel.setBorder(BorderFactory.createTitledBorder("Charge"));
 
-		//propertyPayButton = new JButton("Pay Bills");
+		// propertyPayButton = new JButton("Pay Bills");
 		propertyAssetButton = new JButton("View & Edit Assets");
 		propertyAssetButton.addActionListener(e -> {
 			new AssetTypeScreen(this);
@@ -88,31 +87,32 @@ public class DashBoard extends JFrame implements WindowListener {
 			}
 
 		});
-		
+
 		propertyViewButton = new JButton("View & Edit Properties");
 		propertyViewButton.addActionListener(e -> {
 			new PropertyView(this);
 		});
 
 		billGenerateButton = new JButton("Generate Monthly Bill");
-		billGenerateButton.addActionListener(e ->{
-			//new TempChargesConfirmationView(this);
-//			generateBillPreview();
+		billGenerateButton.addActionListener(e -> {
+			// new TempChargesConfirmationView(this);
+			// generateBillPreview();
 			new GenerateBill(this);
 			prepareTreeData();
 		});
-		
-		billViewButton = new JButton("View Bills");
+
+//		billViewButton = new JButton("View Bills");
 		chargeViewButton = new JButton("View & Edit Charges");
 		chargeViewButton.addActionListener(e -> {
 			new ChargeScreen(this);
 		});
 
-		paymentViewButton = new JButton("View & Edit Payments");
+		// paymentViewButton = new JButton("View & Edit Payments");
 
 		makePaymentButton = new JButton("Make Payment");
 		makePaymentButton.addActionListener(e -> {
 			new Payment(this);
+			prepareTreeData();
 		});
 
 		rootNode = new DefaultMutableTreeNode("Previous Months Bill");
@@ -132,30 +132,34 @@ public class DashBoard extends JFrame implements WindowListener {
 		setLocationRelativeTo(null);
 	}
 
-//	private List<Bill> generateBillPreview() {
-//		List<Bill> bills = null;
-//		try {
-//			bills = PreviewManager.generateBill(SystemManager.society.getSocietyId());
-//			for(Bill bill : bills){
-//				System.out.println(bill);
-//			}
-//			JOptionPane.showMessageDialog(this, "The Bills have been generated successfully ", "Success", JOptionPane.INFORMATION_MESSAGE);
-//		} catch (Exception e) {
-//			LOG.error(e);
-//		}
-//		return bills;
-//	}
-//	
-//	private void generateBill() {
-////		try {
-////			List<Bill> bills = BillManager.generateBill(SystemManager.society.getSocietyId(), true);
-////			PDFManager.generateBillPDF(bills);
-////			JOptionPane.showMessageDialog(this, "The Bills have been generated successfully ", "Success", JOptionPane.INFORMATION_MESSAGE);
-////			dispose();
-////		} catch (FileNotFoundException | DocumentException e) {
-////			LOG.error(e.getMessage());
-////		}
-//	}
+	// private List<Bill> generateBillPreview() {
+	// List<Bill> bills = null;
+	// try {
+	// bills =
+	// PreviewManager.generateBill(SystemManager.society.getSocietyId());
+	// for(Bill bill : bills){
+	// System.out.println(bill);
+	// }
+	// JOptionPane.showMessageDialog(this, "The Bills have been generated
+	// successfully ", "Success", JOptionPane.INFORMATION_MESSAGE);
+	// } catch (Exception e) {
+	// LOG.error(e);
+	// }
+	// return bills;
+	// }
+	//
+	// private void generateBill() {
+	//// try {
+	//// List<Bill> bills =
+	// BillManager.generateBill(SystemManager.society.getSocietyId(), true);
+	//// PDFManager.generateBillPDF(bills);
+	//// JOptionPane.showMessageDialog(this, "The Bills have been generated
+	// successfully ", "Success", JOptionPane.INFORMATION_MESSAGE);
+	//// dispose();
+	//// } catch (FileNotFoundException | DocumentException e) {
+	//// LOG.error(e.getMessage());
+	//// }
+	// }
 
 	private void initLayout() {
 
@@ -181,19 +185,19 @@ public class DashBoard extends JFrame implements WindowListener {
 		c.gridwidth = 1;
 		getContentPane().add(infoPanel, c);
 
-		paymentPanel.setLayout(new GridLayout(0, 2));
-		paymentPanel.add(paymentViewButton);
+		paymentPanel.setLayout(new GridLayout(0, 1));
+		// paymentPanel.add(paymentViewButton);
 		paymentPanel.add(makePaymentButton);
 		paymentPanel.add(paymentReceiptsButton);
 
-		billPanel.setLayout(new GridLayout(0, 1));
-		billPanel.add(billViewButton);
+		billPanel.setLayout(new GridLayout(1,0));
+//		billPanel.add(billViewButton);
 		billPanel.add(billGenerateButton);
 
 		propertyPanel.setLayout(new GridLayout(0, 1));
 		propertyPanel.add(propertyViewButton);
 		propertyPanel.add(propertyAssetButton);
-//		propertyPanel.add(propertyPayButton);
+		// propertyPanel.add(propertyPayButton);
 
 		chargePanel.setLayout(new GridLayout(0, 1));
 		chargePanel.add(chargeViewButton);
@@ -228,10 +232,10 @@ public class DashBoard extends JFrame implements WindowListener {
 	}
 
 	private void prepareTreeData() {
-		
+
 		rootNode.removeAllChildren();
-		
-		//Show unpaid bills and net-payable amount for each property
+
+		// Show unpaid bills and net-payable amount for each property
 		List<Property> allProperty = Property.getAllProperties(SystemManager.society.getSocietyId());
 		for (Property property : allProperty) {
 			DefaultMutableTreeNode node = new DefaultMutableTreeNode(property.getPropertyName());
@@ -244,31 +248,36 @@ public class DashBoard extends JFrame implements WindowListener {
 			node.add(unpaidBillsNode);
 			rootNode.add(node);
 		}
-		
-//		// fetching past 6 months generated bills
-//		Calendar cal = Calendar.getInstance();
-//		cal.add(Calendar.MONTH, -6);
-//		cal.set(Calendar.HOUR, 0);
-//		long time = cal.getTime().getTime();
-//		try {
-//			String query = "select " + Constants.Table.Bill.FieldName.BILL_ID + " , "
-//					+ Constants.Table.Bill.FieldName.BILL_TIMESTAMP + " from " + Constants.Table.Bill.TABLE_NAME
-//					+ " where " + Constants.Table.Bill.FieldName.BILL_TIMESTAMP + " >= " + time;
-//			ResultSet resultSet = SQLiteManager.executeQuery(query);
-//			if (resultSet != null) {
-//				while (resultSet.next()) {
-//					Calendar instance = Calendar.getInstance();
-//					instance.setTime(new Date(resultSet.getLong(Constants.Table.Bill.FieldName.BILL_TIMESTAMP)));
-//					DefaultMutableTreeNode node = new DefaultMutableTreeNode(instance.get(Calendar.MONTH));
-//					node.setUserObject(Bill.read(resultSet.getInt(Constants.Table.Bill.FieldName.BILL_ID)));
-//					rootNode.add(node);
-//				}
-//			}
-//			rootNode.add(new DefaultMutableTreeNode("Test"));
-//
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
+
+		// // fetching past 6 months generated bills
+		// Calendar cal = Calendar.getInstance();
+		// cal.add(Calendar.MONTH, -6);
+		// cal.set(Calendar.HOUR, 0);
+		// long time = cal.getTime().getTime();
+		// try {
+		// String query = "select " + Constants.Table.Bill.FieldName.BILL_ID + "
+		// , "
+		// + Constants.Table.Bill.FieldName.BILL_TIMESTAMP + " from " +
+		// Constants.Table.Bill.TABLE_NAME
+		// + " where " + Constants.Table.Bill.FieldName.BILL_TIMESTAMP + " >= "
+		// + time;
+		// ResultSet resultSet = SQLiteManager.executeQuery(query);
+		// if (resultSet != null) {
+		// while (resultSet.next()) {
+		// Calendar instance = Calendar.getInstance();
+		// instance.setTime(new
+		// Date(resultSet.getLong(Constants.Table.Bill.FieldName.BILL_TIMESTAMP)));
+		// DefaultMutableTreeNode node = new
+		// DefaultMutableTreeNode(instance.get(Calendar.MONTH));
+		// node.setUserObject(Bill.read(resultSet.getInt(Constants.Table.Bill.FieldName.BILL_ID)));
+		// rootNode.add(node);
+		// }
+		// }
+		// rootNode.add(new DefaultMutableTreeNode("Test"));
+		//
+		// } catch (SQLException e) {
+		// e.printStackTrace();
+		// }
 	}
 
 	@Override
@@ -304,10 +313,11 @@ public class DashBoard extends JFrame implements WindowListener {
 	public void windowOpened(WindowEvent arg0) {
 
 	}
-	
-	private void generateMonthlyPaymentReceipts() throws SQLException, DocumentException, MalformedURLException, IOException {
+
+	private void generateMonthlyPaymentReceipts()
+			throws SQLException, DocumentException, MalformedURLException, IOException {
 		Calendar instance = Calendar.getInstance();
-//		instance.add(Calendar.MONTH, -1);
+		// instance.add(Calendar.MONTH, -1);
 		instance.set(Calendar.DAY_OF_MONTH, 1);
 		instance.set(Calendar.HOUR_OF_DAY, 0);
 		instance.set(Calendar.MINUTE, 0);
