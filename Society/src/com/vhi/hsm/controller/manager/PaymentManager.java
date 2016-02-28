@@ -52,6 +52,7 @@ public class PaymentManager {
 //					property.setNetPayable(remainingAmount);
 					
 					newNetPaybale = property.getNetPayable();
+					newNetPaybale = newNetPaybale - payment.getAmount();
 					
 					/***
 					 * Add fine if Last paymentis done before due date and current payment date is after the due date

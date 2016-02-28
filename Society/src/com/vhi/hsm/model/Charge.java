@@ -213,6 +213,7 @@ public class Charge {
 						}
 
 						societyCharges.put(chargeId, charge);
+						chargeMap.put(SystemManager.society.getSocietyId(), societyCharges);
 					}
 				} catch (SQLException e) {
 					LOG.error(e.getMessage());
@@ -308,6 +309,7 @@ public class Charge {
 			}
 
 			societyCharges.put(charge.chargeId, charge);
+			chargeMap.put(SystemManager.society.getSocietyId(), societyCharges);
 
 		}
 

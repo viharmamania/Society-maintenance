@@ -142,8 +142,13 @@ public class PDFManager {
 				for (int k = 0; k < billAssignedCharges.size(); k++) {
 					Charge charge = Charge.read(SystemManager.society.getSocietyId(),
 							billAssignedCharges.get(k).intValue());
-					BillCharge billCharge = BillCharge.read(bill.getBillId(), charge.getChargeId());
-					double amount = billCharge.getAmount();
+					double amount = 0.0;
+					if (!isPreview) {
+						BillCharge billCharge = BillCharge.read(bill.getBillId(), charge.getChargeId());
+						amount = billCharge.getAmount();
+					} else {
+						amount = charge.getAmount();
+					}
 					while (true) {
 						if ((k + 1) < billAssignedCharges.size()
 								&& billAssignedCharges.get(k + 1).equals(billAssignedCharges.get(k))) {
@@ -162,8 +167,9 @@ public class PDFManager {
 				}
 				document.add(billTable);
 				
-				Paragraph par = new Paragraph("Final Amount   Rs: " + bill.getAmount());
-				par.setAlignment(Element.ALIGN_CENTER);
+				Paragraph par = new Paragraph("Payable Amount  Rs: " + bill.getAmount());
+				par.setAlignment(Element.ALIGN_RIGHT);
+				par.setAlignment(Element.ALIGN_BOTTOM);
 				document.add(par);
 
 				// add new bill in new page
