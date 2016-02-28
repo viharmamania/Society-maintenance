@@ -27,32 +27,6 @@ public class User {
 
 	private static PreparedStatement readStatement, insertStatement, updateStatement, deleteStatement;
 
-	/*
-	 * private static PreparedStatement readStatement = SQLiteManager
-	 * .getPreparedStatement("SELECT * FROM " + Constants.Table.User.TABLE_NAME
-	 * + " WHERE " + Constants.Table.User.FieldName.USER_NAME + " = ?");
-	 * 
-	 * private static PreparedStatement insertStatement =
-	 * SQLiteManager.getPreparedStatement( "INSERT INTO " +
-	 * Constants.Table.User.TABLE_NAME + " VALUES (?, ?, ?, ?, ?)");
-	 * 
-	 * 
-	 * private static PreparedStatement updateStatement =
-	 * SQLiteManager.getPreparedStatement( "UPDATE " +
-	 * Constants.Table.User.TABLE_NAME + " SET " +
-	 * Constants.Table.User.FieldName.FULL_NAME + " =? " +
-	 * Constants.Table.User.FieldName.EMAIL + " =? " +
-	 * Constants.Table.User.FieldName.PASSWORD + " =? " +
-	 * Constants.Table.Society.FieldName.SOCIETY_ID + " = ?" + " WHERE " +
-	 * Constants.Table.User.FieldName.USER_NAME +" =? ");
-	 * 
-	 * private static PreparedStatement deleteStatement =
-	 * SQLiteManager.getPreparedStatement("" + "UPDATE " +
-	 * Constants.Table.User.TABLE_NAME + " SET " +
-	 * Constants.Table.User.FieldName.IS_DELETED + " =? " + " WHERE " +
-	 * Constants.Table.User.FieldName.USER_NAME +" =? ");
-	 */
-
 	private static String readString = "SELECT * FROM " + Constants.Table.User.TABLE_NAME + " WHERE "
 			+ Constants.Table.User.FieldName.USER_NAME + " = ?";
 

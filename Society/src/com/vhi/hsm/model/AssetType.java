@@ -23,8 +23,6 @@ public class AssetType {
 
 	private int chargeId;
 
-//	private double charges;
-
 	private static HashMap<Integer, HashMap<String, AssetType>> assetTypeMap;
 	private static PreparedStatement readStatement, insertStatement, updateStatement, deleteStatement;
 
@@ -67,14 +65,6 @@ public class AssetType {
 		this.description = description;
 	}
 
-//	public double getCharges() {
-//		return charges;
-//	}
-//
-//	public void setCharges(double charges) {
-//		this.charges = charges;
-//	}
-	
 	public static ArrayList<AssetType> getAllAssetType(int societyId) {
 		ArrayList<AssetType> list = new ArrayList<AssetType>();
 		try {

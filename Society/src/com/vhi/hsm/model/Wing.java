@@ -28,31 +28,6 @@ public class Wing {
 
 	private static PreparedStatement readStatement, insertStatement, updateStatement, deleteStatement;
 
-	/*
-	 * private static PreparedStatement readStatement = SQLiteManager
-	 * .getPreparedStatement("SELECT * FROM " + Constants.Table.Wing.TABLE_NAME
-	 * + " WHERE " + Constants.Table.Society.FieldName.SOCIETY_ID + " = ?" +
-	 * " AND " + Constants.Table.Wing.FieldName.WING_ID +" =? ");;
-	 * 
-	 * private static PreparedStatement insertStatement =
-	 * SQLiteManager.getPreparedStatement( "INSERT INTO " +
-	 * Constants.Table.User.TABLE_NAME + " VALUES (?, ?, ?)");
-	 * 
-	 * 
-	 * private static PreparedStatement updateStatement =
-	 * SQLiteManager.getPreparedStatement( "UPDATE " +
-	 * Constants.Table.User.TABLE_NAME + " SET " +
-	 * Constants.Table.Wing.FieldName.WING_NAME + " =? " +
-	 * Constants.Table.Wing.FieldName.NUMBER_OF_FLOORS + " =? " + " WHERE " +
-	 * Constants.Table.Wing.FieldName.WING_ID +" =? " + " AND "
-	 * +Constants.Table.Society.FieldName.SOCIETY_ID + " = ?");
-	 * 
-	 * private static PreparedStatement deleteStatement =
-	 * SQLiteManager.getPreparedStatement( "DELETE " +
-	 * Constants.Table.Wing.TABLE_NAME + " WHERE " +
-	 * Constants.Table.Society.FieldName.SOCIETY_ID + " = ?" + " AND " +
-	 * Constants.Table.Wing.FieldName.WING_ID + " = ?");
-	 */
 
 	private static String readString = "SELECT * FROM " + Constants.Table.Wing.TABLE_NAME + " WHERE "
 			+ Constants.Table.Society.FieldName.SOCIETY_ID + " = ?" + " AND " + Constants.Table.Wing.FieldName.WING_ID

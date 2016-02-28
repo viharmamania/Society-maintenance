@@ -24,12 +24,11 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeSelectionModel;
 
-//import org.apache.log4j.Logger;
+import org.apache.log4j.Logger;
 
 import com.itextpdf.text.DocumentException;
 import com.vhi.hsm.controller.manager.BillManager;
 import com.vhi.hsm.controller.manager.PDFManager;
-//import com.vhi.hsm.controller.manager.PreviewManager;
 import com.vhi.hsm.controller.manager.SystemManager;
 import com.vhi.hsm.db.SQLiteManager;
 import com.vhi.hsm.model.Bill;
@@ -47,7 +46,7 @@ public class DashBoard extends JFrame implements WindowListener {
 	 * 
 	 */
 	private static final long serialVersionUID = -8224505516276632916L;
-	// private final static Logger LOG = Logger.getLogger(DashBoard.class);
+	private final static Logger LOG = Logger.getLogger(DashBoard.class);
 	private JPanel societyInfoPanel, infoPanel, treePanel, paymentPanel, billPanel, propertyPanel, chargePanel;
 
 	private static JTree billTree;
@@ -101,13 +100,11 @@ public class DashBoard extends JFrame implements WindowListener {
 			new GenerateBill(this);
 		});
 
-//		billViewButton = new JButton("View Bills");
+		// billViewButton = new JButton("View Bills");
 		chargeViewButton = new JButton("View & Edit Charges");
 		chargeViewButton.addActionListener(e -> {
 			new ChargeScreen(this);
 		});
-
-		// paymentViewButton = new JButton("View & Edit Payments");
 
 		makePaymentButton = new JButton("Make Payment");
 		makePaymentButton.addActionListener(e -> {
@@ -130,35 +127,6 @@ public class DashBoard extends JFrame implements WindowListener {
 		setVisible(true);
 		setLocationRelativeTo(null);
 	}
-
-	// private List<Bill> generateBillPreview() {
-	// List<Bill> bills = null;
-	// try {
-	// bills =
-	// PreviewManager.generateBill(SystemManager.society.getSocietyId());
-	// for(Bill bill : bills){
-	// System.out.println(bill);
-	// }
-	// JOptionPane.showMessageDialog(this, "The Bills have been generated
-	// successfully ", "Success", JOptionPane.INFORMATION_MESSAGE);
-	// } catch (Exception e) {
-	// LOG.error(e);
-	// }
-	// return bills;
-	// }
-	//
-	// private void generateBill() {
-	//// try {
-	//// List<Bill> bills =
-	// BillManager.generateBill(SystemManager.society.getSocietyId(), true);
-	//// PDFManager.generateBillPDF(bills);
-	//// JOptionPane.showMessageDialog(this, "The Bills have been generated
-	// successfully ", "Success", JOptionPane.INFORMATION_MESSAGE);
-	//// dispose();
-	//// } catch (FileNotFoundException | DocumentException e) {
-	//// LOG.error(e.getMessage());
-	//// }
-	// }
 
 	private void initLayout() {
 
@@ -189,8 +157,8 @@ public class DashBoard extends JFrame implements WindowListener {
 		paymentPanel.add(makePaymentButton);
 		paymentPanel.add(paymentReceiptsButton);
 
-		billPanel.setLayout(new GridLayout(1,0));
-//		billPanel.add(billViewButton);
+		billPanel.setLayout(new GridLayout(1, 0));
+		// billPanel.add(billViewButton);
 		billPanel.add(billGenerateButton);
 
 		propertyPanel.setLayout(new GridLayout(0, 1));
@@ -247,40 +215,10 @@ public class DashBoard extends JFrame implements WindowListener {
 			node.add(unpaidBillsNode);
 			rootNode.add(node);
 		}
-		
-		DefaultTreeModel model = (DefaultTreeModel)billTree.getModel();
-		model.reload();
-		
 
-		// // fetching past 6 months generated bills
-		// Calendar cal = Calendar.getInstance();
-		// cal.add(Calendar.MONTH, -6);
-		// cal.set(Calendar.HOUR, 0);
-		// long time = cal.getTime().getTime();
-		// try {
-		// String query = "select " + Constants.Table.Bill.FieldName.BILL_ID + "
-		// , "
-		// + Constants.Table.Bill.FieldName.BILL_TIMESTAMP + " from " +
-		// Constants.Table.Bill.TABLE_NAME
-		// + " where " + Constants.Table.Bill.FieldName.BILL_TIMESTAMP + " >= "
-		// + time;
-		// ResultSet resultSet = SQLiteManager.executeQuery(query);
-		// if (resultSet != null) {
-		// while (resultSet.next()) {
-		// Calendar instance = Calendar.getInstance();
-		// instance.setTime(new
-		// Date(resultSet.getLong(Constants.Table.Bill.FieldName.BILL_TIMESTAMP)));
-		// DefaultMutableTreeNode node = new
-		// DefaultMutableTreeNode(instance.get(Calendar.MONTH));
-		// node.setUserObject(Bill.read(resultSet.getInt(Constants.Table.Bill.FieldName.BILL_ID)));
-		// rootNode.add(node);
-		// }
-		// }
-		// rootNode.add(new DefaultMutableTreeNode("Test"));
-		//
-		// } catch (SQLException e) {
-		// e.printStackTrace();
-		// }
+		DefaultTreeModel model = (DefaultTreeModel) billTree.getModel();
+		model.reload();
+
 	}
 
 	@Override

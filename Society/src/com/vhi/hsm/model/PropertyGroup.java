@@ -24,31 +24,6 @@ public class PropertyGroup {
 	private static HashMap<Integer, HashMap<String, PropertyGroup>> propertyGroupMap = new HashMap<>();
 
 	private static PreparedStatement readStatement, insertStatement, updateStatement, deleteStatement;
-	/*
-	 * private static PreparedStatement readStatement = SQLiteManager
-	 * .getPreparedStatement("SELECT * FROM " +
-	 * Constants.Table.PropertyGroup.TABLE_NAME + " WHERE " +
-	 * Constants.Table.Society.FieldName.SOCIETY_ID + " = ?" + " AND " +
-	 * Constants.Table.PropertyGroup.FieldName.PROPERTY_GROUP +" =? ");;
-	 * 
-	 * private static PreparedStatement insertStatement =
-	 * SQLiteManager.getPreparedStatement( "INSERT INTO " +
-	 * Constants.Table.PropertyGroup.TABLE_NAME + " VALUES (?, ?, ?)");
-	 * 
-	 * 
-	 * private static PreparedStatement updateStatement =
-	 * SQLiteManager.getPreparedStatement( "UPDATE " +
-	 * Constants.Table.PropertyGroup.TABLE_NAME + " SET "
-	 * +Constants.Table.PropertyGroup.FieldName.DESCRIPTION + " =? " + " WHERE "
-	 * + Constants.Table.Society.FieldName.SOCIETY_ID + " = ?" + " AND " +
-	 * Constants.Table.PropertyGroup.FieldName.PROPERTY_GROUP +" =? ");
-	 * 
-	 * private static PreparedStatement deleteStatement =
-	 * SQLiteManager.getPreparedStatement("DELETE " +
-	 * Constants.Table.PropertyGroup.TABLE_NAME + " WHERE " +
-	 * Constants.Table.Society.FieldName.SOCIETY_ID + " = ?" + " AND " +
-	 * Constants.Table.PropertyGroup.FieldName.PROPERTY_GROUP + " = ?");
-	 */
 
 	private static String readString = "SELECT * FROM " + Constants.Table.PropertyGroup.TABLE_NAME + " WHERE "
 			+ Constants.Table.Society.FieldName.SOCIETY_ID + " = ?" + " AND "

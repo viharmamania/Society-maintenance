@@ -119,15 +119,7 @@ public class BillManager {
 	public static synchronized List<Bill> generateBill(int societyId, boolean isPreview, List<Integer> tempChargeIds) {
 		List<Bill> societyBills = new ArrayList<>();
 		Set<Property> properties = new LinkedHashSet<>();
-		// Savepoint completeTransactionSavepoint = null;
-
-		// if (SQLiteManager.startTransaction()) {
 		try {
-
-			// completeTransactionSavepoint =
-			// SQLiteManager.createSavepoint("TRANACTION");
-			//
-			// if (completeTransactionSavepoint != null) {
 
 			PreparedStatement readStatement = SQLiteManager.getPreparedStatement(readProperties);
 			readStatement.clearParameters();
@@ -152,28 +144,10 @@ public class BillManager {
 				societyBills.add(generatePropertySpecificBill(property, isPreview, tempChargeIds));
 			}
 
-			// if (!SQLiteManager.commitSavePoint(completeTransactionSavepoint))
-			// {
-			// throw new SQLException("Unable to commit savepoint -
-			// TRANSACTION");
-			// }
-			//
-			// } else {
-			// throw new SQLException("Unable to create savepoint -
-			// TRANSACTION");
-			// }
-
 		} catch (SQLException e) {
-			// if (completeTransactionSavepoint != null) {
-			// SQLiteManager.rollbackSavePoint(completeTransactionSavepoint);
-			// }
 			societyBills.clear();
 			LOG.error(e.getMessage());
 		}
-		// }
-
-		// SQLiteManager.endTransaction();
-
 		return societyBills;
 
 	}
@@ -192,9 +166,6 @@ public class BillManager {
 		double billAmount = 0.0;
 		Bill bill = Bill.create();
 		ArrayList<Integer> chargeIds = new ArrayList<>();
-		// Savepoint billSavePoint = SQLiteManager.createSavepoint("BILL");
-		//
-		// if (billSavePoint != null) {
 
 		// get All charges for this particular property
 		chargeIds.addAll(getChargeIds(property));
@@ -220,42 +191,12 @@ public class BillManager {
 		bill.setCancelled(false);
 		bill.setAssignedCharges(chargeIds);
 		bill.setAmount(billAmount);
-//		System.out.println("Bill Amount:" + billAmount);
-//
-//		// if property has available balance to settle this bill then mark
-//		// it
-//		// appropriately
-//		if (property.getNetPayable() >= billAmount) {
-//			bill.setPaymentId(property.getLatestPaymentId());
-//			if (!isPreview) {
-//				// updating this properties net payable
-//				property.setNetPayable(property.getNetPayable() - billAmount);
-//			}
-//		}
 
 		if (!isPreview) {
 
 			// saving bill and property in DB
 			Bill.save(bill, true);
 			Property.save(property, false);
-
-			// if (!SQLiteManager.commitSavePoint(billSavePoint)) {
-			// SQLiteManager.rollbackSavePoint(billSavePoint);
-			// throw new SQLException("Unable commit savepoint BILL");
-			// }
-
-			// Savepoint billChargeSavepoint =
-			// SQLiteManager.createSavepoint("BILL_CHARGE");
-			// if (billChargeSavepoint != null) {
-
-			// saving individual bill charges in DB
-			// for (Integer chargeId : chargeIds) {
-			// BillCharge billCharge = BillCharge.create(bill.getBillId(),
-			// chargeId);
-			// Charge charge = Charge.read(property.getSocietyId(), chargeId);
-			// billCharge.setAmount(charge.getAmount());
-			// BillCharge.save(billCharge, true);
-			// }
 
 			Integer chargeIdArray[] = new Integer[chargeIds.size()];
 			chargeIds.toArray(chargeIdArray);
@@ -264,7 +205,7 @@ public class BillManager {
 					return o1.compareTo(o2);
 				}
 			});
-			
+
 			for (int i = 0; i < chargeIdArray.length; i++) {
 				BillCharge billCharge = BillCharge.create(bill.getBillId(), chargeIdArray[i]);
 				Charge charge = Charge.read(property.getSocietyId(), chargeIdArray[i]);
@@ -279,30 +220,21 @@ public class BillManager {
 				BillCharge.save(billCharge, true);
 			}
 
-			// if (!SQLiteManager.commitSavePoint(billChargeSavepoint)) {
-			// SQLiteManager.rollbackSavePoint(billChargeSavepoint);
-			// throw new SQLException("Unable to commit savepoint BILL_CHARGE");
-			// }
-			//
-			// } else {
-			// throw new SQLException("Unable to create savepoint BILL_CHARGE");
-			// }
-
 		}
-		
-		//Calculate Fine 
+
+		// Calculate Fine
 		Charge finecharge = Charge.read(SystemManager.society.getSocietyId(), FINE_CHARGE_ID);
 		double fineAmount = Fine.getFineAmount(SystemManager.society.getSocietyId(), property.getNetPayable());
 		BillCharge billCharge = BillCharge.create(bill.getBillId(), finecharge.getChargeId());
 		billCharge.setAmount(fineAmount);
-		
-		//manipulate previous balances
+
+		// manipulate previous balances
 		Charge previousCharge = Charge.read(SystemManager.society.getSocietyId(), PREVIOUS_CHARGE_ID);
 		BillCharge billCharge2 = BillCharge.create(bill.getBillId(), previousCharge.getChargeId());
 		billCharge2.setAmount(property.getNetPayable());
-		
+
 		if (!isPreview) {
-			
+
 			BillCharge.save(billCharge, true);
 			BillCharge.save(billCharge2, true);
 		}
@@ -310,19 +242,16 @@ public class BillManager {
 		assignedCharges.add(finecharge.getChargeId());
 		assignedCharges.add(previousCharge.getChargeId());
 		bill.setAssignedCharges(assignedCharges);
-		bill.setAmount(Math.round(bill.getAmount() + fineAmount + property.getNetPayable()) );
+		bill.setAmount(Math.round(bill.getAmount() + fineAmount + property.getNetPayable()));
 
 		if (!isPreview) {
-			//updating this properties net payable
+			// updating this properties net payable
 			Bill.save(bill, false);
 			property.setNetPayable(Math.round(bill.getAmount()));
 			Property.save(property, false);
 		}
 		LOG.debug(bill.getAssignedCharges());
 		LOG.debug(bill.getAmount());
-		// } else {
-		// throw new SQLException("Unable to create savepoint BILL");
-		// }
 
 		return bill;
 	}
@@ -416,7 +345,8 @@ public class BillManager {
 	public static double getLateFineAmount(Bill bill, java.util.Date paymentDate) {
 
 		double fine = 0;
-		int diffInDays = ((int) ((long)(paymentDate.getTime() - bill.getBillDate().getTime()) / (1000 * 60 * 60 * 24)));
+		int diffInDays = ((int) ((long) (paymentDate.getTime() - bill.getBillDate().getTime())
+				/ (1000 * 60 * 60 * 24)));
 
 		if (diffInDays <= SystemManager.society.getPaymentDueDate()) {
 			return 0;
@@ -435,5 +365,4 @@ public class BillManager {
 
 		return fine;
 	}
-
 }

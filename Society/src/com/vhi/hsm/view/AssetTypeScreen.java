@@ -251,7 +251,6 @@ public class AssetTypeScreen extends JDialog implements WindowListener {
 
 			assetTypeField = new JTextField(30);
 			descriptionField = new JTextField();
-//			chargeField = new JTextField();
 			chargeIdComboBoxModel = new DefaultComboBoxModel<>();
 			
 			ArrayList<Charge> allCharges = Charge.getAllCharge(SystemManager.society.getSocietyId());

@@ -40,7 +40,7 @@ public class PDFManager {
 	public static void generateBillPDF(List<Bill> bills, boolean isPreview) throws DocumentException, IOException {
 		Document document = new Document();
 		File file;
-		
+
 		StringBuilder pdfLocation = new StringBuilder();
 		if (isPreview) {
 			pdfLocation.append(Constants.Path.PREVIEW_PDF_LOCATION + "Preview Bill ");
@@ -49,31 +49,29 @@ public class PDFManager {
 			pdfLocation.append(Constants.Path.BILL_PDF_LOCATION + "Maintenance Bill ");
 			file = new File(Constants.Path.BILL_PDF_LOCATION);
 		}
-		
+
 		if (!file.exists()) {
 			file.mkdirs();
 		}
-		
+
 		Calendar calendar = Calendar.getInstance();
 		pdfLocation.append(Utility.getMonthNameFromNumber((calendar.get(Calendar.MONTH))) + " "
 				+ calendar.get(Calendar.YEAR) + ".pdf");
 		PdfWriter pdfWriter = PdfWriter.getInstance(document, new FileOutputStream(pdfLocation.toString()));
 		pdfWriter.setPageEvent(new EventHelper());
 		document.open();
-		
+
 		document.add(new Paragraph("\n\n\n"));
-		
-		
-		//Printing Society Information
+
+		// Printing Society Information
 		PdfPTable headerTable = new PdfPTable(1);
 		headerTable.getDefaultCell().setBorder(Rectangle.NO_BORDER);
 		headerTable.getDefaultCell().setHorizontalAlignment(Element.ALIGN_CENTER);
 		headerTable.addCell(SystemManager.society.getName().toUpperCase());
-		headerTable.addCell("Regn. No" +
-				SystemManager.society.getRegistrationNumber() + " Dated " + SystemManager.society.getRegistrationDate());
+		headerTable.addCell("Regn. No" + SystemManager.society.getRegistrationNumber() + " Dated "
+				+ SystemManager.society.getRegistrationDate());
 		headerTable.addCell(SystemManager.society.getAddress());
 
-		
 		Bill bill;
 		ArrayList<Integer> billAssignedCharges;
 		for (int i = 0; i < bills.size(); i++) {
@@ -82,7 +80,7 @@ public class PDFManager {
 			if (bill != null) {
 				// Society Information
 				document.add(headerTable);
-				
+
 				document.add(new Paragraph("\n\n\n"));
 				// Owner Information and general details
 				PdfPTable flatTable = new PdfPTable(3);
@@ -93,41 +91,37 @@ public class PDFManager {
 				flatTable.getDefaultCell().setHorizontalAlignment(Element.ALIGN_LEFT);
 				Property property = Property.read(bill.getPropertyId());
 				if (property != null) {
-					
+
 					Paragraph billNoParagraph = new Paragraph("Bill No: " + bill.getBillId());
 					billNoParagraph.setAlignment(Element.ALIGN_LEFT);
 					flatTable.addCell(billNoParagraph);
 
-					Calendar cal=Calendar.getInstance();
+					Calendar cal = Calendar.getInstance();
 					cal.setTime(bill.getBillDate());
 					cal.set(Calendar.DAY_OF_MONTH, 1);
 					Paragraph billDateParagraph = new Paragraph("Bill Date : " + getDate(cal));
 					billDateParagraph.setAlignment(Element.ALIGN_CENTER);
 					flatTable.addCell(billDateParagraph);
 
-					cal.add(Calendar.DAY_OF_MONTH , 14);
+					cal.add(Calendar.DAY_OF_MONTH, 14);
 					Paragraph dueDateParagraph = new Paragraph("Due Date : " + getDate(cal));
 					dueDateParagraph.setAlignment(Element.ALIGN_RIGHT);
 					flatTable.addCell(dueDateParagraph);
-					
-					// flatTable.addCell("Bill Amount");
-					// flatTable.getDefaultCell().setHorizontalAlignment(Element.ALIGN_CENTER);
-					// flatTable.addCell(getCell(Double.toString(bill.getAmount()),
-					// ));
 
 					document.add(flatTable);
 				}
-				
-				String string = " Shri./smt. " + property.getOwnerName() + " find below Detailed bill for Flat/Shop/Garage No. "
-						+ property.getPropertyName() + " for the period of "
-						+ Utility.getMonthNameFromNumber((calendar.get(Calendar.MONTH))) + " " + calendar.get(Calendar.YEAR);
+
+				String string = " Shri./smt. " + property.getOwnerName()
+						+ " find below Detailed bill for Flat/Shop/Garage No. " + property.getPropertyName()
+						+ " for the period of " + Utility.getMonthNameFromNumber((calendar.get(Calendar.MONTH))) + " "
+						+ calendar.get(Calendar.YEAR);
 				Paragraph infoParagraph = new Paragraph(string);
 				infoParagraph.setAlignment(Element.ALIGN_JUSTIFIED);
 				document.add(infoParagraph);
-				
+
 				document.add(new Paragraph("\n\n\n"));
-				
-				//printing charge Details
+
+				// printing charge Details
 				// Bill charges
 				PdfPTable billTable = new PdfPTable(3);
 				billTable.setWidthPercentage(100);
@@ -166,7 +160,7 @@ public class PDFManager {
 					}
 				}
 				document.add(billTable);
-				
+
 				Paragraph par = new Paragraph("Payable Amount  Rs: " + bill.getAmount());
 				par.setAlignment(Element.ALIGN_RIGHT);
 				par.setAlignment(Element.ALIGN_BOTTOM);
@@ -184,11 +178,11 @@ public class PDFManager {
 	}
 
 	private static String getDate(Calendar cal) {
-		
+
 		StringBuilder date = new StringBuilder();
 		date.append(cal.get(Calendar.DAY_OF_MONTH) + "/");
 		date.append(cal.get(Calendar.MONTH) + "/");
-		date.append(cal.get(Calendar.YEAR) );
+		date.append(cal.get(Calendar.YEAR));
 		return date.toString();
 	}
 
@@ -205,12 +199,12 @@ public class PDFManager {
 			throws DocumentException, MalformedURLException, IOException {
 
 		StringBuilder pdfLocation = new StringBuilder();
-		
+
 		File file = new File(Constants.Path.PAYMENT_PDF_LOCATION);
 		if (!file.exists()) {
 			file.mkdirs();
 		}
-		
+
 		pdfLocation.append(Constants.Path.PAYMENT_PDF_LOCATION + "Payment Receipts ");
 		pdfLocation.append(Utility.getMonthNameFromNumber((Calendar.getInstance().get(Calendar.MONTH))) + " "
 				+ Calendar.getInstance().get(Calendar.YEAR) + ".pdf");
@@ -275,9 +269,6 @@ public class PDFManager {
 			document.add(new Paragraph(paymentBillContent));
 			document.add(new Paragraph("\n"));
 			document.add(new Paragraph("\n"));
-			// Image instance =
-			// Image.getInstance("C:/Users/Vihar/Desktop/Y.jpg");
-			// document.add(instance);
 
 			document.add(new Paragraph("Rs: " + payment.getAmount()));
 
@@ -289,19 +280,9 @@ public class PDFManager {
 			document.close();
 			pdfWriter.close();
 		} catch (Exception exception) {
+			exception.printStackTrace();
 		}
-
 	}
-	
-//	static String getMonthForInt(int num) {
-//		String month = "";
-//		DateFormatSymbols dfs = new DateFormatSymbols();
-//		String[] months = dfs.getMonths();
-//		if (num >= 0 && num <= 11) {
-//			month = months[num];
-//		}
-//		return month;
-//	}
 }
 
 class EventHelper extends PdfPageEventHelper {

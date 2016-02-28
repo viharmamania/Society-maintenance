@@ -108,14 +108,6 @@ public class PreviewManager {
 
 			double fineAmount = Fine.getFineAmount(property.getSocietyId(), property.getNetPayable());
 			if (fineAmount > 0.0) {
-
-				/*
-				 * Charge fineCharge = Charge.create(property.getSocietyId());
-				 * fineCharge.setAmount(fineAmount);
-				 * fineCharge.setTempCharges(true);
-				 * fineCharge.setDescription("Fine"); Charge.save(fineCharge,
-				 * true);
-				 */
 				Charge fineCharge = Charge.getFineCharge();
 				fineCharge.setAmount(fineAmount);
 				// fineCharge
@@ -144,23 +136,6 @@ public class PreviewManager {
 		if (property.getNetPayable() < 0 && Math.abs(property.getNetPayable()) >= billAmount) {
 			bill.setPaymentId(property.getLatestPaymentId());
 		}
-
-		// // saving bill in DB
-		// Bill.save(bill, false);
-		//
-		// // saving individual bill charges in DB
-		// for (int i = 0; i < chargeIds.size(); i++) {
-		// BillCharge billCharge = BillCharge.create(bill.getBillId(),
-		// chargeIds.get(i));
-		// Charge charge = Charge.read(property.getSocietyId(),
-		// chargeIds.get(i));
-		// billCharge.setAmount(charge.getAmount());
-		// BillCharge.save(billCharge, true);
-		// }
-		//
-		// // updating this properties net payable
-		// property.setNetPayable(property.getNetPayable() + billAmount);
-		// Property.save(property, false);
 
 		return bill;
 	}

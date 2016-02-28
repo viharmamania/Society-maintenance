@@ -313,36 +313,29 @@ public class Charge {
 
 		}
 
-//		try {
+		for (Integer i : charge.assignedProperty) {
 
-			for (Integer i : charge.assignedProperty) {
+			SQLiteManager.executeUpdate("INSERT OR REPLACE INTO " + Constants.Table.ChargeToProperty.TABLE_NAME
+					+ " VALUES (" + SystemManager.society.getSocietyId() + ", " + charge.chargeId + ", " + i.toString()
+					+ ")");
 
-				SQLiteManager.executeUpdate("INSERT OR REPLACE INTO " + Constants.Table.ChargeToProperty.TABLE_NAME
-						+ " VALUES (" + SystemManager.society.getSocietyId() + ", " + charge.chargeId + ", "
-						+ i.toString() + ")");
+		}
 
-			}
-			
-			for (String i : charge.assignedPropertyType) {
+		for (String i : charge.assignedPropertyType) {
 
-				SQLiteManager.executeUpdate("INSERT OR REPLACE INTO " + Constants.Table.ChargeToPropertyType.TABLE_NAME
-						+ " VALUES (" + SystemManager.society.getSocietyId() + ", " + charge.chargeId + ", " + "'"
-						+ i + "\')");
+			SQLiteManager.executeUpdate(
+					"INSERT OR REPLACE INTO " + Constants.Table.ChargeToPropertyType.TABLE_NAME + " VALUES ("
+							+ SystemManager.society.getSocietyId() + ", " + charge.chargeId + ", " + "'" + i + "\')");
 
-			}
-			
-			for (String i : charge.assignedPropertyGroup) {
+		}
 
-				SQLiteManager.executeUpdate("INSERT OR REPLACE INTO " + Constants.Table.ChargeToPropertyGroup.TABLE_NAME
-						+ " VALUES (" + SystemManager.society.getSocietyId() + ", " + charge.chargeId + ", " + "'"
-						+ i + "\')");
+		for (String i : charge.assignedPropertyGroup) {
 
-			}
+			SQLiteManager.executeUpdate(
+					"INSERT OR REPLACE INTO " + Constants.Table.ChargeToPropertyGroup.TABLE_NAME + " VALUES ("
+							+ SystemManager.society.getSocietyId() + ", " + charge.chargeId + ", " + "'" + i + "\')");
 
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-
+		}
 		return result;
 	}
 

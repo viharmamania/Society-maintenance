@@ -25,32 +25,6 @@ public class PropertyType {
 
 	private static PreparedStatement readStatement, insertStatement, updateStatement, deleteStatement;
 
-	/*
-	 * private static PreparedStatement readStatement = SQLiteManager
-	 * .getPreparedStatement("SELECT * FROM " +
-	 * Constants.Table.PropertyType.TABLE_NAME + " WHERE " +
-	 * Constants.Table.Society.FieldName.SOCIETY_ID + " = ?" + " AND " +
-	 * Constants.Table.PropertyType.FieldName.PROPERTY_TYPE +" =? ");;
-	 * 
-	 * private static PreparedStatement insertStatement =
-	 * SQLiteManager.getPreparedStatement( "INSERT INTO " +
-	 * Constants.Table.PropertyType.TABLE_NAME + " VALUES (?, ?, ?)");
-	 * 
-	 * 
-	 * private static PreparedStatement updateStatement =
-	 * SQLiteManager.getPreparedStatement( "UPDATE " +
-	 * Constants.Table.PropertyType.TABLE_NAME + " SET "
-	 * +Constants.Table.PropertyType.FieldName.DESCRIPTION + " =? " + " WHERE "
-	 * + Constants.Table.Society.FieldName.SOCIETY_ID + " = ?" + " AND " +
-	 * Constants.Table.PropertyType.FieldName.PROPERTY_TYPE +" =? ");
-	 * 
-	 * private static PreparedStatement deleteStatement =
-	 * SQLiteManager.getPreparedStatement("DELETE " +
-	 * Constants.Table.PropertyType.TABLE_NAME + " WHERE " +
-	 * Constants.Table.Society.FieldName.SOCIETY_ID + " = ?" + " AND " +
-	 * Constants.Table.PropertyType.FieldName.PROPERTY_TYPE + " = ?");
-	 */
-
 	private static String readString = "SELECT * FROM " + Constants.Table.PropertyType.TABLE_NAME + " WHERE "
 			+ Constants.Table.Society.FieldName.SOCIETY_ID + " = ?" + " AND "
 			+ Constants.Table.PropertyType.FieldName.PROPERTY_TYPE + " =? ";

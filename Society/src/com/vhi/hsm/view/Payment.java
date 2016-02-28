@@ -184,8 +184,6 @@ public class Payment extends JDialog implements WindowListener {
 				.addGroup(groupLayout.createParallelGroup().addComponent(confirmButton).addComponent(backButton)
 						.addComponent(uploadButton)));
 		pack();
-
-		// selectionListener();
 	}
 
 	private void selectionListener() {
@@ -319,10 +317,8 @@ public class Payment extends JDialog implements WindowListener {
 				JOptionPane.showMessageDialog(this, "Payment Saved successfully ", "Success",
 						JOptionPane.INFORMATION_MESSAGE);
 			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
 				LOG.error(e.getMessage());
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				LOG.error(e.getMessage());
 			}
 		}

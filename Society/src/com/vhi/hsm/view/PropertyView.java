@@ -346,18 +346,6 @@ public class PropertyView extends JDialog implements WindowListener {
 							.addComponent(netPayableText).addComponent(wingIdText).addComponent(floorIdText)
 							.addComponent(propertyNumberText)));
 
-			// layout.setVerticalGroup(layout.createParallelGroup()
-			// .addGroup(layout.createSequentialGroup()
-			// .addComponent(propertyNameLabel)
-			// .addComponent(ownerNameLabel)
-			// .addComponent(ownerEmailLabel)
-			// .addComponent(ownerPhoneLabel))
-			// .addGroup(layout.createSequentialGroup()
-			// .addComponent(propertyNameText)
-			// .addComponent(ownerNameText)
-			// .addComponent(ownerEmailText)
-			// .addComponent(ownerPhoneText)));
-
 			layout.setVerticalGroup(layout.createSequentialGroup()
 					.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(propertyNameLabel)
 							.addComponent(propertyNameText))
@@ -375,17 +363,6 @@ public class PropertyView extends JDialog implements WindowListener {
 							.addComponent(floorIdText))
 					.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(propertyNumberLabel)
 							.addComponent(propertyNumberText)));
-
-			// layout.setVerticalGroup(layout.createParallelGroup()
-			// .addGroup(layout.createSequentialGroup().addComponent(propertyNameLabel)
-			// .addComponent(propertyNameText))
-			// .addGroup(layout.createSequentialGroup().addComponent(ownerNameLabel)
-			// .addComponent(ownerNameText))
-			// .addGroup(layout.createSequentialGroup().addComponent(ownerEmailLabel)
-			// .addComponent(ownerEmailText))
-			// .addGroup(layout.createSequentialGroup().addComponent(ownerPhoneLabel)
-			// .addComponent(ownerPhoneText)));
-			//
 		}
 
 		private void intializeWingComboBox() {
