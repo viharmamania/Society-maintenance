@@ -197,8 +197,9 @@ public class Property {
 							+ Constants.Table.Property.FieldName.OWNER_NUMBER + " , "
 							+ Constants.Table.Property.FieldName.OWNER_EMAIL + " , "
 							+ Constants.Table.Property.FieldName.NET_PAYABLE + " , "
-							+ Constants.Table.Property.FieldName.NOT_USED + " ) "
-							+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+							+ Constants.Table.Property.FieldName.NOT_USED + " , "
+							+ Constants.Table.Property.FieldName.LATEST_PAYMENT_ID + " ) "
+							+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 				}
 
 				if (insertStatement != null) {
@@ -215,6 +216,7 @@ public class Property {
 						insertStatement.setString(9, property.ownerEmail);
 						insertStatement.setDouble(10, property.netPayable);
 						insertStatement.setBoolean(11, property.notUsed);
+						insertStatement.setInt(11, property.latestPaymentId);
 						result = SQLiteManager.executePrepStatementAndGetResult(insertStatement);
 						if (result) {
 							ResultSet generatedKeys = insertStatement.getGeneratedKeys();
@@ -370,6 +372,7 @@ public class Property {
 			property.ownerEmail = resultSet.getString(Constants.Table.Property.FieldName.OWNER_EMAIL);
 			property.netPayable = resultSet.getDouble(Constants.Table.Property.FieldName.NET_PAYABLE);
 			property.notUsed = resultSet.getBoolean(Constants.Table.Property.FieldName.NOT_USED);
+			property.latestPaymentId = resultSet.getInt(Constants.Table.Property.FieldName.LATEST_PAYMENT_ID);
 			propertyMap.put(property.propertyId, property);
 		}
 
