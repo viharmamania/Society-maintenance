@@ -189,6 +189,7 @@ public class PropertyType {
 								resultSet.getString(Constants.Table.PropertyGroup.FieldName.DESCRIPTION));
 						propertyTypeObject.setSocietyId(societyId);
 						propertyTypeObject.setPropertyType(propType);
+						societyPropertyTypes.put(propType, propertyTypeObject);
 					}
 				} catch (SQLException e) {
 					LOG.error(e.getMessage());

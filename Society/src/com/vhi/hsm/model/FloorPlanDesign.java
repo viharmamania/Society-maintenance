@@ -3,6 +3,7 @@ package com.vhi.hsm.model;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.apache.log4j.Logger;
@@ -262,6 +263,28 @@ public class FloorPlanDesign {
 		floorPlanDesign.societyId = societyId;
 		floorPlanDesign.floorPlanId = floorPlanId;
 		return floorPlanDesign;
+	}
+	
+	public static ArrayList<FloorPlanDesign> getAllFloorPlanDesign(int societyId, int floorPlanId) {
+		ArrayList<FloorPlanDesign> allDesign = new ArrayList<FloorPlanDesign>();
+		
+		String query = "SELECT " + Constants.Table.FloorPlanDesign.FieldName.PROPERTY_NUMBER
+				+ " FROM " + Constants.Table.FloorPlanDesign.TABLE_NAME
+				+ " WHERE " + Constants.Table.Society.FieldName.SOCIETY_ID + " = " + societyId
+				+ " AND " + Constants.Table.FloorPlan.FieldName.FLOOR_PLAN_ID + " = " + floorPlanId ;
+		
+		try {
+			ResultSet resultSet = SQLiteManager.executeQuery(query);
+			if (resultSet != null) {
+				while (resultSet.next()) {
+					allDesign.add(FloorPlanDesign.read(societyId, floorPlanId, resultSet.getInt(Constants.Table.FloorPlanDesign.FieldName.PROPERTY_NUMBER)));
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return allDesign;
 	}
 
 }

@@ -3,6 +3,7 @@ package com.vhi.hsm.model;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.apache.log4j.Logger;
@@ -112,6 +113,11 @@ public class Wing {
 	public void setFloors(HashMap<Integer, Floor> floors) {
 		this.floors = floors;
 	}
+	
+	@Override
+	public String toString() {
+		return name;
+	}
 
 	public static Wing create(int societyId) {
 		Wing wing = new Wing();
@@ -181,7 +187,7 @@ public class Wing {
 		return result;
 	}
 
-	public static Wing read(int societyId, String wingId) {
+	public static Wing read(int societyId, int wingId) {
 		Wing wing = null;
 
 		HashMap<Integer, Wing> societyWings = wingMap.get(societyId);
@@ -192,7 +198,7 @@ public class Wing {
 		}
 
 		if (societyWings != null) {
-			wing = societyWings.get(Integer.valueOf(wingId));
+			wing = societyWings.get(wingId);
 			if (wing == null) {
 				wing = new Wing();
 				try {
@@ -200,7 +206,7 @@ public class Wing {
 						readStatement = SQLiteManager.getPreparedStatement(readString);
 					}
 					readStatement.setInt(1, societyId);
-					readStatement.setString(2, wingId);
+					readStatement.setInt(2, wingId);
 					ResultSet resultSet = readStatement.executeQuery();
 					if (resultSet != null && resultSet.next()) {
 
@@ -211,6 +217,7 @@ public class Wing {
 						wing.setSocietyId(societyId);
 
 					}
+					societyWings.put(wingId, wing);
 				} catch (SQLException e) {
 					LOG.error(e.getMessage());
 				}
@@ -219,4 +226,27 @@ public class Wing {
 		}
 		return wing;
 	}
+	
+	public static ArrayList<Wing> getAllWings(int societyId) {
+		ArrayList<Wing> allWings = new ArrayList<Wing>();
+		
+		String query = "SELECT " + Constants.Table.Wing.FieldName.WING_ID 
+				+ " FROM " + Constants.Table.Wing.TABLE_NAME
+				+ " WHERE " + Constants.Table.Society.FieldName.SOCIETY_ID + " = " + societyId;
+		
+		ResultSet resultSet;
+		try {
+			resultSet = SQLiteManager.executeQuery(query);
+			if (resultSet != null) {
+				while(resultSet.next()) {
+					allWings.add(Wing.read(societyId, resultSet.getInt(Constants.Table.Wing.FieldName.WING_ID)));
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return allWings;
+	}
+	
 }

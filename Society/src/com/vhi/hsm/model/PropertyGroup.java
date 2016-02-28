@@ -182,6 +182,7 @@ public class PropertyGroup {
 						group.setDescription(resultSet.getString(Constants.Table.PropertyGroup.FieldName.DESCRIPTION));
 						group.setSocietyId(societyId);
 						group.setPropertygroup(propertyGroup);
+						societygroupTypes.put(propertyGroup, group);
 					}
 				} catch (SQLException e) {
 					LOG.error(e.getMessage());

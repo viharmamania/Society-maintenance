@@ -3,6 +3,7 @@ package com.vhi.hsm.model;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.apache.log4j.Logger;
@@ -59,6 +60,12 @@ public class Floor {
 
 	public void setFloorPlanId(int floorPlanId) {
 		this.floorPlanId = floorPlanId;
+	}
+	
+	@Override
+	public String toString() {
+		Wing wing = Wing.read(societyId, wingId);
+		return wing.getName() + ": Floor " + floorNumber;
 	}
 	
 	public static Floor read(int societyId, int wingId, int floorNumber) {
@@ -245,6 +252,28 @@ public class Floor {
 		floor.societyId = societyId;
 		floor.wingId = wingId;
 		return floor;
+	}
+	
+	public static ArrayList<Floor> getAllFloors(int societyId, int wingId) {
+		ArrayList<Floor> allFloors = new ArrayList<Floor>();
+		
+		String query = "SELECT " + Constants.Table.Floor.FieldName.FLOOR_NUMBER
+				+ " FROM " + Constants.Table.Floor.TABLE_NAME
+				+ " WHERE " + Constants.Table.Society.FieldName.SOCIETY_ID + " = " + societyId
+				+ " AND " + Constants.Table.Wing.FieldName.WING_ID + " = " + wingId;
+		
+		try {
+			ResultSet resultSet = SQLiteManager.executeQuery(query);
+			if (resultSet != null) {
+				while (resultSet.next()) {
+					allFloors.add(Floor.read(societyId, wingId, resultSet.getInt(Constants.Table.Floor.FieldName.FLOOR_NUMBER)));
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return allFloors;
 	}
 
 }
