@@ -106,7 +106,7 @@ public class PropertyView extends JDialog implements WindowListener {
 		propertyListItems = new HashMap<Integer, PropertyMasterListItems>();
 		propertyMasterDetailPanel = new MasterDetailPanel(callback);
 		detailsPanel = new PropertyDetails();
-//		propertyMasterDetailPanel.getMasterDetailPanel().setDetailPanel(detailsPanel);
+		// propertyMasterDetailPanel.getMasterDetailPanel().setDetailPanel(detailsPanel);
 		prepareList();
 		setPreferredSize(new Dimension(500, 500));
 		setVisible(true);
@@ -266,6 +266,22 @@ public class PropertyView extends JDialog implements WindowListener {
 				JOptionPane.showMessageDialog(this, "Enter owner number", "Error", JOptionPane.ERROR_MESSAGE);
 				return false;
 			}
+			
+			if (property.getWingId() == 0) {
+				JOptionPane.showMessageDialog(this, "Select wing", "Error", JOptionPane.ERROR_MESSAGE);
+				return false;
+			}
+			
+			if (property.getFloorPlanId() == 0) {
+				JOptionPane.showMessageDialog(this, "Select floor", "Error", JOptionPane.ERROR_MESSAGE);
+				return false;
+			}
+			
+			if (property.getPropertyNumber() == 0) {
+				JOptionPane.showMessageDialog(this, "Select property number", "Error", JOptionPane.ERROR_MESSAGE);
+				return false;
+			}
+			
 			return true;
 		}
 
@@ -396,31 +412,35 @@ public class PropertyView extends JDialog implements WindowListener {
 
 			Wing wing = (Wing) wingIdText.getSelectedItem();
 
-			ArrayList<Floor> allFloors = Floor.getAllFloors(SystemManager.society.getSocietyId(), wing.getWingId());
-			for (Floor floor : allFloors) {
-				floorIdText.addItem(floor);
-			}
+			if (wing != null) {
 
-			floorIdText.addItemListener(new ItemListener() {
-				@Override
-				public void itemStateChanged(ItemEvent e) {
-					if (e.getStateChange() == ItemEvent.SELECTED) {
-						intializePropertyNumberComboBox();
-					}
+				ArrayList<Floor> allFloors = Floor.getAllFloors(SystemManager.society.getSocietyId(), wing.getWingId());
+				for (Floor floor : allFloors) {
+					floorIdText.addItem(floor);
 				}
-			});
 
+				floorIdText.addItemListener(new ItemListener() {
+					@Override
+					public void itemStateChanged(ItemEvent e) {
+						if (e.getStateChange() == ItemEvent.SELECTED) {
+							intializePropertyNumberComboBox();
+						}
+					}
+				});
+
+			}
 		}
 
 		private void intializePropertyNumberComboBox() {
 			propertyNumberText.removeAllItems();
 
 			Floor floor = (Floor) floorIdText.getSelectedItem();
-
-			ArrayList<FloorPlanDesign> allDesigns = FloorPlanDesign
-					.getAllFloorPlanDesign(SystemManager.society.getSocietyId(), floor.getFloorPlanId());
-			for (FloorPlanDesign design : allDesigns) {
-				propertyNumberText.addItem(design.getPropertyNumber());
+			if (floor != null) {
+				ArrayList<FloorPlanDesign> allDesigns = FloorPlanDesign
+						.getAllFloorPlanDesign(SystemManager.society.getSocietyId(), floor.getFloorPlanId());
+				for (FloorPlanDesign design : allDesigns) {
+					propertyNumberText.addItem(design.getPropertyNumber());
+				}
 			}
 		}
 
