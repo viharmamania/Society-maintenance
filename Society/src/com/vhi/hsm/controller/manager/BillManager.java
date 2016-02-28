@@ -302,7 +302,7 @@ public class BillManager {
 		billCharge2.setAmount(property.getNetPayable());
 		
 		if (!isPreview) {
-			// updating this properties net payable
+			
 			BillCharge.save(billCharge, true);
 			BillCharge.save(billCharge2, true);
 		}
@@ -311,10 +311,11 @@ public class BillManager {
 		assignedCharges.add(previousCharge.getChargeId());
 		bill.setAssignedCharges(assignedCharges);
 		bill.setAmount(Math.round(bill.getAmount() + fineAmount + property.getNetPayable()) );
-		property.setNetPayable(Math.round(bill.getAmount()));
 
 		if (!isPreview) {
+			//updating this properties net payable
 			Bill.save(bill, false);
+			property.setNetPayable(Math.round(bill.getAmount()));
 			Property.save(property, false);
 		}
 		LOG.debug(bill.getAssignedCharges());
