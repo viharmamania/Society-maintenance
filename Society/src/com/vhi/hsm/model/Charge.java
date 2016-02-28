@@ -382,7 +382,7 @@ public class Charge {
 					+ Constants.Table.Society.FieldName.SOCIETY_ID + " = " + charge.societyId + " AND "
 					+ Constants.Table.Charge.FieldName.CHARGE_ID + " = " + charge.chargeId);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOG.error(e.toString());
 		}
 
 		return result;
@@ -437,7 +437,6 @@ public class Charge {
 			LOG.error(e.getMessage());
 		}
 		newId++;
-		System.out.println(newId);
 		return newId;
 	}
 

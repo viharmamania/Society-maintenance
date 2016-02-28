@@ -269,8 +269,8 @@ public class Floor {
 					allFloors.add(Floor.read(societyId, wingId, resultSet.getInt(Constants.Table.Floor.FieldName.FLOOR_NUMBER)));
 				}
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			LOG.error(e.toString());
 		}
 		
 		return allFloors;

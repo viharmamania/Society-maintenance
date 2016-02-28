@@ -217,8 +217,8 @@ public class Wing {
 					allWings.add(Wing.read(societyId, resultSet.getInt(Constants.Table.Wing.FieldName.WING_ID)));
 				}
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			LOG.error(e.toString());
 		}
 		
 		return allWings;

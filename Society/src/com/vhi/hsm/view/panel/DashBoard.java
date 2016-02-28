@@ -83,7 +83,7 @@ public class DashBoard extends JFrame implements WindowListener {
 				generateMonthlyPaymentReceipts();
 				prepareTreeData();
 			} catch (Exception e1) {
-				e1.printStackTrace();
+				LOG.error(e.toString());
 			}
 
 		});

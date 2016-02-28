@@ -12,6 +12,8 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
@@ -36,6 +38,7 @@ import com.vhi.hsm.utils.Utility;
 public class PDFManager {
 
 	static String paymentBillContent = "Received with thanks from Shri/Smt./M /s. [1] for Flat/Shop/Garage No. [2] , \nthe sum of Rupees [3] by [4] [5], in part/full payment.";
+	private final static Logger LOG = Logger.getLogger(PDFManager.class);
 
 	public static void generateBillPDF(List<Bill> bills, boolean isPreview) throws DocumentException, IOException {
 		Document document = new Document();
@@ -260,7 +263,7 @@ public class PDFManager {
 					billId.add(executeQuery.getInt(Constants.Table.Bill.FieldName.BILL_ID));
 				}
 			} catch (SQLException e) {
-				e.printStackTrace();
+				LOG.error(e.toString());
 			}
 
 			if (billId != null)
@@ -280,7 +283,7 @@ public class PDFManager {
 			document.close();
 			pdfWriter.close();
 		} catch (Exception exception) {
-			exception.printStackTrace();
+			LOG.error(exception.toString());
 		}
 	}
 }

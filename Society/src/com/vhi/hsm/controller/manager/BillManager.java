@@ -103,7 +103,7 @@ public class BillManager {
 			}
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOG.error(e.toString());
 		}
 
 	}
@@ -146,7 +146,7 @@ public class BillManager {
 
 		} catch (SQLException e) {
 			societyBills.clear();
-			LOG.error(e.getMessage());
+			LOG.error(e.toString());
 		}
 		return societyBills;
 
@@ -315,7 +315,7 @@ public class BillManager {
 			}
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOG.error(e.toString());
 		}
 
 		return chargeIds;
@@ -336,7 +336,7 @@ public class BillManager {
 				unpaidBills.add(bill);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOG.error(e.toString());
 		}
 
 		return unpaidBills;

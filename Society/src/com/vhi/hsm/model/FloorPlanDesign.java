@@ -280,8 +280,8 @@ public class FloorPlanDesign {
 					allDesign.add(FloorPlanDesign.read(societyId, floorPlanId, resultSet.getInt(Constants.Table.FloorPlanDesign.FieldName.PROPERTY_NUMBER)));
 				}
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			LOG.error(e.toString());
 		}
 		
 		return allDesign;

@@ -24,6 +24,8 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import org.apache.log4j.Logger;
+
 import com.itextpdf.text.DocumentException;
 import com.vhi.hsm.controller.manager.BillManager;
 import com.vhi.hsm.controller.manager.PDFManager;
@@ -45,6 +47,7 @@ public class GenerateBill extends JDialog implements WindowListener {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	private final static Logger LOG = Logger.getLogger(GenerateBill.class);
 	private JButton generateBills, previewBills;
 	JPanel tempChargePanel;
 	HashMap<Integer, JCheckBox> tempChargeCheckBox;
@@ -105,7 +108,7 @@ public class GenerateBill extends JDialog implements WindowListener {
 				dispose();
 			}
 		} catch (SQLException | DocumentException | IOException e) {
-			e.printStackTrace();
+			LOG.error(e.toString());
 		}
 
 	}
@@ -181,9 +184,9 @@ public class GenerateBill extends JDialog implements WindowListener {
 					BillManager.generateBill(SystemManager.society.getSocietyId(), isPreview, tempChargeIds),
 					isPreview);
 		} catch (FileNotFoundException | DocumentException e) {
-			e.printStackTrace();
+			LOG.error(e.toString());
 		} catch (IOException e) {
-			e.printStackTrace();
+			LOG.error(e.toString());
 		}
 	}
 

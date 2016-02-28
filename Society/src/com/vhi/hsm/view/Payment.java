@@ -294,7 +294,7 @@ public class Payment extends JDialog implements WindowListener {
 									paymentDate = dateFormat.parse(date);
 									
 								} catch (ParseException e) {
-									e.printStackTrace();
+									LOG.error(e.toString());
 								}
 							}
 						}
@@ -346,7 +346,7 @@ public class Payment extends JDialog implements WindowListener {
 				payment.setPaymentDate(parse);
 				
 			} catch (ParseException e) {
-				e.printStackTrace();
+				LOG.error(e.toString());
 			}
 
 			// boolean paymentSaved = com.vhi.hsm.model.Payment.save(payment,
@@ -357,7 +357,7 @@ public class Payment extends JDialog implements WindowListener {
 			try {
 				PDFManager.generateReceiptsPDF(paymentForPrint);
 			} catch (DocumentException | IOException e) {
-				e.printStackTrace();
+				LOG.error(e.toString());
 			}
 			JOptionPane.showMessageDialog(this, "Payment Saved successfully ", "Success",
 					JOptionPane.INFORMATION_MESSAGE);
