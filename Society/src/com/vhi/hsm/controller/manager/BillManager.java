@@ -37,9 +37,6 @@ import com.vhi.hsm.utils.Constants;
  */
 public class BillManager {
 
-	private static final int FINE_CHARGE_ID = 7;
-	private static final int PREVIOUS_CHARGE_ID = 9;
-
 	private final static Logger LOG = Logger.getLogger(BillManager.class);
 
 	private static String readProperties = "select * from " + Constants.Table.Property.TABLE_NAME + " where "
@@ -143,7 +140,7 @@ public class BillManager {
 			for (Property property : properties) {
 				societyBills.add(generatePropertySpecificBill(property, isPreview, tempChargeIds));
 			}
-			
+
 			BillCharge.saveAll();
 
 		} catch (SQLException e) {
@@ -225,13 +222,13 @@ public class BillManager {
 		}
 
 		// Calculate Fine
-		Charge finecharge = Charge.read(SystemManager.society.getSocietyId(), FINE_CHARGE_ID);
+		Charge finecharge = Charge.read(SystemManager.society.getSocietyId(), Constants.Charge.FINE_CHARGE_ID);
 		double fineAmount = Fine.getFineAmount(SystemManager.society.getSocietyId(), property.getNetPayable());
 		BillCharge billCharge = BillCharge.create(bill.getBillId(), finecharge.getChargeId());
 		billCharge.setAmount(fineAmount);
 
 		// manipulate previous balances
-		Charge previousCharge = Charge.read(SystemManager.society.getSocietyId(), PREVIOUS_CHARGE_ID);
+		Charge previousCharge = Charge.read(SystemManager.society.getSocietyId(), Constants.Charge.PREVIOUS_CHARGE_ID);
 		BillCharge billCharge2 = BillCharge.create(bill.getBillId(), previousCharge.getChargeId());
 		billCharge2.setAmount(property.getNetPayable());
 

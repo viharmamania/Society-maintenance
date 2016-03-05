@@ -11,6 +11,11 @@ public interface Constants {
 		String BILL_PDF_LOCATION = Path.GENERATED + "Generated Bills" + File.separator;
 		String PAYMENT_PDF_LOCATION = Path.GENERATED + "Payment Receipts" + File.separator;
 	}
+	
+	public interface Charge {
+		int FINE_CHARGE_ID = -10;
+		int PREVIOUS_CHARGE_ID = -11;
+	}
 
 	public interface Table {
 

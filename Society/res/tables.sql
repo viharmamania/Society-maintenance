@@ -250,3 +250,10 @@ create table if not exists bill_charge
 	primary key		(bill_id, charge_id),
 	foreign key		(bill_id) references bill(bill_id)
 );
+
+/*
+ * System Charges
+ */
+
+INSERT INTO "charge" VALUES (1, -10, "Fine", 0, 0, 0, 0);
+INSERT INTO "charge" VALUES (1, -11, "Previous Balance amount", 0 , 0, 0, 0);

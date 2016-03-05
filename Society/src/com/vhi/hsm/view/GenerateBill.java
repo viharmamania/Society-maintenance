@@ -3,6 +3,7 @@
  */
 package com.vhi.hsm.view;
 
+import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
@@ -21,8 +22,10 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 
 import org.apache.log4j.Logger;
 
@@ -50,6 +53,9 @@ public class GenerateBill extends JDialog implements WindowListener {
 	private final static Logger LOG = Logger.getLogger(GenerateBill.class);
 	private JButton generateBills, previewBills;
 	JPanel tempChargePanel;
+	JProgressBar progressBar;
+	JLabel progressLabel;
+	JDialog progressDialog;
 	HashMap<Integer, JCheckBox> tempChargeCheckBox;
 	ArrayList<Charge> tempCharges;
 
@@ -61,6 +67,7 @@ public class GenerateBill extends JDialog implements WindowListener {
 		addWindowListener(this);
 		setLocationRelativeTo(parent);
 		setVisible(true);
+
 		checkIfBillAlreadyCreated();
 	}
 
@@ -140,16 +147,11 @@ public class GenerateBill extends JDialog implements WindowListener {
 		generateBills = new JButton("Generate Bills");
 		generateBills.addActionListener(e -> {
 			createPDF(false);
-			JOptionPane.showMessageDialog(this, "The Bills have been generated successfully ", "Success", JOptionPane.INFORMATION_MESSAGE);
-			dispose();
-			DashBoard.prepareTreeData();
 		});
 
 		previewBills = new JButton("Preveiw Bills");
 		previewBills.addActionListener(e -> {
 			createPDF(true);
-			JOptionPane.showMessageDialog(this, "The Preview has been generated successfully ", "Success", JOptionPane.INFORMATION_MESSAGE);
-			dispose();
 		});
 
 		GroupLayout layout = new GroupLayout(getContentPane());
@@ -179,15 +181,49 @@ public class GenerateBill extends JDialog implements WindowListener {
 			}
 		}
 
-		try {
-			PDFManager.generateBillPDF(
-					BillManager.generateBill(SystemManager.society.getSocietyId(), isPreview, tempChargeIds),
-					isPreview);
-		} catch (FileNotFoundException | DocumentException e) {
-			LOG.error(e.toString());
-		} catch (IOException e) {
-			LOG.error(e.toString());
-		}
+		JLabel progressLabel = new JLabel();
+		final JDialog dlg = new JDialog(this, "Progress Dialog", true);
+		JProgressBar dpb = new JProgressBar(0, 500);
+		dpb.setIndeterminate(true);
+		dlg.add(BorderLayout.CENTER, dpb);
+		dlg.add(BorderLayout.NORTH, progressLabel);
+		dlg.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+		dlg.setSize(300, 75);
+		dlg.setLocationRelativeTo(this);
+
+		GenerateBill generateBill = this;
+		
+		Thread thread = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					dlg.setVisible(true);
+					progressLabel.setText("Generating bills");
+					List<Bill> bill = BillManager.generateBill(SystemManager.society.getSocietyId(), isPreview,
+							tempChargeIds);
+					progressLabel.setText("Generating PDF files");
+					PDFManager.generateBillPDF(bill, isPreview);
+					if (isPreview) {
+						JOptionPane.showMessageDialog(null, "The Preview has been generated successfully ", "Success",
+								JOptionPane.INFORMATION_MESSAGE);
+					} else {
+						JOptionPane.showMessageDialog(null, "The Bills have been generated successfully ", "Success",
+								JOptionPane.INFORMATION_MESSAGE);
+						DashBoard.prepareTreeData();
+					}
+				} catch (FileNotFoundException | DocumentException e) {
+					LOG.error(e.toString());
+				} catch (IOException e) {
+					LOG.error(e.toString());
+				} finally {
+					dlg.dispose();
+					notify();
+					generateBill.dispose();
+				}
+			}
+		});
+		
+		thread.start();
 	}
 
 	@Override
