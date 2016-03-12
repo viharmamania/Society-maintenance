@@ -26,6 +26,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JProgressBar;
 import javax.swing.JTextField;
 
 import org.apache.log4j.Logger;
@@ -148,7 +149,8 @@ public class Payment extends JDialog implements WindowListener {
 
 		uploadButton = new JButton("Upload Excel");
 		uploadButton.addActionListener(e -> {
-			uploadExcel();
+			// uploadExcel();
+			new ProgressDialog(this);
 		});
 
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
@@ -292,7 +294,7 @@ public class Payment extends JDialog implements WindowListener {
 								SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 								try {
 									paymentDate = dateFormat.parse(date);
-									
+
 								} catch (ParseException e) {
 									LOG.error(e.toString());
 								}
@@ -306,7 +308,6 @@ public class Payment extends JDialog implements WindowListener {
 						payment.setModeOfPayment(modeOfPayment);
 						payment.setRemarks(remarks);
 						payment.setPaymentDate(paymentDate);
-						
 
 						PaymentManager.makePayment(payment);
 
@@ -339,12 +340,12 @@ public class Payment extends JDialog implements WindowListener {
 			payment.setAmount(Double.valueOf(amountTextField.getText()));
 			payment.setModeOfPayment((String) modeOfPaymentComboBox.getSelectedItem());
 			payment.setChequeNumber(chequeNoTextField.getText().trim());
-//			payment.setPaymentDate();
+			// payment.setPaymentDate();
 			SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 			try {
 				Date parse = dateFormat.parse(paymentDateField.getText().trim());
 				payment.setPaymentDate(parse);
-				
+
 			} catch (ParseException e) {
 				LOG.error(e.toString());
 			}
@@ -389,19 +390,54 @@ public class Payment extends JDialog implements WindowListener {
 			return false;
 		}
 
-		if(paymentDateField.getText().trim().indexOf('-') == -1){
+		if (paymentDateField.getText().trim().indexOf('-') == -1) {
 			JOptionPane.showMessageDialog(this, "Please Enter Payment Date in dd-mm-yyyy format", "Error",
 					JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
-		
+
 		if (!paymentDateField.getText().trim().matches(
 				"^(?:(?:31(\\/|-|\\.)(?:0?[13578]|1[02]))\\1|(?:(?:29|30)(\\/|-|\\.)(?:0?[1,3-9]|1[0-2])\\2))(?:(?:1[6-9]|[2-9]\\d)?\\d{2})$|^(?:29(\\/|-|\\.)0?2\\3(?:(?:(?:1[6-9]|[2-9]\\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\\d|2[0-8])(\\/|-|\\.)(?:(?:0?[1-9])|(?:1[0-2]))\\4(?:(?:1[6-9]|[2-9]\\d)?\\d{2})$")) {
-			JOptionPane.showMessageDialog(this, "Please Enter Correct Date", "Error",
-					JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, "Please Enter Correct Date", "Error", JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
 
 		return true;
 	}
+
+	public class ProgressDialog extends JDialog {
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		public ProgressDialog(JDialog parent) {
+			super(parent, "Progress", true);
+			JProgressBar dpb = new JProgressBar(0, 500);
+			JLabel progressLabel = new JLabel();
+
+			dpb.setIndeterminate(true);
+			add(progressLabel);
+			add(dpb);
+			setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+			setLocationRelativeTo(this);
+			setResizable(false);
+			pack();
+
+			Thread thread = new Thread(new Runnable() {
+				@Override
+				public void run() {
+					uploadExcel();
+					dispose();
+				}
+			});
+
+			thread.start();
+			setVisible(true);
+
+		}
+
+	}
+
 }

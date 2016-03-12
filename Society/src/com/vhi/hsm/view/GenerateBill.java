@@ -94,7 +94,7 @@ public class GenerateBill extends JDialog implements WindowListener {
 					billIds.add(executeQuery.getInt(Constants.Table.Bill.FieldName.BILL_ID));
 				}
 				if (billIds.size() > 0) {
-//					created = true;
+					created = true;
 				}
 			}
 
@@ -283,11 +283,6 @@ public class GenerateBill extends JDialog implements WindowListener {
 			
 			thread.start();
 			setVisible(true);
-//			try {
-//				thread.join();
-//			} catch (InterruptedException e) {
-//				e.printStackTrace();
-//			}
 			
 		}
 		
