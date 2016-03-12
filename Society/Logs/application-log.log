@@ -834,3 +834,493 @@
 2016-01-03 13:07:08 DEBUG SQLiteManager:21 - Set up new connection
 2016-01-03 13:07:09 DEBUG SQLiteManager:32 - getting a connection
 2016-01-03 13:07:09 DEBUG SQLiteManager:32 - getting a connection
+2016-03-05 14:25:11 DEBUG SQLiteManager:22 - Set up new connection
+2016-03-05 14:26:42 DEBUG SQLiteManager:22 - Set up new connection
+2016-03-05 14:30:35 DEBUG SQLiteManager:22 - Set up new connection
+2016-03-12 14:13:27 DEBUG SQLiteManager:22 - Set up new connection
+2016-03-12 14:27:05 DEBUG SQLiteManager:22 - Set up new connection
+2016-03-12 14:35:14 DEBUG SQLiteManager:22 - Set up new connection
+2016-03-12 14:36:21 DEBUG SQLiteManager:22 - Set up new connection
+2016-03-12 14:38:36 DEBUG SQLiteManager:22 - Set up new connection
+2016-03-12 14:39:31 DEBUG SQLiteManager:22 - Set up new connection
+2016-03-12 14:40:16 DEBUG SQLiteManager:22 - Set up new connection
+2016-03-12 14:42:53 DEBUG SQLiteManager:22 - Set up new connection
+2016-03-12 14:45:20 DEBUG SQLiteManager:22 - Set up new connection
+2016-03-12 14:50:39 DEBUG SQLiteManager:22 - Set up new connection
+2016-03-12 14:58:30 DEBUG SQLiteManager:22 - Set up new connection
+2016-03-12 15:00:09 DEBUG SQLiteManager:22 - Set up new connection
+2016-03-12 15:01:05 DEBUG SQLiteManager:22 - Set up new connection
+2016-03-12 15:01:15 ERROR SQLiteManager:89 - java.sql.SQLException: [SQLITE_BUSY]  The database file is locked (database is locked)
+2016-03-12 15:02:17 DEBUG SQLiteManager:22 - Set up new connection
+2016-03-12 15:07:08 DEBUG SQLiteManager:22 - Set up new connection
+2016-03-12 15:07:20 DEBUG BillManager:252 - [1, 6, 5, 2, -10, -11]
+2016-03-12 15:07:20 DEBUG BillManager:253 - 340.0
+2016-03-12 15:07:21 DEBUG BillManager:252 - [1, 6, 5, -10, -11]
+2016-03-12 15:07:21 DEBUG BillManager:253 - 290.0
+2016-03-12 15:07:23 DEBUG BillManager:252 - [1, 6, 5, 3, -10, -11]
+2016-03-12 15:07:23 DEBUG BillManager:253 - 390.0
+2016-03-12 15:07:25 DEBUG BillManager:252 - [1, 4, -10, -11]
+2016-03-12 15:07:25 DEBUG BillManager:253 - 210.0
+2016-03-12 15:07:26 DEBUG BillManager:252 - [1, 4, -10, -11]
+2016-03-12 15:07:26 DEBUG BillManager:253 - 210.0
+2016-03-12 15:07:28 DEBUG BillManager:252 - [1, 4, 3, -10, -11]
+2016-03-12 15:07:28 DEBUG BillManager:253 - 310.0
+2016-03-12 15:07:29 DEBUG BillManager:252 - [1, 4, 2, 2, 3, -10, -11]
+2016-03-12 15:07:29 DEBUG BillManager:253 - 410.0
+2016-03-12 15:07:31 DEBUG BillManager:252 - [1, 4, -10, -11]
+2016-03-12 15:07:31 DEBUG BillManager:253 - 210.0
+2016-03-12 15:07:32 DEBUG BillManager:252 - [1, 4, -10, -11]
+2016-03-12 15:07:32 DEBUG BillManager:253 - 210.0
+2016-03-12 15:07:34 DEBUG BillManager:252 - [1, 6, 4, 2, -10, -11]
+2016-03-12 15:07:34 DEBUG BillManager:253 - 360.0
+2016-03-12 15:07:35 DEBUG BillManager:252 - [1, 6, 4, -10, -11]
+2016-03-12 15:07:35 DEBUG BillManager:253 - 310.0
+2016-03-12 15:07:37 DEBUG BillManager:252 - [1, 5, -10, -11]
+2016-03-12 15:07:37 DEBUG BillManager:253 - 190.0
+2016-03-12 15:07:39 DEBUG BillManager:252 - [1, 5, 3, -10, -11]
+2016-03-12 15:07:39 DEBUG BillManager:253 - 290.0
+2016-03-12 15:07:40 DEBUG BillManager:252 - [1, 4, 2, -10, -11]
+2016-03-12 15:07:40 DEBUG BillManager:253 - 260.0
+2016-03-12 15:07:41 DEBUG BillManager:252 - [1, 5, 2, -10, -11]
+2016-03-12 15:07:41 DEBUG BillManager:253 - 240.0
+2016-03-12 15:07:43 DEBUG BillManager:252 - [1, 5, -10, -11]
+2016-03-12 15:07:43 DEBUG BillManager:253 - 190.0
+2016-03-12 15:07:45 DEBUG BillManager:252 - [1, 4, 3, 3, -10, -11]
+2016-03-12 15:07:45 DEBUG BillManager:253 - 410.0
+2016-03-12 15:07:46 DEBUG BillManager:252 - [1, 5, -10, -11]
+2016-03-12 15:07:46 DEBUG BillManager:253 - 190.0
+2016-03-12 15:07:47 DEBUG BillManager:252 - [1, 5, -10, -11]
+2016-03-12 15:07:47 DEBUG BillManager:253 - 190.0
+2016-03-12 15:07:49 DEBUG BillManager:252 - [1, 4, 2, -10, -11]
+2016-03-12 15:07:49 DEBUG BillManager:253 - 260.0
+2016-03-12 15:08:24 INFO  GenerateBill:258 - Total time for bill generation: 66143 in milliSeconds
+2016-03-12 15:08:25 INFO  GenerateBill:264 - Total time for bill generation: 819 in milliSeconds
+2016-03-12 15:13:20 DEBUG SQLiteManager:22 - Set up new connection
+2016-03-12 15:13:31 DEBUG BillManager:252 - [1, 6, 5, 2, -10, -11]
+2016-03-12 15:13:31 DEBUG BillManager:253 - 680.0
+2016-03-12 15:13:31 DEBUG BillManager:252 - [1, 6, 5, -10, -11]
+2016-03-12 15:13:31 DEBUG BillManager:253 - 580.0
+2016-03-12 15:13:31 DEBUG BillManager:252 - [1, 6, 5, 3, -10, -11]
+2016-03-12 15:13:31 DEBUG BillManager:253 - 780.0
+2016-03-12 15:13:31 DEBUG BillManager:252 - [1, 4, -10, -11]
+2016-03-12 15:13:31 DEBUG BillManager:253 - 420.0
+2016-03-12 15:13:31 DEBUG BillManager:252 - [1, 4, -10, -11]
+2016-03-12 15:13:31 DEBUG BillManager:253 - 420.0
+2016-03-12 15:13:31 DEBUG BillManager:252 - [1, 4, 3, -10, -11]
+2016-03-12 15:13:31 DEBUG BillManager:253 - 620.0
+2016-03-12 15:13:31 DEBUG BillManager:252 - [1, 4, 2, 2, 3, -10, -11]
+2016-03-12 15:13:31 DEBUG BillManager:253 - 820.0
+2016-03-12 15:13:31 DEBUG BillManager:252 - [1, 4, -10, -11]
+2016-03-12 15:13:31 DEBUG BillManager:253 - 420.0
+2016-03-12 15:13:31 DEBUG BillManager:252 - [1, 4, -10, -11]
+2016-03-12 15:13:31 DEBUG BillManager:253 - 420.0
+2016-03-12 15:13:31 DEBUG BillManager:252 - [1, 6, 4, 2, -10, -11]
+2016-03-12 15:13:31 DEBUG BillManager:253 - 720.0
+2016-03-12 15:13:31 DEBUG BillManager:252 - [1, 6, 4, -10, -11]
+2016-03-12 15:13:31 DEBUG BillManager:253 - 620.0
+2016-03-12 15:13:31 DEBUG BillManager:252 - [1, 5, -10, -11]
+2016-03-12 15:13:31 DEBUG BillManager:253 - 380.0
+2016-03-12 15:13:31 DEBUG BillManager:252 - [1, 5, 3, -10, -11]
+2016-03-12 15:13:31 DEBUG BillManager:253 - 580.0
+2016-03-12 15:13:31 DEBUG BillManager:252 - [1, 4, 2, -10, -11]
+2016-03-12 15:13:31 DEBUG BillManager:253 - 520.0
+2016-03-12 15:13:31 DEBUG BillManager:252 - [1, 5, 2, -10, -11]
+2016-03-12 15:13:31 DEBUG BillManager:253 - 480.0
+2016-03-12 15:13:31 DEBUG BillManager:252 - [1, 5, -10, -11]
+2016-03-12 15:13:31 DEBUG BillManager:253 - 380.0
+2016-03-12 15:13:31 DEBUG BillManager:252 - [1, 4, 3, 3, -10, -11]
+2016-03-12 15:13:31 DEBUG BillManager:253 - 820.0
+2016-03-12 15:13:31 DEBUG BillManager:252 - [1, 5, -10, -11]
+2016-03-12 15:13:31 DEBUG BillManager:253 - 380.0
+2016-03-12 15:13:31 DEBUG BillManager:252 - [1, 5, -10, -11]
+2016-03-12 15:13:31 DEBUG BillManager:253 - 380.0
+2016-03-12 15:13:31 DEBUG BillManager:252 - [1, 4, 2, -10, -11]
+2016-03-12 15:13:31 DEBUG BillManager:253 - 520.0
+2016-03-12 15:13:31 INFO  GenerateBill:258 - Total time for bill generation: 160 in milliSeconds
+2016-03-12 15:13:31 INFO  GenerateBill:264 - Total time for bill generation: 838 in milliSeconds
+2016-03-12 15:13:45 DEBUG BillManager:252 - [1, 6, 5, 2, -10, -11]
+2016-03-12 15:13:45 DEBUG BillManager:253 - 680.0
+2016-03-12 15:13:46 DEBUG BillManager:252 - [1, 6, 5, -10, -11]
+2016-03-12 15:13:46 DEBUG BillManager:253 - 580.0
+2016-03-12 15:13:47 DEBUG BillManager:252 - [1, 6, 5, 3, -10, -11]
+2016-03-12 15:13:47 DEBUG BillManager:253 - 780.0
+2016-03-12 15:13:47 DEBUG BillManager:252 - [1, 4, -10, -11]
+2016-03-12 15:13:47 DEBUG BillManager:253 - 420.0
+2016-03-12 15:13:48 DEBUG BillManager:252 - [1, 4, -10, -11]
+2016-03-12 15:13:48 DEBUG BillManager:253 - 420.0
+2016-03-12 15:13:49 DEBUG BillManager:252 - [1, 4, 3, -10, -11]
+2016-03-12 15:13:49 DEBUG BillManager:253 - 620.0
+2016-03-12 15:13:50 DEBUG BillManager:252 - [1, 4, 2, 2, 3, -10, -11]
+2016-03-12 15:13:50 DEBUG BillManager:253 - 820.0
+2016-03-12 15:13:51 DEBUG BillManager:252 - [1, 4, -10, -11]
+2016-03-12 15:13:51 DEBUG BillManager:253 - 420.0
+2016-03-12 15:13:52 DEBUG BillManager:252 - [1, 4, -10, -11]
+2016-03-12 15:13:52 DEBUG BillManager:253 - 420.0
+2016-03-12 15:13:53 DEBUG BillManager:252 - [1, 6, 4, 2, -10, -11]
+2016-03-12 15:13:53 DEBUG BillManager:253 - 720.0
+2016-03-12 15:13:54 DEBUG BillManager:252 - [1, 6, 4, -10, -11]
+2016-03-12 15:13:54 DEBUG BillManager:253 - 620.0
+2016-03-12 15:13:54 DEBUG BillManager:252 - [1, 5, -10, -11]
+2016-03-12 15:13:54 DEBUG BillManager:253 - 380.0
+2016-03-12 15:13:55 DEBUG BillManager:252 - [1, 5, 3, -10, -11]
+2016-03-12 15:13:55 DEBUG BillManager:253 - 580.0
+2016-03-12 15:13:56 DEBUG BillManager:252 - [1, 4, 2, -10, -11]
+2016-03-12 15:13:56 DEBUG BillManager:253 - 520.0
+2016-03-12 15:13:57 DEBUG BillManager:252 - [1, 5, 2, -10, -11]
+2016-03-12 15:13:57 DEBUG BillManager:253 - 480.0
+2016-03-12 15:13:58 DEBUG BillManager:252 - [1, 5, -10, -11]
+2016-03-12 15:13:58 DEBUG BillManager:253 - 380.0
+2016-03-12 15:13:58 DEBUG BillManager:252 - [1, 4, 3, 3, -10, -11]
+2016-03-12 15:13:58 DEBUG BillManager:253 - 820.0
+2016-03-12 15:13:59 DEBUG BillManager:252 - [1, 5, -10, -11]
+2016-03-12 15:13:59 DEBUG BillManager:253 - 380.0
+2016-03-12 15:14:00 DEBUG BillManager:252 - [1, 5, -10, -11]
+2016-03-12 15:14:00 DEBUG BillManager:253 - 380.0
+2016-03-12 15:14:01 DEBUG BillManager:252 - [1, 4, 2, -10, -11]
+2016-03-12 15:14:01 DEBUG BillManager:253 - 520.0
+2016-03-12 15:14:24 INFO  GenerateBill:258 - Total time for bill generation: 39541 in milliSeconds
+2016-03-12 15:14:24 INFO  GenerateBill:264 - Total time for bill generation: 231 in milliSeconds
+2016-03-12 15:17:05 DEBUG BillManager:252 - [1, 6, 5, 2, -10, -11]
+2016-03-12 15:17:05 DEBUG BillManager:253 - 1020.0
+2016-03-12 15:17:06 DEBUG BillManager:252 - [1, 6, 5, -10, -11]
+2016-03-12 15:17:06 DEBUG BillManager:253 - 870.0
+2016-03-12 15:17:07 DEBUG BillManager:252 - [1, 6, 5, 3, -10, -11]
+2016-03-12 15:17:07 DEBUG BillManager:253 - 1170.0
+2016-03-12 15:17:08 DEBUG BillManager:252 - [1, 4, -10, -11]
+2016-03-12 15:17:08 DEBUG BillManager:253 - 630.0
+2016-03-12 15:17:09 DEBUG BillManager:252 - [1, 4, -10, -11]
+2016-03-12 15:17:09 DEBUG BillManager:253 - 630.0
+2016-03-12 15:17:10 DEBUG BillManager:252 - [1, 4, 3, -10, -11]
+2016-03-12 15:17:10 DEBUG BillManager:253 - 930.0
+2016-03-12 15:17:11 DEBUG BillManager:252 - [1, 4, 2, 2, 3, -10, -11]
+2016-03-12 15:17:11 DEBUG BillManager:253 - 1230.0
+2016-03-12 15:17:12 DEBUG BillManager:252 - [1, 4, -10, -11]
+2016-03-12 15:17:12 DEBUG BillManager:253 - 630.0
+2016-03-12 15:17:12 DEBUG BillManager:252 - [1, 4, -10, -11]
+2016-03-12 15:17:12 DEBUG BillManager:253 - 630.0
+2016-03-12 15:17:13 DEBUG BillManager:252 - [1, 6, 4, 2, -10, -11]
+2016-03-12 15:17:13 DEBUG BillManager:253 - 1080.0
+2016-03-12 15:17:14 DEBUG BillManager:252 - [1, 6, 4, -10, -11]
+2016-03-12 15:17:14 DEBUG BillManager:253 - 930.0
+2016-03-12 15:17:15 DEBUG BillManager:252 - [1, 5, -10, -11]
+2016-03-12 15:17:15 DEBUG BillManager:253 - 570.0
+2016-03-12 15:17:16 DEBUG BillManager:252 - [1, 5, 3, -10, -11]
+2016-03-12 15:17:16 DEBUG BillManager:253 - 870.0
+2016-03-12 15:17:17 DEBUG BillManager:252 - [1, 4, 2, -10, -11]
+2016-03-12 15:17:17 DEBUG BillManager:253 - 780.0
+2016-03-12 15:17:18 DEBUG BillManager:252 - [1, 5, 2, -10, -11]
+2016-03-12 15:17:18 DEBUG BillManager:253 - 720.0
+2016-03-12 15:17:18 DEBUG BillManager:252 - [1, 5, -10, -11]
+2016-03-12 15:17:18 DEBUG BillManager:253 - 570.0
+2016-03-12 15:17:19 DEBUG BillManager:252 - [1, 4, 3, 3, -10, -11]
+2016-03-12 15:17:19 DEBUG BillManager:253 - 1230.0
+2016-03-12 15:17:20 DEBUG BillManager:252 - [1, 5, -10, -11]
+2016-03-12 15:17:20 DEBUG BillManager:253 - 570.0
+2016-03-12 15:17:21 DEBUG BillManager:252 - [1, 5, -10, -11]
+2016-03-12 15:17:21 DEBUG BillManager:253 - 570.0
+2016-03-12 15:17:22 DEBUG BillManager:252 - [1, 4, 2, -10, -11]
+2016-03-12 15:17:22 DEBUG BillManager:253 - 780.0
+2016-03-12 15:17:45 INFO  GenerateBill:258 - Total time for bill generation: 40739 in milliSeconds
+2016-03-12 15:17:45 INFO  GenerateBill:264 - Total time for bill generation: 189 in milliSeconds
+2016-03-12 15:33:18 DEBUG SQLiteManager:22 - Set up new connection
+2016-03-12 15:33:27 DEBUG BillManager:251 - [1, 6, 5, 2, -10, -11]
+2016-03-12 15:33:27 DEBUG BillManager:252 - 1360.0
+2016-03-12 15:33:28 DEBUG BillManager:251 - [1, 6, 5, -10, -11]
+2016-03-12 15:33:28 DEBUG BillManager:252 - 1160.0
+2016-03-12 15:33:29 DEBUG BillManager:251 - [1, 6, 5, 3, -10, -11]
+2016-03-12 15:33:29 DEBUG BillManager:252 - 1560.0
+2016-03-12 15:33:30 DEBUG BillManager:251 - [1, 4, -10, -11]
+2016-03-12 15:33:30 DEBUG BillManager:252 - 840.0
+2016-03-12 15:33:31 DEBUG BillManager:251 - [1, 4, -10, -11]
+2016-03-12 15:33:31 DEBUG BillManager:252 - 840.0
+2016-03-12 15:33:32 DEBUG BillManager:251 - [1, 4, 3, -10, -11]
+2016-03-12 15:33:32 DEBUG BillManager:252 - 1240.0
+2016-03-12 15:33:32 DEBUG BillManager:251 - [1, 4, 2, 2, 3, -10, -11]
+2016-03-12 15:33:32 DEBUG BillManager:252 - 1640.0
+2016-03-12 15:33:33 DEBUG BillManager:251 - [1, 4, -10, -11]
+2016-03-12 15:33:33 DEBUG BillManager:252 - 840.0
+2016-03-12 15:33:34 DEBUG BillManager:251 - [1, 4, -10, -11]
+2016-03-12 15:33:34 DEBUG BillManager:252 - 840.0
+2016-03-12 15:33:35 DEBUG BillManager:251 - [1, 6, 4, 2, -10, -11]
+2016-03-12 15:33:35 DEBUG BillManager:252 - 1440.0
+2016-03-12 15:33:35 DEBUG BillManager:251 - [1, 6, 4, -10, -11]
+2016-03-12 15:33:35 DEBUG BillManager:252 - 1240.0
+2016-03-12 15:33:36 DEBUG BillManager:251 - [1, 5, -10, -11]
+2016-03-12 15:33:36 DEBUG BillManager:252 - 760.0
+2016-03-12 15:33:37 DEBUG BillManager:251 - [1, 5, 3, -10, -11]
+2016-03-12 15:33:37 DEBUG BillManager:252 - 1160.0
+2016-03-12 15:33:38 DEBUG BillManager:251 - [1, 4, 2, -10, -11]
+2016-03-12 15:33:38 DEBUG BillManager:252 - 1040.0
+2016-03-12 15:33:39 DEBUG BillManager:251 - [1, 5, 2, -10, -11]
+2016-03-12 15:33:39 DEBUG BillManager:252 - 960.0
+2016-03-12 15:33:40 DEBUG BillManager:251 - [1, 5, -10, -11]
+2016-03-12 15:33:40 DEBUG BillManager:252 - 760.0
+2016-03-12 15:33:40 DEBUG BillManager:251 - [1, 4, 3, 3, -10, -11]
+2016-03-12 15:33:40 DEBUG BillManager:252 - 1640.0
+2016-03-12 15:33:41 DEBUG BillManager:251 - [1, 5, -10, -11]
+2016-03-12 15:33:41 DEBUG BillManager:252 - 760.0
+2016-03-12 15:33:42 DEBUG BillManager:251 - [1, 5, -10, -11]
+2016-03-12 15:33:42 DEBUG BillManager:252 - 760.0
+2016-03-12 15:33:43 DEBUG BillManager:251 - [1, 4, 2, -10, -11]
+2016-03-12 15:33:43 DEBUG BillManager:252 - 1040.0
+2016-03-12 15:36:03 DEBUG SQLiteManager:22 - Set up new connection
+2016-03-12 15:36:12 ERROR SQLiteManager:89 - java.sql.SQLException: [SQLITE_BUSY]  The database file is locked (database is locked)
+2016-03-12 15:36:23 DEBUG SQLiteManager:22 - Set up new connection
+2016-03-12 15:36:35 DEBUG BillManager:251 - [1, 6, 5, 2, -10, -11]
+2016-03-12 15:36:35 DEBUG BillManager:252 - 1700.0
+2016-03-12 15:36:36 DEBUG BillManager:251 - [1, 6, 5, -10, -11]
+2016-03-12 15:36:36 DEBUG BillManager:252 - 1450.0
+2016-03-12 15:36:36 DEBUG BillManager:251 - [1, 6, 5, 3, -10, -11]
+2016-03-12 15:36:36 DEBUG BillManager:252 - 1950.0
+2016-03-12 15:36:37 DEBUG BillManager:251 - [1, 4, -10, -11]
+2016-03-12 15:36:37 DEBUG BillManager:252 - 1050.0
+2016-03-12 15:36:38 DEBUG BillManager:251 - [1, 4, -10, -11]
+2016-03-12 15:36:38 DEBUG BillManager:252 - 1050.0
+2016-03-12 15:36:39 DEBUG BillManager:251 - [1, 4, 3, -10, -11]
+2016-03-12 15:36:39 DEBUG BillManager:252 - 1550.0
+2016-03-12 15:36:40 DEBUG BillManager:251 - [1, 4, 2, 2, 3, -10, -11]
+2016-03-12 15:36:40 DEBUG BillManager:252 - 2050.0
+2016-03-12 15:36:41 DEBUG BillManager:251 - [1, 4, -10, -11]
+2016-03-12 15:36:41 DEBUG BillManager:252 - 1050.0
+2016-03-12 15:36:42 DEBUG BillManager:251 - [1, 4, -10, -11]
+2016-03-12 15:36:42 DEBUG BillManager:252 - 1050.0
+2016-03-12 15:36:42 DEBUG BillManager:251 - [1, 6, 4, 2, -10, -11]
+2016-03-12 15:36:42 DEBUG BillManager:252 - 1800.0
+2016-03-12 15:36:44 DEBUG BillManager:251 - [1, 6, 4, -10, -11]
+2016-03-12 15:36:44 DEBUG BillManager:252 - 1550.0
+2016-03-12 15:36:45 DEBUG BillManager:251 - [1, 5, -10, -11]
+2016-03-12 15:36:45 DEBUG BillManager:252 - 950.0
+2016-03-12 15:36:45 DEBUG BillManager:251 - [1, 5, 3, -10, -11]
+2016-03-12 15:36:45 DEBUG BillManager:252 - 1450.0
+2016-03-12 15:36:46 DEBUG BillManager:251 - [1, 4, 2, -10, -11]
+2016-03-12 15:36:46 DEBUG BillManager:252 - 1300.0
+2016-03-12 15:36:47 DEBUG BillManager:251 - [1, 5, 2, -10, -11]
+2016-03-12 15:36:47 DEBUG BillManager:252 - 1200.0
+2016-03-12 15:36:48 DEBUG BillManager:251 - [1, 5, -10, -11]
+2016-03-12 15:36:48 DEBUG BillManager:252 - 950.0
+2016-03-12 15:36:49 DEBUG BillManager:251 - [1, 4, 3, 3, -10, -11]
+2016-03-12 15:36:49 DEBUG BillManager:252 - 2050.0
+2016-03-12 15:36:50 DEBUG BillManager:251 - [1, 5, -10, -11]
+2016-03-12 15:36:50 DEBUG BillManager:252 - 950.0
+2016-03-12 15:36:51 DEBUG BillManager:251 - [1, 5, -10, -11]
+2016-03-12 15:36:51 DEBUG BillManager:252 - 950.0
+2016-03-12 15:36:52 DEBUG BillManager:251 - [1, 4, 2, -10, -11]
+2016-03-12 15:36:52 DEBUG BillManager:252 - 1300.0
+2016-03-12 15:36:52 INFO  GenerateBill:258 - Total time for bill generation: 17652 in milliSeconds
+2016-03-12 15:36:53 INFO  GenerateBill:264 - Total time for bill generation: 895 in milliSeconds
+2016-03-12 15:37:05 DEBUG BillManager:251 - [1, 6, 5, 2, -10, -11]
+2016-03-12 15:37:05 DEBUG BillManager:252 - 2040.0
+2016-03-12 15:37:06 DEBUG BillManager:251 - [1, 6, 5, -10, -11]
+2016-03-12 15:37:06 DEBUG BillManager:252 - 1740.0
+2016-03-12 15:37:07 DEBUG BillManager:251 - [1, 6, 5, 3, -10, -11]
+2016-03-12 15:37:07 DEBUG BillManager:252 - 2340.0
+2016-03-12 15:37:08 DEBUG BillManager:251 - [1, 4, -10, -11]
+2016-03-12 15:37:08 DEBUG BillManager:252 - 1260.0
+2016-03-12 15:37:09 DEBUG BillManager:251 - [1, 4, -10, -11]
+2016-03-12 15:37:09 DEBUG BillManager:252 - 1260.0
+2016-03-12 15:37:10 DEBUG BillManager:251 - [1, 4, 3, -10, -11]
+2016-03-12 15:37:10 DEBUG BillManager:252 - 1860.0
+2016-03-12 15:37:10 DEBUG BillManager:251 - [1, 4, 2, 2, 3, -10, -11]
+2016-03-12 15:37:10 DEBUG BillManager:252 - 2460.0
+2016-03-12 15:37:11 DEBUG BillManager:251 - [1, 4, -10, -11]
+2016-03-12 15:37:11 DEBUG BillManager:252 - 1260.0
+2016-03-12 15:37:12 DEBUG BillManager:251 - [1, 4, -10, -11]
+2016-03-12 15:37:12 DEBUG BillManager:252 - 1260.0
+2016-03-12 15:37:13 DEBUG BillManager:251 - [1, 6, 4, 2, -10, -11]
+2016-03-12 15:37:13 DEBUG BillManager:252 - 2160.0
+2016-03-12 15:37:14 DEBUG BillManager:251 - [1, 6, 4, -10, -11]
+2016-03-12 15:37:14 DEBUG BillManager:252 - 1860.0
+2016-03-12 15:37:15 DEBUG BillManager:251 - [1, 5, -10, -11]
+2016-03-12 15:37:15 DEBUG BillManager:252 - 1140.0
+2016-03-12 15:37:16 DEBUG BillManager:251 - [1, 5, 3, -10, -11]
+2016-03-12 15:37:16 DEBUG BillManager:252 - 1740.0
+2016-03-12 15:37:17 DEBUG BillManager:251 - [1, 4, 2, -10, -11]
+2016-03-12 15:37:17 DEBUG BillManager:252 - 1560.0
+2016-03-12 15:37:18 DEBUG BillManager:251 - [1, 5, 2, -10, -11]
+2016-03-12 15:37:18 DEBUG BillManager:252 - 1440.0
+2016-03-12 15:37:18 DEBUG BillManager:251 - [1, 5, -10, -11]
+2016-03-12 15:37:18 DEBUG BillManager:252 - 1140.0
+2016-03-12 15:37:19 DEBUG BillManager:251 - [1, 4, 3, 3, -10, -11]
+2016-03-12 15:37:19 DEBUG BillManager:252 - 2460.0
+2016-03-12 15:37:20 DEBUG BillManager:251 - [1, 5, -10, -11]
+2016-03-12 15:37:20 DEBUG BillManager:252 - 1140.0
+2016-03-12 15:37:21 DEBUG BillManager:251 - [1, 5, -10, -11]
+2016-03-12 15:37:21 DEBUG BillManager:252 - 1140.0
+2016-03-12 15:37:21 DEBUG BillManager:251 - [1, 4, 2, -10, -11]
+2016-03-12 15:37:21 DEBUG BillManager:252 - 1560.0
+2016-03-12 15:37:22 INFO  GenerateBill:258 - Total time for bill generation: 16898 in milliSeconds
+2016-03-12 15:37:22 INFO  GenerateBill:264 - Total time for bill generation: 221 in milliSeconds
+2016-03-12 16:23:40 DEBUG SQLiteManager:22 - Set up new connection
+2016-03-12 16:23:52 DEBUG BillManager:277 - [1, 6, 5, 2, -10, -11]
+2016-03-12 16:23:52 DEBUG BillManager:278 - 2380.0
+2016-03-12 16:23:52 DEBUG BillManager:277 - [1, 6, 5, -10, -11]
+2016-03-12 16:23:52 DEBUG BillManager:278 - 2030.0
+2016-03-12 16:23:52 DEBUG BillManager:277 - [1, 6, 5, 3, -10, -11]
+2016-03-12 16:23:52 DEBUG BillManager:278 - 2730.0
+2016-03-12 16:23:52 DEBUG BillManager:277 - [1, 4, -10, -11]
+2016-03-12 16:23:52 DEBUG BillManager:278 - 1470.0
+2016-03-12 16:23:52 DEBUG BillManager:277 - [1, 4, -10, -11]
+2016-03-12 16:23:52 DEBUG BillManager:278 - 1470.0
+2016-03-12 16:23:52 DEBUG BillManager:277 - [1, 4, 3, -10, -11]
+2016-03-12 16:23:52 DEBUG BillManager:278 - 2170.0
+2016-03-12 16:23:52 DEBUG BillManager:277 - [1, 4, 2, 2, 3, -10, -11]
+2016-03-12 16:23:52 DEBUG BillManager:278 - 2870.0
+2016-03-12 16:23:52 DEBUG BillManager:277 - [1, 4, -10, -11]
+2016-03-12 16:23:52 DEBUG BillManager:278 - 1470.0
+2016-03-12 16:23:52 DEBUG BillManager:277 - [1, 4, -10, -11]
+2016-03-12 16:23:52 DEBUG BillManager:278 - 1470.0
+2016-03-12 16:23:52 DEBUG BillManager:277 - [1, 6, 4, 2, -10, -11]
+2016-03-12 16:23:52 DEBUG BillManager:278 - 2520.0
+2016-03-12 16:23:52 DEBUG BillManager:277 - [1, 6, 4, -10, -11]
+2016-03-12 16:23:52 DEBUG BillManager:278 - 2170.0
+2016-03-12 16:23:52 DEBUG BillManager:277 - [1, 5, -10, -11]
+2016-03-12 16:23:52 DEBUG BillManager:278 - 1330.0
+2016-03-12 16:23:52 DEBUG BillManager:277 - [1, 5, 3, -10, -11]
+2016-03-12 16:23:52 DEBUG BillManager:278 - 2030.0
+2016-03-12 16:23:52 DEBUG BillManager:277 - [1, 4, 2, -10, -11]
+2016-03-12 16:23:52 DEBUG BillManager:278 - 1820.0
+2016-03-12 16:23:52 DEBUG BillManager:277 - [1, 5, 2, -10, -11]
+2016-03-12 16:23:52 DEBUG BillManager:278 - 1680.0
+2016-03-12 16:23:52 DEBUG BillManager:277 - [1, 5, -10, -11]
+2016-03-12 16:23:52 DEBUG BillManager:278 - 1330.0
+2016-03-12 16:23:52 DEBUG BillManager:277 - [1, 4, 3, 3, -10, -11]
+2016-03-12 16:23:52 DEBUG BillManager:278 - 2870.0
+2016-03-12 16:23:52 DEBUG BillManager:277 - [1, 5, -10, -11]
+2016-03-12 16:23:52 DEBUG BillManager:278 - 1330.0
+2016-03-12 16:23:52 DEBUG BillManager:277 - [1, 5, -10, -11]
+2016-03-12 16:23:52 DEBUG BillManager:278 - 1330.0
+2016-03-12 16:23:52 DEBUG BillManager:277 - [1, 4, 2, -10, -11]
+2016-03-12 16:23:52 DEBUG BillManager:278 - 1820.0
+2016-03-12 16:23:52 INFO  GenerateBill:258 - Total time for bill generation: 361 in milliSeconds
+2016-03-12 16:23:53 INFO  GenerateBill:264 - Total time for bill generation: 1131 in milliSeconds
+2016-03-12 16:25:56 DEBUG SQLiteManager:22 - Set up new connection
+2016-03-12 16:26:05 DEBUG BillManager:277 - [1, 6, 5, 2, -10, -11]
+2016-03-12 16:26:05 DEBUG BillManager:278 - 2720.0
+2016-03-12 16:26:05 DEBUG BillManager:277 - [1, 6, 5, -10, -11]
+2016-03-12 16:26:05 DEBUG BillManager:278 - 2320.0
+2016-03-12 16:26:05 DEBUG BillManager:277 - [1, 6, 5, 3, -10, -11]
+2016-03-12 16:26:05 DEBUG BillManager:278 - 3120.0
+2016-03-12 16:26:05 DEBUG BillManager:277 - [1, 4, -10, -11]
+2016-03-12 16:26:05 DEBUG BillManager:278 - 1680.0
+2016-03-12 16:26:05 DEBUG BillManager:277 - [1, 4, -10, -11]
+2016-03-12 16:26:05 DEBUG BillManager:278 - 1680.0
+2016-03-12 16:26:05 DEBUG BillManager:277 - [1, 4, 3, -10, -11]
+2016-03-12 16:26:05 DEBUG BillManager:278 - 2480.0
+2016-03-12 16:26:05 DEBUG BillManager:277 - [1, 4, 2, 2, 3, -10, -11]
+2016-03-12 16:26:05 DEBUG BillManager:278 - 3280.0
+2016-03-12 16:26:05 DEBUG BillManager:277 - [1, 4, -10, -11]
+2016-03-12 16:26:05 DEBUG BillManager:278 - 1680.0
+2016-03-12 16:26:05 DEBUG BillManager:277 - [1, 4, -10, -11]
+2016-03-12 16:26:05 DEBUG BillManager:278 - 1680.0
+2016-03-12 16:26:05 DEBUG BillManager:277 - [1, 6, 4, 2, -10, -11]
+2016-03-12 16:26:05 DEBUG BillManager:278 - 2880.0
+2016-03-12 16:26:05 DEBUG BillManager:277 - [1, 6, 4, -10, -11]
+2016-03-12 16:26:05 DEBUG BillManager:278 - 2480.0
+2016-03-12 16:26:05 DEBUG BillManager:277 - [1, 5, -10, -11]
+2016-03-12 16:26:05 DEBUG BillManager:278 - 1520.0
+2016-03-12 16:26:05 DEBUG BillManager:277 - [1, 5, 3, -10, -11]
+2016-03-12 16:26:05 DEBUG BillManager:278 - 2320.0
+2016-03-12 16:26:05 DEBUG BillManager:277 - [1, 4, 2, -10, -11]
+2016-03-12 16:26:05 DEBUG BillManager:278 - 2080.0
+2016-03-12 16:26:05 DEBUG BillManager:277 - [1, 5, 2, -10, -11]
+2016-03-12 16:26:05 DEBUG BillManager:278 - 1920.0
+2016-03-12 16:26:05 DEBUG BillManager:277 - [1, 5, -10, -11]
+2016-03-12 16:26:05 DEBUG BillManager:278 - 1520.0
+2016-03-12 16:26:05 DEBUG BillManager:277 - [1, 4, 3, 3, -10, -11]
+2016-03-12 16:26:05 DEBUG BillManager:278 - 3280.0
+2016-03-12 16:26:05 DEBUG BillManager:277 - [1, 5, -10, -11]
+2016-03-12 16:26:05 DEBUG BillManager:278 - 1520.0
+2016-03-12 16:26:05 DEBUG BillManager:277 - [1, 5, -10, -11]
+2016-03-12 16:26:05 DEBUG BillManager:278 - 1520.0
+2016-03-12 16:26:05 DEBUG BillManager:277 - [1, 4, 2, -10, -11]
+2016-03-12 16:26:05 DEBUG BillManager:278 - 2080.0
+2016-03-12 16:26:05 INFO  GenerateBill:258 - Total time for bill generation: 470 in milliSeconds
+2016-03-12 16:26:06 INFO  GenerateBill:264 - Total time for bill generation: 914 in milliSeconds
+2016-03-12 16:28:13 DEBUG SQLiteManager:22 - Set up new connection
+2016-03-12 16:28:28 DEBUG BillManager:277 - [1, 6, 5, 2, -10, -11]
+2016-03-12 16:28:28 DEBUG BillManager:278 - 3060.0
+2016-03-12 16:28:28 DEBUG BillManager:277 - [1, 6, 5, -10, -11]
+2016-03-12 16:28:28 DEBUG BillManager:278 - 2610.0
+2016-03-12 16:28:28 DEBUG BillManager:277 - [1, 6, 5, 3, -10, -11]
+2016-03-12 16:28:28 DEBUG BillManager:278 - 3510.0
+2016-03-12 16:28:28 DEBUG BillManager:277 - [1, 4, -10, -11]
+2016-03-12 16:28:28 DEBUG BillManager:278 - 1890.0
+2016-03-12 16:28:28 DEBUG BillManager:277 - [1, 4, -10, -11]
+2016-03-12 16:28:28 DEBUG BillManager:278 - 1890.0
+2016-03-12 16:28:28 DEBUG BillManager:277 - [1, 4, 3, -10, -11]
+2016-03-12 16:28:28 DEBUG BillManager:278 - 2790.0
+2016-03-12 16:28:28 DEBUG BillManager:277 - [1, 4, 2, 2, 3, -10, -11]
+2016-03-12 16:28:28 DEBUG BillManager:278 - 3690.0
+2016-03-12 16:28:28 DEBUG BillManager:277 - [1, 4, -10, -11]
+2016-03-12 16:28:28 DEBUG BillManager:278 - 1890.0
+2016-03-12 16:28:28 DEBUG BillManager:277 - [1, 4, -10, -11]
+2016-03-12 16:28:28 DEBUG BillManager:278 - 1890.0
+2016-03-12 16:28:28 DEBUG BillManager:277 - [1, 6, 4, 2, -10, -11]
+2016-03-12 16:28:28 DEBUG BillManager:278 - 3240.0
+2016-03-12 16:28:28 DEBUG BillManager:277 - [1, 6, 4, -10, -11]
+2016-03-12 16:28:28 DEBUG BillManager:278 - 2790.0
+2016-03-12 16:28:28 DEBUG BillManager:277 - [1, 5, -10, -11]
+2016-03-12 16:28:28 DEBUG BillManager:278 - 1710.0
+2016-03-12 16:28:28 DEBUG BillManager:277 - [1, 5, 3, -10, -11]
+2016-03-12 16:28:28 DEBUG BillManager:278 - 2610.0
+2016-03-12 16:28:28 DEBUG BillManager:277 - [1, 4, 2, -10, -11]
+2016-03-12 16:28:28 DEBUG BillManager:278 - 2340.0
+2016-03-12 16:28:28 DEBUG BillManager:277 - [1, 5, 2, -10, -11]
+2016-03-12 16:28:28 DEBUG BillManager:278 - 2160.0
+2016-03-12 16:28:28 DEBUG BillManager:277 - [1, 5, -10, -11]
+2016-03-12 16:28:28 DEBUG BillManager:278 - 1710.0
+2016-03-12 16:28:28 DEBUG BillManager:277 - [1, 4, 3, 3, -10, -11]
+2016-03-12 16:28:28 DEBUG BillManager:278 - 3690.0
+2016-03-12 16:28:28 DEBUG BillManager:277 - [1, 5, -10, -11]
+2016-03-12 16:28:28 DEBUG BillManager:278 - 1710.0
+2016-03-12 16:28:28 DEBUG BillManager:277 - [1, 5, -10, -11]
+2016-03-12 16:28:28 DEBUG BillManager:278 - 1710.0
+2016-03-12 16:28:28 DEBUG BillManager:277 - [1, 4, 2, -10, -11]
+2016-03-12 16:28:28 DEBUG BillManager:278 - 2340.0
+2016-03-12 16:28:28 INFO  GenerateBill:258 - Total time for bill generation: 340 in milliSeconds
+2016-03-12 16:28:29 INFO  GenerateBill:264 - Total time for bill generation: 950 in milliSeconds
+2016-03-12 16:38:57 DEBUG SQLiteManager:22 - Set up new connection
+2016-03-12 16:39:09 DEBUG BillManager:277 - [1, 6, 5, 2, -10, -11]
+2016-03-12 16:39:09 DEBUG BillManager:278 - 3400.0
+2016-03-12 16:39:09 DEBUG BillManager:277 - [1, 6, 5, -10, -11]
+2016-03-12 16:39:09 DEBUG BillManager:278 - 2900.0
+2016-03-12 16:39:09 DEBUG BillManager:277 - [1, 6, 5, 3, -10, -11]
+2016-03-12 16:39:09 DEBUG BillManager:278 - 3900.0
+2016-03-12 16:39:09 DEBUG BillManager:277 - [1, 4, -10, -11]
+2016-03-12 16:39:09 DEBUG BillManager:278 - 2100.0
+2016-03-12 16:39:09 DEBUG BillManager:277 - [1, 4, -10, -11]
+2016-03-12 16:39:09 DEBUG BillManager:278 - 2100.0
+2016-03-12 16:39:09 DEBUG BillManager:277 - [1, 4, 3, -10, -11]
+2016-03-12 16:39:09 DEBUG BillManager:278 - 3100.0
+2016-03-12 16:39:09 DEBUG BillManager:277 - [1, 4, 2, 2, 3, -10, -11]
+2016-03-12 16:39:09 DEBUG BillManager:278 - 4100.0
+2016-03-12 16:39:09 DEBUG BillManager:277 - [1, 4, -10, -11]
+2016-03-12 16:39:09 DEBUG BillManager:278 - 2100.0
+2016-03-12 16:39:09 DEBUG BillManager:277 - [1, 4, -10, -11]
+2016-03-12 16:39:09 DEBUG BillManager:278 - 2100.0
+2016-03-12 16:39:09 DEBUG BillManager:277 - [1, 6, 4, 2, -10, -11]
+2016-03-12 16:39:09 DEBUG BillManager:278 - 3600.0
+2016-03-12 16:39:09 DEBUG BillManager:277 - [1, 6, 4, -10, -11]
+2016-03-12 16:39:09 DEBUG BillManager:278 - 3100.0
+2016-03-12 16:39:09 DEBUG BillManager:277 - [1, 5, -10, -11]
+2016-03-12 16:39:09 DEBUG BillManager:278 - 1900.0
+2016-03-12 16:39:09 DEBUG BillManager:277 - [1, 5, 3, -10, -11]
+2016-03-12 16:39:09 DEBUG BillManager:278 - 2900.0
+2016-03-12 16:39:09 DEBUG BillManager:277 - [1, 4, 2, -10, -11]
+2016-03-12 16:39:09 DEBUG BillManager:278 - 2600.0
+2016-03-12 16:39:09 DEBUG BillManager:277 - [1, 5, 2, -10, -11]
+2016-03-12 16:39:09 DEBUG BillManager:278 - 2400.0
+2016-03-12 16:39:09 DEBUG BillManager:277 - [1, 5, -10, -11]
+2016-03-12 16:39:09 DEBUG BillManager:278 - 1900.0
+2016-03-12 16:39:09 DEBUG BillManager:277 - [1, 4, 3, 3, -10, -11]
+2016-03-12 16:39:09 DEBUG BillManager:278 - 4100.0
+2016-03-12 16:39:09 DEBUG BillManager:277 - [1, 5, -10, -11]
+2016-03-12 16:39:09 DEBUG BillManager:278 - 1900.0
+2016-03-12 16:39:09 DEBUG BillManager:277 - [1, 5, -10, -11]
+2016-03-12 16:39:09 DEBUG BillManager:278 - 1900.0
+2016-03-12 16:39:09 DEBUG BillManager:277 - [1, 4, 2, -10, -11]
+2016-03-12 16:39:09 DEBUG BillManager:278 - 2600.0
+2016-03-12 16:39:10 INFO  GenerateBill:258 - Total time for bill generation: 707 in milliSeconds
+2016-03-12 16:39:11 INFO  GenerateBill:264 - Total time for bill generation: 1070 in milliSeconds
+2016-03-12 16:44:52 DEBUG SQLiteManager:22 - Set up new connection
+2016-03-12 16:47:32 DEBUG SQLiteManager:22 - Set up new connection

@@ -20,14 +20,10 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
 
 import com.vhi.hsm.controller.manager.SystemManager;
-import com.vhi.hsm.db.SQLiteManager;
 import com.vhi.hsm.model.AssetType;
 import com.vhi.hsm.model.Charge;
-import com.vhi.hsm.model.Society;
 import com.vhi.hsm.view.masterdetail.MasterDetailPanel;
 import com.vhi.hsm.view.masterdetail.MasterDetailPanel.MasterDetailCallback;
 import com.vhi.hsm.view.masterdetail.MasterListPanel.MasterListItem;
@@ -298,29 +294,6 @@ public class AssetTypeScreen extends JDialog implements WindowListener {
 			//assetType.setCharges(Double.parseDouble(chargeField.getText()));
 		}
 
-	}
-
-	public static void main(String[] args) {
-		// Sets the System theme
-		try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (Exception e) {
-
-		}
-
-		// set up database connection
-		if (SQLiteManager.setUpDB()) {
-
-			// runs UI on other than Main thread
-			SwingUtilities.invokeLater(() -> {
-				SystemManager.society = Society.read(1);
-				new AssetTypeScreen(null);
-			});
-
-		} else {
-			// Show error message
-			JOptionPane.showMessageDialog(null, "Can not connect to database", "Error", JOptionPane.ERROR_MESSAGE);
-		}
 	}
 
 	@Override
