@@ -84,7 +84,7 @@ public class SQLiteManager {
 	public static PreparedStatement getPreparedStatement(String query) {
 		PreparedStatement preparedStatement = null;
 		try {
-			preparedStatement = getInstance().prepareStatement(query);
+			preparedStatement = getInstance().prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 		} catch (SQLException e) {
 			LOG.error(e.toString());
 		}

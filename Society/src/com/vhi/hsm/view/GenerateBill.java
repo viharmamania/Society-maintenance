@@ -3,7 +3,6 @@
  */
 package com.vhi.hsm.view;
 
-import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
@@ -95,7 +94,7 @@ public class GenerateBill extends JDialog implements WindowListener {
 					billIds.add(executeQuery.getInt(Constants.Table.Bill.FieldName.BILL_ID));
 				}
 				if (billIds.size() > 0) {
-					created = true;
+//					created = true;
 				}
 			}
 
@@ -170,6 +169,7 @@ public class GenerateBill extends JDialog implements WindowListener {
 	}
 
 	private void createPDF(boolean isPreview) {
+		
 		ArrayList<Integer> tempChargeIds = new ArrayList<Integer>();
 
 		JCheckBox box;
@@ -181,49 +181,9 @@ public class GenerateBill extends JDialog implements WindowListener {
 			}
 		}
 
-		JLabel progressLabel = new JLabel();
-		final JDialog dlg = new JDialog(this, "Progress Dialog", true);
-		JProgressBar dpb = new JProgressBar(0, 500);
-		dpb.setIndeterminate(true);
-		dlg.add(BorderLayout.CENTER, dpb);
-		dlg.add(BorderLayout.NORTH, progressLabel);
-		dlg.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
-		dlg.setSize(300, 75);
-		dlg.setLocationRelativeTo(this);
-
-		GenerateBill generateBill = this;
+//		ProgressDialog progressDialog = 
+		new ProgressDialog(this, tempChargeIds, isPreview);
 		
-		Thread thread = new Thread(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					dlg.setVisible(true);
-					progressLabel.setText("Generating bills");
-					List<Bill> bill = BillManager.generateBill(SystemManager.society.getSocietyId(), isPreview,
-							tempChargeIds);
-					progressLabel.setText("Generating PDF files");
-					PDFManager.generateBillPDF(bill, isPreview);
-					if (isPreview) {
-						JOptionPane.showMessageDialog(null, "The Preview has been generated successfully ", "Success",
-								JOptionPane.INFORMATION_MESSAGE);
-					} else {
-						JOptionPane.showMessageDialog(null, "The Bills have been generated successfully ", "Success",
-								JOptionPane.INFORMATION_MESSAGE);
-						DashBoard.prepareTreeData();
-					}
-				} catch (FileNotFoundException | DocumentException e) {
-					LOG.error(e.toString());
-				} catch (IOException e) {
-					LOG.error(e.toString());
-				} finally {
-					dlg.dispose();
-					notify();
-					generateBill.dispose();
-				}
-			}
-		});
-		
-		thread.start();
 	}
 
 	@Override
@@ -259,6 +219,78 @@ public class GenerateBill extends JDialog implements WindowListener {
 	@Override
 	public void windowOpened(WindowEvent arg0) {
 
+	}
+	
+	public class ProgressDialog extends JDialog {
+		
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		public ProgressDialog(JDialog parent, ArrayList<Integer> tempChargeIds, boolean isPreview) {
+			super(parent, "Progress", true);
+			JProgressBar dpb = new JProgressBar(0, 500);
+			JLabel progressLabel = new JLabel();
+			
+			dpb.setIndeterminate(true);
+			add(progressLabel);
+			add(dpb);
+			setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+			setLocationRelativeTo(this);
+			setResizable(false);
+			pack();
+			
+			GenerateBill generateBill = (GenerateBill) parent;
+			
+			Thread thread = new Thread(new Runnable() {
+				@Override
+				public void run() {
+					long startTime, endTime;
+					String message;
+					try {
+						setTitle("Generating bills");
+						startTime = System.currentTimeMillis();
+						List<Bill> bill = BillManager.generateBill(SystemManager.society.getSocietyId(), isPreview,
+								tempChargeIds);
+						endTime = System.currentTimeMillis();
+						message = "Total time for bill generation: " + (endTime - startTime) + " in milliSeconds";
+						LOG.info(message);
+						setTitle("Generating PDF files");
+						startTime = System.currentTimeMillis();
+						PDFManager.generateBillPDF(bill, isPreview);
+						endTime = System.currentTimeMillis();
+						message = "Total time for bill generation: " + (endTime - startTime) + " in milliSeconds";
+						LOG.info(message);
+						if (isPreview) {
+							JOptionPane.showMessageDialog(null, "The Preview has been generated successfully ", "Success",
+									JOptionPane.INFORMATION_MESSAGE);
+						} else {
+							JOptionPane.showMessageDialog(null, "The Bills have been generated successfully ", "Success",
+									JOptionPane.INFORMATION_MESSAGE);
+							DashBoard.prepareTreeData();
+						}
+					} catch (FileNotFoundException | DocumentException e) {
+						LOG.error(e.toString());
+					} catch (IOException e) {
+						LOG.error(e.toString());
+					} finally {
+						dispose();
+						generateBill.dispose();
+					}
+				}
+			});
+			
+			thread.start();
+			setVisible(true);
+//			try {
+//				thread.join();
+//			} catch (InterruptedException e) {
+//				e.printStackTrace();
+//			}
+			
+		}
+		
 	}
 
 }

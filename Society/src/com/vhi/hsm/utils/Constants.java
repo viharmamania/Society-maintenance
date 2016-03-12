@@ -16,6 +16,8 @@ public interface Constants {
 		int FINE_CHARGE_ID = -10;
 		int PREVIOUS_CHARGE_ID = -11;
 	}
+	
+	int NEW_BILL_ID = -1;
 
 	public interface Table {
 

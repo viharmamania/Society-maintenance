@@ -15,34 +15,32 @@ import com.vhi.hsm.utils.Constants;
 import com.vhi.hsm.utils.Utility;
 
 public class Bill {
-	
+
 	private int billId;
-	
+
 	private int societyId;
-	
+
 	private int propertyId;
-	
+
 	private double amount;
-	
+
 	private Date billDate;
-	
+
 	private int paymentId;
-	
+
 	private String modifiedBy;
-	
+
 	private Timestamp lastModified;
-	
+
 	private boolean isCancelled;
-	
+
 	private ArrayList<Integer> assignedCharges;
-	
-	private static PreparedStatement readStatement, chargeReadStatement, 
-									insertStatement,
-									updateStatement,
-									deleteStatement;
-	
+
+	private static PreparedStatement readStatement, chargeReadStatement, insertStatement, insertStatementWithId,
+			updateStatement, deleteStatement;
+
 	private final static Logger LOG = Logger.getLogger(Bill.class);
-	
+
 	private Bill() {
 		assignedCharges = new ArrayList<Integer>();
 	}
@@ -118,7 +116,7 @@ public class Bill {
 	public void setAssignedCharges(ArrayList<Integer> assignedCharges) {
 		this.assignedCharges = assignedCharges;
 	}
-	
+
 	public int getSocietyId() {
 		return societyId;
 	}
@@ -135,15 +133,16 @@ public class Bill {
 
 	public static Bill read(int billId) {
 		Bill bill = null;
-		
+
 		if (readStatement == null) {
 			readStatement = SQLiteManager.getPreparedStatement("SELECT * FROM " + Constants.Table.Bill.TABLE_NAME
 					+ " WHERE " + Constants.Table.Bill.FieldName.BILL_ID + " = ?");
-			
-			chargeReadStatement = SQLiteManager.getPreparedStatement("SELECT * FROM " + Constants.Table.BillCharge.TABLE_NAME
-					+ " WHERE " + Constants.Table.Bill.FieldName.BILL_ID + " = ?");
+
+			chargeReadStatement = SQLiteManager
+					.getPreparedStatement("SELECT * FROM " + Constants.Table.BillCharge.TABLE_NAME + " WHERE "
+							+ Constants.Table.Bill.FieldName.BILL_ID + " = ?");
 		}
-		
+
 		if (readStatement != null) {
 			try {
 				readStatement.clearParameters();
@@ -160,14 +159,15 @@ public class Bill {
 					bill.modifiedBy = resultSet.getString(Constants.Table.Bill.FieldName.MODIFIED_BY);
 					bill.lastModified = resultSet.getTimestamp(Constants.Table.Bill.FieldName.LAST_MODIFIED);
 					bill.isCancelled = resultSet.getBoolean(Constants.Table.Bill.FieldName.IS_CANCELLED);
-					
+
 					if (chargeReadStatement != null) {
 						chargeReadStatement.clearParameters();
 						chargeReadStatement.setInt(1, billId);
 						resultSet = chargeReadStatement.executeQuery();
 						if (resultSet != null) {
 							while (resultSet.next()) {
-								bill.assignedCharges.add(new Integer(resultSet.getInt(Constants.Table.Charge.FieldName.CHARGE_ID)));
+								bill.assignedCharges
+										.add(new Integer(resultSet.getInt(Constants.Table.Charge.FieldName.CHARGE_ID)));
 							}
 						}
 					}
@@ -176,70 +176,123 @@ public class Bill {
 				LOG.error(e.getMessage());
 			}
 		}
-		
+
 		return bill;
 	}
-	
+
+	public static void saveAll() {
+		
+		try {
+			
+			if (insertStatementWithId != null) {
+				insertStatementWithId.executeBatch();
+				insertStatementWithId.clearBatch();
+			}
+			
+			if (insertStatement != null) {
+				insertStatement.executeBatch();
+				insertStatement.clearBatch();
+			}
+			
+		} catch (SQLException e) {
+			
+		}
+		
+	}
+
 	public static boolean save(Bill bill, boolean insertEntry) {
 		boolean result = false;
-		
+
 		if (bill != null) {
 			if (insertEntry) {
-				
-				if (insertStatement == null) {
-					insertStatement = SQLiteManager.getPreparedStatement("INSERT INTO " + Constants.Table.Bill.TABLE_NAME
-							+ "("
-							+ Constants.Table.Society.FieldName.SOCIETY_ID + ", "
-							+ Constants.Table.Property.FieldName.PROPERTY_ID + ", "
-							+ Constants.Table.Bill.FieldName.AMOUNT + ", "
-							+ Constants.Table.Payment.FieldName.PAYMENT_ID + ", "
-							+ Constants.Table.Bill.FieldName.BILL_TIMESTAMP + ", "
-							+ Constants.Table.Bill.FieldName.IS_CANCELLED + ", "
-							+ Constants.Table.Bill.FieldName.MODIFIED_BY + ", "
-							+ Constants.Table.Bill.FieldName.LAST_MODIFIED
-							+ ")"
-							+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-				}
-				
-				if (insertStatement != null) {
-					try {
-						insertStatement.clearParameters();
-						insertStatement.setInt(1, bill.societyId);
-						insertStatement.setInt(2, bill.propertyId);
-						insertStatement.setDouble(3, bill.amount);
-						insertStatement.setInt(4, bill.paymentId);
-						insertStatement.setDate(5, bill.billDate);
-						insertStatement.setBoolean(6, bill.isCancelled);
-						insertStatement.setString(7, bill.modifiedBy);
-						insertStatement.setTimestamp(8, Timestamp.valueOf(LocalDateTime.now()));
-						result = SQLiteManager.executePrepStatementAndGetResult(insertStatement);
-						if (result) {
-							ResultSet generatedKeys = insertStatement.getGeneratedKeys();
-							if (generatedKeys != null) {
-								bill.billId = generatedKeys.getInt(1);
-							}
+
+				if (bill.billId != Constants.NEW_BILL_ID) {
+
+					if (insertStatementWithId == null) {
+						insertStatementWithId = SQLiteManager.getPreparedStatement("INSERT INTO "
+								+ Constants.Table.Bill.TABLE_NAME + 
+								"(" 
+								+ Constants.Table.Bill.FieldName.BILL_ID + ", " 
+								+ Constants.Table.Society.FieldName.SOCIETY_ID + ", " 
+								+ Constants.Table.Property.FieldName.PROPERTY_ID + ", "
+								+ Constants.Table.Bill.FieldName.AMOUNT + ", "
+								+ Constants.Table.Payment.FieldName.PAYMENT_ID + ", "
+								+ Constants.Table.Bill.FieldName.BILL_TIMESTAMP + ", "
+								+ Constants.Table.Bill.FieldName.IS_CANCELLED + ", "
+								+ Constants.Table.Bill.FieldName.MODIFIED_BY + ", "
+								+ Constants.Table.Bill.FieldName.LAST_MODIFIED + ")"
+								+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+					}
+					
+					if (insertStatementWithId != null) {
+						try {
+							insertStatementWithId.setInt(2, bill.societyId);
+							insertStatementWithId.setInt(3, bill.propertyId);
+							insertStatementWithId.setDouble(4, bill.amount);
+							insertStatementWithId.setInt(5, bill.paymentId);
+							insertStatementWithId.setDate(6, bill.billDate);
+							insertStatementWithId.setBoolean(7, bill.isCancelled);
+							insertStatementWithId.setString(8, bill.modifiedBy);
+							insertStatementWithId.setTimestamp(9, Timestamp.valueOf(LocalDateTime.now()));
+							insertStatementWithId.addBatch();
+						} catch (SQLException e) {
+							LOG.error(e.getMessage());
 						}
-					} catch (SQLException e) {
-						LOG.error(e.getMessage());
+					}
+
+				} else {
+
+					if (insertStatement == null) {
+						insertStatement = SQLiteManager.getPreparedStatement("INSERT INTO "
+								+ Constants.Table.Bill.TABLE_NAME + "(" + Constants.Table.Society.FieldName.SOCIETY_ID
+								+ ", " + Constants.Table.Property.FieldName.PROPERTY_ID + ", "
+								+ Constants.Table.Bill.FieldName.AMOUNT + ", "
+								+ Constants.Table.Payment.FieldName.PAYMENT_ID + ", "
+								+ Constants.Table.Bill.FieldName.BILL_TIMESTAMP + ", "
+								+ Constants.Table.Bill.FieldName.IS_CANCELLED + ", "
+								+ Constants.Table.Bill.FieldName.MODIFIED_BY + ", "
+								+ Constants.Table.Bill.FieldName.LAST_MODIFIED + ")"
+								+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+					}
+
+					if (insertStatement != null) {
+						try {
+							insertStatement.setInt(1, bill.societyId);
+							insertStatement.setInt(2, bill.propertyId);
+							insertStatement.setDouble(3, bill.amount);
+							insertStatement.setInt(4, bill.paymentId);
+							insertStatement.setDate(5, bill.billDate);
+							insertStatement.setBoolean(6, bill.isCancelled);
+							insertStatement.setString(7, bill.modifiedBy);
+							insertStatement.setTimestamp(8, Timestamp.valueOf(LocalDateTime.now()));
+							result = SQLiteManager.executePrepStatementAndGetResult(insertStatement);
+							if (result) {
+								ResultSet generatedKeys = insertStatement.getGeneratedKeys();
+								if (generatedKeys != null) {
+									bill.billId = generatedKeys.getInt(1);
+								}
+							}
+						} catch (SQLException e) {
+							LOG.error(e.getMessage());
+						}
 					}
 				}
-				
+
 			} else {
-				
+
 				if (updateStatement == null) {
 					updateStatement = SQLiteManager.getPreparedStatement("UPDATE " + Constants.Table.Bill.TABLE_NAME
-							+ " SET "
-							+ Constants.Table.Society.FieldName.SOCIETY_ID + " = ?, "
+							+ " SET " + Constants.Table.Society.FieldName.SOCIETY_ID + " = ?, "
 							+ Constants.Table.Property.FieldName.PROPERTY_ID + " = ?, "
 							+ Constants.Table.Bill.FieldName.AMOUNT + " = ?, "
 							+ Constants.Table.Payment.FieldName.PAYMENT_ID + " = ?, "
 							+ Constants.Table.Bill.FieldName.BILL_TIMESTAMP + " = ?, "
 							+ Constants.Table.Bill.FieldName.IS_CANCELLED + " = ?, "
 							+ Constants.Table.Bill.FieldName.MODIFIED_BY + " = ?, "
-							+ Constants.Table.Bill.FieldName.LAST_MODIFIED + " = ?"
-							+ " WHERE " + Constants.Table.Bill.FieldName.BILL_ID + " = ?");
+							+ Constants.Table.Bill.FieldName.LAST_MODIFIED + " = ?" + " WHERE "
+							+ Constants.Table.Bill.FieldName.BILL_ID + " = ?");
 				}
-				
+
 				if (updateStatement != null) {
 					try {
 						updateStatement.clearParameters();
@@ -257,21 +310,21 @@ public class Bill {
 						LOG.error(e.getMessage());
 					}
 				}
-				
+
 			}
 		}
-		
+
 		return result;
 	}
-	
+
 	public static boolean delete(Bill bill) {
 		boolean result = false;
-		
+
 		if (deleteStatement == null) {
 			deleteStatement = SQLiteManager.getPreparedStatement("DELETE FROM " + Constants.Table.Bill.TABLE_NAME
 					+ " WHERE " + Constants.Table.Bill.FieldName.BILL_ID + " = ?");
 		}
-		
+
 		if (deleteStatement != null) {
 			try {
 				deleteStatement.clearParameters();
@@ -281,15 +334,16 @@ public class Bill {
 				LOG.error(e.getMessage());
 			}
 		}
-		
+
 		return result;
 	}
-	
+
 	public static Bill create() {
 		Bill bill = new Bill();
+		bill.billId = Constants.NEW_BILL_ID;
 		return bill;
 	}
-	
+
 	public static ArrayList<Bill> getBillsFromResultSet(ResultSet resultSet) {
 		ArrayList<Bill> bills = new ArrayList<Bill>();
 		try {

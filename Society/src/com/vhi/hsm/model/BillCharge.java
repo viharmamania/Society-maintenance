@@ -16,6 +16,8 @@ public class BillCharge {
 	private int chargeId;
 
 	private double amount;
+	
+	private Bill bill;
 
 	private static PreparedStatement readStatement, insertStatement, updateStatement, deleteStatement;
 	private final static Logger LOG = Logger.getLogger(BillCharge.class);
@@ -46,6 +48,14 @@ public class BillCharge {
 
 	public void setAmount(double amount) {
 		this.amount = amount;
+	}
+	
+	public void setBill(Bill bill) {
+		this.bill = bill;
+	}
+	
+	public Bill getBill() {
+		return this.bill;
 	}
 
 	public static BillCharge read(int billId, int chargeId) {
@@ -81,6 +91,7 @@ public class BillCharge {
 		try {
 			if (insertStatement != null) {
 				insertStatement.executeBatch();
+				insertStatement.clearBatch();
 			}
 		} catch (SQLException e) {
 			
@@ -93,7 +104,7 @@ public class BillCharge {
 		if (billCharge != null) {
 
 			if (insertEntry) {
-
+				
 				if (insertStatement == null) {
 					insertStatement = SQLiteManager.getPreparedStatement("INSERT INTO " + Constants.Table.BillCharge.TABLE_NAME
 							+ " VALUES (?, ?, ?)");
@@ -101,7 +112,6 @@ public class BillCharge {
 
 				if (insertStatement != null) {
 					try {
-						insertStatement.clearParameters();
 						insertStatement.setInt(1, billCharge.billId);
 						insertStatement.setInt(2, billCharge.chargeId);
 						insertStatement.setDouble(3, billCharge.amount);
@@ -163,10 +173,11 @@ public class BillCharge {
 		return result;
 	}
 
-	public static BillCharge create(int billId, int chargeId) {
+	public static BillCharge create(Bill bill, int chargeId) {
 		BillCharge billCharge = new BillCharge();
-		billCharge.billId = billId;
+		billCharge.billId = bill.getBillId();
 		billCharge.chargeId = chargeId;
+		billCharge.bill = bill;
 		return billCharge;
 	}
 

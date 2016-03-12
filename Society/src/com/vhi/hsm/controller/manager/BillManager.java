@@ -46,8 +46,10 @@ public class BillManager {
 	private static ArrayList<ChargeToPropertyGroup> chargesToPropertyGroup;
 	private static ArrayList<ChargeToPropertyType> chargesToPropertyType;
 	private static ArrayList<Charge> defaultCharges;
+	private static int newBillId;
 
 	static {
+		newBillId = -1;
 		chargesToProperty = new ArrayList<>();
 		chargesToPropertyGroup = new ArrayList<>();
 		chargesToPropertyType = new ArrayList<>();
@@ -136,13 +138,34 @@ public class BillManager {
 				properties.add(Property.read(result.getInt(Constants.Table.Property.FieldName.PROPERTY_ID)));
 			}
 
+			// fetch max BillId from Bill table
+			if (newBillId == -1) {
+				result = null;
+				result = SQLiteManager.executeQuery("SELECT max(" + Constants.Table.Bill.FieldName.BILL_ID + ") FROM "
+						+ Constants.Table.Bill.TABLE_NAME);
+				if (result != null) {
+					if (result.next()) {
+						newBillId = result.getInt(1);
+						newBillId++;
+					}
+				}
+			}
+
+			if (newBillId != -1) {
+				SQLiteManager.getInstance().setAutoCommit(false);
+			}
+
 			// generating individual bills and adding to list of bills
 			for (Property property : properties) {
 				societyBills.add(generatePropertySpecificBill(property, isPreview, tempChargeIds));
 			}
 
-			BillCharge.saveAll();
-
+			if (newBillId != -1) {
+				Bill.saveAll();
+				BillCharge.saveAll();
+				SQLiteManager.getInstance().commit();
+				SQLiteManager.getInstance().setAutoCommit(true);
+			}
 		} catch (SQLException e) {
 			societyBills.clear();
 			LOG.error(e.toString());
@@ -190,6 +213,9 @@ public class BillManager {
 		bill.setCancelled(false);
 		bill.setAssignedCharges(chargeIds);
 		bill.setAmount(billAmount);
+		if (newBillId != -1) {
+			bill.setBillId(newBillId++);
+		}
 
 		if (!isPreview) {
 
@@ -206,7 +232,7 @@ public class BillManager {
 			});
 
 			for (int i = 0; i < chargeIdArray.length; i++) {
-				BillCharge billCharge = BillCharge.create(bill.getBillId(), chargeIdArray[i]);
+				BillCharge billCharge = BillCharge.create(bill, chargeIdArray[i]);
 				Charge charge = Charge.read(property.getSocietyId(), chargeIdArray[i]);
 				while (true) {
 					billCharge.setAmount(billCharge.getAmount() + charge.getAmount());
@@ -224,16 +250,15 @@ public class BillManager {
 		// Calculate Fine
 		Charge finecharge = Charge.read(SystemManager.society.getSocietyId(), Constants.Charge.FINE_CHARGE_ID);
 		double fineAmount = Fine.getFineAmount(SystemManager.society.getSocietyId(), property.getNetPayable());
-		BillCharge billCharge = BillCharge.create(bill.getBillId(), finecharge.getChargeId());
+		BillCharge billCharge = BillCharge.create(bill, finecharge.getChargeId());
 		billCharge.setAmount(fineAmount);
 
 		// manipulate previous balances
 		Charge previousCharge = Charge.read(SystemManager.society.getSocietyId(), Constants.Charge.PREVIOUS_CHARGE_ID);
-		BillCharge billCharge2 = BillCharge.create(bill.getBillId(), previousCharge.getChargeId());
+		BillCharge billCharge2 = BillCharge.create(bill, previousCharge.getChargeId());
 		billCharge2.setAmount(property.getNetPayable());
 
 		if (!isPreview) {
-
 			BillCharge.save(billCharge, true);
 			BillCharge.save(billCharge2, true);
 		}
