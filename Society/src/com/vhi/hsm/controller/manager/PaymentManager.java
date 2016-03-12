@@ -1,18 +1,27 @@
 package com.vhi.hsm.controller.manager;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import org.apache.log4j.Logger;
+
+import com.vhi.hsm.db.SQLiteManager;
 import com.vhi.hsm.model.Bill;
 import com.vhi.hsm.model.Payment;
 import com.vhi.hsm.model.Property;
+import com.vhi.hsm.utils.Constants;
 
 public class PaymentManager {
+	
+	private final static Logger LOG = Logger.getLogger(BillManager.class);
 
 	public static synchronized ArrayList<Bill> makePayment(Payment payment) {
 
 		ArrayList<Bill> paidBills = new ArrayList<Bill>();
 		double newNetPaybale;
+		boolean addInterest = false;
 		
 		int paymentDay, paymentMonth, paymentYear, lastPaymentDay, lastPaymentMonth, lastPaymentYear;
 
@@ -57,12 +66,16 @@ public class PaymentManager {
 								&& lastPaymentYear == paymentYear
 								&& lastPaymentDay <= SystemManager.society.getPaymentDueDate()
 								&& paymentDay > SystemManager.society.getPaymentDueDate()) {
-							newNetPaybale = newNetPaybale * (1.0 + SystemManager.society.getLateFineInterest());
+							addInterest = true;
 						}
 					} else {
-						newNetPaybale = newNetPaybale * (1.0 + (SystemManager.society.getLateFineInterest() / 100));
+						addInterest = true;
 					}
 					
+				}
+				
+				if (addInterest) {
+					newNetPaybale = newNetPaybale * (1.0 + (SystemManager.society.getLateFineInterest() / 100));
 				}
 
 				// save the remaining balance to property
@@ -76,6 +89,18 @@ public class PaymentManager {
 		}
 
 		return paidBills;
+	}
+	
+	public static ArrayList<Payment> getPropertyPayments(int propertyId) {
+		ArrayList<Payment> payments = new ArrayList<Payment>();
+		try {
+			ResultSet resultSet = SQLiteManager.executeQuery("SELECT * FROM " + Constants.Table.Payment.TABLE_NAME
+					+ " WHERE " + Constants.Table.Property.FieldName.PROPERTY_ID + " = " + propertyId);
+			payments = Payment.getPaymentsFromResultSet(resultSet);
+		} catch (SQLException e) {
+			LOG.error(e.getStackTrace());
+		}
+		return payments;
 	}
 
 }

@@ -5,6 +5,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 import org.apache.log4j.Logger;
@@ -12,6 +14,7 @@ import org.apache.log4j.Logger;
 import com.vhi.hsm.controller.manager.SystemManager;
 import com.vhi.hsm.db.SQLiteManager;
 import com.vhi.hsm.utils.Constants;
+import com.vhi.hsm.utils.Utility;
 
 public class Payment {
 	private final static Logger LOG = Logger.getLogger(Payment.class);
@@ -52,7 +55,7 @@ public class Payment {
 
 	private static PreparedStatement readStatement, insertStatement, updateStatement, deleteStatement;
 
-	private Payment() {
+	public Payment() {
 
 	}
 
@@ -143,6 +146,16 @@ public class Payment {
 	public void setLast_modified(String last_modified) {
 		this.last_modified = last_modified;
 	}
+	
+	@Override
+	public String toString() {
+		String message = "";
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(paymentDate);
+		message = Integer.toString(cal.get(Calendar.DATE)) + " " + Utility.getMonthNameFromNumber(cal.get(Calendar.MONTH))
+			+ ", " + Integer.toString(cal.get(Calendar.YEAR)) + ": " + amount;
+		return message;
+	}
 
 	public static Payment create(int propertyId) {
 		Payment payment = new Payment();
@@ -178,7 +191,7 @@ public class Payment {
 					insertStatement.setString(2, payment.modeOfPayment);
 					insertStatement.setString(3, payment.transactionNumber);
 					insertStatement.setString(4, payment.remarks);
-					insertStatement.setTimestamp(5, new Timestamp(System.currentTimeMillis()));
+					insertStatement.setTimestamp(5, new Timestamp(payment.getPaymentDate().getTime()));
 					insertStatement.setBoolean(6, false);
 					insertStatement.setString(7, SystemManager.loggedInUser.getName());
 					insertStatement.setTimestamp(8, Timestamp.valueOf(LocalDateTime.now()));
@@ -273,9 +286,26 @@ public class Payment {
 				readStatement.clearParameters();
 				readStatement.setInt(1, paymentId);
 				ResultSet resultSet = readStatement.executeQuery();
-				if (resultSet != null && resultSet.next()) {
-					payment = new Payment();
-					payment.paymentId = paymentId;
+				ArrayList<Payment> payments = getPaymentsFromResultSet(resultSet);
+				if (payments != null && payments.size() == 1) {
+					payment = payments.get(0);
+				}
+			} catch (SQLException e) {
+				LOG.error(e.getMessage());
+			}
+		}
+
+		return payment;
+	}
+	
+	public static ArrayList<Payment> getPaymentsFromResultSet(ResultSet resultSet) {
+		ArrayList<Payment> payments = new ArrayList<Payment>();
+		
+		if (resultSet != null) {
+			try {
+				while (resultSet.next()) {
+					Payment payment = new Payment();
+					payment.paymentId = resultSet.getInt(Constants.Table.Payment.FieldName.PAYMENT_ID);;
 					payment.propertyId = resultSet.getInt(Constants.Table.Property.FieldName.PROPERTY_ID);
 					payment.modeOfPayment = resultSet.getString(Constants.Table.Payment.FieldName.MODE_OF_PAYMENT);
 					payment.transactionNumber = resultSet
@@ -290,13 +320,16 @@ public class Payment {
 					payment.modifiedBy = resultSet.getString(Constants.Table.Payment.FieldName.MODIFIED_BY);
 					payment.last_modified = resultSet.getString(Constants.Table.Payment.FieldName.LAST_MODIFIED);
 					payment.amount = resultSet.getDouble(Constants.Table.Payment.FieldName.AMOUNT);
+					payment.paymentDate = new Date(resultSet
+							.getTimestamp(Constants.Table.Payment.FieldName.PAYMENT_DATE).getTime());
+					payments.add(payment);
 				}
 			} catch (SQLException e) {
-				LOG.error(e.getMessage());
+				LOG.error(e.getStackTrace());
 			}
 		}
-
-		return payment;
+		
+		return payments;
 	}
 
 	public double getAmount() {

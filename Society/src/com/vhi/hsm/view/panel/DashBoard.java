@@ -30,6 +30,7 @@ import org.apache.log4j.Logger;
 import com.itextpdf.text.DocumentException;
 import com.vhi.hsm.controller.manager.BillManager;
 import com.vhi.hsm.controller.manager.PDFManager;
+import com.vhi.hsm.controller.manager.PaymentManager;
 import com.vhi.hsm.controller.manager.SystemManager;
 import com.vhi.hsm.db.SQLiteManager;
 import com.vhi.hsm.model.Bill;
@@ -135,6 +136,7 @@ public class DashBoard extends JFrame implements WindowListener {
 	private void initLayout() {
 
 		JScrollPane treeScrollPane = new JScrollPane(billTree);
+		treeScrollPane.setWheelScrollingEnabled(true);
 		treePanel.add(treeScrollPane);
 
 		getContentPane().setLayout(new GridBagLayout());
@@ -210,13 +212,24 @@ public class DashBoard extends JFrame implements WindowListener {
 		List<Property> allProperty = Property.getAllProperties(SystemManager.society.getSocietyId());
 		for (Property property : allProperty) {
 			DefaultMutableTreeNode node = new DefaultMutableTreeNode(property.getPropertyName());
+			
 			node.add(new DefaultMutableTreeNode("Net Paybale: " + property.getNetPayable()));
-			ArrayList<Bill> unpaidBills = BillManager.getUnpaidBills(property);
-			DefaultMutableTreeNode unpaidBillsNode = new DefaultMutableTreeNode("Unpaid Bills", true);
-			for (Bill bill : unpaidBills) {
-				unpaidBillsNode.add(new DefaultMutableTreeNode(bill));
+			
+			DefaultMutableTreeNode propertyBillsNode = new DefaultMutableTreeNode("Bills", true);
+			DefaultMutableTreeNode propertyPaymentsNode = new DefaultMutableTreeNode("Payments", true);
+			
+			ArrayList<Bill> propertyBills = BillManager.getPropertyBills(property);
+			for (Bill bill : propertyBills) {
+				propertyBillsNode.add(new DefaultMutableTreeNode(bill));
 			}
-			node.add(unpaidBillsNode);
+			node.add(propertyBillsNode);
+			
+			ArrayList<com.vhi.hsm.model.Payment> propertyPayments = PaymentManager.getPropertyPayments(property.getPropertyId());
+			for (com.vhi.hsm.model.Payment payment : propertyPayments) {
+				propertyPaymentsNode.add(new DefaultMutableTreeNode(payment));
+			}
+			node.add(propertyPaymentsNode);
+			
 			rootNode.add(node);
 		}
 

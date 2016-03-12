@@ -345,13 +345,12 @@ public class BillManager {
 		return chargeIds;
 	}
 
-	public static ArrayList<Bill> getUnpaidBills(Property property) {
+	public static ArrayList<Bill> getPropertyBills(Property property) {
 		ArrayList<Bill> unpaidBills = new ArrayList<Bill>();
 
 		String query = "SELECT " + Constants.Table.Bill.FieldName.BILL_ID + " FROM " + Constants.Table.Bill.TABLE_NAME
 				+ " WHERE " + Constants.Table.Society.FieldName.SOCIETY_ID + " = " + property.getSocietyId() + " AND "
-				+ Constants.Table.Property.FieldName.PROPERTY_ID + " = " + property.getPropertyId() + " AND "
-				+ Constants.Table.Payment.FieldName.PAYMENT_ID + " = 0";
+				+ Constants.Table.Property.FieldName.PROPERTY_ID + " = " + property.getPropertyId();
 
 		try {
 			ResultSet resultSet = SQLiteManager.executeQuery(query);
