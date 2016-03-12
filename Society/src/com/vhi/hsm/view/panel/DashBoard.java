@@ -17,6 +17,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
@@ -82,8 +83,11 @@ public class DashBoard extends JFrame implements WindowListener {
 			try {
 				generateMonthlyPaymentReceipts();
 				prepareTreeData();
+				JOptionPane.showMessageDialog(null, "The Payment Receipts have been generated successfully ", "Success",
+						JOptionPane.INFORMATION_MESSAGE);
 			} catch (Exception e1) {
 				LOG.error(e.toString());
+				JOptionPane.showMessageDialog(null, "Something went Wrong!", "Error", JOptionPane.ERROR_MESSAGE);
 			}
 
 		});
@@ -258,7 +262,7 @@ public class DashBoard extends JFrame implements WindowListener {
 	private void generateMonthlyPaymentReceipts()
 			throws SQLException, DocumentException, MalformedURLException, IOException {
 		Calendar instance = Calendar.getInstance();
-		// instance.add(Calendar.MONTH, -1);
+		instance.add(Calendar.MONTH, -1);
 		instance.set(Calendar.DAY_OF_MONTH, 1);
 		instance.set(Calendar.HOUR_OF_DAY, 0);
 		instance.set(Calendar.MINUTE, 0);
@@ -285,6 +289,7 @@ public class DashBoard extends JFrame implements WindowListener {
 			} while (!executeQuery.isAfterLast());
 		}
 
+		LOG.debug("Generating receipts for " + paymentIds.size() + " payments");
 		List<com.vhi.hsm.model.Payment> payments = new ArrayList<>();
 		for (Integer i : paymentIds) {
 			payments.add(com.vhi.hsm.model.Payment.read(i));
