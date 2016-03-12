@@ -9,7 +9,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -20,6 +19,7 @@ import com.itextpdf.text.Element;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.pdf.ColumnText;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
@@ -67,13 +67,7 @@ public class PDFManager {
 		document.add(new Paragraph("\n\n\n"));
 
 		// Printing Society Information
-		PdfPTable headerTable = new PdfPTable(1);
-		headerTable.getDefaultCell().setBorder(Rectangle.NO_BORDER);
-		headerTable.getDefaultCell().setHorizontalAlignment(Element.ALIGN_CENTER);
-		headerTable.addCell(SystemManager.society.getName().toUpperCase());
-		headerTable.addCell("Regn. No" + SystemManager.society.getRegistrationNumber() + " Dated "
-				+ SystemManager.society.getRegistrationDate());
-		headerTable.addCell(SystemManager.society.getAddress());
+		PdfPTable headerTable = getHeaderTable();
 
 		Bill bill;
 		ArrayList<Integer> billAssignedCharges;
@@ -168,6 +162,11 @@ public class PDFManager {
 				par.setAlignment(Element.ALIGN_RIGHT);
 				par.setAlignment(Element.ALIGN_BOTTOM);
 				document.add(par);
+				
+				Paragraph paragraph2 = new Paragraph("\n\n\n\n**This is a computer generated Receipt so doesnt require signature.**");
+				paragraph2.setAlignment(Element.ALIGN_LEFT);
+				paragraph2.setIndentationRight(30);
+				document.add(paragraph2);
 
 				// add new bill in new page
 				if (i != (bills.size() - 1)) {
@@ -178,6 +177,17 @@ public class PDFManager {
 
 		document.close();
 		pdfWriter.close();
+	}
+
+	private static PdfPTable getHeaderTable() {
+		PdfPTable headerTable = new PdfPTable(1);
+		headerTable.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+		headerTable.getDefaultCell().setHorizontalAlignment(Element.ALIGN_CENTER);
+		headerTable.addCell(SystemManager.society.getName().toUpperCase());
+		headerTable.addCell("Regn. No" + SystemManager.society.getRegistrationNumber() + " Dated "
+				+ SystemManager.society.getRegistrationDate());
+		headerTable.addCell(SystemManager.society.getAddress());
+		return headerTable;
 	}
 
 	private static String getDate(Calendar cal) {
@@ -218,38 +228,45 @@ public class PDFManager {
 		pdfWriter.setPageEvent(new EventHelper());
 		document.open();
 
-		PdfPTable headerTable = new PdfPTable(1);
-		headerTable.addCell(SystemManager.society.getName());
-		headerTable.addCell(SystemManager.society.getAddress());
-		headerTable.addCell(
-				SystemManager.society.getRegistrationNumber() + " " + SystemManager.society.getRegistrationDate());
-
 		Payment payment;
 		for (int i = 0; i < payments.size(); i++) {
 			payment = null;
 			payment = payments.get(i);
+
+			document.add(new Paragraph("\n\n"));
+			document.add(getHeaderTable());
+
+			document.add(new Paragraph("\n\n"));
+
 			if (payment != null) {
 				PdfPTable flatTable = new PdfPTable(2);
 
 				PdfPCell receiptNoCell = new PdfPCell(new Phrase("Receipt No:" + payment.getPaymentId()));
 				receiptNoCell.setBorder(Rectangle.NO_BORDER);
-				// receiptNoCell.setBorderColor(new Color(255, 255, 45));
-				PdfPCell dateCell = new PdfPCell(new Phrase("Date:" + new Date()));
+				flatTable.addCell(receiptNoCell);
+
+				Calendar cal = Calendar.getInstance();
+				PdfPCell dateCell = new PdfPCell(new Paragraph("Bill Date : " + getDate(cal)));
 				dateCell.setBorder(Rectangle.NO_BORDER);
-				// dateCell.setBorderColor(new Color(255, 255, 45));
 				flatTable.addCell(dateCell);
 
-				// flatTable.addCell("Receipt No:" + payment.getPaymentId());
-				// flatTable.addCell("Date:" + new Date());
 				document.add(flatTable);
 			}
+
+			document.add(new Paragraph("\n\n"));
+
 			Property property = Property.read(payment.getPaymentId());
 			paymentBillContent = paymentBillContent.replace("[1]", property.getOwnerName());
 			paymentBillContent = paymentBillContent.replace("[2]", property.getPropertyName());
 			paymentBillContent = paymentBillContent.replace("[3]", String.valueOf(payment.getAmount()));
 			paymentBillContent = paymentBillContent.replace("[4]", payment.getModeOfPayment());
 			if (payment.getModeOfPayment().equalsIgnoreCase(ModeOfPayment.CHEQUE.name())) {
-				paymentBillContent = paymentBillContent.replace("[5]", " by Cheque No: " + payment.getChequeNumber());
+				if (payment.getChequeNumber() != null) {
+					paymentBillContent = paymentBillContent.replace("[5]", " No: " + payment.getChequeNumber());
+				}
+				else{
+					paymentBillContent = paymentBillContent.replace("[5]", "");
+				}
 			} else if (payment.getModeOfPayment().equalsIgnoreCase(ModeOfPayment.CASH.name()))
 				paymentBillContent = paymentBillContent.replace("[5]", "");
 
@@ -269,12 +286,32 @@ public class PDFManager {
 			if (billId != null)
 				paymentBillContent = paymentBillContent.replace("[6]", " on account of Bill No. " + billId.toString());
 
-			document.add(new Paragraph(paymentBillContent));
-			document.add(new Paragraph("\n"));
-			document.add(new Paragraph("\n"));
+			// Paragraph paragraph = new Paragraph(paymentBillContent);
+			/*
+			 * paragraph.setAlignment(Element.ALIGN_JUSTIFIED);
+			 * paragraph.setIndentationLeft(30); document.add(paragraph);
+			 * document.add(new Paragraph("\n")); document.add(new
+			 * Paragraph("\n"));
+			 * 
+			 * document.add(new Paragraph("Rs: " + payment.getAmount()));
+			 */
 
-			document.add(new Paragraph("Rs: " + payment.getAmount()));
+			PdfPTable paymentTable = new PdfPTable(1);
+			paymentTable.setWidthPercentage(100);
 
+			paymentTable.addCell(getCell(paymentBillContent, PdfPCell.ALIGN_CENTER));
+			document.add(paymentTable);
+
+			Paragraph paragraph = new Paragraph("Payment Amount: " + payment.getAmount());
+			paragraph.setAlignment(Element.ALIGN_RIGHT);
+			paragraph.setIndentationRight(55);
+			document.add(paragraph);
+			
+			Paragraph paragraph2 = new Paragraph("\n\n\n\n**This is a computer generated Receipt so doesnt require signature.**");
+			paragraph2.setAlignment(Element.ALIGN_LEFT);
+			paragraph2.setIndentationRight(30);
+			document.add(paragraph2);
+			
 			if (i != (payments.size() - 1)) {
 				document.newPage();
 			}
@@ -294,6 +331,11 @@ class EventHelper extends PdfPageEventHelper {
 	public void onEndPage(PdfWriter writer, Document document) {
 		PdfContentByte canvas = writer.getDirectContent();
 		canvas.rectangle(20, 20, document.getPageSize().getWidth() - 50, document.getPageSize().getHeight() - 50);
+
+		PdfContentByte cb = writer.getDirectContent();
+		ColumnText.showTextAligned(cb, Element.ALIGN_RIGHT,
+				new Phrase("Developed and Maintained by Vihar:7045644671 and Hardik:9029479271"), document.right() - 2,
+				document.bottom() , 0);
 		canvas.stroke();
 	}
 
