@@ -32,13 +32,13 @@ public class MasterDetailPanel extends JPanel {
 		
 		groupLayout.setHorizontalGroup(
 				groupLayout.createSequentialGroup()
-					.addComponent(masterPanel)
+					.addComponent(masterPanel, 100, 300, 500)
 					.addComponent(detailPanel)
 		);
 		
 		groupLayout.setVerticalGroup(
 				groupLayout.createParallelGroup()
-					.addComponent(masterPanel)
+					.addComponent(masterPanel, 100, 500, 1000)
 					.addComponent(detailPanel)
 		);
 		

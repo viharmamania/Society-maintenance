@@ -40,6 +40,7 @@ import com.vhi.hsm.view.AssetTypeScreen;
 import com.vhi.hsm.view.ChargeScreen;
 import com.vhi.hsm.view.GenerateBill;
 import com.vhi.hsm.view.Payment;
+import com.vhi.hsm.view.PropertyAsset;
 import com.vhi.hsm.view.PropertyView;
 
 public class DashBoard extends JFrame implements WindowListener {
@@ -54,9 +55,8 @@ public class DashBoard extends JFrame implements WindowListener {
 	private static JTree billTree;
 	private static DefaultMutableTreeNode rootNode;
 
-	private JButton // propertyPayButton,
-	propertyAssetButton, propertyViewButton, billGenerateButton, chargeViewButton, makePaymentButton,
-			paymentReceiptsButton;
+	private JButton propertyAssetButton, propertyViewButton, billGenerateButton, chargeViewButton, makePaymentButton,
+			paymentReceiptsButton, assetTypeButton;
 
 	public DashBoard() {
 
@@ -74,9 +74,14 @@ public class DashBoard extends JFrame implements WindowListener {
 		chargePanel.setBorder(BorderFactory.createTitledBorder("Charge"));
 
 		// propertyPayButton = new JButton("Pay Bills");
-		propertyAssetButton = new JButton("View & Edit Assets");
-		propertyAssetButton.addActionListener(e -> {
+		assetTypeButton = new JButton("View & Edit Asset Types");
+		assetTypeButton.addActionListener(e -> {
 			new AssetTypeScreen(this);
+		});
+		
+		propertyAssetButton = new JButton("View & Edit Property Assets");
+		propertyAssetButton.addActionListener(e -> {
+			new PropertyAsset(this);
 		});
 
 		paymentReceiptsButton = new JButton("Generate Payment Receipts");
@@ -174,6 +179,7 @@ public class DashBoard extends JFrame implements WindowListener {
 
 		chargePanel.setLayout(new GridLayout(0, 1));
 		chargePanel.add(chargeViewButton);
+		chargePanel.add(assetTypeButton);
 
 		infoPanel.setLayout(new GridLayout(0, 2));
 		infoPanel.add(billPanel);
@@ -212,24 +218,25 @@ public class DashBoard extends JFrame implements WindowListener {
 		List<Property> allProperty = Property.getAllProperties(SystemManager.society.getSocietyId());
 		for (Property property : allProperty) {
 			DefaultMutableTreeNode node = new DefaultMutableTreeNode(property.getPropertyName());
-			
+
 			node.add(new DefaultMutableTreeNode("Net Paybale: " + property.getNetPayable()));
-			
+
 			DefaultMutableTreeNode propertyBillsNode = new DefaultMutableTreeNode("Bills", true);
 			DefaultMutableTreeNode propertyPaymentsNode = new DefaultMutableTreeNode("Payments", true);
-			
+
 			ArrayList<Bill> propertyBills = BillManager.getPropertyBills(property);
 			for (Bill bill : propertyBills) {
 				propertyBillsNode.add(new DefaultMutableTreeNode(bill));
 			}
 			node.add(propertyBillsNode);
-			
-			ArrayList<com.vhi.hsm.model.Payment> propertyPayments = PaymentManager.getPropertyPayments(property.getPropertyId());
+
+			ArrayList<com.vhi.hsm.model.Payment> propertyPayments = PaymentManager
+					.getPropertyPayments(property.getPropertyId());
 			for (com.vhi.hsm.model.Payment payment : propertyPayments) {
 				propertyPaymentsNode.add(new DefaultMutableTreeNode(payment));
 			}
 			node.add(propertyPaymentsNode);
-			
+
 			rootNode.add(node);
 		}
 

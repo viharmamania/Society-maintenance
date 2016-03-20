@@ -154,6 +154,7 @@ public class MasterListPanel extends JPanel {
 	public void addListItem(MasterListItem listItem) {
 		listItem.parent = this;
 		listItems.add(listItem);
+		setSelectedItem(listItem.getItemId());
 		refreshList(true);
 		repaint();
 	}

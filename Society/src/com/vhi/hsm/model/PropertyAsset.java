@@ -3,6 +3,7 @@ package com.vhi.hsm.model;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.apache.log4j.Logger;
@@ -11,10 +12,12 @@ import com.vhi.hsm.db.SQLiteManager;
 import com.vhi.hsm.utils.Constants;
 
 public class PropertyAsset {
-	
+
 	private final static Logger LOG = Logger.getLogger(PropertyAsset.class);
 
 	private int societyId;
+	
+	private int propertyId;
 
 	private String assetType;
 
@@ -24,7 +27,7 @@ public class PropertyAsset {
 
 	private boolean isCancelled;
 
-	private static HashMap<Integer, HashMap<String, PropertyAsset>> propertyAssetMap;
+	private static HashMap<Integer, HashMap<Integer, PropertyAsset>> propertyAssetMap;
 
 	private static PreparedStatement readStatement, insertStatement, updateStatement, deleteStatement;
 
@@ -72,50 +75,51 @@ public class PropertyAsset {
 		this.isCancelled = isCancelled;
 	}
 
-	public static PropertyAsset read(int societyId, String propertyAsset) {
+	public static PropertyAsset read(int propertyId, int propertyAssetNumber) {
 
 		PropertyAsset asset = null;
 
 		if (propertyAssetMap == null) {
-			propertyAssetMap = new HashMap<Integer, HashMap<String, PropertyAsset>>();
+			propertyAssetMap = new HashMap<Integer, HashMap<Integer, PropertyAsset>>();
 		}
 
-		HashMap<String, PropertyAsset> societyPropertyTypes = propertyAssetMap.get(societyId);
+		HashMap<Integer, PropertyAsset> societyPropertyTypes = propertyAssetMap.get(propertyId);
 
 		if (societyPropertyTypes == null) {
 			societyPropertyTypes = new HashMap<>();
-			propertyAssetMap.put(societyId, societyPropertyTypes);
+			propertyAssetMap.put(propertyId, societyPropertyTypes);
 		}
 
 		if (societyPropertyTypes != null) {
-			asset = societyPropertyTypes.get(propertyAsset);
+			asset = societyPropertyTypes.get(propertyAssetNumber);
 			if (asset == null) {
 				asset = new PropertyAsset();
 				if (readStatement == null) {
 					readStatement = SQLiteManager
 							.getPreparedStatement("SELECT * FROM " + Constants.Table.PropertyAsset.TABLE_NAME
-									+ " WHERE " + Constants.Table.Society.FieldName.SOCIETY_ID + " = ?" + " AND "
-									+ Constants.Table.PropertyAsset.FieldName.ASSET_DETAILS + " = ?"
-									+ Constants.Table.PropertyAsset.FieldName.IS_CANCELLED + "= ?");
+									+ " WHERE " + Constants.Table.Property.FieldName.PROPERTY_ID + " = ?"
+									+ " AND " + Constants.Table.PropertyAsset.FieldName.ASSET_NUMBER + " = ?");
 				}
 				try {
 					if (readStatement != null) {
-						readStatement.setInt(1, societyId);
-						readStatement.setString(2, propertyAsset);
-						readStatement.setInt(3, 0);
+						readStatement.setInt(1, propertyId);
+						readStatement.setInt(2, propertyAssetNumber);
 						ResultSet resultSet = readStatement.executeQuery();
 						if (resultSet != null && resultSet.next()) {
 							asset = new PropertyAsset();
 							asset.societyId = resultSet.getInt(Constants.Table.Society.FieldName.SOCIETY_ID);
+							asset.propertyId = resultSet.getInt(Constants.Table.Property.FieldName.PROPERTY_ID);
 							asset.assetNumber = resultSet.getInt(Constants.Table.PropertyAsset.FieldName.ASSET_NUMBER);
 							asset.assetDetails = resultSet
 									.getString(Constants.Table.PropertyAsset.FieldName.ASSET_DETAILS);
+							asset.assetType = resultSet
+									.getString(Constants.Table.AssetType.FieldName.ASSET_TYPE);
 							int a = resultSet.getInt(Constants.Table.PropertyAsset.FieldName.IS_CANCELLED);
 							if (a == 0)
 								asset.isCancelled = false;
 							else
 								asset.isCancelled = true;
-							societyPropertyTypes.put(propertyAsset, asset);
+							societyPropertyTypes.put(propertyAssetNumber, asset);
 						}
 					}
 				} catch (SQLException e) {
@@ -130,24 +134,24 @@ public class PropertyAsset {
 
 	public static boolean save(PropertyAsset propertyAsset, boolean insertEntry) {
 		boolean result = false;
-		if (propertyAsset != null && propertyAsset.getSocietyId() != -1
-				&& propertyAsset.getAssetType().trim().length() != 0) {
+		if (propertyAsset != null && propertyAsset.getSocietyId() != -1) {
 			if (insertEntry) {
 				if (insertStatement != null) {
-					insertStatement = SQLiteManager.getPreparedStatement(
-							"INSERT INTO " + Constants.Table.PropertyAsset.TABLE_NAME + " ( "
-									+ Constants.Table.Society.FieldName.SOCIETY_ID + " , "
-									+ Constants.Table.PropertyAsset.FieldName.ASSET_NUMBER + " , "
-									+ Constants.Table.PropertyAsset.FieldName.ASSET_DETAILS + " , "
-									+ Constants.Table.PropertyAsset.FieldName.ASSET_TYPE + " , "
-									+" VALUES (?, ?, ?, ?)");
+					insertStatement = SQLiteManager.getPreparedStatement("INSERT INTO "
+							+ Constants.Table.PropertyAsset.TABLE_NAME + " ( "
+							+ Constants.Table.Property.FieldName.PROPERTY_ID + " , "
+							+ Constants.Table.Society.FieldName.SOCIETY_ID + " , "
+							+ Constants.Table.PropertyAsset.FieldName.ASSET_NUMBER + " , "
+							+ Constants.Table.PropertyAsset.FieldName.ASSET_DETAILS + " , "
+							+ Constants.Table.PropertyAsset.FieldName.IS_CANCELLED + " , " + " VALUES (?, ?, ?, ?, ?)");
 				}
 				try {
 					if (insertStatement != null) {
-						insertStatement.setInt(1, propertyAsset.getSocietyId());
-						insertStatement.setInt(2, propertyAsset.getAssetNumber());
-						insertStatement.setString(3, propertyAsset.getAssetDetails());
-						insertStatement.setString(4, propertyAsset.getAssetType());
+						insertStatement.setInt(1, propertyAsset.propertyId);
+						insertStatement.setInt(2, propertyAsset.getSocietyId());
+						insertStatement.setInt(3, propertyAsset.getAssetNumber());
+						insertStatement.setString(4, propertyAsset.getAssetDetails());
+						insertStatement.setBoolean(5, propertyAsset.isCancelled());
 						result = SQLiteManager.executePrepStatementAndGetResult(insertStatement);
 					}
 				} catch (SQLException e) {
@@ -158,62 +162,64 @@ public class PropertyAsset {
 					updateStatement = SQLiteManager
 							.getPreparedStatement("UPDATE " + Constants.Table.PropertyAsset.TABLE_NAME + "SET "
 									+ Constants.Table.PropertyAsset.FieldName.ASSET_DETAILS + " =? "
-									+ Constants.Table.PropertyAsset.FieldName.ASSET_NUMBER + " =? "
-									+ Constants.Table.PropertyAsset.FieldName.ASSET_TYPE + " =? " + " WHERE "
-									+ Constants.Table.Society.FieldName.SOCIETY_ID + " =? ");
+									+ Constants.Table.PropertyAsset.FieldName.ASSET_TYPE + " =? "
+									+ Constants.Table.PropertyAsset.FieldName.IS_CANCELLED + " =? " + " WHERE "
+									+ Constants.Table.Property.FieldName.PROPERTY_ID + " =? "
+									+ " AND " +Constants.Table.PropertyAsset.FieldName.ASSET_NUMBER + " = ?");
 
 				}
 				if (updateStatement != null) {
 					try {
 						updateStatement.setString(1, propertyAsset.getAssetDetails());
-						updateStatement.setInt(2, propertyAsset.getAssetNumber());
-						updateStatement.setString(3, propertyAsset.getAssetType());
-						updateStatement.setInt(4, propertyAsset.getSocietyId());
+						updateStatement.setString(2, propertyAsset.getAssetType());
+						updateStatement.setBoolean(3, propertyAsset.isCancelled());
+						updateStatement.setInt(4, propertyAsset.propertyId);
+						updateStatement.setInt(5, propertyAsset.getAssetNumber());
 						result = SQLiteManager.executePrepStatementAndGetResult(updateStatement);
 					} catch (SQLException e) {
 						LOG.error(e.getMessage());
 					}
 				}
 			}
-			
-			//updating hashmap
-			if(result){
-				
-				if(propertyAssetMap == null){
-					propertyAssetMap = new HashMap<Integer, HashMap<String, PropertyAsset>>();
+
+			// updating hashmap
+			if (result) {
+
+				if (propertyAssetMap == null) {
+					propertyAssetMap = new HashMap<Integer, HashMap<Integer, PropertyAsset>>();
 				}
-				
-				HashMap<String, PropertyAsset> assetMap = propertyAssetMap.get(propertyAsset.getSocietyId());
-				if(assetMap == null){
+
+				HashMap<Integer, PropertyAsset> assetMap = propertyAssetMap.get(propertyAsset.getSocietyId());
+				if (assetMap == null) {
 					assetMap = new HashMap<>();
 					propertyAssetMap.put(propertyAsset.getSocietyId(), assetMap);
 				}
-				assetMap.put(propertyAsset.getAssetDetails(), propertyAsset);
-				
+				assetMap.put(propertyAsset.getAssetNumber(), propertyAsset);
+
 			}
 		}
 		return result;
 	}
-	
+
 	public static boolean delete(PropertyAsset propertyAsset) {
 		boolean result = false;
-		
+
 		if (deleteStatement == null) {
 			deleteStatement = SQLiteManager.getPreparedStatement("DELETE " + Constants.Table.PropertyAsset.TABLE_NAME
-					+ " WHERE " + Constants.Table.Society.FieldName.SOCIETY_ID + " = ?"
-					+ " AND " + Constants.Table.AssetType.FieldName.ASSET_TYPE + " = ?");
+					+ " WHERE " + Constants.Table.Property.FieldName.PROPERTY_ID + " = ?" + " AND "
+					+ Constants.Table.PropertyAsset.FieldName.ASSET_NUMBER + " = ?");
 		}
-		
+
 		if (deleteStatement != null) {
 			try {
-				deleteStatement.setInt(1, propertyAsset.getSocietyId());
-				deleteStatement.setString(2, propertyAsset.getAssetType());
+				deleteStatement.setInt(1, propertyAsset.propertyId);
+				deleteStatement.setInt(2, propertyAsset.getAssetNumber());
 				result = SQLiteManager.executePrepStatementAndGetResult(deleteStatement);
 			} catch (SQLException e) {
 				LOG.error(e.getMessage());
 			}
 		}
-		
+
 		return result;
 	}
 
@@ -222,5 +228,33 @@ public class PropertyAsset {
 		propertyAsset.societyId = societyId;
 		return propertyAsset;
 	}
-	
+
+	public int getPropertyId() {
+		return propertyId;
+	}
+
+	public void setPropertyId(int propertyId) {
+		this.propertyId = propertyId;
+	}
+
+	public static ArrayList<PropertyAsset> getAllPropertyAssets(int propertyId) {
+		ArrayList<PropertyAsset> allPropertyAssets = new ArrayList<>();
+		String query = "SELECT * FROM " + Constants.Table.PropertyAsset.TABLE_NAME + " WHERE "
+				+ Constants.Table.Property.FieldName.PROPERTY_ID + " = " + propertyId;
+		try {
+			ResultSet resultSet = SQLiteManager.executeQuery(query);
+			if (resultSet != null) {
+				while (resultSet.next()) {
+					PropertyAsset asset = PropertyAsset.read(propertyId,
+							resultSet.getInt(Constants.Table.PropertyAsset.FieldName.ASSET_NUMBER));
+					allPropertyAssets.add(asset);
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			LOG.error(e.getMessage());
+		}
+		return allPropertyAssets;
+	}
+
 }
