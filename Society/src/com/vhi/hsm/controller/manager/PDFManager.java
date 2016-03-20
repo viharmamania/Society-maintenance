@@ -37,7 +37,8 @@ import com.vhi.hsm.utils.Utility;
 
 public class PDFManager {
 
-	static String paymentBillContent = "Received with thanks from Shri/Smt./M /s. [1] for Flat/Shop/Garage No. [2] , \nthe sum of Rupees [3] by [4] [5], in part/full payment.";
+	static String paymentBillString = "Received with thanks from Shri/Smt./M /s. [1] for Flat/Shop/Garage No. [2] , \nthe sum of Rupees [3] by [4] [5], in part/full payment.";
+	static String paymentBillContent = new String();
 	private final static Logger LOG = Logger.getLogger(PDFManager.class);
 
 	public static void generateBillPDF(List<Bill> bills, boolean isPreview) throws DocumentException, IOException {
@@ -53,8 +54,12 @@ public class PDFManager {
 			file = new File(Constants.Path.BILL_PDF_LOCATION);
 		}
 
-		if (!file.exists()) {
-			file.mkdirs();
+		try {
+			if (!file.exists()) {
+				file.mkdirs();
+			}
+		} catch (Exception exception) {
+			LOG.error(exception);
 		}
 
 		Calendar calendar = Calendar.getInstance();
@@ -129,6 +134,7 @@ public class PDFManager {
 				billAssignedCharges = null;
 				billAssignedCharges = bill.getAssignedCharges();
 				Collections.sort(billAssignedCharges);
+				Collections.reverse(billAssignedCharges);
 				int count = 0;
 				for (int k = 0; k < billAssignedCharges.size(); k++) {
 					Charge charge = Charge.read(SystemManager.society.getSocietyId(),
@@ -163,7 +169,7 @@ public class PDFManager {
 				par.setAlignment(Element.ALIGN_BOTTOM);
 				document.add(par);
 				
-				Paragraph paragraph2 = new Paragraph("\n\n\n\n**This is a computer generated Receipt so doesnt require signature.**");
+				Paragraph paragraph2 = new Paragraph("\n\n\n\n**This is a computer generated Receipt, so doesn't require signature.**");
 				paragraph2.setAlignment(Element.ALIGN_LEFT);
 				paragraph2.setIndentationRight(30);
 				document.add(paragraph2);
@@ -190,11 +196,11 @@ public class PDFManager {
 		return headerTable;
 	}
 
-	private static String getDate(Calendar cal) {
+	public static String getDate(Calendar cal) {
 
 		StringBuilder date = new StringBuilder();
 		date.append(cal.get(Calendar.DAY_OF_MONTH) + "/");
-		date.append(cal.get(Calendar.MONTH) + "/");
+		date.append((cal.get(Calendar.MONTH)+1) + "/");
 		date.append(cal.get(Calendar.YEAR));
 		return date.toString();
 	}
@@ -256,6 +262,7 @@ public class PDFManager {
 			document.add(new Paragraph("\n\n"));
 
 			Property property = Property.read(payment.getPaymentId());
+			paymentBillContent = new String(paymentBillString);
 			paymentBillContent = paymentBillContent.replace("[1]", property.getOwnerName());
 			paymentBillContent = paymentBillContent.replace("[2]", property.getPropertyName());
 			paymentBillContent = paymentBillContent.replace("[3]", String.valueOf(payment.getAmount()));
@@ -307,7 +314,7 @@ public class PDFManager {
 			paragraph.setIndentationRight(55);
 			document.add(paragraph);
 			
-			Paragraph paragraph2 = new Paragraph("\n\n\n\n**This is a computer generated Receipt so doesnt require signature.**");
+			Paragraph paragraph2 = new Paragraph("\n\n\n\n**This is a computer generated Receipt, so doesn't require signature.**");
 			paragraph2.setAlignment(Element.ALIGN_LEFT);
 			paragraph2.setIndentationRight(30);
 			document.add(paragraph2);

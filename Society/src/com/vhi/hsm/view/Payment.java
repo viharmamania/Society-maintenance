@@ -274,30 +274,23 @@ public class Payment extends JDialog implements WindowListener {
 						Double amount = null;
 						for (int j = 0; j < cellCount; j++) {
 							Cell cell = row.getCell(j);
-							if (j == 0 && cell.getCellType() == Cell.CELL_TYPE_STRING) {
+							if (j == 0 && cell!=null && cell.getCellType() == Cell.CELL_TYPE_STRING) {
 								propertyName = cell.getStringCellValue();
 							}
-							if (j == 1 && cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
+							if (j == 1 && cell!=null && cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
 								amount = cell.getNumericCellValue();
 							}
-							if (j == 2 && cell.getCellType() == Cell.CELL_TYPE_STRING) {
+							if (j == 2 && cell!=null && cell.getCellType() == Cell.CELL_TYPE_STRING) {
 								modeOfPayment = cell.getStringCellValue();
 							}
-							if (j == 3 && cell.getCellType() == Cell.CELL_TYPE_STRING) {
+							if (j == 3 && cell!=null && cell.getCellType() == Cell.CELL_TYPE_STRING) {
 								chequeNo = cell.getStringCellValue();
 							}
-							if (j == 4 && cell.getCellType() == Cell.CELL_TYPE_STRING) {
+							if (j == 4 && cell!=null && cell.getCellType() == Cell.CELL_TYPE_STRING) {
 								remarks = cell.getStringCellValue();
 							}
-							if (j == 5 && cell.getCellType() == Cell.CELL_TYPE_STRING) {
-								String date = cell.getStringCellValue();
-								SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-								try {
-									paymentDate = dateFormat.parse(date);
-
-								} catch (ParseException e) {
-									LOG.error(e.toString());
-								}
+							if (j == 5 && cell!=null) {
+								paymentDate = cell.getDateCellValue();
 							}
 						}
 
