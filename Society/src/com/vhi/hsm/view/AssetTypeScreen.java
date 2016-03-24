@@ -249,6 +249,7 @@ public class AssetTypeScreen extends JDialog implements WindowListener {
 			descriptionField = new JTextField();
 			chargeIdComboBoxModel = new DefaultComboBoxModel<>();
 			
+			chargeIdComboBoxModel.addElement(null);
 			ArrayList<Charge> allCharges = Charge.getAllCharge(SystemManager.society.getSocietyId());
 			for (Charge charge : allCharges) {
 				if (!charge.isdefault() && !charge.isCancelled() && !charge.isTempCharges()) {
@@ -290,8 +291,11 @@ public class AssetTypeScreen extends JDialog implements WindowListener {
 		public void getFieldValues(AssetType assetType) {
 			assetType.setAssetType(assetTypeField.getText());
 			assetType.setDescription(descriptionField.getText());
-			assetType.setChargeId(chargeIdComboBoxModel.getElementAt(chargeIdComboBox.getSelectedIndex()).getChargeId());
-			//assetType.setCharges(Double.parseDouble(chargeField.getText()));
+			if (chargeIdComboBox.getSelectedIndex() != -1 && chargeIdComboBox.getSelectedIndex() != 0) {
+				assetType.setChargeId(chargeIdComboBoxModel.getElementAt(chargeIdComboBox.getSelectedIndex()).getChargeId());
+			} else {
+				assetType.setChargeId(0);
+			}
 		}
 
 	}

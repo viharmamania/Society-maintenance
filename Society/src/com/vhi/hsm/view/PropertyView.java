@@ -261,27 +261,27 @@ public class PropertyView extends JDialog implements WindowListener {
 			}
 
 			String phone = property.getOwnerNumber().trim();
-			phone = phone.replaceAll("[a-zA-z]", "");
+			phone = phone.replaceAll("[a-zA-Z]", "");
 			if (phone.length() < 10) {
 				JOptionPane.showMessageDialog(this, "Enter owner number", "Error", JOptionPane.ERROR_MESSAGE);
 				return false;
 			}
-			
+
 			if (property.getWingId() == 0) {
 				JOptionPane.showMessageDialog(this, "Select wing", "Error", JOptionPane.ERROR_MESSAGE);
 				return false;
 			}
-			
+
 			if (property.getFloorPlanId() == 0) {
 				JOptionPane.showMessageDialog(this, "Select floor", "Error", JOptionPane.ERROR_MESSAGE);
 				return false;
 			}
-			
+
 			if (property.getPropertyNumber() == 0) {
 				JOptionPane.showMessageDialog(this, "Select property number", "Error", JOptionPane.ERROR_MESSAGE);
 				return false;
 			}
-			
+
 			return true;
 		}
 
@@ -429,9 +429,13 @@ public class PropertyView extends JDialog implements WindowListener {
 			property.setNetPayable(Double.parseDouble(netPayableText.getText()));
 			property.setWingId(((Wing) wingIdText.getSelectedItem()).getWingId());
 			Floor floor = (Floor) floorIdText.getSelectedItem();
-			property.setFloorPlanId(floor.getFloorPlanId());
-			property.setFloorNumber(floor.getFloor_number());
-			property.setPropertyNumber((Integer) propertyNumberText.getSelectedItem());
+			if (floor != null) {
+				property.setFloorPlanId(floor.getFloorPlanId());
+				property.setFloorNumber(floor.getFloor_number());
+			}
+			if (propertyNumberText.getSelectedItem() != null) {
+				property.setPropertyNumber((Integer) propertyNumberText.getSelectedItem());
+			}
 		}
 
 		public void setProperty(Property property, boolean b) {
