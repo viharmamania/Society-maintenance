@@ -370,18 +370,18 @@ public class Charge {
 		}
 
 		try {
-			SQLiteManager.executeQuery("DELETE FROM " + Constants.Table.ChargeToProperty.TABLE_NAME + " WHERE "
+			SQLiteManager.executeUpdate("DELETE FROM " + Constants.Table.ChargeToProperty.TABLE_NAME + " WHERE "
+					+ Constants.Table.Society.FieldName.SOCIETY_ID + " = " + charge.societyId + " AND "
+					+ Constants.Table.Charge.FieldName.CHARGE_ID + " = " + charge.chargeId);
+			
+			SQLiteManager.executeUpdate("DELETE FROM " + Constants.Table.ChargeToPropertyGroup.TABLE_NAME + " WHERE "
 					+ Constants.Table.Society.FieldName.SOCIETY_ID + " = " + charge.societyId + " AND "
 					+ Constants.Table.Charge.FieldName.CHARGE_ID + " = " + charge.chargeId);
 
-			SQLiteManager.executeQuery("DELETE FROM " + Constants.Table.ChargeToPropertyGroup.TABLE_NAME + " WHERE "
+			SQLiteManager.executeUpdate("DELETE FROM " + Constants.Table.ChargeToPropertyType.TABLE_NAME + " WHERE "
 					+ Constants.Table.Society.FieldName.SOCIETY_ID + " = " + charge.societyId + " AND "
 					+ Constants.Table.Charge.FieldName.CHARGE_ID + " = " + charge.chargeId);
-
-			SQLiteManager.executeQuery("DELETE FROM " + Constants.Table.ChargeToPropertyType.TABLE_NAME + " WHERE "
-					+ Constants.Table.Society.FieldName.SOCIETY_ID + " = " + charge.societyId + " AND "
-					+ Constants.Table.Charge.FieldName.CHARGE_ID + " = " + charge.chargeId);
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			LOG.error(e.toString());
 		}
 
