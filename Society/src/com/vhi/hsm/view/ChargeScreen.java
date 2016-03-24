@@ -190,6 +190,11 @@ public class ChargeScreen extends JDialog implements WindowListener {
 				Charge.save(this.charge, this.isNewCharge);
 				this.isNewCharge = false;
 				descriptionLable.setText(this.charge.getDescription());
+				
+				final JOptionPane pane = new JOptionPane("Charge Saved !!");
+			    final JDialog d = pane.createDialog((JFrame)null, "Success");
+			    d.setLocationRelativeTo(this);
+			    d.setVisible(true);
 			}
 		}
 

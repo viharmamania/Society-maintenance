@@ -76,6 +76,8 @@ public class AssetTypeScreen extends JDialog implements WindowListener {
 			AssetTypeMasterListItem item = new AssetTypeMasterListItem("", false);
 			listItems.put(item.getItemId(), item);
 			assetTypeMasterDetailPanel.getMasterListPanel().addListItem(item);
+			callback.itemSelected(item.getItemId());
+			repaint();
 		}
 
 		@Override

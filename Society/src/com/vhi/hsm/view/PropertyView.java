@@ -60,6 +60,7 @@ public class PropertyView extends JDialog implements WindowListener {
 			PropertyMasterListItems item = new PropertyMasterListItems(null, false);
 			propertyListItems.put(item.getItemId(), item);
 			propertyMasterDetailPanel.getMasterListPanel().addListItem(item);
+			callback.itemSelected(item.getItemId());
 			repaint();
 		}
 
