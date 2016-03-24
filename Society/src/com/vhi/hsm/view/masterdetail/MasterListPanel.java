@@ -137,8 +137,10 @@ public class MasterListPanel extends JPanel {
 			if (item != null) {
 				if (i == selectedItemIndex) {
 					item.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+					item.setBackground(Color.GRAY);
 				} else {
 					item.setBorder(BorderFactory.createEmptyBorder());
+					item.setBackground(Color.WHITE);
 				}
 			}
 			gbc.gridx = 1;
@@ -173,7 +175,6 @@ public class MasterListPanel extends JPanel {
 				selectedItemIndex = i;
 			}
 		}
-		refreshList(false);
 	}
 
 	public static abstract class MasterListItem extends JPanel implements MouseListener {
