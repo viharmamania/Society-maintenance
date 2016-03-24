@@ -119,13 +119,11 @@ public class RegisterUser extends JDialog implements WindowListener {
 				StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();
 				encryptor.setPassword(Constants.SALT);
 				String encryptedPassword = encryptor.encrypt(textPassword.getText());
-
 				if (!User.save(user, encryptedPassword, true)) {
 					JOptionPane.showMessageDialog(this, "Error while creating user", "Error",
 							JOptionPane.ERROR_MESSAGE);
 				} else {
 					dispose();
-					new Login();
 				}
 			}
 		}

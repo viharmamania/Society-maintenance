@@ -117,6 +117,8 @@ public class User {
 	}
 
 	public static boolean save(User user, String password, boolean insertEntry) {
+		
+		user.password = password;
 
 		boolean result = false;
 		try {
@@ -126,7 +128,7 @@ public class User {
 				}
 				insertStatement.setString(1, user.getUserName());
 				insertStatement.setInt(2, user.getSocietyId());
-				insertStatement.setString(3, password);
+				insertStatement.setString(3, user.getPassword());
 				insertStatement.setString(4, user.getEmail());
 				insertStatement.setString(5, user.getName());
 				result = SQLiteManager.executePrepStatementAndGetResult(insertStatement);
@@ -137,7 +139,7 @@ public class User {
 				}
 				updateStatement.setString(1, user.getName());
 				updateStatement.setString(2, user.getEmail());
-				updateStatement.setString(3, password);
+				updateStatement.setString(3, user.getPassword());
 				updateStatement.setInt(4, user.getSocietyId());
 				updateStatement.setString(5, user.getUserName());
 				result = SQLiteManager.executePrepStatementAndGetResult(updateStatement);
@@ -166,20 +168,20 @@ public class User {
 
 		if (user == null) {
 			try {
-				user = new User();
 				if (readStatement == null) {
 					readStatement = SQLiteManager.getPreparedStatement(readString);
 				}
 				readStatement.setString(1, userName);
 				ResultSet resultset = readStatement.executeQuery();
 				if (resultset != null && resultset.next()) {
+					user = new User();
 					user.setUserName(resultset.getString(Constants.Table.User.FieldName.USER_NAME));
 					user.setName(resultset.getString(Constants.Table.User.FieldName.FULL_NAME));
 					user.setSocietyId(resultset.getInt(Constants.Table.Society.FieldName.SOCIETY_ID));
 					user.setEmail(resultset.getString(Constants.Table.User.FieldName.EMAIL));
 					user.setPassword(resultset.getString(Constants.Table.User.FieldName.PASSWORD));
+					userMap.put(userName, user);
 				}
-				userMap.put(userName, user);
 			} catch (SQLException e) {
 				LOG.error(e.getMessage());
 			}
