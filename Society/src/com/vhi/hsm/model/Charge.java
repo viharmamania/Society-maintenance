@@ -440,4 +440,12 @@ public class Charge {
 		return newId;
 	}
 
+	public int getSocietyId() {
+		return societyId;
+	}
+	
+	public void setSocietyId(int societyId) {
+		this.societyId = societyId;
+	}
+
 }
