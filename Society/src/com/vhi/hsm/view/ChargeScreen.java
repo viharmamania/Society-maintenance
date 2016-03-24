@@ -8,6 +8,7 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.swing.BorderFactory;
@@ -20,10 +21,12 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import com.vhi.hsm.controller.manager.SystemManager;
+import com.vhi.hsm.db.SQLiteManager;
 import com.vhi.hsm.model.Charge;
 import com.vhi.hsm.model.Property;
 import com.vhi.hsm.model.PropertyGroup;
 import com.vhi.hsm.model.PropertyType;
+import com.vhi.hsm.utils.Constants;
 import com.vhi.hsm.view.masterdetail.MasterDetailPanel;
 import com.vhi.hsm.view.masterdetail.MasterDetailPanel.MasterDetailCallback;
 import com.vhi.hsm.view.masterdetail.MasterListPanel.MasterListItem;
@@ -371,6 +374,8 @@ public class ChargeScreen extends JDialog implements WindowListener {
 			charge.setdefault(defaultChargeChkBox.isSelected());
 
 			Set<Integer> propertySet = propertyBox.keySet();
+			
+			Set<Integer> removedPropertyCharges = new HashSet<>();
 			JCheckBox box = null;
 			for (Integer i : propertySet) {
 				box = null;
@@ -382,6 +387,7 @@ public class ChargeScreen extends JDialog implements WindowListener {
 						}
 					} else {
 						if (charge.getAssignedProperty().contains(i)) {
+							removedPropertyCharges.add(i);
 							charge.getAssignedProperty().remove(i);
 						}
 					}
@@ -389,6 +395,7 @@ public class ChargeScreen extends JDialog implements WindowListener {
 			}
 
 			Set<String> propertyGroupSet = propertyGroupBox.keySet();
+			Set<String> removedPropertyGroupCharges = new HashSet<>();
 			for (String s : propertyGroupSet) {
 				box = null;
 				box = propertyGroupBox.get(s);
@@ -399,6 +406,7 @@ public class ChargeScreen extends JDialog implements WindowListener {
 						}
 					} else {
 						if (charge.getAssignedPropertyGroup().contains(s)) {
+							removedPropertyGroupCharges.add(s);
 							charge.getAssignedPropertyGroup().remove(s);
 						}
 					}
@@ -406,6 +414,7 @@ public class ChargeScreen extends JDialog implements WindowListener {
 			}
 
 			Set<String> propertyTypeSet = propertyTypeBox.keySet();
+			Set<String> removedPropertyTypeCharges = new HashSet<>();
 			for (String s : propertyTypeSet) {
 				box = null;
 				box = propertyTypeBox.get(s);
@@ -416,11 +425,34 @@ public class ChargeScreen extends JDialog implements WindowListener {
 						}
 					} else {
 						if (charge.getAssignedPropertyType().contains(s)) {
+							removedPropertyTypeCharges.add(s);
 							charge.getAssignedPropertyType().remove(s);
 						}
 					}
 				}
 			}
+			
+			for (Integer i : removedPropertyCharges) {
+				SQLiteManager.executeUpdate("DELETE FROM " + Constants.Table.ChargeToProperty.TABLE_NAME + " WHERE "
+						+ Constants.Table.Society.FieldName.SOCIETY_ID + " = " + charge.getSocietyId() + " AND "
+						+ Constants.Table.Charge.FieldName.CHARGE_ID + " = " + charge.getChargeId()
+						+ " AND property_id =" + i);
+			}
+
+			for (String i : removedPropertyGroupCharges) {
+				SQLiteManager.executeUpdate("DELETE FROM " + Constants.Table.ChargeToPropertyGroup.TABLE_NAME + " WHERE "
+						+ Constants.Table.Society.FieldName.SOCIETY_ID + " = " + charge.getSocietyId() + " AND "
+						+ Constants.Table.Charge.FieldName.CHARGE_ID + " = " + charge.getChargeId()
+						+ " AND property_group ='" + i+ "'");
+			}
+			
+			for (String i : removedPropertyTypeCharges) {
+				SQLiteManager.executeUpdate("DELETE FROM " + Constants.Table.ChargeToPropertyType.TABLE_NAME + " WHERE "
+						+ Constants.Table.Society.FieldName.SOCIETY_ID + " = " + charge.getSocietyId() + " AND "
+						+ Constants.Table.Charge.FieldName.CHARGE_ID + " = " + charge.getChargeId()
+						+ " AND property_type ='" + i+ "'");
+			}
+
 		}
 
 	}
