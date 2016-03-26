@@ -1,12 +1,12 @@
 package com.vhi.hsm.view;
 
 import java.awt.Dimension;
-import java.awt.GridLayout;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.swing.BoxLayout;
 import javax.swing.GroupLayout;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -160,7 +160,7 @@ public class PropertyAsset extends JDialog implements WindowListener {
 			
 			propertyNameLable = new JLabel("Property: " + this.property.getPropertyName());
 
-			setLayout(new GridLayout(0, 1));
+			setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 			add(propertyNameLable);
 
 			assetTypePanels = new ArrayList<>();
