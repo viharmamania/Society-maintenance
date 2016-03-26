@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -167,8 +168,9 @@ public class PDFManager {
 				par.setAlignment(Element.ALIGN_RIGHT);
 				par.setAlignment(Element.ALIGN_BOTTOM);
 				document.add(par);
-				
-				Paragraph paragraph2 = new Paragraph("\n\n\n\n**This is a computer generated Receipt, so doesn't require signature.**");
+
+				Paragraph paragraph2 = new Paragraph(
+						"\n\n\n\n**This is a computer generated Receipt, so doesn't require signature.**");
 				paragraph2.setAlignment(Element.ALIGN_LEFT);
 				paragraph2.setIndentationRight(30);
 				document.add(paragraph2);
@@ -197,11 +199,8 @@ public class PDFManager {
 
 	public static String getDate(Calendar cal) {
 
-		StringBuilder date = new StringBuilder();
-		date.append(cal.get(Calendar.DAY_OF_MONTH) + "/");
-		date.append((cal.get(Calendar.MONTH)+1) + "/");
-		date.append(cal.get(Calendar.YEAR));
-		return date.toString();
+		SimpleDateFormat date = new SimpleDateFormat("dd-MM-yyyy");
+		return date.format(cal.getTime());
 	}
 
 	public static PdfPCell getCell(String text, int alignment) {
@@ -251,9 +250,20 @@ public class PDFManager {
 				flatTable.addCell(receiptNoCell);
 
 				Calendar cal = Calendar.getInstance();
-				PdfPCell dateCell = new PdfPCell(new Paragraph("Bill Date : " + getDate(cal)));
-				dateCell.setBorder(Rectangle.NO_BORDER);
-				flatTable.addCell(dateCell);
+				PdfPCell dateCell1 = new PdfPCell(new Paragraph("Receipt Date : " + getDate(cal)));
+				dateCell1.setBorder(Rectangle.NO_BORDER);
+				flatTable.addCell(dateCell1);
+
+				PdfPCell dateCell3 = new PdfPCell(new Paragraph(""));
+				dateCell3.setBorder(Rectangle.NO_BORDER);
+				flatTable.addCell(dateCell3);
+
+				Calendar cal2 = Calendar.getInstance();
+				cal2.setTime(payment.getPaymentDate());
+				PdfPCell dateCell2 = new PdfPCell(new Paragraph("Payment Date : " + getDate(cal2)));
+				dateCell2.setBorder(Rectangle.NO_BORDER);
+				flatTable.addCell(dateCell2);
+				
 
 				document.add(flatTable);
 			}
@@ -269,8 +279,7 @@ public class PDFManager {
 			if (payment.getModeOfPayment().equalsIgnoreCase(ModeOfPayment.CHEQUE.name())) {
 				if (payment.getChequeNumber() != null) {
 					paymentBillContent = paymentBillContent.replace("[5]", " No: " + payment.getChequeNumber());
-				}
-				else{
+				} else {
 					paymentBillContent = paymentBillContent.replace("[5]", "");
 				}
 			} else if (payment.getModeOfPayment().equalsIgnoreCase(ModeOfPayment.CASH.name()))
@@ -305,19 +314,20 @@ public class PDFManager {
 			PdfPTable paymentTable = new PdfPTable(1);
 			paymentTable.setWidthPercentage(100);
 
-			paymentTable.addCell(getCell(paymentBillContent, PdfPCell.ALIGN_CENTER));
+			paymentTable.addCell(getCell(paymentBillContent, PdfPCell.ALIGN_JUSTIFIED));
 			document.add(paymentTable);
 
 			Paragraph paragraph = new Paragraph("Payment Amount: " + payment.getAmount());
 			paragraph.setAlignment(Element.ALIGN_RIGHT);
 			paragraph.setIndentationRight(55);
 			document.add(paragraph);
-			
-			Paragraph paragraph2 = new Paragraph("\n\n\n\n**This is a computer generated Receipt, so doesn't require signature.**");
+
+			Paragraph paragraph2 = new Paragraph(
+					"\n\n\n\n**This is a computer generated Receipt, so doesn't require signature.**");
 			paragraph2.setAlignment(Element.ALIGN_LEFT);
 			paragraph2.setIndentationRight(30);
 			document.add(paragraph2);
-			
+
 			if (i != (payments.size() - 1)) {
 				document.newPage();
 			}
@@ -341,7 +351,7 @@ class EventHelper extends PdfPageEventHelper {
 		PdfContentByte cb = writer.getDirectContent();
 		ColumnText.showTextAligned(cb, Element.ALIGN_RIGHT,
 				new Phrase("Developed and Maintained by Vihar:7045644671 and Hardik:9029479271"), document.right() - 2,
-				document.bottom() , 0);
+				document.bottom(), 0);
 		canvas.stroke();
 	}
 
