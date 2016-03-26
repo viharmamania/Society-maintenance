@@ -4,6 +4,7 @@
 package com.vhi.hsm.view.masterdetail;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.MouseEvent;
@@ -42,7 +43,8 @@ public class MasterListPanel extends JPanel {
 	public MasterListPanel(MasterDetailPanel parentPanel) {
 		listItems = new ArrayList<MasterListItem>();
 		this.parentPanel = parentPanel;
-		setSize(300, 600);
+//		setMinimumSize(300, 600);
+		setMinimumSize(new Dimension(300, 300));
 		
 		this.buttonPanel = new JPanel();
 		this.listPanel = new JPanel();
@@ -97,7 +99,7 @@ public class MasterListPanel extends JPanel {
 					.addComponent(buttonPanel)
 		);
 		
-		setSize(400, 600);
+//		setSize(400, 600);
 		initializeLayout();
 	}
 

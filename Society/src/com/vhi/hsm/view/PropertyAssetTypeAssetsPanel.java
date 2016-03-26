@@ -1,6 +1,5 @@
 package com.vhi.hsm.view;
 
-import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -95,7 +94,7 @@ public class PropertyAssetTypeAssetsPanel extends JPanel {
                 JScrollPane.VERTICAL_SCROLLBAR_NEVER,
                 JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		tableScrollPane.setViewportView(assetsList);
-		tableScrollPane.setMinimumSize(new Dimension(500, 100));
+//		tableScrollPane.setMinimumSize(new Dimension(500, 100));
 		
 		GroupLayout layout = new GroupLayout(this);
 		layout.setAutoCreateContainerGaps(true);

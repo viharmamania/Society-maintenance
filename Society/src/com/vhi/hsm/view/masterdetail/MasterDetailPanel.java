@@ -61,6 +61,9 @@ public class MasterDetailPanel extends JPanel {
 	
 	public void setSelectedItem(int itemId) {
 		masterPanel.setSelectedItem(itemId);
+		if (detailPanel != null) {
+			detailPanel.revalidate();
+		}
 	}
 	
 	public static interface MasterDetailCallback {
