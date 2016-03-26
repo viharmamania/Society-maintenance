@@ -48,7 +48,7 @@ public class BillManager {
 	private static ArrayList<Charge> defaultCharges;
 	private static int newBillId;
 
-	static {
+	public static void loadCharges() {
 		newBillId = -1;
 		chargesToProperty = new ArrayList<>();
 		chargesToPropertyGroup = new ArrayList<>();
@@ -116,6 +116,7 @@ public class BillManager {
 	 * @return
 	 */
 	public static synchronized List<Bill> generateBill(int societyId, boolean isPreview, List<Integer> tempChargeIds) {
+		loadCharges();
 		List<Bill> societyBills = new ArrayList<>();
 		Set<Property> properties = new LinkedHashSet<>();
 		try {

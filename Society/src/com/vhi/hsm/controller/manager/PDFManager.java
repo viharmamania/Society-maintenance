@@ -149,7 +149,6 @@ public class PDFManager {
 					while (true) {
 						if ((k + 1) < billAssignedCharges.size()
 								&& billAssignedCharges.get(k + 1).equals(billAssignedCharges.get(k))) {
-							amount += amount;
 							k++;
 						} else {
 							break;

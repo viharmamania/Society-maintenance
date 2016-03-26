@@ -135,14 +135,15 @@ public class PropertyAsset {
 		boolean result = false;
 		if (propertyAsset != null && propertyAsset.getSocietyId() != -1) {
 			if (insertEntry) {
-				if (insertStatement != null) {
+				if (insertStatement == null) {
 					insertStatement = SQLiteManager.getPreparedStatement("INSERT INTO "
 							+ Constants.Table.PropertyAsset.TABLE_NAME + " ( "
 							+ Constants.Table.Property.FieldName.PROPERTY_ID + " , "
 							+ Constants.Table.Society.FieldName.SOCIETY_ID + " , "
 							+ Constants.Table.PropertyAsset.FieldName.ASSET_NUMBER + " , "
 							+ Constants.Table.PropertyAsset.FieldName.ASSET_DETAILS + " , "
-							+ Constants.Table.PropertyAsset.FieldName.IS_CANCELLED + " , " + " VALUES (?, ?, ?, ?, ?)");
+							+ Constants.Table.PropertyAsset.FieldName.IS_CANCELLED + " , "
+							+ Constants.Table.PropertyAsset.FieldName.ASSET_TYPE + " )" + " VALUES (?, ?, ?, ?, ?,?)");
 				}
 				try {
 					if (insertStatement != null) {
@@ -151,20 +152,21 @@ public class PropertyAsset {
 						insertStatement.setInt(3, propertyAsset.getAssetNumber());
 						insertStatement.setString(4, propertyAsset.getAssetDetails());
 						insertStatement.setBoolean(5, propertyAsset.isCancelled());
+						insertStatement.setString(6, propertyAsset.getAssetType());
 						result = SQLiteManager.executePrepStatementAndGetResult(insertStatement);
 					}
 				} catch (SQLException e) {
 					LOG.error(e.getMessage());
 				}
 			} else {
-				if (updateStatement != null) {
+				if (updateStatement == null) {
 					updateStatement = SQLiteManager
-							.getPreparedStatement("UPDATE " + Constants.Table.PropertyAsset.TABLE_NAME + "SET "
-									+ Constants.Table.PropertyAsset.FieldName.ASSET_DETAILS + " =? "
-									+ Constants.Table.PropertyAsset.FieldName.ASSET_TYPE + " =? "
+							.getPreparedStatement("UPDATE " + Constants.Table.PropertyAsset.TABLE_NAME + " SET "
+									+ Constants.Table.PropertyAsset.FieldName.ASSET_DETAILS + " =?, "
+									+ Constants.Table.PropertyAsset.FieldName.ASSET_TYPE + " =?, "
 									+ Constants.Table.PropertyAsset.FieldName.IS_CANCELLED + " =? " + " WHERE "
 									+ Constants.Table.Property.FieldName.PROPERTY_ID + " =? " + " AND "
-									+ Constants.Table.PropertyAsset.FieldName.ASSET_NUMBER + " = ?");
+									+ Constants.Table.PropertyAsset.FieldName.ASSET_NUMBER + " =?");
 
 				}
 				if (updateStatement != null) {
