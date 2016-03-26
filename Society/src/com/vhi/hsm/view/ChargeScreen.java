@@ -6,6 +6,8 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -201,6 +203,19 @@ public class ChargeScreen extends JDialog implements WindowListener {
 		}
 
 		public void delete() {
+			try {
+				ResultSet resultSet = SQLiteManager.executeQuery("SELECT * FROM " + Constants.Table.AssetType.TABLE_NAME
+						+ " WHERE " + Constants.Table.Society.FieldName.SOCIETY_ID + " = " + SystemManager.society.getSocietyId()
+						+ " AND " + Constants.Table.Charge.FieldName.CHARGE_ID + " = " + this.charge.getChargeId());
+				if (resultSet != null && resultSet.next()) {
+					JOptionPane.showMessageDialog(this, 
+							charge.getDescription() + " is assignd to asset type " + resultSet.getString(Constants.Table.AssetType.FieldName.ASSET_TYPE), "Error",
+							JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+			} catch (SQLException e) {
+				
+			}
 			Charge.delete(this.charge);
 		}
 
