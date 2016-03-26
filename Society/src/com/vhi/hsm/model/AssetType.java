@@ -141,8 +141,8 @@ public class AssetType {
 		if (assetType != null && assetType.societyId != -1 && assetType.getAssetType().trim().length() != 0) {
 			if (insertEntry) {
 				if (insertStatement == null) {
-					insertStatement = SQLiteManager.getPreparedStatement("INSERT INTO " + Constants.Table.AssetType.TABLE_NAME
-							+ " VALUES (?, ?, ?, ?)");
+					insertStatement = SQLiteManager.getPreparedStatement(
+							"INSERT INTO " + Constants.Table.AssetType.TABLE_NAME + " VALUES (?, ?, ?, ?)");
 				}
 				if (insertStatement != null) {
 					try {
@@ -158,14 +158,14 @@ public class AssetType {
 				}
 			} else {
 				if (updateStatement == null) {
-					updateStatement = SQLiteManager.getPreparedStatement("UPDATE " + Constants.Table.AssetType.TABLE_NAME
-							+ " SET "
-							+ Constants.Table.AssetType.FieldName.DESCRIPTION + " = ?, "
-							+ Constants.Table.AssetType.FieldName.CHARGE_ID + " = ? "
-							+ " WHERE " + Constants.Table.Society.FieldName.SOCIETY_ID + " = ?"
-							+ " AND " + Constants.Table.AssetType.FieldName.ASSET_TYPE + " = ?");
+					updateStatement = SQLiteManager
+							.getPreparedStatement("UPDATE " + Constants.Table.AssetType.TABLE_NAME + " SET "
+									+ Constants.Table.AssetType.FieldName.DESCRIPTION + " = ?, "
+									+ Constants.Table.AssetType.FieldName.CHARGE_ID + " = ? " + " WHERE "
+									+ Constants.Table.Society.FieldName.SOCIETY_ID + " = ?" + " AND "
+									+ Constants.Table.AssetType.FieldName.ASSET_TYPE + " = ?");
 				}
-				
+
 				if (updateStatement != null) {
 					try {
 						updateStatement.clearParameters();
@@ -180,35 +180,40 @@ public class AssetType {
 				}
 			}
 		}
-		
-		//Update the HashMap if entry is created or updated
+
+		// Update the HashMap if entry is created or updated
 		if (result) {
-			
+
+			if (insertEntry)
+				LOG.info("Asset Type Created:" + assetType.getAssetType());
+			else
+				LOG.info("Asset Type updated:" + assetType.getAssetType());
+
 			if (assetTypeMap == null) {
 				assetTypeMap = new HashMap<Integer, HashMap<String, AssetType>>();
 			}
-			
+
 			HashMap<String, AssetType> societyAssetType = assetTypeMap.get(assetType.getSocietyId());
 			if (societyAssetType == null) {
 				societyAssetType = new HashMap<String, AssetType>();
 				assetTypeMap.put(assetType.getSocietyId(), societyAssetType);
 			}
-			
+
 			societyAssetType.put(assetType.getAssetType(), assetType);
 		}
-		
+
 		return result;
 	}
-	
+
 	public static boolean delete(AssetType assetType) {
 		boolean result = false;
-		
+
 		if (deleteStatement == null) {
 			deleteStatement = SQLiteManager.getPreparedStatement("DELETE FROM " + Constants.Table.AssetType.TABLE_NAME
-					+ " WHERE " + Constants.Table.Society.FieldName.SOCIETY_ID + " = ?"
-					+ " AND " + Constants.Table.AssetType.FieldName.ASSET_TYPE + " = ?");
+					+ " WHERE " + Constants.Table.Society.FieldName.SOCIETY_ID + " = ?" + " AND "
+					+ Constants.Table.AssetType.FieldName.ASSET_TYPE + " = ?");
 		}
-		
+
 		if (deleteStatement != null) {
 			try {
 				deleteStatement.clearParameters();
@@ -219,16 +224,21 @@ public class AssetType {
 				LOG.error(e.getMessage());
 			}
 		}
-		
+
 		if (result) {
+
+			LOG.info("Asset Type Deleted: " + assetType.getAssetType());
+
 			if (assetTypeMap != null) {
 				HashMap<String, AssetType> societyAssetType = assetTypeMap.get(assetType.societyId);
 				if (societyAssetType != null) {
 					societyAssetType.remove(assetType.assetType);
+					
 				}
+				assetTypeMap.put(assetType.societyId, societyAssetType);
 			}
 		}
-		
+
 		return result;
 	}
 

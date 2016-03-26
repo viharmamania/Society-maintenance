@@ -38,7 +38,7 @@ public class Property {
 	private double netPayable;
 
 	private boolean notUsed;
-	
+
 	private int propertyNumber;
 
 	private int latestPaymentId;
@@ -171,7 +171,7 @@ public class Property {
 		property.propertyName = propertyNumber;
 		return property;
 	}
-	
+
 	public static Property create() {
 		Property property = new Property();
 		property.societyId = SystemManager.society.getSocietyId();
@@ -220,7 +220,7 @@ public class Property {
 						result = SQLiteManager.executePrepStatementAndGetResult(insertStatement);
 						if (result) {
 							ResultSet generatedKeys = insertStatement.getGeneratedKeys();
-							if ( generatedKeys != null) {
+							if (generatedKeys != null) {
 								property.propertyId = generatedKeys.getInt(1);
 							}
 						}
@@ -275,6 +275,11 @@ public class Property {
 		}
 
 		if (result) {
+			if (insertEntry)
+				LOG.info("Property Saved :" + property.getPropertyName());
+			else
+				LOG.info("Property updated :" + property.getPropertyName());
+
 			if (propertyMap == null) {
 				propertyMap = new HashMap<Integer, Property>();
 			}
@@ -308,6 +313,7 @@ public class Property {
 		}
 
 		if (result && propertyMap != null) {
+			LOG.info("Property deleted :" + property.getPropertyName() );
 			propertyMap.remove(property.propertyId);
 		}
 
@@ -356,7 +362,7 @@ public class Property {
 	}
 
 	public static void addProperties(ResultSet resultSet) throws SQLException {
-		
+
 		while (resultSet != null && resultSet.next()) {
 			Property property = new Property();
 			property.propertyId = resultSet.getInt(Constants.Table.Property.FieldName.PROPERTY_ID);
@@ -364,8 +370,7 @@ public class Property {
 			property.wingId = resultSet.getInt(Constants.Table.Wing.FieldName.WING_ID);
 			property.floorNumber = resultSet.getInt(Constants.Table.Floor.FieldName.FLOOR_NUMBER);
 			property.floorPlanId = resultSet.getInt(Constants.Table.FloorPlan.FieldName.FLOOR_PLAN_ID);
-			property.propertyName = resultSet
-					.getString(Constants.Table.Property.FieldName.PROPERTY_NAME);
+			property.propertyName = resultSet.getString(Constants.Table.Property.FieldName.PROPERTY_NAME);
 			property.propertyNumber = resultSet.getInt(Constants.Table.Property.FieldName.PROPERTY_NUMBER);
 			property.ownerName = resultSet.getString(Constants.Table.Property.FieldName.OWNER_NAME);
 			property.ownerNumber = resultSet.getString(Constants.Table.Property.FieldName.OWNER_NUMBER);
@@ -419,7 +424,7 @@ public class Property {
 	public static List<Property> getAllProperties(int societyId2) {
 
 		List<Property> properties = new ArrayList<>();
-		
+
 		String searchQuery = "select * from " + Constants.Table.Property.TABLE_NAME + " where "
 				+ Constants.Table.Society.FieldName.SOCIETY_ID + " = " + societyId2;
 

@@ -86,6 +86,13 @@ public class PropertyGroup {
 		} catch (SQLException e) {
 			LOG.error(e.getMessage());
 		}
+
+		if (result) {
+			/*HashMap<String, PropertyGroup> hashMap = propertyGroupMap.get(propertyGroup.getSocietyId());
+			hashMap.remove(propertyGroup.description);
+			propertyGroupMap.put(propertyGroup.getSocietyId(), hashMap);*/
+			LOG.info("Propertygroup deleted :" + propertyGroup.getDescription());
+		}
 		return result;
 	}
 
@@ -167,10 +174,10 @@ public class PropertyGroup {
 		}
 		return group;
 	}
-	
+
 	public static List<PropertyGroup> getAllPropertyGroup(int societyId) {
 		List<PropertyGroup> list = new ArrayList<>();
-		
+
 		String searchQuery = "select * from " + Constants.Table.PropertyGroup.TABLE_NAME + " where "
 				+ Constants.Table.Society.FieldName.SOCIETY_ID + " = " + societyId;
 
@@ -186,7 +193,7 @@ public class PropertyGroup {
 		} catch (SQLException e) {
 			LOG.error(e.getMessage());
 		}
-		
+
 		return list;
 	}
 

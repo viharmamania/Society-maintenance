@@ -90,6 +90,13 @@ public class PropertyType {
 		} catch (SQLException e) {
 			LOG.error(e.getMessage());
 		}
+		
+		if(result && propertyTypeMap!=null){
+			LOG.info("Property Type deleted :" + propertyType.getDescription());
+			/*HashMap<String, PropertyType> hashMap = propertyTypeMap.get(propertyType.getSocietyId());
+			hashMap.remove(propertyType.getDescription());
+			propertyTypeMap.put(propertyType.getSocietyId(), hashMap);*/
+		}
 		return result;
 	}
 

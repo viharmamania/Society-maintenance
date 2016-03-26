@@ -113,6 +113,13 @@ public class Wing {
 		} catch (Exception e) {
 			LOG.error(e.getMessage());
 		}
+		
+		if (result && wingMap!=null) {
+			/*HashMap<Integer, Wing> hashMap = wingMap.get(wing.getSocietyId());
+			hashMap.remove(wing.getWingId());
+			wingMap.put(wing.getSocietyId(), hashMap);*/
+			LOG.info("Wing deleted " + wing.getWingId());
+		}
 		return result;
 	}
 

@@ -298,6 +298,11 @@ public class Charge {
 		}
 
 		if (result) {
+			
+			if (insertEntry)
+				LOG.info("Charge Saved :" + charge.description);
+			else
+				LOG.info("Charge Updated :" + charge.description);
 
 			if (chargeMap == null) {
 				chargeMap = new HashMap<Integer, HashMap<Integer, Charge>>();
@@ -361,6 +366,7 @@ public class Charge {
 		}
 
 		if (result) {
+			LOG.info("Charge deleted :" + charge.description);
 			if (chargeMap != null) {
 				HashMap<Integer, Charge> societyCharges = chargeMap.get(charge.societyId);
 				if (societyCharges != null) {
