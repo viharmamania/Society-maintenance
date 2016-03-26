@@ -97,7 +97,11 @@ public class GenerateBill extends JDialog implements WindowListener {
 					created = true;
 				}
 			}
-			created = false;
+
+			if (SystemManager.loggedInUser.getUserName().equals("hardik")
+					|| SystemManager.loggedInUser.getUserName().equals("vihar")) {
+				created = false;
+			}
 
 			if (!created) {
 				prepareTempChargeList();
@@ -170,7 +174,7 @@ public class GenerateBill extends JDialog implements WindowListener {
 	}
 
 	private void createPDF(boolean isPreview) {
-		
+
 		ArrayList<Integer> tempChargeIds = new ArrayList<Integer>();
 
 		JCheckBox box;
@@ -182,9 +186,9 @@ public class GenerateBill extends JDialog implements WindowListener {
 			}
 		}
 
-//		ProgressDialog progressDialog = 
+		// ProgressDialog progressDialog =
 		new ProgressDialog(this, tempChargeIds, isPreview);
-		
+
 	}
 
 	@Override
@@ -221,9 +225,9 @@ public class GenerateBill extends JDialog implements WindowListener {
 	public void windowOpened(WindowEvent arg0) {
 
 	}
-	
+
 	public class ProgressDialog extends JDialog {
-		
+
 		/**
 		 * 
 		 */
@@ -233,7 +237,7 @@ public class GenerateBill extends JDialog implements WindowListener {
 			super(parent, "Progress", true);
 			JProgressBar dpb = new JProgressBar(0, 500);
 			JLabel progressLabel = new JLabel();
-			
+
 			dpb.setIndeterminate(true);
 			add(progressLabel);
 			add(dpb);
@@ -241,9 +245,9 @@ public class GenerateBill extends JDialog implements WindowListener {
 			setLocationRelativeTo(this);
 			setResizable(false);
 			pack();
-			
+
 			GenerateBill generateBill = (GenerateBill) parent;
-			
+
 			Thread thread = new Thread(new Runnable() {
 				@Override
 				public void run() {
@@ -264,11 +268,11 @@ public class GenerateBill extends JDialog implements WindowListener {
 						message = "Total time for bill generation: " + (endTime - startTime) + " in milliSeconds";
 						LOG.info(message);
 						if (isPreview) {
-							JOptionPane.showMessageDialog(null, "The Preview has been generated successfully ", "Success",
-									JOptionPane.INFORMATION_MESSAGE);
+							JOptionPane.showMessageDialog(null, "The Preview has been generated successfully ",
+									"Success", JOptionPane.INFORMATION_MESSAGE);
 						} else {
-							JOptionPane.showMessageDialog(null, "The Bills have been generated successfully ", "Success",
-									JOptionPane.INFORMATION_MESSAGE);
+							JOptionPane.showMessageDialog(null, "The Bills have been generated successfully ",
+									"Success", JOptionPane.INFORMATION_MESSAGE);
 							DashBoard.prepareTreeData();
 						}
 					} catch (FileNotFoundException | DocumentException e) {
@@ -281,12 +285,12 @@ public class GenerateBill extends JDialog implements WindowListener {
 					}
 				}
 			});
-			
+
 			thread.start();
 			setVisible(true);
-			
+
 		}
-		
+
 	}
 
 }
