@@ -16,7 +16,7 @@ public class PropertyAsset {
 	private final static Logger LOG = Logger.getLogger(PropertyAsset.class);
 
 	private int societyId;
-	
+
 	private int propertyId;
 
 	private String assetType;
@@ -97,8 +97,8 @@ public class PropertyAsset {
 				if (readStatement == null) {
 					readStatement = SQLiteManager
 							.getPreparedStatement("SELECT * FROM " + Constants.Table.PropertyAsset.TABLE_NAME
-									+ " WHERE " + Constants.Table.Property.FieldName.PROPERTY_ID + " = ?"
-									+ " AND " + Constants.Table.PropertyAsset.FieldName.ASSET_NUMBER + " = ?");
+									+ " WHERE " + Constants.Table.Property.FieldName.PROPERTY_ID + " = ?" + " AND "
+									+ Constants.Table.PropertyAsset.FieldName.ASSET_NUMBER + " = ?");
 				}
 				try {
 					if (readStatement != null) {
@@ -112,8 +112,7 @@ public class PropertyAsset {
 							asset.assetNumber = resultSet.getInt(Constants.Table.PropertyAsset.FieldName.ASSET_NUMBER);
 							asset.assetDetails = resultSet
 									.getString(Constants.Table.PropertyAsset.FieldName.ASSET_DETAILS);
-							asset.assetType = resultSet
-									.getString(Constants.Table.AssetType.FieldName.ASSET_TYPE);
+							asset.assetType = resultSet.getString(Constants.Table.AssetType.FieldName.ASSET_TYPE);
 							int a = resultSet.getInt(Constants.Table.PropertyAsset.FieldName.IS_CANCELLED);
 							if (a == 0)
 								asset.isCancelled = false;
@@ -164,8 +163,8 @@ public class PropertyAsset {
 									+ Constants.Table.PropertyAsset.FieldName.ASSET_DETAILS + " =? "
 									+ Constants.Table.PropertyAsset.FieldName.ASSET_TYPE + " =? "
 									+ Constants.Table.PropertyAsset.FieldName.IS_CANCELLED + " =? " + " WHERE "
-									+ Constants.Table.Property.FieldName.PROPERTY_ID + " =? "
-									+ " AND " +Constants.Table.PropertyAsset.FieldName.ASSET_NUMBER + " = ?");
+									+ Constants.Table.Property.FieldName.PROPERTY_ID + " =? " + " AND "
+									+ Constants.Table.PropertyAsset.FieldName.ASSET_NUMBER + " = ?");
 
 				}
 				if (updateStatement != null) {
@@ -189,10 +188,10 @@ public class PropertyAsset {
 					propertyAssetMap = new HashMap<Integer, HashMap<Integer, PropertyAsset>>();
 				}
 
-				HashMap<Integer, PropertyAsset> assetMap = propertyAssetMap.get(propertyAsset.getSocietyId());
+				HashMap<Integer, PropertyAsset> assetMap = propertyAssetMap.get(propertyAsset.getPropertyId());
 				if (assetMap == null) {
 					assetMap = new HashMap<>();
-					propertyAssetMap.put(propertyAsset.getSocietyId(), assetMap);
+					propertyAssetMap.put(propertyAsset.getPropertyId(), assetMap);
 				}
 				assetMap.put(propertyAsset.getAssetNumber(), propertyAsset);
 
@@ -205,9 +204,10 @@ public class PropertyAsset {
 		boolean result = false;
 
 		if (deleteStatement == null) {
-			deleteStatement = SQLiteManager.getPreparedStatement("DELETE " + Constants.Table.PropertyAsset.TABLE_NAME
-					+ " WHERE " + Constants.Table.Property.FieldName.PROPERTY_ID + " = ?" + " AND "
-					+ Constants.Table.PropertyAsset.FieldName.ASSET_NUMBER + " = ?");
+			deleteStatement = SQLiteManager
+					.getPreparedStatement("DELETE FROM " + Constants.Table.PropertyAsset.TABLE_NAME + " WHERE "
+							+ Constants.Table.Property.FieldName.PROPERTY_ID + " = ?" + " AND "
+							+ Constants.Table.PropertyAsset.FieldName.ASSET_NUMBER + " = ?");
 		}
 
 		if (deleteStatement != null) {
@@ -217,6 +217,15 @@ public class PropertyAsset {
 				result = SQLiteManager.executePrepStatementAndGetResult(deleteStatement);
 			} catch (SQLException e) {
 				LOG.error(e.getMessage());
+			}
+		}
+
+		if (result) {
+			if (propertyAssetMap != null) {
+				HashMap<Integer, PropertyAsset> assetMap = propertyAssetMap.get(propertyAsset.propertyId);
+				if (assetMap != null) {
+					assetMap.remove(propertyAsset.getAssetNumber());
+				}
 			}
 		}
 

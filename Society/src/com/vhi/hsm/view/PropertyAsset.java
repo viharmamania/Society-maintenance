@@ -47,7 +47,7 @@ public class PropertyAsset extends JDialog implements WindowListener {
 			if (item != null) {
 				propertyAssetsMasterDetailPanel.getMasterDetailPanel().setDetailPanel(item.detailPanel);
 				repaint();
-				pack();
+//				pack();
 			}
 		}
 
@@ -84,6 +84,7 @@ public class PropertyAsset extends JDialog implements WindowListener {
 		prepareList();
 		initializeLayout();
 		setPreferredSize(new Dimension(800, 400));
+//		setSize(new Dimension(800, 400));
 		setVisible(true);
 		setResizable(true);
 		setLocationRelativeTo(parent);
