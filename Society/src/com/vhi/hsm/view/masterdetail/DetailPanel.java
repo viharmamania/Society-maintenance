@@ -23,6 +23,7 @@ public class DetailPanel extends JPanel {
 		this.parentPanel = parentPanel;
 		setSize(1800, 600);
 
+		
 		saveButton = new JButton("Save");
 		saveButton.addActionListener(e -> {
 			MasterDetailCallback callback = this.parentPanel.getCallback();
@@ -37,9 +38,10 @@ public class DetailPanel extends JPanel {
 
 	private void intializeLayout() {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		
 		add(contentPanel);
 		add(saveButton);
-
+		
 		contentPanel.setSize(1800, 600);
 		contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
 	}

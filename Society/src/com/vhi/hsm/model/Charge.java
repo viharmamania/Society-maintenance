@@ -13,6 +13,7 @@ import com.vhi.hsm.db.SQLiteManager;
 import com.vhi.hsm.utils.Constants;
 
 public class Charge {
+	
 	private final static Logger LOG = Logger.getLogger(Charge.class);
 	private int societyId;
 
@@ -431,13 +432,16 @@ public class Charge {
 	}
 
 	public static int getNewChargeId(int societyId) {
-		int newId = -2;
+		int newId = 0;
 		try {
 			ResultSet idMax = SQLiteManager.executeQuery("SELECT MAX(" + Constants.Table.Charge.FieldName.CHARGE_ID
 					+ ") max_id FROM " + Constants.Table.Charge.TABLE_NAME + " WHERE "
 					+ Constants.Table.Society.FieldName.SOCIETY_ID + " = " + societyId);
 			if (idMax.next()) {
 				newId = idMax.getInt("max_id");
+				if (newId < 0) {
+					newId = 0;
+				}
 			}
 		} catch (SQLException e) {
 			LOG.error(e.getMessage());

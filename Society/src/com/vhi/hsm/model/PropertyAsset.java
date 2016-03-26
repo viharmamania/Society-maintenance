@@ -184,6 +184,11 @@ public class PropertyAsset {
 
 			// updating hashmap
 			if (result) {
+				if (insertEntry)
+					LOG.info("Property Asset Saved :" + propertyAsset.getAssetDetails());
+				else
+					LOG.info("Property Asset updated :" + propertyAsset.getAssetDetails());
+
 
 				if (propertyAssetMap == null) {
 					propertyAssetMap = new HashMap<Integer, HashMap<Integer, PropertyAsset>>();
@@ -218,6 +223,21 @@ public class PropertyAsset {
 			} catch (SQLException e) {
 				LOG.error(e.getMessage());
 			}
+		}
+		
+		if (result && propertyAssetMap != null) {
+			LOG.info("Property Asset Deleted :" + propertyAsset.getAssetDetails());
+			/*HashMap<Integer, PropertyAsset> hashMap = propertyAssetMap.get(propertyAsset.propertyId);
+			Set<Entry<Integer, PropertyAsset>> entrySet = hashMap.entrySet();
+			Integer removeEntry = null;
+			for (Entry<Integer, PropertyAsset> entry : entrySet) {
+				if (entry.getValue().getAssetDetails().equals(propertyAsset.getAssetDetails())) {
+					removeEntry = entry.getKey();
+					break;
+				}
+			}
+			hashMap.remove(removeEntry);
+			propertyAssetMap.put(propertyAsset.propertyId, hashMap);*/
 		}
 
 		return result;

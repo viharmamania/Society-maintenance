@@ -97,6 +97,7 @@ public class GenerateBill extends JDialog implements WindowListener {
 					created = true;
 				}
 			}
+			created = false;
 
 			if (!created) {
 				prepareTempChargeList();

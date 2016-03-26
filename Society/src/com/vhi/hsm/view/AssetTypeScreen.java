@@ -109,7 +109,7 @@ public class AssetTypeScreen extends JDialog implements WindowListener {
 		initializeLayout();
 		setPreferredSize(new Dimension(500,300));
 		setVisible(true);
-		setResizable(true);
+		setResizable(false);
 		setLocationRelativeTo(parent);
 	}
 

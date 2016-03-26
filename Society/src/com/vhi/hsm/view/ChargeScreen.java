@@ -141,9 +141,11 @@ public class ChargeScreen extends JDialog implements WindowListener {
 		chargeMasterDetailPanel.getMasterListPanel().clearAllItems();
 		ArrayList<Charge> list = Charge.getAllCharge(SystemManager.society.getSocietyId());
 		for (Charge charge : list) {
-			ChargeMasterListItem item = new ChargeMasterListItem(charge.getChargeId(), true);
-			listItems.put(item.getItemId(), item);
-			chargeMasterDetailPanel.getMasterListPanel().addListItem(item);
+			if (charge.getChargeId() > 0) {
+				ChargeMasterListItem item = new ChargeMasterListItem(charge.getChargeId(), true);
+				listItems.put(item.getItemId(), item);
+				chargeMasterDetailPanel.getMasterListPanel().addListItem(item);	
+			}
 		}
 	}
 
